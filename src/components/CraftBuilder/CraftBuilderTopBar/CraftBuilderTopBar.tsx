@@ -2,13 +2,13 @@ import type { User } from "@clerk/nextjs/server";
 import type { Craft } from "@prisma/client";
 import { ArrowLeft, EyeIcon, LinkIcon, SaveIcon, SendIcon } from "lucide-react";
 import Link from "next/link";
+import { CraftName } from "./CraftName";
 import { TopBar } from "@/components/AppChrome";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,7 @@ export function CraftBuilderTopBar(props: Props) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{craft.title}</BreadcrumbPage>
+            <CraftName />
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

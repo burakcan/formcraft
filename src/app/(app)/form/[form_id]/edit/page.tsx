@@ -1,4 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { Providers } from "./providers";
 import { LayoutWithSidebar } from "@/components/AppChrome";
 import {
   ContentSidebar,
@@ -47,19 +48,21 @@ export default async function EditCraftPage(props: Props) {
   }
 
   return (
-    <LayoutWithSidebar
-      left={<ContentSidebar craftVersion={editingVersion} />}
-      right={<PropertiesSidebar />}
-      topBar={
-        <CraftBuilderTopBar
-          craft={craft}
-          user={user}
-          orgName={sessionClaims?.org_name as string}
-          activeTab="create"
-        />
-      }
-    >
-      <CraftBuilder />
-    </LayoutWithSidebar>
+    <Providers craft={craft} editingVersion={editingVersion}>
+      <LayoutWithSidebar
+        left={<ContentSidebar />}
+        right={<PropertiesSidebar />}
+        topBar={
+          <CraftBuilderTopBar
+            craft={craft}
+            user={user}
+            orgName={sessionClaims?.org_name as string}
+            activeTab="create"
+          />
+        }
+      >
+        <CraftBuilder />
+      </LayoutWithSidebar>
+    </Providers>
   );
 }

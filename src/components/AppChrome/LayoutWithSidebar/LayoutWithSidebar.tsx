@@ -10,7 +10,7 @@ interface Props {
 export function LayoutWithSidebar(props: PropsWithChildren<Props>) {
   return (
     <LayoutWithTopbar topBar={props.topBar}>
-      <div className="flex-1 flex flex-row">
+      <div className="flex-1 flex flex-row w-screen">
         {props.left && (
           <aside className="w-56 bg-background border-r">{props.left}</aside>
         )}
