@@ -1,8 +1,10 @@
 "use client";
-
+import "./style.css";
 import type { ReactNode } from "react";
 import { useContext } from "react";
 import { useStore } from "zustand";
+import { LongTextRenderer } from "./LongText";
+import { ShortTextRenderer } from "./ShortText";
 import { StatementRenderer } from "./Statement";
 import { EditCraftStoreContext } from "@/services/store/editCraftStore";
 
@@ -27,16 +29,34 @@ export function PageRenderer() {
 
   switch (selectedPage.type) {
     case "statement":
-      rendered = <StatementRenderer onChange={editPage} page={selectedPage} />;
+      rendered = (
+        <StatementRenderer
+          key={selectedPage.id}
+          onChange={editPage}
+          page={selectedPage}
+        />
+      );
       break;
     case "end_screen":
       rendered = <div>End Screen</div>;
       break;
     case "short_text":
-      rendered = <div>Short Text</div>;
+      rendered = (
+        <ShortTextRenderer
+          key={selectedPage.id}
+          onChange={editPage}
+          page={selectedPage}
+        />
+      );
       break;
     case "long_text":
-      rendered = <div>Long Text</div>;
+      rendered = (
+        <LongTextRenderer
+          key={selectedPage.id}
+          onChange={editPage}
+          page={selectedPage}
+        />
+      );
       break;
     default:
       rendered = null;
