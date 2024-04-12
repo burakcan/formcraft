@@ -1,0 +1,18 @@
+.tiptap .is-empty::before {
+  content: attr(data-placeholder);
+
+  @apply h-0;
+  @apply pointer-events-none;
+  @apply opacity-20;
+  @apply float-left;
+}
+
+.tiptap.ProseMirror {
+  @apply border;
+  @apply border-dashed;
+  @apply p-4;
+}
+
+.ProseMirror:focus {
+  @apply border-transparent;
+}

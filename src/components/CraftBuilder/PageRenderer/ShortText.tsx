@@ -5,13 +5,15 @@ import { Heading } from "@tiptap/extension-heading";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Text } from "@tiptap/extension-text";
 import { useEditor, EditorContent } from "@tiptap/react";
-import type { Statement } from "@/lib/craftPageConfig";
+import { CheckIcon } from "lucide-react";
+import type { ShortText } from "@/lib/craftPageConfig";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Paragraph } from "@tiptap/extension-paragraph";
 
 interface Props {
-  page: Statement;
-  onChange: (pageId: string, page: Statement) => void;
+  page: ShortText;
+  onChange: (pageId: string, page: ShortText) => void;
 }
 
 const Title = Heading.extend({
@@ -21,7 +23,7 @@ const Title = Heading.extend({
 }).configure({
   levels: [1],
   HTMLAttributes: {
-    class: "text-3xl font-bold mb-4 text-center",
+    class: "text-3xl font-bold mb-4",
   },
 });
 
@@ -32,7 +34,7 @@ const Description = Paragraph.extend({
   parseHTML: () => [{ tag: "p" }],
 }).configure({
   HTMLAttributes: {
-    class: "text-base text-center",
+    class: "text-base",
   },
 });
 
@@ -40,7 +42,7 @@ const DocumentWithTitle = Document.extend({
   content: "title block",
 });
 
-export function StatementRenderer(props: Props) {
+export function ShortTextRenderer(props: Props) {
   const { page, onChange } = props;
 
   const editor = useEditor({
@@ -87,9 +89,19 @@ export function StatementRenderer(props: Props) {
   });
 
   return (
-    <div className="size-full flex flex-col items-center justify-center p-16 break-all">
+    <div className="size-full flex flex-col justify-center p-16 break-all">
       <EditorContent editor={editor} />
-      <Button className="mt-2">{page.cta}</Button>
+      <Input
+        className="mt-4 text-xl h-16"
+        placeholder="Type your answer here..."
+      />
+      <div className="mt-2 text-sm">
+        <Button className="mr-2">
+          Confirm
+          <CheckIcon className="ml-2 size-4" />
+        </Button>
+        or press <kbd>Enter</kbd>
+      </div>
     </div>
   );
 }

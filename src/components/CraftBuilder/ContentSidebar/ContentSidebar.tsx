@@ -19,18 +19,22 @@ export function ContentSidebar() {
   }
 
   const store = useStore(ctx);
-  const { editingVersion, selectedPageId, addPage } = store;
+  const { editingVersion, selectedPageId, setSelectedPage, addPage } = store;
 
   const handleAddPage = () => {
+    const id = Date.now().toString();
+
     addPage({
       _: "_bp_",
-      id: Date.now().toString(),
-      type: "short_text",
+      id,
+      type: "long_text",
       title: "New Page",
-      description: "This is a short text page.",
+      description: "This is a long text page.",
       baseThemeId: "default",
       themeOverride: {},
     });
+
+    setSelectedPage(id);
   };
 
   return (
