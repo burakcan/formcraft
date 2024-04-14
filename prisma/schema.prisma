@@ -28,26 +28,24 @@ model Organization {
 }
 
 model Craft {
-  id               String         @id @default(cuid())
-  title            String
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  user             User           @relation(fields: [userId], references: [id])
-  userId           String
-  organization     Organization?  @relation(fields: [organizationId], references: [id])
-  organizationId   String?
-  craftVersions    CraftVersion[]
-  liveCraftVersion CraftVersion?  @relation(name: "liveVersion", fields: [liveVersionId], references: [id])
-  liveVersionId    String?
+  id             String         @id @default(cuid())
+  title          String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  organization   Organization?  @relation(fields: [organizationId], references: [id])
+  organizationId String?
+  craftVersions  CraftVersion[]
 }
 
 model CraftVersion {
   id               String            @id @default(cuid())
+  publishedAt      DateTime?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   craft            Craft?            @relation(fields: [craftId], references: [id], onDelete: Cascade)
   craftId          String?
-  liveVersionCraft Craft[]           @relation(name: "liveVersion")
   craftSubmissions CraftSubmission[]
 
   /// [CraftVersionData]

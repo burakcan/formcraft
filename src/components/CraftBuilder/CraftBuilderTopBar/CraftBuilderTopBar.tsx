@@ -1,8 +1,9 @@
-import type { User } from "@clerk/nextjs/server";
-import type { Craft } from "@prisma/client";
-import { ArrowLeft, EyeIcon, LinkIcon, SaveIcon, SendIcon } from "lucide-react";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { ArrowLeft, EyeIcon, LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { CraftName } from "./CraftName";
+import { SaveAndPublishButton } from "./SaveAndPublishButton";
+import { SaveButton } from "./SaveButton";
 import { TopBar } from "@/components/AppChrome";
 import {
   Breadcrumb,
@@ -13,16 +14,24 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 interface Props {
-  craft: Craft;
-  user: User;
-  orgName?: string;
+  craft_id: string;
   activeTab: "create" | "flow" | "connect" | "share" | "results";
 }
 
-export function CraftBuilderTopBar(props: Props) {
-  const { craft, orgName, user, activeTab } = props;
+export async function CraftBuilderTopBar(props: Props) {
+  const { craft_id, activeTab } = props;
+
+  let workspaceName: string | undefined | null = null;
+
+  const { sessionClaims } = auth();
+
+  if (sessionClaims?.org_name) {
+    workspaceName = sessionClaims.org_name as string;
+  } else {
+    const user = await currentUser();
+    workspaceName = user?.firstName;
+  }
 
   return (
     <TopBar className="flex items-center">
@@ -37,7 +46,9 @@ export function CraftBuilderTopBar(props: Props) {
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link href="/dashboard">
-                {orgName || user?.firstName}&apos;s Workspace
+                {workspaceName === null
+                  ? "Dashboard"
+                  : `${workspaceName}'s Workspace`}
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -51,19 +62,19 @@ export function CraftBuilderTopBar(props: Props) {
       <Tabs defaultValue={activeTab}>
         <TabsList>
           <TabsTrigger value="create" asChild>
-            <Link href={`/form/${craft.id}/edit`}>Create</Link>
+            <Link href={`/form/${craft_id}/edit`}>Create</Link>
           </TabsTrigger>
           <TabsTrigger value="flow" asChild>
-            <Link href={`/form/${craft.id}/edit/flow`}>Flow</Link>
+            <Link href={`/form/${craft_id}/edit/flow`}>Flow</Link>
           </TabsTrigger>
           <TabsTrigger value="connect" asChild>
-            <Link href={`/form/${craft.id}/edit/connect`}>Connect</Link>
+            <Link href={`/form/${craft_id}/edit/connect`}>Connect</Link>
           </TabsTrigger>
           <TabsTrigger value="share" asChild>
-            <Link href={`/form/${craft.id}/edit/share`}>Share</Link>
+            <Link href={`/form/${craft_id}/edit/share`}>Share</Link>
           </TabsTrigger>
           <TabsTrigger value="results" asChild>
-            <Link href={`/form/${craft.id}/edit/results`}>Results</Link>
+            <Link href={`/form/${craft_id}/edit/results`}>Results</Link>
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -75,13 +86,8 @@ export function CraftBuilderTopBar(props: Props) {
         <Button size="icon" variant="outline">
           <EyeIcon className="size-4" />
         </Button>
-        <Button size="icon" variant="outline">
-          <SaveIcon className="size-4" />
-        </Button>
-        <Button>
-          Publish
-          <SendIcon className="size-4 ml-2" />
-        </Button>
+        <SaveButton />
+        <SaveAndPublishButton />
       </div>
     </TopBar>
   );

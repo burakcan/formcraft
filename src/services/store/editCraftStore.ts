@@ -6,6 +6,7 @@ type EditCraftStoreState = {
   craft: Craft;
   editingVersion: CraftVersion;
   selectedPageId: string;
+  dirty: boolean;
 };
 
 type EditCraftStoreActions = {
@@ -15,38 +16,65 @@ type EditCraftStoreActions = {
   setEditingVersion: (editingVersion: CraftVersion) => void;
   setSelectedPage: (pageId: string) => void;
   editPage: (pageId: string, page: FormCraft.CraftPage) => void;
+  reset: (data: EditCraftStoreState) => void;
+  onReorder: (pages: FormCraft.CraftPage[]) => void;
 };
 
-export const createEditCraftStore = (initialData: EditCraftStoreState) =>
-  create<EditCraftStoreState & EditCraftStoreActions>((set) => ({
+export const createEditCraftStore = (initialData: EditCraftStoreState) => {
+  return create<EditCraftStoreState & EditCraftStoreActions>((set) => ({
     ...initialData,
-    setCraft: (craft: Craft) => set({ craft }),
+    setCraft: (craft: Craft) =>
+      set({
+        craft,
+        dirty: true,
+      }),
+
+    setEditingVersion: (editingVersion: CraftVersion) =>
+      set({
+        editingVersion,
+        dirty: true,
+      }),
 
     setCraftTitle: (title: string) =>
-      set((state) => ({ craft: { ...state.craft, title } })),
+      set((state) =>
+        state.craft
+          ? {
+              craft: { ...state.craft, title },
+              dirty: true,
+            }
+          : state
+      ),
 
     addPage: (page: FormCraft.CraftPage) => {
-      set((state) => {
-        return {
-          ...state,
-          editingVersion: {
-            ...state.editingVersion,
-            data: {
-              pages: [...state.editingVersion.data.pages, page],
-            },
-          },
-        };
-      });
+      set((state) =>
+        state.editingVersion
+          ? {
+              ...state,
+              dirty: true,
+              editingVersion: {
+                ...state.editingVersion,
+                data: {
+                  pages: [...state.editingVersion.data.pages, page],
+                },
+              },
+            }
+          : state
+      );
     },
 
     editPage: (pageId: string, page: FormCraft.CraftPage) => {
       set((state) => {
+        if (!state.editingVersion) {
+          return state;
+        }
+
         const pages = state.editingVersion.data.pages.map((p) =>
           p.id === pageId ? page : p
         );
 
         return {
           ...state,
+          dirty: true,
           editingVersion: {
             ...state.editingVersion,
             data: {
@@ -57,11 +85,30 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) =>
       });
     },
 
-    setEditingVersion: (editingVersion: CraftVersion) =>
-      set({ editingVersion }),
+    onReorder: (pages: FormCraft.CraftPage[]) => {
+      set((state) => {
+        if (!state.editingVersion) {
+          return state;
+        }
+
+        return {
+          ...state,
+          dirty: true,
+          editingVersion: {
+            ...state.editingVersion,
+            data: {
+              pages,
+            },
+          },
+        };
+      });
+    },
 
     setSelectedPage: (selectedPageId) => set({ selectedPageId }),
+
+    reset: (data: EditCraftStoreState) => set(data),
   }));
+};
 
 export const EditCraftStoreContext = createContext<ReturnType<
   typeof createEditCraftStore
