@@ -22,7 +22,13 @@ export function ContentSidebar() {
   }
 
   const store = useStore(ctx);
-  const { editingVersion, selectedPageId, onReorder } = store;
+  const {
+    editingVersion,
+    setSelectedPage,
+    removePage,
+    selectedPageId,
+    onReorder,
+  } = store;
 
   const [endingPages, contentPages] = editingVersion.data.pages.reduce(
     (acc, page) => {
@@ -68,8 +74,10 @@ export function ContentSidebar() {
                 key={page.id}
                 index={index}
                 page={page}
+                totalItems={contentPages.length}
                 selectedPageId={selectedPageId}
-                onSelect={() => store.setSelectedPage(page.id)}
+                onSelect={() => setSelectedPage(page.id)}
+                onDelete={() => removePage(page.id)}
               />
             ))}
           </Reorder.Group>
@@ -98,8 +106,10 @@ export function ContentSidebar() {
                 index={index}
                 key={page.id}
                 page={page}
+                totalItems={endingPages.length}
                 selectedPageId={selectedPageId}
-                onSelect={() => store.setSelectedPage(page.id)}
+                onSelect={() => setSelectedPage(page.id)}
+                onDelete={() => removePage(page.id)}
               />
             ))}
           </Reorder.Group>

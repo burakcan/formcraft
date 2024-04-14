@@ -8,6 +8,11 @@ import { LongTextRenderer } from "@/components/CraftBuilder/PageRenderer/LongTex
 import { ShortTextRenderer } from "@/components/CraftBuilder/PageRenderer/ShortText";
 import { StatementRenderer } from "@/components/CraftBuilder/PageRenderer/Statement";
 
+export type { LongText } from "./longText";
+export type { ShortText } from "./shortText";
+export type { Statement } from "./statement";
+export type { EndScreen } from "./endScreen";
+
 export const pageDefinitions = {
   statement: {
     name: "Statement",

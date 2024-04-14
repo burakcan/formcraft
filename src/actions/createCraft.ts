@@ -2,7 +2,7 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { v4 as uuid } from "uuid";
-import { endScreen, statement } from "@/lib/craftPageConfig";
+import { pageDefinitions } from "@/lib/craftPageConfig";
 import { ErrorType } from "@/lib/errors";
 import db from "@/services/db";
 
@@ -22,13 +22,13 @@ export async function createCraft() {
         create: {
           data: {
             pages: [
-              statement.parse({
+              pageDefinitions.statement.schema.parse({
                 id: uuid(),
                 title: "Welcome to My Form",
                 description: "This is a form created with FormCraft.",
                 cta: "Let's get started!",
               }),
-              endScreen.parse({
+              pageDefinitions.end_screen.schema.parse({
                 id: uuid(),
                 title: "Thank you for completing the form!",
                 description: "Your responses have been submitted.",
