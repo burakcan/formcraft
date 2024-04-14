@@ -13,6 +13,7 @@ type EditCraftStoreActions = {
   setCraft: (craft: Craft) => void;
   setCraftTitle: (title: string) => void;
   addPage: (page: FormCraft.CraftPage) => void;
+  removePage: (pageId: string) => void;
   setEditingVersion: (editingVersion: CraftVersion) => void;
   setSelectedPage: (pageId: string) => void;
   editPage: (pageId: string, page: FormCraft.CraftPage) => void;
@@ -60,6 +61,70 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
             }
           : state
       );
+    },
+
+    removePage: (pageId: string) => {
+      set((state) => {
+        if (!state.editingVersion) {
+          return state;
+        }
+
+        const [endingPages, contentPages] =
+          state.editingVersion.data.pages.reduce(
+            (acc, page) => {
+              if (page.type === "end_screen") {
+                acc[0].push(page);
+              } else {
+                acc[1].push(page);
+              }
+              return acc;
+            },
+            [[], []] as [FormCraft.CraftPage[], FormCraft.CraftPage[]]
+          );
+
+        const indexInContent = contentPages.findIndex((p) => p.id === pageId);
+        const indexInEndings = endingPages.findIndex((p) => p.id === pageId);
+
+        if (
+          (indexInContent > -1 && contentPages.length === 1) ||
+          (indexInEndings > -1 && endingPages.length === 1)
+        ) {
+          // Block removing the last page
+          return state;
+        }
+
+        let nextSelectedPageId = state.selectedPageId;
+
+        if (state.selectedPageId === pageId) {
+          if (indexInContent > -1) {
+            nextSelectedPageId =
+              contentPages[indexInContent + 1]?.id ||
+              contentPages[indexInContent - 1]?.id;
+          } else if (indexInEndings > -1) {
+            nextSelectedPageId =
+              endingPages[indexInEndings + 1]?.id ||
+              endingPages[indexInEndings - 1]?.id;
+          }
+        }
+
+        if (!nextSelectedPageId) {
+          return state;
+        }
+
+        return {
+          ...state,
+          dirty: true,
+          selectedPageId: nextSelectedPageId,
+          editingVersion: {
+            ...state.editingVersion,
+            data: {
+              pages: state.editingVersion.data.pages.filter(
+                (p) => p.id !== pageId
+              ),
+            },
+          },
+        };
+      });
     },
 
     editPage: (pageId: string, page: FormCraft.CraftPage) => {
