@@ -1,12 +1,15 @@
 "use client";
+
+import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { useContext } from "react";
 import { useStore } from "zustand";
-import { cn } from "@/lib/utils";
+import { PageLibrary } from "../PageLibrary";
+import { ContentItem } from "./ContentItem";
+import { SidebarSection } from "./SidebarSection";
 import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
-  ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { EditCraftStoreContext } from "@/services/store/editCraftStore";
@@ -19,62 +22,88 @@ export function ContentSidebar() {
   }
 
   const store = useStore(ctx);
-  const { editingVersion, selectedPageId, setSelectedPage, addPage } = store;
+  const { editingVersion, selectedPageId, onReorder } = store;
 
-  const handleAddPage = () => {
-    const id = Date.now().toString();
+  const [endingPages, contentPages] = editingVersion.data.pages.reduce(
+    (acc, page) => {
+      if (page.type === "end_screen") {
+        acc[0].push(page);
+      } else {
+        acc[1].push(page);
+      }
+      return acc;
+    },
+    [[], []] as [FormCraft.CraftPage[], FormCraft.CraftPage[]]
+  );
 
-    addPage({
-      _: "_bp_",
-      id,
-      type: "long_text",
-      title: "New Page",
-      description: "This is a long text page.",
-      baseThemeId: "default",
-      themeOverride: {},
-    });
+  const handleReorderContent = (pages: FormCraft.CraftPage[]) => {
+    onReorder([...pages, ...endingPages]);
+  };
 
-    setSelectedPage(id);
+  const handleReorderEndings = (pages: FormCraft.CraftPage[]) => {
+    onReorder([...contentPages, ...pages]);
   };
 
   return (
     <div className="w-full h-full">
       <ResizablePanelGroup direction="vertical" autoSaveId="fc_content_sidebar">
-        <ResizablePanel>
-          <div className="flex items-center justify-between py-2 mx-2 text-sm font-medium border-b">
-            Content
-            <Button
-              onClick={handleAddPage}
-              variant="secondary"
-              size="icon"
-              className="size-10"
-            >
-              <PlusIcon className="size-4" />
-            </Button>
-          </div>
-          <div>
-            {editingVersion.data.pages.map((page) => (
-              <div
+        <SidebarSection
+          title={
+            <>
+              Content
+              <PageLibrary />
+            </>
+          }
+          minSize={25}
+          defaultSize={75}
+        >
+          <Reorder.Group
+            as="div"
+            axis="y"
+            values={contentPages}
+            onReorder={handleReorderContent}
+          >
+            {contentPages.map((page, index) => (
+              <ContentItem
                 key={page.id}
-                onClick={() => store.setSelectedPage(page.id)}
-                className={cn("p-2 text-sm rounded m-2 cursor-default", {
-                  "bg-accent": page.id === selectedPageId,
-                })}
-              >
-                {page.title}
-              </div>
+                index={index}
+                page={page}
+                selectedPageId={selectedPageId}
+                onSelect={() => store.setSelectedPage(page.id)}
+              />
             ))}
-          </div>
-        </ResizablePanel>
+          </Reorder.Group>
+        </SidebarSection>
         <ResizableHandle withHandle />
-        <ResizablePanel>
-          <div className="flex items-center justify-between py-2 mx-2 text-sm font-medium border-b">
-            Endings
-            <Button variant="secondary" size="icon" className="size-10">
-              <PlusIcon className="size-4" />
-            </Button>
-          </div>
-        </ResizablePanel>
+        <SidebarSection
+          title={
+            <>
+              Endings
+              <Button variant="secondary" size="icon" className="size-10">
+                <PlusIcon className="size-4" />
+              </Button>
+            </>
+          }
+          minSize={25}
+          defaultSize={25}
+        >
+          <Reorder.Group
+            as="div"
+            axis="y"
+            values={endingPages}
+            onReorder={handleReorderEndings}
+          >
+            {endingPages.map((page, index) => (
+              <ContentItem
+                index={index}
+                key={page.id}
+                page={page}
+                selectedPageId={selectedPageId}
+                onSelect={() => store.setSelectedPage(page.id)}
+              />
+            ))}
+          </Reorder.Group>
+        </SidebarSection>
       </ResizablePanelGroup>
     </div>
   );

@@ -1,4 +1,8 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import { Providers } from "./providers";
 import { LayoutWithSidebar } from "@/components/AppChrome";
 import {
@@ -7,7 +11,8 @@ import {
   CraftBuilderTopBar,
   PropertiesSidebar,
 } from "@/components/CraftBuilder";
-import db from "@/services/db";
+import { craftQueryKey } from "@/hooks/useCraftQuery";
+import { getCraftAndEditingVersion } from "@/services/db/craft";
 
 interface Props {
   params: {
@@ -16,53 +21,34 @@ interface Props {
 }
 
 export default async function EditCraftPage(props: Props) {
-  const { userId, orgId, sessionClaims } = auth();
-  const user = await currentUser();
   const { form_id } = props.params;
 
-  if (!userId || !user) {
-    return null;
-  }
+  const queryClient = new QueryClient();
 
-  const craft = await db.craft.findFirstOrThrow({
-    where: {
-      id: form_id,
-      organizationId: orgId || undefined,
-      userId: !orgId ? userId : undefined,
-    },
-    include: {
-      liveCraftVersion: true,
-      craftVersions: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      },
+  await queryClient.prefetchQuery({
+    queryKey: [craftQueryKey, form_id],
+    queryFn: async () => {
+      try {
+        return await getCraftAndEditingVersion(form_id);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     },
   });
 
-  const editingVersion = craft.craftVersions[0];
-
-  if (!editingVersion) {
-    return null;
-  }
-
   return (
-    <Providers craft={craft} editingVersion={editingVersion}>
-      <LayoutWithSidebar
-        left={<ContentSidebar />}
-        right={<PropertiesSidebar />}
-        topBar={
-          <CraftBuilderTopBar
-            craft={craft}
-            user={user}
-            orgName={sessionClaims?.org_name as string}
-            activeTab="create"
-          />
-        }
-      >
-        <CraftBuilder />
-      </LayoutWithSidebar>
-    </Providers>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Providers form_id={form_id}>
+        <LayoutWithSidebar
+          left={<ContentSidebar />}
+          leftClassName="w-64"
+          right={<PropertiesSidebar />}
+          topBar={<CraftBuilderTopBar craft_id={form_id} activeTab="create" />}
+        >
+          <CraftBuilder />
+        </LayoutWithSidebar>
+      </Providers>
+    </HydrationBoundary>
   );
 }

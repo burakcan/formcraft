@@ -1,24 +1,35 @@
-import { auth } from "@clerk/nextjs";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import { LayoutWithSidebar } from "@/components/AppChrome";
 import { CraftListing } from "@/components/CraftListing";
 import { ListingSidebar } from "@/components/ListingSidebar";
 import { Navbar } from "@/components/Navbar";
-import db from "@/services/db";
+import { craftsListingQueryKey } from "@/hooks/useCraftsListingQuery";
+import { getCraftsListing } from "@/services/db/craft";
 
 export default async function Dashboard() {
-  const { userId, orgId } = auth();
+  const queryClient = new QueryClient();
 
-  if (!userId) {
-    return null;
-  }
-
-  const crafts = await db.craft.findMany({
-    where: orgId ? { organizationId: orgId } : { userId, organizationId: null },
+  await queryClient.prefetchQuery({
+    queryKey: [craftsListingQueryKey],
+    queryFn: async () => {
+      try {
+        return await getCraftsListing();
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
   });
 
   return (
-    <LayoutWithSidebar topBar={<Navbar />} left={<ListingSidebar />}>
-      <CraftListing crafts={crafts} />
-    </LayoutWithSidebar>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <LayoutWithSidebar topBar={<Navbar />} left={<ListingSidebar />}>
+        <CraftListing />
+      </LayoutWithSidebar>
+    </HydrationBoundary>
   );
 }

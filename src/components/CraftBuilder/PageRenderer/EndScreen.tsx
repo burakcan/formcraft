@@ -6,12 +6,12 @@ import { Paragraph } from "@tiptap/extension-paragraph";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { Text } from "@tiptap/extension-text";
 import { useEditor, EditorContent } from "@tiptap/react";
-import type { Statement } from "@/lib/craftPageConfig";
+import type { EndScreen } from "@/lib/craftPageConfig";
 import { Button } from "@/components/ui/button";
 
 interface Props {
-  page: Statement;
-  onChange: (pageId: string, page: Statement) => void;
+  page: EndScreen;
+  onChange: (pageId: string, page: EndScreen) => void;
 }
 
 const Title = Heading.extend({
@@ -40,7 +40,7 @@ const DocumentWithTitle = Document.extend({
   content: "title block",
 });
 
-export function StatementRenderer(props: Props) {
+export function EndScreenRenderer(props: Props) {
   const { page, onChange } = props;
 
   const editor = useEditor({
@@ -89,7 +89,7 @@ export function StatementRenderer(props: Props) {
   return (
     <div className="size-full flex flex-col items-center justify-center p-16 break-all">
       <EditorContent editor={editor} />
-      <Button className="mt-2">{page.cta}</Button>
+      {page.cta && <Button className="mt-2">{page.cta}</Button>}
     </div>
   );
 }
