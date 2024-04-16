@@ -11,7 +11,18 @@ export const craftTheme = z.object({
   descriptionColor: z.string(),
   answersColor: z.string(),
   backgroundColor: z.string(),
-  backgroundImageUrl: z.string().optional(),
+  backgroundImage: z
+    .object({
+      url: z.string(),
+      blurHash: z.string().optional().nullable(),
+      attribution: z
+        .object({
+          name: z.string(),
+          url: z.string(),
+        })
+        .optional(),
+    })
+    .optional(),
   buttonColor: z.string(),
   buttonTextColor: z.string(),
   fontSize: z.enum(["small", "medium", "large"]),
@@ -20,5 +31,7 @@ export const craftTheme = z.object({
 });
 
 export type CraftTheme = z.infer<typeof craftTheme>;
+
+export type BackgroundImage = CraftTheme["backgroundImage"];
 
 export const themeOverride = craftTheme.partial();
