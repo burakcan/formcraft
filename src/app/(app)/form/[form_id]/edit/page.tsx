@@ -12,7 +12,9 @@ import {
   PropertiesSidebar,
 } from "@/components/CraftBuilder";
 import { craftQueryKey } from "@/hooks/useCraftQuery";
+import { customThemesQueryKey } from "@/hooks/useCustomThemesQuery";
 import { getCraftAndEditingVersion } from "@/services/db/craft";
+import { getCustomThemes } from "@/services/db/customTheme";
 
 interface Props {
   params: {
@@ -25,17 +27,31 @@ export default async function EditCraftPage(props: Props) {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: [craftQueryKey, form_id],
-    queryFn: async () => {
-      try {
-        return await getCraftAndEditingVersion(form_id);
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    },
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: [craftQueryKey, form_id],
+      queryFn: async () => {
+        try {
+          return await getCraftAndEditingVersion(form_id);
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      },
+    }),
+
+    queryClient.prefetchQuery({
+      queryKey: [customThemesQueryKey],
+      queryFn: async () => {
+        try {
+          return await getCustomThemes();
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      },
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

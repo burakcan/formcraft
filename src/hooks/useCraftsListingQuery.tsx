@@ -8,12 +8,13 @@ export function useCraftsListingQuery() {
   return useQuery<{
     data: Craft[];
   }>({
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
     queryKey: [craftsListingQueryKey],
     queryFn: async () => {
       const res = await fetch(`/api/form`);
       return res.json();
     },
-    refetchOnMount: true,
   });
 }
 

@@ -1,9 +1,12 @@
 import { z } from "zod";
+import { fonts } from "../fonts";
 
 export const craftTheme = z.object({
   id: z.string(),
   name: z.string(),
-  font: z.string(),
+  font: z.enum(
+    Object.keys(fonts) as [keyof typeof fonts, ...(keyof typeof fonts)[]]
+  ),
   titleColor: z.string(),
   descriptionColor: z.string(),
   answersColor: z.string(),
@@ -13,14 +16,9 @@ export const craftTheme = z.object({
   buttonTextColor: z.string(),
   fontSize: z.enum(["small", "medium", "large"]),
   textAlign: z.enum(["left", "center", "right"]),
-  mediaUrl: z.string().optional(),
-  mediaLayout: z.enum([
-    "left-full",
-    "right-full",
-    "left-boxed",
-    "right-boxed",
-    "middle-boxed",
-  ]),
+  isPro: z.boolean().optional(),
 });
+
+export type CraftTheme = z.infer<typeof craftTheme>;
 
 export const themeOverride = craftTheme.partial();

@@ -1,20 +1,12 @@
 "use client";
 
 import { CheckIcon, LoaderCircle, SendIcon } from "lucide-react";
-import { useContext } from "react";
-import { useStore } from "zustand";
 import { Button } from "@/components/ui/button";
 import { useCraftMutation } from "@/hooks/useCraftMutation";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function SaveAndPublishButton() {
-  const ctx = useContext(EditCraftStoreContext);
-
-  if (!ctx) {
-    throw new Error("EditCraftStoreContext is not provided");
-  }
-
-  const store = useStore(ctx);
+  const store = useEditCraftStore();
   const { editingVersion } = store;
 
   const mutation = useCraftMutation(true);

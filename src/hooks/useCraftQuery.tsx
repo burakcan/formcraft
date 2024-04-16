@@ -9,12 +9,13 @@ export function useCraftQuery(id: string) {
     craft: Craft;
     editingVersion: CraftVersion;
   }>({
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
     queryKey: [craftQueryKey, id],
     queryFn: async () => {
       const res = await fetch(`/api/form/${id}`);
       return res.json();
     },
-    refetchOnMount: true,
   });
 }
 

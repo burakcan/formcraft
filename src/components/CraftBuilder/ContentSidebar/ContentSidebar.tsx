@@ -2,8 +2,6 @@
 
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
-import { useContext } from "react";
-import { useStore } from "zustand";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
 import { SidebarSection } from "./SidebarSection";
@@ -12,16 +10,10 @@ import {
   ResizableHandle,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
-  const ctx = useContext(EditCraftStoreContext);
-
-  if (!ctx) {
-    throw new Error("EditCraftStoreContext is not provided");
-  }
-
-  const store = useStore(ctx);
+  const store = useEditCraftStore();
   const {
     editingVersion,
     setSelectedPage,

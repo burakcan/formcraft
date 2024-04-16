@@ -40,5 +40,6 @@ export const pageDefinitions = {
     description: "The final screen of the form",
     component: EndScreenRenderer,
     schema: endScreen,
+    icon: BookOpen,
   },
 };

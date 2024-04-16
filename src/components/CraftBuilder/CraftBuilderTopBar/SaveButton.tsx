@@ -10,7 +10,8 @@ export function SaveButton() {
   return (
     <Button
       size="icon"
-      variant="outline"
+      variant="secondary"
+      className=" disabled:bg-background disabled:border disabled:text-foreground bg-emerald-500 hover:bg-emerald-600 text-white"
       onClick={() => mutation.mutate()}
       disabled={!mutation.dirty}
     >

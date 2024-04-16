@@ -1,24 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext, useMemo } from "react";
-import { useStore } from "zustand";
+import { useMemo } from "react";
 import { setCraftQueryData } from "./useCraftQuery";
 import { invalidateCraftsListingQuery } from "./useCraftsListingQuery";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useEditCraftStore } from "./useEditCraftStore";
 
 export function useCraftMutation(publish: boolean) {
-  const ctx = useContext(EditCraftStoreContext);
   const queryClient = useQueryClient();
-
-  if (!ctx) {
-    throw new Error("EditCraftStoreContext is not provided");
-  }
-
-  const store = useStore(ctx);
-  const { editingVersion, craft } = store;
-
-  if (!craft || !editingVersion) {
-    throw new Error("Craft or editingVersion is not provided");
-  }
+  const store = useEditCraftStore();
+  const { craft, editingVersion } = store;
 
   const mutation = useMutation({
     mutationFn: async () => {
