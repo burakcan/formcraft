@@ -18,13 +18,13 @@ export function LayoutWithSidebar(props: PropsWithChildren<Props>) {
     <LayoutWithTopbar topBar={topBar}>
       <div className="flex-1 flex flex-row w-screen">
         {props.left && (
-          <aside className={cn("w-56 bg-background border-r", leftClassName)}>
+          <aside className={cn("w-64 bg-background border-r", leftClassName)}>
             {left}
           </aside>
         )}
         <div className="flex-1 overflow-y-auto">{children}</div>
         {props.right && (
-          <aside className={cn("w-56 bg-background border-l", rightClassName)}>
+          <aside className={cn("w-64 bg-background border-l", rightClassName)}>
             {right}
           </aside>
         )}

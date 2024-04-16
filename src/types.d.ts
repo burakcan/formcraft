@@ -1,10 +1,5 @@
-// import type {
-//   EndScreen,
-//   Statement,
-//   ShortText,
-//   LongText,
-// } from "./lib/craftPageConfig";
 import type { z } from "zod";
+import type { CraftTheme as _CraftTheme } from "@/lib/craftPageConfig/theming";
 import type { pageDefinitions } from "./lib/craftPageConfig";
 
 declare global {
@@ -21,5 +16,6 @@ declare global {
   namespace PrismaJson {
     type CraftPage = FormCraft.CraftPage;
     type CraftVersionData = FormCraft.CraftVersionData;
+    type CraftTheme = _CraftTheme;
   }
 }

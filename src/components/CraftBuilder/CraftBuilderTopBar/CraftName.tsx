@@ -1,20 +1,12 @@
 "use client";
 
 import type { ChangeEventHandler } from "react";
-import { useContext } from "react";
-import { useStore } from "zustand";
 import { BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { Input } from "@/components/ui/input";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function CraftName() {
-  const ctx = useContext(EditCraftStoreContext);
-
-  if (!ctx) {
-    throw new Error("EditCraftStoreContext is not provided");
-  }
-
-  const store = useStore(ctx);
+  const store = useEditCraftStore();
   const { craft, setCraftTitle } = store;
 
   const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>

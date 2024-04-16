@@ -18,10 +18,19 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        craft: "var(--font-craft)",
+      },
+      fontSize: {
+        craft: "var(--craft-font-size)",
+      },
       colors: {
-        "brand-bg": "hsl(var(--brand-bg))",
-        "brand-main": "hsl(var(--brand-main))",
-        "brand-accent": "hsl(var(--brand-accent))",
+        "craft-background": "var(--craft-background)",
+        "craft-title": "var(--craft-title)",
+        "craft-description": "var(--craft-description)",
+        "craft-answers": "var(--craft-answers)",
+        "craft-button": "var(--craft-button)",
+        "craft-button-text": "var(--craft-button-text)",
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -78,7 +87,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;

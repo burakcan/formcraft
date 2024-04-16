@@ -4,8 +4,6 @@ import {
   PlusIcon,
   TextCursorInputIcon,
 } from "lucide-react";
-import { useContext } from "react";
-import { useStore } from "zustand";
 import { pageDefinitions } from "@/lib/craftPageConfig";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -18,7 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface LibraryItemProps {
   title: string;
@@ -50,13 +48,7 @@ function LibraryItem(props: LibraryItemProps) {
 }
 
 export function PageLibrary() {
-  const ctx = useContext(EditCraftStoreContext);
-
-  if (!ctx) {
-    throw new Error("EditCraftStoreContext is not provided");
-  }
-
-  const store = useStore(ctx);
+  const store = useEditCraftStore();
   const { setSelectedPage, addPage } = store;
 
   const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
@@ -79,6 +71,12 @@ export function PageLibrary() {
         setSelectedPage(id);
         break;
     }
+
+    console.log(
+      pageDefinitions[type].schema.parse({
+        ...common,
+      })
+    );
 
     setSelectedPage(id);
   };

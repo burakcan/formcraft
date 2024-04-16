@@ -40,7 +40,7 @@ export function ContentItem(props: Props) {
       <span className=" font-medium mr-1 text-xs text-muted-foreground">
         {index + 1}.
       </span>
-      <span>{page.title}</span>
+      <span>{page.title || page.description}</span>
       {totalItems > 1 && (
         <div className="absolute right-1 top-0 h-full hidden items-center group-hover:flex group-data-[active=true]:flex">
           <Button
