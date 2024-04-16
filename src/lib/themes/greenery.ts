@@ -8,7 +8,9 @@ export const greenery: CraftTheme = {
   descriptionColor: "#000000",
   answersColor: "#0b6623",
   backgroundColor: "#ffffff",
-  backgroundImageUrl: "/theme-backgrounds/greenery.jpg",
+  backgroundImage: {
+    url: "/theme-backgrounds/greenery.jpg",
+  },
   buttonColor: "#0b6623",
   buttonTextColor: "#ffffff",
   fontSize: "medium",

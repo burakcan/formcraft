@@ -8,7 +8,9 @@ export const candy: CraftTheme = {
   descriptionColor: "#000000",
   answersColor: "#000000",
   backgroundColor: "#ffffff",
-  backgroundImageUrl: "/theme-backgrounds/candy.jpg",
+  backgroundImage: {
+    url: "/theme-backgrounds/candy.jpg",
+  },
   buttonColor: "#ff69b4",
   buttonTextColor: "#ffffff",
   fontSize: "medium",

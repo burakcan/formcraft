@@ -62,14 +62,15 @@ export function ThemeCard(props: Props) {
         }
       )}
     >
-      {theme.backgroundImageUrl && (
+      {theme.backgroundImage?.url && (
         <Image
+          unoptimized
           style={{
             objectFit: "cover",
           }}
           sizes="10vw"
           fill
-          src={theme.backgroundImageUrl}
+          src={theme.backgroundImage.url}
           alt="theme background"
         />
       )}

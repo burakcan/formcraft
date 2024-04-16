@@ -7,8 +7,8 @@ import {
 import { useState } from "react";
 import { fonts } from "@/lib/fonts";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
+import { ImageInput } from "../ImageInput";
 import { ColorInput } from "./ColorInput";
-import { ImageInput } from "./ImageInput";
 import { NewThemeModal } from "./NewThemeModal";
 import { RevertModal } from "./RevertModal";
 import { Button } from "@/components/ui/button";
@@ -169,13 +169,14 @@ export function ThemeCustomization(props: Props) {
             }
           />
           <ImageInput
-            value={theme.backgroundImageUrl}
+            label="Background image"
+            value={theme.backgroundImage}
             onChange={(value) => {
               editPage(selectedPage.id, {
                 ...selectedPage,
                 themeOverride: {
                   ...overrides,
-                  backgroundImageUrl: value,
+                  backgroundImage: value,
                 },
               });
             }}

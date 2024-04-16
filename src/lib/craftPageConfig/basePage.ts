@@ -9,7 +9,18 @@ export const basePage = z.object({
   description: z.string().optional(),
   baseThemeId: z.string().default("default"),
   themeOverride: themeOverride.default({}),
-  mediaUrl: z.string().optional(),
+  media: z
+    .object({
+      url: z.string(),
+      blurHash: z.string().optional().nullable(),
+      attribution: z
+        .object({
+          name: z.string(),
+          url: z.string(),
+        })
+        .optional(),
+    })
+    .optional(),
   mediaLayout: z
     .enum([
       "left-full",
@@ -20,3 +31,7 @@ export const basePage = z.object({
     ])
     .optional(),
 });
+
+export type BasePage = z.infer<typeof basePage>;
+
+export type PageMedia = BasePage["media"];
