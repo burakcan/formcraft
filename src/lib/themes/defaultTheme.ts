@@ -8,7 +8,6 @@ export const defaultTheme: CraftTheme = {
   descriptionColor: "#000000",
   answersColor: "#000000",
   backgroundColor: "#ffffff",
-  backgroundImageUrl: undefined,
   buttonColor: "#0000ff",
   buttonTextColor: "#ffffff",
   fontSize: "medium",

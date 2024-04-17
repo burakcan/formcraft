@@ -8,7 +8,6 @@ export const dark: CraftTheme = {
   descriptionColor: "#FFFFFF",
   answersColor: "#FFFFFF",
   backgroundColor: "#000000",
-  backgroundImageUrl: undefined,
   buttonColor: "#FFFFFF",
   buttonTextColor: "#000000",
   fontSize: "medium",
