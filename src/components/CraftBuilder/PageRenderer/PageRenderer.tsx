@@ -10,7 +10,7 @@ import { fonts } from "@/lib/fonts";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { cn } from "@/lib/utils";
 import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
-import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useThemes } from "@/hooks/useThemes";
 
 export function PageRenderer() {
@@ -18,7 +18,14 @@ export function PageRenderer() {
   const [bgImageLoading, setBgImageLoading] = useState(false);
   const [mediaImageLoading, setMediaImageLoading] = useState(false);
 
-  const { editingVersion, selectedPageId, editPage } = useUseEditCraftStore()();
+  const { editingVersion, selectedPageId, editPage } = useEditCraftStore(
+    (s) => ({
+      editingVersion: s.editingVersion,
+      selectedPageId: s.selectedPageId,
+      editPage: s.editPage,
+    })
+  );
+
   const selectedPage = editingVersion?.data.pages.find(
     (page) => page.id === selectedPageId
   );

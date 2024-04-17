@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useStore } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 import type { EditCraftStore } from "@/services/store/editCraftStore";
 import {
   EditCraftStoreContext,
@@ -16,14 +17,14 @@ export function useUseEditCraftStore(initialData?: any) {
   return useStore;
 }
 
-// export const useEditCraftStore = <T,>(
-//   selector: (store: EditCraftStore) => T = (s) => s as unknown as T
-// ): T => {
-//   const counterStoreContext = useContext(EditCraftStoreContext);
+export const useEditCraftStore = <T,>(
+  selector: (store: EditCraftStore) => T
+): T => {
+  const counterStoreContext = useContext(EditCraftStoreContext);
 
-//   if (!counterStoreContext) {
-//     throw new Error(`useCounterStore must be use within CounterStoreProvider`);
-//   }
+  if (!counterStoreContext) {
+    throw new Error(`useCounterStore must be use within CounterStoreProvider`);
+  }
 
-//   return useStore(counterStoreContext, selector);
-// };
+  return useStore(counterStoreContext, useShallow(selector));
+};
