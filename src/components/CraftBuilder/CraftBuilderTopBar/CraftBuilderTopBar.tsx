@@ -65,7 +65,7 @@ export async function CraftBuilderTopBar(props: Props) {
             <Link href={`/form/${craft_id}/edit`}>Create</Link>
           </TabsTrigger>
           <TabsTrigger value="flow" asChild>
-            <Link href={`/form/${craft_id}/edit/flow`}>Flow</Link>
+            <Link href={`/form/${craft_id}/flow`}>Flow</Link>
           </TabsTrigger>
           <TabsTrigger value="connect" asChild>
             <Link href={`/form/${craft_id}/edit/connect`}>Connect</Link>

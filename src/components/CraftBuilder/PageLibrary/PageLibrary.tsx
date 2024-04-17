@@ -16,7 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface LibraryItemProps {
   title: string;
@@ -48,8 +48,7 @@ function LibraryItem(props: LibraryItemProps) {
 }
 
 export function PageLibrary() {
-  const store = useEditCraftStore();
-  const { setSelectedPage, addPage } = store;
+  const { setSelectedPage, addPage } = useUseEditCraftStore()();
 
   const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
     const id = Date.now().toString();
@@ -71,12 +70,6 @@ export function PageLibrary() {
         setSelectedPage(id);
         break;
     }
-
-    console.log(
-      pageDefinitions[type].schema.parse({
-        ...common,
-      })
-    );
 
     setSelectedPage(id);
   };
@@ -100,7 +93,7 @@ export function PageLibrary() {
               description={pageDefinitions["statement"].description}
               onClick={() => handleAddPage("statement")}
               icon={<MegaphoneIcon className="size-4" />}
-              iconClassName="bg-rose-100"
+              iconClassName={pageDefinitions["statement"].iconClassName}
             />
             <div />
             <LibraryItem
@@ -108,14 +101,14 @@ export function PageLibrary() {
               description={pageDefinitions["short_text"].description}
               onClick={() => handleAddPage("short_text")}
               icon={<TextCursorInputIcon className="size-4" />}
-              iconClassName="bg-amber-100"
+              iconClassName={pageDefinitions["short_text"].iconClassName}
             />
             <LibraryItem
               title={pageDefinitions["long_text"].name}
               description={pageDefinitions["long_text"].description}
               onClick={() => handleAddPage("long_text")}
               icon={<BookOpenTextIcon className="size-4" />}
-              iconClassName="bg-amber-100"
+              iconClassName={pageDefinitions["long_text"].iconClassName}
             />
           </div>
         </SheetHeader>

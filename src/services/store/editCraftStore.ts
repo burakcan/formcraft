@@ -21,8 +21,10 @@ export type EditCraftStoreActions = {
   onReorder: (pages: FormCraft.CraftPage[]) => void;
 };
 
+export type EditCraftStore = EditCraftStoreState & EditCraftStoreActions;
+
 export const createEditCraftStore = (initialData: EditCraftStoreState) => {
-  return create<EditCraftStoreState & EditCraftStoreActions>((set) => ({
+  return create<EditCraftStore>()((set) => ({
     ...initialData,
     setCraft: (craft: Craft) =>
       set({

@@ -2,12 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { setCraftQueryData } from "./useCraftQuery";
 import { invalidateCraftsListingQuery } from "./useCraftsListingQuery";
-import { useEditCraftStore } from "./useEditCraftStore";
+import { useUseEditCraftStore } from "./useEditCraftStore";
 
 export function useCraftMutation(publish: boolean) {
   const queryClient = useQueryClient();
-  const store = useEditCraftStore();
-  const { craft, editingVersion } = store;
+  const { craft, editingVersion, dirty } = useUseEditCraftStore()(
+    ({ craft, editingVersion, dirty }) => ({
+      craft,
+      editingVersion,
+      dirty,
+    })
+  );
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -43,8 +48,8 @@ export function useCraftMutation(publish: boolean) {
   return useMemo(
     () => ({
       ...mutation,
-      dirty: store.dirty,
+      dirty,
     }),
-    [mutation, store.dirty]
+    [mutation, dirty]
   );
 }

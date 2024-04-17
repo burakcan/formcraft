@@ -20,6 +20,7 @@ export const pageDefinitions = {
     component: StatementRenderer,
     schema: statement,
     icon: Megaphone,
+    iconClassName: "bg-rose-100",
   },
   short_text: {
     name: "Short Text",
@@ -27,6 +28,7 @@ export const pageDefinitions = {
     component: ShortTextRenderer,
     schema: shortText,
     icon: TextCursorInput,
+    iconClassName: "bg-amber-100",
   },
   long_text: {
     name: "Long Text",
@@ -34,6 +36,7 @@ export const pageDefinitions = {
     component: LongTextRenderer,
     schema: longText,
     icon: BookOpen,
+    iconClassName: "bg-amber-100",
   },
   end_screen: {
     name: "End Screen",
@@ -41,5 +44,6 @@ export const pageDefinitions = {
     component: EndScreenRenderer,
     schema: endScreen,
     icon: BookOpen,
+    iconClassName: "bg-emerald-100",
   },
 };

@@ -29,7 +29,7 @@ export const basePage = z.object({
       "right-boxed",
       "middle-boxed",
     ])
-    .optional(),
+    .default("right-full"),
 });
 
 export type BasePage = z.infer<typeof basePage>;

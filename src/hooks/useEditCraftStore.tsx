@@ -1,14 +1,29 @@
 import { useContext } from "react";
-import { EditCraftStoreContext } from "@/services/store/editCraftStore";
+import { useStore } from "zustand";
+import type { EditCraftStore } from "@/services/store/editCraftStore";
+import {
+  EditCraftStoreContext,
+  createEditCraftStore,
+} from "@/services/store/editCraftStore";
 
-export function useEditCraftStore() {
+export function useUseEditCraftStore(initialData?: any) {
   const useStore = useContext(EditCraftStoreContext);
 
   if (!useStore) {
-    throw new Error("EditCraftStoreContext is not provided");
+    return createEditCraftStore(initialData);
   }
 
-  const store = useStore();
-
-  return store;
+  return useStore;
 }
+
+// export const useEditCraftStore = <T,>(
+//   selector: (store: EditCraftStore) => T = (s) => s as unknown as T
+// ): T => {
+//   const counterStoreContext = useContext(EditCraftStoreContext);
+
+//   if (!counterStoreContext) {
+//     throw new Error(`useCounterStore must be use within CounterStoreProvider`);
+//   }
+
+//   return useStore(counterStoreContext, selector);
+// };
