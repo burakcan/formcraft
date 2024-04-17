@@ -3,11 +3,10 @@
 import { ContentTab } from "./ContentTab";
 import { DesignTab } from "./DesignTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function PropertiesSidebar() {
-  const store = useEditCraftStore();
-  const { editingVersion, selectedPageId, editPage } = store;
+  const { editingVersion, selectedPageId, editPage } = useUseEditCraftStore()();
   const selectedPage = editingVersion?.data.pages.find(
     (page) => page.id === selectedPageId
   );

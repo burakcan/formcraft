@@ -10,16 +10,15 @@ import { fonts } from "@/lib/fonts";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { cn } from "@/lib/utils";
 import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useThemes } from "@/hooks/useThemes";
 
 export function PageRenderer() {
   const themes = useThemes();
-  const store = useEditCraftStore();
   const [bgImageLoading, setBgImageLoading] = useState(false);
   const [mediaImageLoading, setMediaImageLoading] = useState(false);
 
-  const { editingVersion, selectedPageId, editPage } = store;
+  const { editingVersion, selectedPageId, editPage } = useUseEditCraftStore()();
   const selectedPage = editingVersion?.data.pages.find(
     (page) => page.id === selectedPageId
   );
@@ -97,7 +96,12 @@ export function PageRenderer() {
         </div>
       )}
       {theme.backgroundImage?.attribution && (
-        <div className="absolute bottom-1 left-1 text-white text-xs z-20">
+        <div
+          className={cn("absolute bottom-1 text-white text-xs z-20", {
+            ["left-1"]: selectedPage.mediaLayout === "right-full",
+            ["right-1"]: selectedPage.mediaLayout === "left-full",
+          })}
+        >
           Photo by{" "}
           <a
             href={theme.backgroundImage.attribution.url}
@@ -165,7 +169,7 @@ export function PageRenderer() {
               alt="Page media"
               unoptimized
               key={selectedPage.media.url}
-              placeholder={bgBlurDataUrl ? "blur" : undefined}
+              placeholder={mediaBlurDataUrl ? "blur" : undefined}
               blurDataURL={mediaBlurDataUrl}
               style={{
                 objectFit: "cover",
@@ -180,7 +184,12 @@ export function PageRenderer() {
               </div>
             )}
             {selectedPage.media?.attribution && (
-              <div className="absolute bottom-1 right-1 text-white text-xs z-20">
+              <div
+                className={cn("absolute bottom-1 text-white text-xs z-20", {
+                  ["left-3"]: selectedPage.mediaLayout === "left-full",
+                  ["right-3"]: selectedPage.mediaLayout === "right-full",
+                })}
+              >
                 Photo by{" "}
                 <a
                   href={selectedPage.media.attribution.url}

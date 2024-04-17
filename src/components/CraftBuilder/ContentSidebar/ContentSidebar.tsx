@@ -10,10 +10,11 @@ import {
   ResizableHandle,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
-  const store = useEditCraftStore();
+  const store = useUseEditCraftStore()();
+
   const {
     editingVersion,
     setSelectedPage,

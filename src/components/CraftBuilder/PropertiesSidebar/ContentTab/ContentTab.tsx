@@ -74,7 +74,7 @@ export function ContentTab(props: Props) {
         <ToggleGroup
           type="single"
           size="sm"
-          value={selectedPage.mediaLayout || "right-full"}
+          value={selectedPage.mediaLayout}
           onValueChange={(value) => {
             if (!value) return;
 
