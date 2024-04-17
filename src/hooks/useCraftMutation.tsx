@@ -2,11 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { setCraftQueryData } from "./useCraftQuery";
 import { invalidateCraftsListingQuery } from "./useCraftsListingQuery";
-import { useUseEditCraftStore } from "./useEditCraftStore";
+import { useEditCraftStore } from "./useEditCraftStore";
 
 export function useCraftMutation(publish: boolean) {
   const queryClient = useQueryClient();
-  const { craft, editingVersion, dirty } = useUseEditCraftStore()(
+
+  const { craft, editingVersion, dirty } = useEditCraftStore(
     ({ craft, editingVersion, dirty }) => ({
       craft,
       editingVersion,

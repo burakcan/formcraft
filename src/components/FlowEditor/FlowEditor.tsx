@@ -14,10 +14,12 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 import { PageNode } from "./Nodes";
-import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function FlowEditor() {
-  const { editingVersion } = useUseEditCraftStore()();
+  const { editingVersion } = useEditCraftStore((s) => ({
+    editingVersion: s.editingVersion,
+  }));
 
   const [endingPages, contentPages] = editingVersion.data.pages.reduce(
     (acc, page) => {

@@ -19,7 +19,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useSaveCustomThemeMutation } from "@/hooks/useSaveCustomThemeMutation";
 
 interface Props {
@@ -32,7 +32,10 @@ interface Props {
 export function NewThemeModal(props: Props) {
   const { data, open, onOpenChange, selectedPage } = props;
   const mutation = useSaveCustomThemeMutation();
-  const store = useUseEditCraftStore()();
+  const { editPage } = useEditCraftStore((s) => ({
+    editPage: s.editPage,
+  }));
+
   const form = useForm({
     defaultValues: {
       themeName: "",
@@ -51,7 +54,7 @@ export function NewThemeModal(props: Props) {
         onSuccess: (response) => {
           onOpenChange(false);
 
-          store.editPage(selectedPage.id, {
+          editPage(selectedPage.id, {
             ...selectedPage,
             baseThemeId: response.data.id,
             themeOverride: {},

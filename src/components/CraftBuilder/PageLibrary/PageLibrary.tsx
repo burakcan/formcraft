@@ -16,7 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface LibraryItemProps {
   title: string;
@@ -48,7 +48,10 @@ function LibraryItem(props: LibraryItemProps) {
 }
 
 export function PageLibrary() {
-  const { setSelectedPage, addPage } = useUseEditCraftStore()();
+  const { setSelectedPage, addPage } = useEditCraftStore((s) => ({
+    setSelectedPage: s.setSelectedPage,
+    addPage: s.addPage,
+  }));
 
   const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
     const id = Date.now().toString();

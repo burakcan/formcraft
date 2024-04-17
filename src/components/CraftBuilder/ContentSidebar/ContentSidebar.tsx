@@ -10,18 +10,22 @@ import {
   ResizableHandle,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useUseEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
-  const store = useUseEditCraftStore()();
-
   const {
     editingVersion,
     setSelectedPage,
     removePage,
     selectedPageId,
     onReorder,
-  } = store;
+  } = useEditCraftStore((s) => ({
+    editingVersion: s.editingVersion,
+    setSelectedPage: s.setSelectedPage,
+    removePage: s.removePage,
+    selectedPageId: s.selectedPageId,
+    onReorder: s.onReorder,
+  }));
 
   const [endingPages, contentPages] = editingVersion.data.pages.reduce(
     (acc, page) => {
