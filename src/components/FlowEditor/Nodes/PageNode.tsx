@@ -1,22 +1,50 @@
+import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import { pageDefinitions } from "@/lib/craftPageConfig";
-import { cn } from "@/lib/utils";
+import { cn, findPageIndexes } from "@/lib/utils";
+import { SingleConnectionHandle } from "../Handles";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
-interface Props {
-  data: {
-    index: number;
-    page: FormCraft.CraftPage;
-  };
+interface Data {
+  pageId: FormCraft.CraftPage["id"];
 }
 
-export function PageNode(props: Props) {
-  const { page, index } = props.data;
+export function PageNode(props: NodeProps<Data>) {
+  const { pageId } = props.data;
+
+  const { page, index, indexInEndings } = useEditCraftStore((s) => ({
+    page: s.editingVersion.data.pages.find((p) => p.id === pageId),
+    ...findPageIndexes(s.editingVersion.data.pages, pageId),
+  }));
+
+  if (!page || index === -1) {
+    throw new Error(`Page with id ${pageId} not found`);
+  }
+
   const pageDefinition = pageDefinitions[page.type];
 
   return (
     <>
-      <Handle type="source" id="input" position={Position.Right} />
-      <Handle type="target" id="output" position={Position.Left} />
+      {page.type !== "end_screen" && (
+        <SingleConnectionHandle
+          type="source"
+          id="output"
+          position={Position.Right}
+          style={{
+            width: "10px",
+            height: "10px",
+          }}
+        />
+      )}
+      <Handle
+        type="target"
+        id="input"
+        position={Position.Left}
+        style={{
+          width: "10px",
+          height: "10px",
+        }}
+      />
       <div className="w-48 bg-background shadow-md rounded-md p-2 flex gap-2 items-center">
         <div
           className={cn(
@@ -29,7 +57,8 @@ export function PageNode(props: Props) {
         <div className="overflow-hidden text-ellipsis flex-auto">
           <div className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
             <span className=" font-medium mr-1 text-xs text-muted-foreground">
-              {index + 1}.
+              {page.type === "end_screen" && "e"}
+              {(page.type === "end_screen" ? indexInEndings : index) + 1}.
             </span>
             <span>{page.title || "Untitled Page"}</span>
           </div>

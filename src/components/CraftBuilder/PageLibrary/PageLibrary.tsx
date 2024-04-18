@@ -4,6 +4,7 @@ import {
   PlusIcon,
   TextCursorInputIcon,
 } from "lucide-react";
+import { v4 as uuid } from "uuid";
 import { pageDefinitions } from "@/lib/craftPageConfig";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -54,7 +55,7 @@ export function PageLibrary() {
   }));
 
   const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
-    const id = Date.now().toString();
+    const id = uuid();
 
     const common = {
       id,
@@ -70,7 +71,6 @@ export function PageLibrary() {
             ...common,
           })
         );
-        setSelectedPage(id);
         break;
     }
 

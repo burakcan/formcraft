@@ -104,6 +104,9 @@ dependencies:
   framer-motion:
     specifier: ^11.0.28
     version: 11.0.28(react-dom@18.2.0)(react@18.2.0)
+  immer:
+    specifier: ^10.0.4
+    version: 10.0.4
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -133,7 +136,7 @@ dependencies:
     version: 2.0.16(react-dom@18.2.0)(react@18.2.0)
   reactflow:
     specifier: ^11.11.1
-    version: 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+    version: 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
   sonner:
     specifier: ^1.4.41
     version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
@@ -160,7 +163,7 @@ dependencies:
     version: 2.1.0(zustand@4.5.2)
   zustand:
     specifier: ^4.5.2
-    version: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+    version: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
 
 devDependencies:
   '@tailwindcss/typography':
@@ -1753,39 +1756,39 @@ packages:
       '@babel/runtime': 7.24.4
     dev: false
 
-  /@reactflow/background@11.3.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/background@11.3.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-27ahQyHuX2YTc1lABvAPpd5JWBH5P3qTHLGOO+Qfqq4mbicwQ0UGQ2bVDWDwoHOyep2EuMuphrLttaMr0hiviw==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       classcat: 5.0.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
     dev: false
 
-  /@reactflow/controls@11.2.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/controls@11.2.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-FyqQv5pWEc2ycEGgIaLPmD5ezW3chsNwqMCjBMETxRj45R4uy6j+gDNi5EgURCan7T12uvoFeQopSZ96JL8XDQ==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       classcat: 5.0.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
     dev: false
 
-  /@reactflow/core@11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/core@11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-O9f/q9SZ+29am/XdoZgm/LTdkgQdypcVj9a1yZZgcS6rVDkij1yIiOT3nkGxwnNkJz0rwCn2xtL5SkK038AQ7w==}
     peerDependencies:
       react: '>=17'
@@ -1801,19 +1804,19 @@ packages:
       d3-zoom: 3.0.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
     dev: false
 
-  /@reactflow/minimap@11.7.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/minimap@11.7.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-zXxv+IExvWuaZ+gmRIfmU09A+slG9rMKTVfjqd+ewFV4LFcCyMNMIx3gZybdLZtgUDKIOoU/hAWIY+FbU7GTKw==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       '@types/d3-selection': 3.0.10
       '@types/d3-zoom': 3.0.8
       classcat: 5.0.5
@@ -1821,41 +1824,41 @@ packages:
       d3-zoom: 3.0.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
     dev: false
 
-  /@reactflow/node-resizer@2.2.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/node-resizer@2.2.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-g/5iLo5vPBoFozU+2WXub+mbpNkQhR+PRX9o0YvH/lYs1pS7JYFSzCOHdHpLHAImoCGrKY1XN5scYly36jWkDw==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       classcat: 5.0.5
       d3-drag: 3.0.0
       d3-selection: 3.0.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
     dev: false
 
-  /@reactflow/node-toolbar@1.3.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /@reactflow/node-toolbar@1.3.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-PKcTrtC88WZjNQz4ACnPgbNDBprsLJVDxyV1x8drGMNRePPrErkUNxsbhrr49L8ffmIavd4kxW5XVNOx8Kswmw==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       classcat: 5.0.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -4125,6 +4128,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -5267,18 +5274,18 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
-  /reactflow@11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+  /reactflow@11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-2GEh0bTkYR7rzAV3qdeN6C1o4qumtETZl7yQv1GVrfgr3c77nCUAOKsv5hetRejOGNnJudRwn6axeWFAY+IjNg==}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@reactflow/background': 11.3.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
-      '@reactflow/controls': 11.2.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
-      '@reactflow/core': 11.11.1(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
-      '@reactflow/minimap': 11.7.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
-      '@reactflow/node-resizer': 2.2.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
-      '@reactflow/node-toolbar': 1.3.11(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/background': 11.3.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/controls': 11.2.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/core': 11.11.1(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/minimap': 11.7.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/node-resizer': 2.2.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
+      '@reactflow/node-toolbar': 1.3.11(@types/react@18.2.74)(immer@10.0.4)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
@@ -6123,10 +6130,10 @@ packages:
     peerDependencies:
       zustand: ^4.3.0
     dependencies:
-      zustand: 4.5.2(@types/react@18.2.74)(react@18.2.0)
+      zustand: 4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0)
     dev: false
 
-  /zustand@4.5.2(@types/react@18.2.74)(react@18.2.0):
+  /zustand@4.5.2(@types/react@18.2.74)(immer@10.0.4)(react@18.2.0):
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -6142,6 +6149,7 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.74
+      immer: 10.0.4
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false

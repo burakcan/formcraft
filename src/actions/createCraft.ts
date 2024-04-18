@@ -1,4 +1,5 @@
 "use server";
+
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { v4 as uuid } from "uuid";
@@ -13,6 +14,19 @@ export async function createCraft() {
     throw new Error(ErrorType.Unauthorized);
   }
 
+  const welcomePage = pageDefinitions.statement.schema.parse({
+    id: uuid(),
+    title: "Welcome to My Form",
+    description: "This is a form created with FormCraft.",
+    cta: "Let's get started!",
+  });
+
+  const endScreen = pageDefinitions.end_screen.schema.parse({
+    id: uuid(),
+    title: "Thank you for completing the form!",
+    description: "Your responses have been submitted.",
+  });
+
   const createdForm = await db.craft.create({
     data: {
       title: "My Form",
@@ -21,19 +35,38 @@ export async function createCraft() {
       craftVersions: {
         create: {
           data: {
-            pages: [
-              pageDefinitions.statement.schema.parse({
-                id: uuid(),
-                title: "Welcome to My Form",
-                description: "This is a form created with FormCraft.",
-                cta: "Let's get started!",
-              }),
-              pageDefinitions.end_screen.schema.parse({
-                id: uuid(),
-                title: "Thank you for completing the form!",
-                description: "Your responses have been submitted.",
-              }),
-            ],
+            pages: [welcomePage, endScreen],
+            flow: {
+              nodes: [
+                {
+                  id: welcomePage.id,
+                  type: "page",
+                  data: { pageId: welcomePage.id },
+                  position: { x: 100, y: 100 },
+                },
+                {
+                  id: endScreen.id,
+                  type: "page",
+                  data: { pageId: endScreen.id },
+                  position: { x: 400, y: 100 },
+                },
+              ],
+              edges: [
+                {
+                  id: `edge-${welcomePage.id}-${endScreen.id}`,
+                  source: welcomePage.id,
+                  sourceHandle: "output",
+                  target: endScreen.id,
+                  targetHandle: "input",
+                  type: "removable",
+                },
+              ],
+              viewport: {
+                x: 0,
+                y: 0,
+                zoom: 1,
+              },
+            },
           },
         },
       },
