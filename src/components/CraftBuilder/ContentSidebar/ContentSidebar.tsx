@@ -2,6 +2,9 @@
 
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
+import { v4 as uuid } from "uuid";
+import { pageDefinitions } from "@/lib/craftPageConfig";
+import { splitContentAndEnding } from "@/lib/utils";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
 import { SidebarSection } from "./SidebarSection";
@@ -19,7 +22,9 @@ export function ContentSidebar() {
     removePage,
     selectedPageId,
     onReorder,
+    addPage,
   } = useEditCraftStore((s) => ({
+    addPage: s.addPage,
     editingVersion: s.editingVersion,
     setSelectedPage: s.setSelectedPage,
     removePage: s.removePage,
@@ -27,16 +32,8 @@ export function ContentSidebar() {
     onReorder: s.onReorder,
   }));
 
-  const [endingPages, contentPages] = editingVersion.data.pages.reduce(
-    (acc, page) => {
-      if (page.type === "end_screen") {
-        acc[0].push(page);
-      } else {
-        acc[1].push(page);
-      }
-      return acc;
-    },
-    [[], []] as [FormCraft.CraftPage[], FormCraft.CraftPage[]]
+  const { endingPages, contentPages } = splitContentAndEnding(
+    editingVersion.data.pages
   );
 
   const handleReorderContent = (pages: FormCraft.CraftPage[]) => {
@@ -46,6 +43,23 @@ export function ContentSidebar() {
   const handleReorderEndings = (pages: FormCraft.CraftPage[]) => {
     onReorder([...contentPages, ...pages]);
   };
+
+  const handleAddEnding = () => {
+    const id = uuid();
+
+    addPage(
+      pageDefinitions.end_screen.schema.parse({
+        id,
+        type: "end_screen",
+        title: "Thank you for completing the form!",
+        description: "Your responses have been submitted.",
+      })
+    );
+
+    setSelectedPage(id);
+  };
+
+  // console.log("pages", editingVersion.data.pages);
 
   return (
     <div className="w-full h-full">
@@ -84,7 +98,12 @@ export function ContentSidebar() {
           title={
             <>
               Endings
-              <Button variant="secondary" size="icon" className="size-10">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="size-10"
+                onClick={handleAddEnding}
+              >
                 <PlusIcon className="size-4" />
               </Button>
             </>
@@ -100,6 +119,7 @@ export function ContentSidebar() {
           >
             {endingPages.map((page, index) => (
               <ContentItem
+                isEnding
                 index={index}
                 key={page.id}
                 page={page}

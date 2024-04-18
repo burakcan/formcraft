@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 
 interface Props {
   index: number;
+  isEnding?: boolean;
   page: FormCraft.CraftPage;
   selectedPageId: string;
   totalItems: number;
@@ -13,7 +14,15 @@ interface Props {
 }
 
 export function ContentItem(props: Props) {
-  const { index, page, selectedPageId, onSelect, onDelete, totalItems } = props;
+  const {
+    index,
+    isEnding,
+    page,
+    selectedPageId,
+    onSelect,
+    onDelete,
+    totalItems,
+  } = props;
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -38,6 +47,7 @@ export function ContentItem(props: Props) {
     >
       <GripVertical className="inline-block mr-2 size-4 stroke-muted-foreground/50" />
       <span className=" font-medium mr-1 text-xs text-muted-foreground">
+        {isEnding && "e"}
         {index + 1}.
       </span>
       <span>{page.title || page.description}</span>

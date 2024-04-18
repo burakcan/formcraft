@@ -1,6 +1,7 @@
 import { LayoutWithSidebar } from "@/components/AppChrome";
 import { CraftBuilderTopBar } from "@/components/CraftBuilder";
 import { FlowEditor } from "@/components/FlowEditor";
+import { NodeLibrary } from "@/components/FlowEditor/NodeLibrary";
 
 interface Props {
   params: {
@@ -13,7 +14,7 @@ export default async function EditCraftFlowPage(props: Props) {
 
   return (
     <LayoutWithSidebar
-      left={<div />}
+      left={<NodeLibrary />}
       leftClassName="w-64"
       topBar={<CraftBuilderTopBar craft_id={form_id} activeTab="flow" />}
     >

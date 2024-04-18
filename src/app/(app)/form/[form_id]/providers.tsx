@@ -32,13 +32,16 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
 
   const store = storeRef.current;
 
-  const reset = store(({ reset }) => reset);
-
   useEffect(() => {
-    reset({
-      ...serverStoreData,
+    store.setState((state) => {
+      return {
+        ...serverStoreData,
+        selectedPageId:
+          state.selectedPageId ||
+          serverStoreData.editingVersion.data.pages[0].id,
+      };
     });
-  }, [reset, serverStoreData]);
+  }, [serverStoreData, store]);
 
   return (
     <EditCraftStoreContext.Provider value={store}>

@@ -21,6 +21,12 @@ export const pageDefinitions = {
     schema: statement,
     icon: Megaphone,
     iconClassName: "bg-rose-100",
+    output: () => {
+      return {
+        type: "literal",
+        value: true,
+      };
+    },
   },
   short_text: {
     name: "Short Text",
@@ -29,6 +35,11 @@ export const pageDefinitions = {
     schema: shortText,
     icon: TextCursorInput,
     iconClassName: "bg-amber-100",
+    output: () => {
+      return {
+        type: "string",
+      };
+    },
   },
   long_text: {
     name: "Long Text",
@@ -37,6 +48,11 @@ export const pageDefinitions = {
     schema: longText,
     icon: BookOpen,
     iconClassName: "bg-amber-100",
+    output: () => {
+      return {
+        type: "string",
+      };
+    },
   },
   end_screen: {
     name: "End Screen",
@@ -45,5 +61,10 @@ export const pageDefinitions = {
     schema: endScreen,
     icon: BookOpen,
     iconClassName: "bg-emerald-100",
+    output: () => {
+      return {
+        type: "none",
+      };
+    },
   },
 };
