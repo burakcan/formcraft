@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  CalculatorIcon,
+  // CalculatorIcon,
   GitBranchIcon,
-  GitFork,
-  RectangleEllipsisIcon,
-  VariableIcon,
+  // GitFork,
+  // RectangleEllipsisIcon,
+  // VariableIcon,
 } from "lucide-react";
 
 export function NodeLibrary() {
@@ -40,7 +40,7 @@ export function NodeLibrary() {
         </div>
       </div>
 
-      <div
+      {/* <div
         className="bg-background border rounded-md p-2 flex gap-2 items-center"
         draggable
         onDragStart={(e) => {
@@ -122,7 +122,7 @@ export function NodeLibrary() {
             <span>Get variable</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
