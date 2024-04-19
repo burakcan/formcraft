@@ -175,7 +175,7 @@ export function FlowEditor() {
 
   const handleNodesChange = (changes: NodeChange[]) => {
     const nextChanges = changes.filter((change) => {
-      return change.type !== "remove" && change.type !== "select";
+      return change.type !== "select";
     });
 
     onNodesChange(nextChanges);
@@ -183,7 +183,7 @@ export function FlowEditor() {
 
   const handleEdgesChange = (changes: EdgeChange[]) => {
     const nextChanges = changes.filter((change) => {
-      return change.type !== "remove" && change.type !== "select";
+      return change.type !== "select";
     });
 
     onEdgesChange(nextChanges);
