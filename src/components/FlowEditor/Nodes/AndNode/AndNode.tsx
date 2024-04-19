@@ -1,5 +1,5 @@
 import {} from "@/components/ui/dialog";
-import { GitBranchIcon } from "lucide-react";
+import { AmpersandIcon } from "lucide-react";
 import { useEffect } from "react";
 import type { Node, NodeProps } from "reactflow";
 import {
@@ -10,12 +10,14 @@ import {
 } from "reactflow";
 import { ConditionEditor } from "../../ConditionEditor";
 import { ConditionItem } from "../../ConditionItem";
+import { SingleConnectionHandle } from "../../Handles";
+import { Badge } from "@/components/ui/badge";
 
 interface Data {
   conditions: FormCraft.BranchingCondition[];
 }
 
-export function BranchingNode(props: NodeProps<Data>) {
+export function AndNode(props: NodeProps<Data>) {
   const { data, id } = props;
   const { conditions = [] } = data;
   const updateNodeInternals = useUpdateNodeInternals();
@@ -111,51 +113,6 @@ export function BranchingNode(props: NodeProps<Data>) {
     });
   };
 
-  const handleMoveCondition = (
-    conditionId: string,
-    direction: "up" | "down"
-  ) => {
-    flow.setNodes((nodes) => {
-      const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
-        | undefined;
-
-      if (node) {
-        const conditions = node.data.conditions;
-        const index = conditions.findIndex((c) => c.id === conditionId);
-
-        if (index === -1) {
-          return nodes;
-        }
-
-        const newIndex = direction === "up" ? index - 1 : index + 1;
-
-        if (newIndex < 0 || newIndex >= conditions.length) {
-          return nodes;
-        }
-
-        const newConditions = [...conditions];
-        newConditions[index] = conditions[newIndex];
-        newConditions[newIndex] = conditions[index];
-
-        const updatedData = {
-          ...node.data,
-          conditions: newConditions,
-        };
-
-        return [
-          ...nodes.filter((node) => node.id !== props.id),
-          {
-            ...node,
-            data: updatedData,
-          },
-        ];
-      }
-
-      return nodes;
-    });
-  };
-
   return (
     <>
       <Handle
@@ -170,36 +127,57 @@ export function BranchingNode(props: NodeProps<Data>) {
       <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2">
         <div className="flex gap-2 items-center">
           <div className="size-8 flex-none rounded flex items-center justify-center bg-black text-white">
-            <GitBranchIcon className="size-4" />
+            <AmpersandIcon className="size-4" />
           </div>
           <div className="flex-auto flex flex-col">
             <div className="text-sm">
-              <span>Branching</span>
+              <span>AND</span>
             </div>
-            <span className="text-xs text-gray-500">Execute first match</span>
+            <span className="text-xs text-gray-500">
+              Check if all conditions are met
+            </span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          {conditions.map((condition, index) => (
+          {conditions.map((condition) => (
             <ConditionItem
+              noHandle
+              noMove
               key={condition.id}
               condition={condition}
               onRemove={handleRemoveCondition}
               onChange={handleConditionChange}
-              onMoveUp={
-                index > 0
-                  ? (conditionId) => handleMoveCondition(conditionId, "up")
-                  : undefined
-              }
-              onMoveDown={
-                index < conditions.length - 1
-                  ? (conditionId) => handleMoveCondition(conditionId, "down")
-                  : undefined
-              }
             />
           ))}
-          <ConditionItem condition={{ source: "default", id: "default" }} />
           <ConditionEditor onConfirm={handleAddCondition} />
+          <div className="flex justify-end relative">
+            <Badge className="bg-emerald-500">True</Badge>
+            <SingleConnectionHandle
+              type="source"
+              id="true"
+              position={Position.Right}
+              style={{
+                top: "50%",
+                right: -15,
+                width: "10px",
+                height: "10px",
+              }}
+            />
+          </div>
+          <div className="flex justify-end relative">
+            <Badge className="bg-rose-500">False</Badge>
+            <SingleConnectionHandle
+              type="source"
+              id="false"
+              position={Position.Right}
+              style={{
+                top: "50%",
+                right: -15,
+                width: "10px",
+                height: "10px",
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

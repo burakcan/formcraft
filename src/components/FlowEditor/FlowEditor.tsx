@@ -29,13 +29,17 @@ import { v4 as uuid } from "uuid";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { RemovableEdge } from "./Edges/RemovableEdge";
+import { AndNode } from "./Nodes/AndNode/AndNode";
 import { BranchingNode } from "./Nodes/BranchingNode";
+import { OrNode } from "./Nodes/OrNode/OrNode";
 import { PageNode } from "./Nodes/PageNode";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 const nodeTypes = {
   page: PageNode,
   branching: BranchingNode,
+  and: AndNode,
+  or: OrNode,
 };
 
 const edgeTypes = {
