@@ -90,15 +90,15 @@ export function ConditionEditor(props: Props) {
           </Button>
         )}
       </DialogTrigger>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add condition</DialogTitle>
-              <DialogDescription>
-                Add a condition to determine which path to take
-              </DialogDescription>
-            </DialogHeader>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add condition</DialogTitle>
+          <DialogDescription>
+            Add a condition to determine which path to take
+          </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>
             <div className="flex-1 flex flex-col gap-2 justify-stretch">
               <FormField
                 control={form.control}
@@ -190,17 +190,17 @@ export function ConditionEditor(props: Props) {
                 )}
               />
             </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="secondary">Cancel</Button>
-              </DialogClose>
-              <Button form={formId} type="submit">
-                Confirm
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </form>
-      </Form>
+          </form>
+        </Form>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button form={formId} type="submit">
+            Confirm
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }
