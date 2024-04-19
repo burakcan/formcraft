@@ -7,6 +7,8 @@ export function Navbar() {
     <TopBar className="items-center gap-4 px-4">
       <Logo />
       <OrganizationSwitcher
+        afterCreateOrganizationUrl="/dashboard"
+        afterSelectOrganizationUrl="/dashboard"
         appearance={{
           elements: {
             rootBox:
