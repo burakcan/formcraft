@@ -30,6 +30,8 @@ import {
 
 interface Props {
   onConfirm: (condition: FormCraft.BranchingCondition) => void;
+  trigger?: React.ReactNode;
+  condition?: FormCraft.BranchingCondition;
 }
 
 export const conditionLabels: Record<FormCraft.BranchingConditionType, string> =
@@ -49,9 +51,9 @@ export const conditionLabels: Record<FormCraft.BranchingConditionType, string> =
 export function ConditionEditor(props: Props) {
   const [open, setOpen] = useState(false);
   const formId = useId();
-  const { onConfirm } = props;
+  const { onConfirm, trigger, condition } = props;
   const form = useForm<FormCraft.BranchingCondition>({
-    defaultValues: {
+    defaultValues: condition || {
       id: uuid(),
       source: "input",
       condition: "eq",
@@ -69,20 +71,24 @@ export function ConditionEditor(props: Props) {
   return (
     <Dialog
       onOpenChange={() => {
-        form.reset({
-          id: uuid(),
-          source: "input",
-          condition: "eq",
-          value: "",
-        });
+        form.reset(
+          condition || {
+            id: uuid(),
+            source: "input",
+            condition: "eq",
+            value: "",
+          }
+        );
         setOpen(!open);
       }}
       open={open}
     >
       <DialogTrigger asChild>
-        <Button size="sm" variant="secondary" className="text-sm h-8 w-full">
-          Add condition
-        </Button>
+        {trigger || (
+          <Button size="sm" variant="secondary" className="text-sm h-8 w-full">
+            Add condition
+          </Button>
+        )}
       </DialogTrigger>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>

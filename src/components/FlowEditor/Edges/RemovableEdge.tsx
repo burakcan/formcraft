@@ -33,7 +33,7 @@ export function RemovableEdge(props: EdgeProps) {
       <EdgeLabelRenderer>
         <Button
           variant="outline"
-          className="size-7 absolute transform -translate-x-1/2 -translate-y-1/2 p-2 rounded-full text-xs pointer-events-auto"
+          className="size-7 absolute transform -translate-x-1/2 -translate-y-1/2 p-2 rounded-full text-xs pointer-events-auto nopan"
           style={{
             top: props.sourceY,
             left: props.sourceX + 15,
