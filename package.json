@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev & pnpm tunnel",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -61,7 +61,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
-    "react-resizable-panels": "^2.0.16",
+    "react-resizable-panels": "^2.0.18",
     "reactflow": "^11.11.1",
     "sonner": "^1.4.41",
     "svix": "^1.21.0",

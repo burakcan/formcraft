@@ -7,12 +7,13 @@ import { pageDefinitions } from "@/lib/craftPageConfig";
 import { splitContentAndEnding } from "@/lib/utils";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
-import { SidebarSection } from "./SidebarSection";
 import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
+  ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
@@ -40,10 +41,6 @@ export function ContentSidebar() {
     onReorder([...pages, ...endingPages]);
   };
 
-  const handleReorderEndings = (pages: FormCraft.CraftPage[]) => {
-    onReorder([...contentPages, ...pages]);
-  };
-
   const handleAddEnding = () => {
     const id = uuid();
 
@@ -59,78 +56,74 @@ export function ContentSidebar() {
     setSelectedPage(id);
   };
 
-  // console.log("pages", editingVersion.data.pages);
+  const handleReorderEndings = (pages: FormCraft.CraftPage[]) => {
+    onReorder([...contentPages, ...pages]);
+  };
 
   return (
     <div className="w-full h-full">
-      <ResizablePanelGroup direction="vertical" autoSaveId="fc_content_sidebar">
-        <SidebarSection
-          title={
-            <>
-              Content
-              <PageLibrary />
-            </>
-          }
-          minSize={25}
-          defaultSize={75}
-        >
-          <Reorder.Group
-            as="div"
-            axis="y"
-            values={contentPages}
-            onReorder={handleReorderContent}
-          >
-            {contentPages.map((page, index) => (
-              <ContentItem
-                key={page.id}
-                index={index}
-                page={page}
-                totalItems={contentPages.length}
-                selectedPageId={selectedPageId}
-                onSelect={() => setSelectedPage(page.id)}
-                onDelete={() => removePage(page.id)}
-              />
-            ))}
-          </Reorder.Group>
-        </SidebarSection>
+      <ResizablePanelGroup direction="vertical">
+        <ResizablePanel defaultSize={75} minSize={25}>
+          <div className="flex-none flex items-center justify-between h-14 mx-2 text-sm font-medium border-b">
+            Content
+            <PageLibrary />
+          </div>
+          <ScrollArea className="h-[calc(100%-theme(spacing[14]))]">
+            <Reorder.Group
+              as="div"
+              axis="y"
+              values={contentPages}
+              onReorder={handleReorderContent}
+            >
+              {contentPages.map((page, index) => (
+                <ContentItem
+                  key={page.id}
+                  index={index}
+                  page={page}
+                  totalItems={contentPages.length}
+                  selectedPageId={selectedPageId}
+                  onSelect={() => setSelectedPage(page.id)}
+                  onDelete={() => removePage(page.id)}
+                />
+              ))}
+            </Reorder.Group>
+          </ScrollArea>
+        </ResizablePanel>
         <ResizableHandle withHandle />
-        <SidebarSection
-          title={
-            <>
-              Endings
-              <Button
-                variant="secondary"
-                size="icon"
-                className="size-10"
-                onClick={handleAddEnding}
-              >
-                <PlusIcon className="size-4" />
-              </Button>
-            </>
-          }
-          minSize={25}
-          defaultSize={25}
-        >
-          <Reorder.Group
-            as="div"
-            axis="y"
-            values={endingPages}
-            onReorder={handleReorderEndings}
-          >
-            {endingPages.map((page, index) => (
-              <ContentItem
-                isEnding
-                index={index}
-                key={page.id}
-                page={page}
-                totalItems={endingPages.length}
-                selectedPageId={selectedPageId}
-                onSelect={() => setSelectedPage(page.id)}
-                onDelete={() => removePage(page.id)}
-              />
-            ))}
-          </Reorder.Group>
-        </SidebarSection>
+        <ResizablePanel defaultSize={25} minSize={25}>
+          <div className="flex-none flex items-center justify-between h-14 mx-2 text-sm font-medium border-b">
+            Endings
+            <Button
+              variant="secondary"
+              size="icon"
+              className="size-10"
+              onClick={handleAddEnding}
+            >
+              <PlusIcon className="size-4" />
+            </Button>
+          </div>
+          <ScrollArea className="h-[calc(100%-theme(spacing[14]))]">
+            <Reorder.Group
+              as="div"
+              axis="y"
+              values={endingPages}
+              onReorder={handleReorderEndings}
+            >
+              {endingPages.map((page, index) => (
+                <ContentItem
+                  isEnding
+                  index={index}
+                  key={page.id}
+                  page={page}
+                  totalItems={endingPages.length}
+                  selectedPageId={selectedPageId}
+                  onSelect={() => setSelectedPage(page.id)}
+                  onDelete={() => removePage(page.id)}
+                />
+              ))}
+            </Reorder.Group>
+          </ScrollArea>
+        </ResizablePanel>
       </ResizablePanelGroup>
     </div>
   );

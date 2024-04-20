@@ -37,10 +37,10 @@ export function ContentItem(props: Props) {
       onClick={onSelect}
       className={cn(
         `group p-2 text-sm rounded m-2 cursor-default
-        whitespace-nowrap text-ellipsis overflow-hidden relative`,
+        whitespace-nowrap text-ellipsis overflow-hidden relative w-60`,
         {
           "bg-accent": page.id === selectedPageId,
-          "data-active[true]:pr-6": totalItems > 1,
+          "data-[active=true]:pr-6": totalItems > 1,
           "hover:pr-6": totalItems > 1,
         }
       )}
