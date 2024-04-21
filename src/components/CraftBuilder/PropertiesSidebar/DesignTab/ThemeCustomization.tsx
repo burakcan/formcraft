@@ -3,6 +3,7 @@ import {
   AlignLeftIcon,
   AlignRightIcon,
   ChevronLeft,
+  LayoutPanelLeftIcon,
 } from "lucide-react";
 import { useState } from "react";
 import { fonts } from "@/lib/fonts";
@@ -181,6 +182,48 @@ export function ThemeCustomization(props: Props) {
               });
             }}
           />
+          <ImageInput
+            label="Decoration image"
+            value={theme.decorationImage}
+            onChange={(value) => {
+              editPage(selectedPage.id, {
+                ...selectedPage,
+                themeOverride: {
+                  ...overrides,
+                  decorationImage: value,
+                  decorationImageLayout:
+                    selectedPage.themeOverride.decorationImageLayout ||
+                    "left-full",
+                },
+              });
+            }}
+          />
+          <div className="flex justify-between items-center">
+            <Label className="font-normal">Decoration layout</Label>
+            <ToggleGroup
+              type="single"
+              size="sm"
+              value={theme.decorationImageLayout}
+              onValueChange={(value) => {
+                if (!value) return;
+
+                editPage(selectedPage.id, {
+                  ...selectedPage,
+                  themeOverride: {
+                    ...overrides,
+                    decorationImageLayout: value as "left-full" | "right-full",
+                  },
+                });
+              }}
+            >
+              <ToggleGroupItem value="left-full">
+                <LayoutPanelLeftIcon className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="right-full">
+                <LayoutPanelLeftIcon className="size-4 rotate-180" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
           <div className="flex justify-between items-center">
             <Label className="font-normal">Text size</Label>
             <ToggleGroup

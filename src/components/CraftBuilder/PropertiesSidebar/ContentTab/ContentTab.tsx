@@ -1,9 +1,6 @@
-import { LayoutPanelLeftIcon } from "lucide-react";
-import { ImageInput } from "../ImageInput";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface Props {
   selectedPage: FormCraft.CraftPage;
@@ -59,41 +56,6 @@ export function ContentTab(props: Props) {
             />
           </div>
         )}
-
-        <ImageInput
-          label="Media"
-          value={selectedPage.media}
-          onChange={(media) => {
-            editPage(selectedPage.id, {
-              ...selectedPage,
-              media: media,
-            });
-          }}
-        />
-
-        <div className="flex justify-between items-center">
-          <Label className="font-normal">Media layout</Label>
-          <ToggleGroup
-            type="single"
-            size="sm"
-            value={selectedPage.mediaLayout}
-            onValueChange={(value) => {
-              if (!value) return;
-
-              editPage(selectedPage.id, {
-                ...selectedPage,
-                mediaLayout: value as FormCraft.CraftPage["mediaLayout"],
-              });
-            }}
-          >
-            <ToggleGroupItem value="left-full">
-              <LayoutPanelLeftIcon className="size-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem value="right-full">
-              <LayoutPanelLeftIcon className="size-4 rotate-180" />
-            </ToggleGroupItem>
-          </ToggleGroup>
-        </div>
       </div>
     </ScrollArea>
   );

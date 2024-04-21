@@ -1,7 +1,7 @@
 import { decode } from "blurhash";
 import { useMemo } from "react";
 
-export function useBlurDataUrl(blurHash: string | undefined) {
+export function useBlurDataUrl(blurHash?: string | null) {
   return useMemo(() => {
     if (!blurHash || typeof window === "undefined") {
       return undefined;

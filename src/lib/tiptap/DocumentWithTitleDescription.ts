@@ -2,6 +2,7 @@ import { Document } from "@tiptap/extension-document";
 import Placeholder from "@tiptap/extension-placeholder";
 import { Text } from "@tiptap/extension-text";
 import { Description } from "./Description";
+import { Media } from "./Media";
 import { Title } from "./Title";
 
 export const DocumentWithTitleDescription = Document.extend({
@@ -11,6 +12,7 @@ export const DocumentWithTitleDescription = Document.extend({
 export const DocumentWithTitleDescriptionKit = [
   DocumentWithTitleDescription,
   Title,
+  Media,
   Description,
   Placeholder.configure({
     placeholder: ({ node }) => {

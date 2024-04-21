@@ -10,7 +10,7 @@
 .tiptap.ProseMirror {
   @apply border;
   @apply border-dashed;
-  @apply p-4;
+  @apply p-2;
 }
 
 .ProseMirror:focus {

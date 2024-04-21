@@ -1,7 +1,7 @@
 import { ReplaceIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import type { BackgroundImage } from "@/lib/craftPageConfig/theming";
+import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { ImageLibrary } from "../ImageLibrary/ImageLibrary";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -15,8 +15,8 @@ import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
 
 interface Props {
   label: string;
-  value?: BackgroundImage;
-  onChange: (backgroundImage?: BackgroundImage) => void;
+  value?: ThemeImageType;
+  onChange: (backgroundImage?: ThemeImageType) => void;
 }
 
 export function ImageInput(props: Props) {

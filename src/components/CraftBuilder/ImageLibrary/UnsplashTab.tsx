@@ -2,7 +2,7 @@
 import { debounce } from "lodash";
 import { CheckIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { BackgroundImage } from "@/lib/craftPageConfig/theming";
+import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,8 +22,8 @@ type SearchResults = Awaited<
 >["response"];
 
 interface Props {
-  currentValue?: BackgroundImage;
-  onImageSelect: (backgroundImage: BackgroundImage) => void;
+  currentValue?: ThemeImageType;
+  onImageSelect: (backgroundImage: ThemeImageType) => void;
   onCancel: () => void;
   onSave: () => void;
 }

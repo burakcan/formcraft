@@ -2,7 +2,7 @@ import { useEditor } from "@tiptap/react";
 import { useEffect } from "react";
 import { DocumentWithTitleDescriptionKit } from "@/lib/tiptap/DocumentWithTitleDescription";
 
-export function useTitleDescriptionEditor<T extends FormCraft.CraftPage>(
+export function useBaseContentEditor<T extends FormCraft.CraftPage>(
   page: T,
   onChange: (pageId: string, page: T) => void
 ) {

@@ -1,7 +1,6 @@
 "use client";
 
 import "reactflow/dist/style.css";
-import dagre from "@dagrejs/dagre";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { LayoutGridIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,7 +8,6 @@ import type {
   Edge,
   Connection,
   ReactFlowInstance,
-  Node,
   NodeChange,
   EdgeChange,
 } from "reactflow";
@@ -21,82 +19,16 @@ import ReactFlow, {
   Controls,
   BackgroundVariant,
   ConnectionLineType,
-  Position,
   Panel,
   MarkerType,
 } from "reactflow";
 import { v4 as uuid } from "uuid";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { RemovableEdge } from "./Edges/RemovableEdge";
-import { AndNode } from "./Nodes/AndNode/AndNode";
-import { BranchingNode } from "./Nodes/BranchingNode";
-import { OrNode } from "./Nodes/OrNode/OrNode";
-import { PageNode } from "./Nodes/PageNode";
+import { edgeTypes } from "./Edges";
+import { nodeTypes } from "./Nodes";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
-
-const nodeTypes = {
-  page: PageNode,
-  branching: BranchingNode,
-  and: AndNode,
-  or: OrNode,
-};
-
-const edgeTypes = {
-  removable: RemovableEdge,
-};
-
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-
-const nodeWidth = 256;
-const nodeHeight = 140;
-
-const getLayoutedElements = (
-  nodes: Node[],
-  edges: Edge[],
-  direction = "TB"
-) => {
-  const isHorizontal = direction === "LR";
-  dagreGraph.setGraph({
-    rankdir: direction,
-    nodesep: 50,
-    ranksep: 120,
-  });
-
-  nodes.forEach((node) => {
-    const domElement = document.querySelector(
-      `.react-flow__node[data-id="${node.id}"]`
-    );
-    const width = domElement?.clientWidth || nodeWidth;
-    const height = domElement?.clientHeight || nodeHeight;
-
-    dagreGraph.setNode(node.id, { width, height });
-  });
-
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  dagre.layout(dagreGraph);
-
-  nodes.forEach((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    node.targetPosition = isHorizontal ? Position.Left : Position.Top;
-    node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
-
-    // We are shifting the dagre node position (anchor=center center) to the top left
-    // so it matches the React Flow node anchor point (top left).
-    node.position = {
-      x: nodeWithPosition.x - nodeWidth / 2,
-      y: nodeWithPosition.y - nodeHeight / 2,
-    };
-
-    return node;
-  });
-
-  return { nodes, edges };
-};
+import { useFlowEditorAutoLayout } from "@/hooks/useFlowEditorAutoLayout";
 
 export function FlowEditor() {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -130,15 +62,12 @@ export function FlowEditor() {
     }
   }, [editorInstance, nodes, edges, setFlow]);
 
-  const onLayout = useCallback(
-    (direction: "TB" | "LR") => {
-      const { nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedElements(nodes, edges, direction);
-
-      setNodes([...layoutedNodes]);
-      setEdges([...layoutedEdges]);
-    },
-    [nodes, edges, setNodes, setEdges]
+  const onLayout = useFlowEditorAutoLayout(
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    editorInstance
   );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -199,6 +128,7 @@ export function FlowEditor() {
       ref={wrapperRef}
     >
       <ReactFlow
+        nodeDragThreshold={1}
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
