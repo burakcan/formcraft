@@ -1,4 +1,4 @@
-import type { BackgroundImage } from "@/lib/craftPageConfig/theming";
+import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { UnsplashTab } from "./UnsplashTab";
 import {
   Sheet,
@@ -10,9 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Props {
   open: boolean;
-  currentValue?: BackgroundImage;
+  currentValue?: ThemeImageType;
   onOpenChange: (open: boolean) => void;
-  onImageSelect: (backgroundImage?: BackgroundImage) => void;
+  onImageSelect: (image?: ThemeImageType) => void;
   onSave: () => void;
   onCancel: () => void;
 }

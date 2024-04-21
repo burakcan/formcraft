@@ -3,10 +3,10 @@ import { endScreen } from "./endScreen";
 import { longText } from "./longText";
 import { shortText } from "./shortText";
 import { statement } from "./statement";
-import { EndScreenRenderer } from "@/components/CraftBuilder/PageRenderer/EndScreen";
-import { LongTextRenderer } from "@/components/CraftBuilder/PageRenderer/LongText";
-import { ShortTextRenderer } from "@/components/CraftBuilder/PageRenderer/ShortText";
-import { StatementRenderer } from "@/components/CraftBuilder/PageRenderer/Statement";
+import { EndScreenRenderer } from "@/components/CraftBuilder/PageComponents/EndScreen";
+import { LongTextRenderer } from "@/components/CraftBuilder/PageComponents/LongText";
+import { ShortTextRenderer } from "@/components/CraftBuilder/PageComponents/ShortText";
+import { StatementRenderer } from "@/components/CraftBuilder/PageComponents/Statement";
 
 export type { LongText } from "./longText";
 export type { ShortText } from "./shortText";

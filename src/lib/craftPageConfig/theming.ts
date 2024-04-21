@@ -1,6 +1,17 @@
 import { z } from "zod";
 import { fonts } from "../fonts";
 
+export const themeImage = z.object({
+  url: z.string(),
+  blurHash: z.string().optional().nullable(),
+  attribution: z
+    .object({
+      name: z.string(),
+      url: z.string(),
+    })
+    .optional(),
+});
+
 export const craftTheme = z.object({
   id: z.string(),
   name: z.string(),
@@ -11,18 +22,11 @@ export const craftTheme = z.object({
   descriptionColor: z.string(),
   answersColor: z.string(),
   backgroundColor: z.string(),
-  backgroundImage: z
-    .object({
-      url: z.string(),
-      blurHash: z.string().optional().nullable(),
-      attribution: z
-        .object({
-          name: z.string(),
-          url: z.string(),
-        })
-        .optional(),
-    })
-    .optional(),
+  backgroundImage: themeImage.optional(),
+  decorationImage: themeImage.optional(),
+  decorationImageLayout: z
+    .enum(["left-full", "right-full"])
+    .default("left-full"),
   buttonColor: z.string(),
   buttonTextColor: z.string(),
   fontSize: z.enum(["small", "medium", "large"]),
@@ -31,7 +35,6 @@ export const craftTheme = z.object({
 });
 
 export type CraftTheme = z.infer<typeof craftTheme>;
-
-export type BackgroundImage = CraftTheme["backgroundImage"];
+export type ThemeImageType = z.infer<typeof themeImage>;
 
 export const themeOverride = craftTheme.partial();
