@@ -1,0 +1,29 @@
+.fontpicker,
+.fontpicker * {
+  box-sizing: border-box;
+}
+.fontpicker {
+  @apply bg-background rounded-md border border-input h-10 flex-1;
+}
+.fontpicker__preview {
+  @apply filter-none mt-0.5;
+}
+.fontpicker__search {
+  @apply bg-background rounded-md border border-input h-10;
+}
+/* .fontpicker__search:focus {
+}
+.fontpicker__popout {
+} */
+.fontpicker__popout.fontpicker__active {
+  @apply bg-popover text-popover-foreground shadow-md rounded-md border border-border p-1;
+}
+.fontpicker__option {
+  @apply bg-transparent;
+}
+.fontpicker__option.selected {
+  @apply bg-accent text-accent-foreground rounded-md;
+}
+.fontpicker__nomatches {
+  @apply text-foreground bg-transparent;
+}

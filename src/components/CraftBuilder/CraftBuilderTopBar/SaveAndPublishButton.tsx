@@ -3,18 +3,19 @@
 import { CheckIcon, LoaderCircle, SendIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCraftMutation } from "@/hooks/useCraftMutation";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import {
+  useEditCraftStore,
+  useEditCraftStoreTemporal,
+} from "@/hooks/useEditCraftStore";
 
 export function SaveAndPublishButton() {
-  const { editingVersion, dirty } = useEditCraftStore(
-    ({ editingVersion, dirty }) => ({
-      dirty,
-      editingVersion,
-    })
+  const dirty = useEditCraftStoreTemporal((s) => s.pastStates.length > 0);
+  const publishedAt = useEditCraftStore(
+    ({ editingVersion }) => editingVersion.publishedAt
   );
 
   const mutation = useCraftMutation(true);
-  const isPublished = Boolean(editingVersion?.publishedAt) && !dirty;
+  const isPublished = Boolean(publishedAt) && !dirty;
 
   return (
     <Button

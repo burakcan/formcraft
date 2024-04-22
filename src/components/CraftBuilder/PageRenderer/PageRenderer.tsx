@@ -2,8 +2,8 @@
 
 import "./style.css";
 import { motion } from "framer-motion";
+import FontPicker from "react-fontpicker-ts";
 import { pageDefinitions } from "@/lib/craftPageConfig";
-import { fonts } from "@/lib/fonts";
 import { MadeWithFormCraft } from "../PageAtoms/MadeWithFormCraft";
 import { PageLayout } from "./PageLayout";
 import { ThemeStyle } from "./ThemeStyle";
@@ -37,7 +37,6 @@ export function PageRenderer() {
         prose-p:m-0
         prose-headings:mb-4
         prose-headings:font-bold
-        ${fonts[theme.font].font.variable}
       `}
       style={{
         colorScheme: "dark",
@@ -47,6 +46,13 @@ export function PageRenderer() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
+      {"document" in global && (
+        <FontPicker
+          loaderOnly
+          loadFonts={[theme.titleFont, theme.descriptionFont]}
+          loadAllVariants
+        />
+      )}
       <ThemeStyle theme={theme} />
       <PageLayout theme={theme}>
         <pageDefinition.component

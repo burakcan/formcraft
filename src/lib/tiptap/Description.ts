@@ -7,6 +7,6 @@ export const Description = Paragraph.extend({
   parseHTML: () => [{ tag: "p" }],
 }).configure({
   HTMLAttributes: {
-    class: "text-craft-description font-craft",
+    class: "text-craft-description font-craft-description",
   },
 });

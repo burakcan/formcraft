@@ -42,8 +42,6 @@ const Component = () => {
     }
   };
 
-  console.log("selectedPage", selectedPage);
-
   return (
     <NodeViewWrapper
       className="media-node flex mb-2"

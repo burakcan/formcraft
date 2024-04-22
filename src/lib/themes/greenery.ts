@@ -3,7 +3,9 @@ import type { CraftTheme } from "../craftPageConfig/theming";
 export const greenery: CraftTheme = {
   id: "greenery",
   name: "Greenery",
-  font: "averia-serif-libre",
+  titleFont: "Averia Serif Libre",
+  descriptionFont: "Averia Serif Libre",
+  decorationImageLayout: "right-full",
   titleColor: "#0b6623",
   descriptionColor: "#000000",
   answersColor: "#0b6623",

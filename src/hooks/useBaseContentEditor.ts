@@ -33,9 +33,10 @@ export function useBaseContentEditor<T extends FormCraft.CraftPage>(
   useEffect(() => {
     if (!editor) return;
 
-    if (editor.isFocused) {
-      return;
-    }
+    const title = editor.$node("title")?.textContent || "";
+    const description = editor.$node("description")?.textContent || "";
+
+    if (page.title === title && page.description === description) return;
 
     editor.commands.setContent(`
       <h1>${page.title}</h1>

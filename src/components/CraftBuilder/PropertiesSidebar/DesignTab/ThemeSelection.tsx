@@ -36,6 +36,10 @@ export function ThemeSelection(props: Props) {
       return;
     }
 
+    if (selectedThemeId === themeId) {
+      return;
+    }
+
     onSelectTheme(themeId);
   };
 

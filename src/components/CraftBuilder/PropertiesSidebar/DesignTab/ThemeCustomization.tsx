@@ -1,3 +1,6 @@
+// eslint-disable-next-line sort/imports
+import "react-fontpicker-ts/dist/index.css";
+import "./fontpicker.css";
 import {
   AlignCenterIcon,
   AlignLeftIcon,
@@ -6,7 +9,7 @@ import {
   LayoutPanelLeftIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { fonts } from "@/lib/fonts";
+import FontPicker from "react-fontpicker-ts";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { ImageInput } from "../ImageInput";
 import { ColorInput } from "./ColorInput";
@@ -15,13 +18,6 @@ import { RevertModal } from "./RevertModal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useThemes } from "@/hooks/useThemes";
 
@@ -169,6 +165,103 @@ export function ThemeCustomization(props: Props) {
               })
             }
           />
+          <div className="flex flex-col gap-2">
+            <Label className="font-normal">Title Font</Label>
+            <FontPicker
+              defaultValue={theme.titleFont}
+              value={(value) => {
+                if (value === theme.titleFont) return;
+                editPage(selectedPage.id, {
+                  ...selectedPage,
+                  themeOverride: {
+                    ...overrides,
+                    titleFont: value,
+                  },
+                });
+              }}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="font-normal">Description Font</Label>
+            <FontPicker
+              defaultValue={theme.descriptionFont}
+              value={(value) => {
+                if (value === theme.descriptionFont) return;
+                editPage(selectedPage.id, {
+                  ...selectedPage,
+                  themeOverride: {
+                    ...overrides,
+                    descriptionFont: value,
+                  },
+                });
+              }}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <Label className="font-normal">Text size</Label>
+            <ToggleGroup
+              type="single"
+              size="sm"
+              value={theme.fontSize}
+              onValueChange={(value) => {
+                if (!value) return;
+                editPage(selectedPage.id, {
+                  ...selectedPage,
+                  themeOverride: {
+                    ...overrides,
+                    fontSize: value as "small" | "medium" | "large",
+                  },
+                });
+              }}
+            >
+              <ToggleGroupItem
+                value="small"
+                className=" text-xs font-mono font-bold"
+              >
+                SM
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="medium"
+                className=" text-xs font-mono font-bold"
+              >
+                MD
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="large"
+                className=" text-xs font-mono font-bold"
+              >
+                LG
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+          <div className="flex justify-between items-center">
+            <Label className="font-normal">Align</Label>
+            <ToggleGroup
+              type="single"
+              size="sm"
+              value={theme.textAlign}
+              onValueChange={(value) => {
+                if (!value) return;
+                editPage(selectedPage.id, {
+                  ...selectedPage,
+                  themeOverride: {
+                    ...overrides,
+                    textAlign: value as "left" | "center" | "right",
+                  },
+                });
+              }}
+            >
+              <ToggleGroupItem value="left">
+                <AlignLeftIcon className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="center">
+                <AlignCenterIcon className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem value="right">
+                <AlignRightIcon className="size-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
           <ImageInput
             label="Background image"
             value={theme.backgroundImage}
@@ -223,97 +316,6 @@ export function ThemeCustomization(props: Props) {
                 <LayoutPanelLeftIcon className="size-4 rotate-180" />
               </ToggleGroupItem>
             </ToggleGroup>
-          </div>
-          <div className="flex justify-between items-center">
-            <Label className="font-normal">Text size</Label>
-            <ToggleGroup
-              type="single"
-              size="sm"
-              value={theme.fontSize}
-              onValueChange={(value) => {
-                if (!value) return;
-                editPage(selectedPage.id, {
-                  ...selectedPage,
-                  themeOverride: {
-                    ...overrides,
-                    fontSize: value as "small" | "medium" | "large",
-                  },
-                });
-              }}
-            >
-              <ToggleGroupItem
-                value="small"
-                className=" text-xs font-mono font-bold"
-              >
-                SM
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="medium"
-                className=" text-xs font-mono font-bold"
-              >
-                MD
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="large"
-                className=" text-xs font-mono font-bold"
-              >
-                LG
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-          <div className="flex justify-between items-center">
-            <Label className="font-normal">Align text</Label>
-            <ToggleGroup
-              type="single"
-              size="sm"
-              value={theme.textAlign}
-              onValueChange={(value) => {
-                if (!value) return;
-                editPage(selectedPage.id, {
-                  ...selectedPage,
-                  themeOverride: {
-                    ...overrides,
-                    textAlign: value as "left" | "center" | "right",
-                  },
-                });
-              }}
-            >
-              <ToggleGroupItem value="left">
-                <AlignLeftIcon className="size-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="center">
-                <AlignCenterIcon className="size-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="right">
-                <AlignRightIcon className="size-4" />
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-          <div className="flex justify-between gap-4 items-center">
-            <Label className="font-normal">Font</Label>
-            <Select
-              value={theme.font}
-              onValueChange={(value) => {
-                editPage(selectedPage.id, {
-                  ...selectedPage,
-                  themeOverride: {
-                    ...overrides,
-                    font: value as keyof typeof fonts,
-                  },
-                });
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue>{fonts[theme.font].name}</SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {Object.values(fonts).map((font) => (
-                  <SelectItem value={font.id} key={font.id}>
-                    {font.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
         </div>
       </ScrollArea>

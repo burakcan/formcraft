@@ -18,11 +18,13 @@ export function LongTextRenderer(props: Props) {
   return (
     <PageWrapper>
       <BaseContent page={page} onChange={onChange} />
-      <Textarea
-        className="mt-4 text-xl h-44 border-b-4 border-craft-answers focus-visible:ring-craft-answers"
-        placeholder="Type your answer here..."
-      />
-      <div className="mt-2 w-full">
+      <div className="w-full px-2 pt-2">
+        <Textarea
+          className="text-xl h-44 border-b-4 border-craft-answers focus-visible:ring-craft-answers"
+          placeholder="Type your answer here..."
+        />
+      </div>
+      <div className="w-full p-2">
         <CtaButton page={page} onChange={onChange} icon={CheckIcon} />
         <span className="ml-2 text-sm whitespace-nowrap">
           or press <kbd>Meta</kbd> + <kbd>Enter</kbd>

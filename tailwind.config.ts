@@ -19,7 +19,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        craft: "var(--font-craft)",
+        "craft-title": "var(--craft-title-font)",
+        "craft-description": "var(--craft-description-font)",
       },
       fontSize: {
         craft: "var(--craft-font-size)",

@@ -16,7 +16,7 @@ export function StatementRenderer(props: Props) {
   return (
     <PageWrapper>
       <BaseContent page={page} onChange={onChange} />
-      <div className="w-full">
+      <div className="w-full p-2">
         <CtaButton page={page} onChange={onChange} />
       </div>
     </PageWrapper>
