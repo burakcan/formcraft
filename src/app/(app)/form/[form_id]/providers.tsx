@@ -2,9 +2,7 @@
 
 import type { PropsWithChildren } from "react";
 import { useEffect, useMemo, useRef } from "react";
-import type { StoreApi, UseBoundStore } from "zustand";
 import { useCraftQuery } from "@/hooks/useCraftQuery";
-import type { EditCraftStore } from "@/services/store/editCraftStore";
 import {
   EditCraftStoreContext,
   createEditCraftStore,
@@ -19,21 +17,22 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
       craft: queryData!.craft,
       editingVersion: queryData!.editingVersion,
       selectedPageId: queryData!.editingVersion?.data.pages[0].id,
-      dirty: false,
     }),
     [queryData]
   );
 
-  const storeRef = useRef<UseBoundStore<StoreApi<EditCraftStore>>>();
+  const storeRef = useRef<ReturnType<typeof createEditCraftStore>>();
 
   if (!storeRef.current) {
     storeRef.current = createEditCraftStore(serverStoreData);
   }
 
-  const store = storeRef.current;
-
   useEffect(() => {
-    store.setState((state) => {
+    if (!storeRef.current) {
+      return;
+    }
+
+    storeRef.current.setState((state) => {
       return {
         ...serverStoreData,
         selectedPageId:
@@ -41,10 +40,12 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
           serverStoreData.editingVersion.data.pages[0].id,
       };
     });
-  }, [serverStoreData, store]);
+
+    storeRef.current.temporal.getState().clear();
+  }, [serverStoreData]);
 
   return (
-    <EditCraftStoreContext.Provider value={store}>
+    <EditCraftStoreContext.Provider value={storeRef.current}>
       {props.children}
     </EditCraftStoreContext.Provider>
   );

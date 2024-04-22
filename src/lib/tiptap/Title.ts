@@ -7,6 +7,6 @@ export const Title = Heading.extend({
 }).configure({
   levels: [1],
   HTMLAttributes: {
-    class: "text-craft-title font-craft",
+    class: "text-craft-title font-craft-title",
   },
 });

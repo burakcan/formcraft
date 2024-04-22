@@ -18,7 +18,7 @@ export function PageNode(props: NodeProps<Data>) {
   }));
 
   if (!page || index === -1) {
-    throw new Error(`Page with id ${pageId} not found`);
+    return null;
   }
 
   const pageDefinition = pageDefinitions[page.type];

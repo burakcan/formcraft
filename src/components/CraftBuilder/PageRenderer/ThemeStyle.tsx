@@ -30,6 +30,8 @@ export function ThemeStyle(props: Props) {
               : "1.25rem"
           };
           --craft-text-align: ${theme.textAlign};
+          --craft-title-font: ${theme.titleFont};
+          --craft-description-font: ${theme.descriptionFont};
         }
     `;
 

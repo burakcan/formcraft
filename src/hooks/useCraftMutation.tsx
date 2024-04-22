@@ -7,11 +7,10 @@ import { useEditCraftStore } from "./useEditCraftStore";
 export function useCraftMutation(publish: boolean) {
   const queryClient = useQueryClient();
 
-  const { craft, editingVersion, dirty } = useEditCraftStore(
-    ({ craft, editingVersion, dirty }) => ({
+  const { craft, editingVersion } = useEditCraftStore(
+    ({ craft, editingVersion }) => ({
       craft,
       editingVersion,
-      dirty,
     })
   );
 
@@ -49,8 +48,7 @@ export function useCraftMutation(publish: boolean) {
   return useMemo(
     () => ({
       ...mutation,
-      dirty,
     }),
-    [mutation, dirty]
+    [mutation]
   );
 }

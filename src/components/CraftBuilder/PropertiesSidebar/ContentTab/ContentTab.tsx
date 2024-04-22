@@ -1,3 +1,4 @@
+import { ImageInput } from "../ImageInput";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -56,6 +57,17 @@ export function ContentTab(props: Props) {
             />
           </div>
         )}
+
+        <ImageInput
+          label="Logo"
+          value={selectedPage.logo}
+          onChange={(value) => {
+            editPage(selectedPage.id, {
+              ...selectedPage,
+              logo: value,
+            });
+          }}
+        />
       </div>
     </ScrollArea>
   );

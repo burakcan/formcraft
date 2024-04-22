@@ -3,7 +3,7 @@
 import "reactflow/dist/style.css";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { LayoutGridIcon } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type {
   Edge,
   Connection,
@@ -12,8 +12,6 @@ import type {
   EdgeChange,
 } from "reactflow";
 import ReactFlow, {
-  useNodesState,
-  useEdgesState,
   addEdge,
   Background,
   Controls,
@@ -34,16 +32,16 @@ export function FlowEditor() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [editorInstance, setEditorInstance] = useState<ReactFlowInstance>();
 
-  const { editingVersion, setFlow } = useEditCraftStore((s) => ({
-    editingVersion: s.editingVersion,
-    setFlow: s.setFlow,
-  }));
-
-  const initialNodes = editingVersion.data.flow.nodes;
-  const initialEdges = editingVersion.data.flow.edges;
-
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange } =
+    useEditCraftStore((s) => ({
+      editingVersion: s.editingVersion,
+      edges: s.editingVersion.data.flow.edges,
+      nodes: s.editingVersion.data.flow.nodes,
+      setEdges: s.setEdges,
+      setNodes: s.setNodes,
+      onNodesChange: s.onNodesChange,
+      onEdgesChange: s.onEdgesChange,
+    }));
 
   const onConnect = useCallback(
     (params: Edge | Connection) =>
@@ -55,12 +53,6 @@ export function FlowEditor() {
       ),
     [setEdges]
   );
-
-  useEffect(() => {
-    if (editorInstance) {
-      setFlow(editorInstance.toObject());
-    }
-  }, [editorInstance, nodes, edges, setFlow]);
 
   const onLayout = useFlowEditorAutoLayout(
     nodes,

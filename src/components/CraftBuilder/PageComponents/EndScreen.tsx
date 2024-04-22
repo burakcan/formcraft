@@ -16,7 +16,7 @@ export function EndScreenRenderer(props: Props) {
   return (
     <PageWrapper>
       <BaseContent page={page} onChange={onChange} />
-      <div className="w-full">
+      <div className="w-full p-2">
         {page.cta && <Button className="mt-2">{page.cta}</Button>}
       </div>
     </PageWrapper>

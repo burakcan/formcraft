@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { themeOverride } from "./theming";
 
+const logoImage = z.object({
+  url: z.string(),
+});
+
 const mediaImage = z.object({
   type: z.literal("image"),
   url: z.string(),
@@ -27,6 +31,10 @@ export const basePage = z.object({
   baseThemeId: z.string().default("default"),
   themeOverride: themeOverride.default({}),
   media: mediaImage.or(mediaYoutube).optional(),
+  logo: logoImage.optional(),
+  logoPosition: z
+    .enum(["top-left", "top-right", "bottom-left", "bottom-right"])
+    .default("top-left"),
 });
 
 export type BasePage = z.infer<typeof basePage>;

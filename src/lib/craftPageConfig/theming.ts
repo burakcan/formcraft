@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { fonts } from "../fonts";
 
 export const themeImage = z.object({
   url: z.string(),
@@ -15,9 +14,8 @@ export const themeImage = z.object({
 export const craftTheme = z.object({
   id: z.string(),
   name: z.string(),
-  font: z.enum(
-    Object.keys(fonts) as [keyof typeof fonts, ...(keyof typeof fonts)[]]
-  ),
+  titleFont: z.string().default("Inter"),
+  descriptionFont: z.string().default("Inter"),
   titleColor: z.string(),
   descriptionColor: z.string(),
   answersColor: z.string(),
