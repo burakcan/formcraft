@@ -12,6 +12,7 @@ import {
   updateEdge,
   type ReactFlowJsonObject,
 } from "reactflow";
+import type { TemporalState } from "zundo";
 import { temporal } from "zundo";
 import { create } from "zustand";
 import {
@@ -44,6 +45,9 @@ export type EditCraftStoreActions = {
 };
 
 export type EditCraftStore = EditCraftStoreState & EditCraftStoreActions;
+export type TemporalEditCraftStore = TemporalState<
+  Omit<EditCraftStoreState, "selectedPageId">
+>;
 
 const syncFlowOrderWithPages = (
   state: EditCraftStoreState,

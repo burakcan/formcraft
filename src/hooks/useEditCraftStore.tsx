@@ -1,8 +1,10 @@
 import { useContext } from "react";
-import type { TemporalState } from "zundo";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import type { EditCraftStore } from "@/services/store/editCraftStore";
+import type {
+  EditCraftStore,
+  TemporalEditCraftStore,
+} from "@/services/store/editCraftStore";
 import {
   EditCraftStoreContext,
   createEditCraftStore,
@@ -31,7 +33,7 @@ export const useEditCraftStore = <T,>(
 };
 
 export const useEditCraftStoreTemporal = <T,>(
-  selector: (store: TemporalState<EditCraftStore>) => T
+  selector: (store: TemporalEditCraftStore) => T
 ): T => {
   const counterStoreContext = useContext(EditCraftStoreContext);
 
@@ -39,5 +41,5 @@ export const useEditCraftStoreTemporal = <T,>(
     throw new Error(`useCounterStore must be use within CounterStoreProvider`);
   }
 
-  return useStore(counterStoreContext.temporal, useShallow(selector));
+  return useStore(counterStoreContext.temporal, selector);
 };

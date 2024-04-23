@@ -1,4 +1,7 @@
+import type { CraftVersion } from "@prisma/client";
+import { ReplaceAllIcon } from "lucide-react";
 import { ImageInput } from "../ImageInput";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -6,10 +9,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface Props {
   selectedPage: FormCraft.CraftPage;
   editPage: (id: string, page: FormCraft.CraftPage) => void;
+  editingVersion: CraftVersion;
 }
 
 export function ContentTab(props: Props) {
-  const { selectedPage, editPage } = props;
+  const { selectedPage, editPage, editingVersion } = props;
 
   return (
     <ScrollArea className="flex-1">
@@ -60,6 +64,7 @@ export function ContentTab(props: Props) {
 
         <ImageInput
           label="Logo"
+          defaultLibraryTab="upload"
           value={selectedPage.logo}
           onChange={(value) => {
             editPage(selectedPage.id, {
@@ -68,6 +73,27 @@ export function ContentTab(props: Props) {
             });
           }}
         />
+
+        <div className="flex-1 w-full">
+          <Button
+            className="w-full"
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              editingVersion.data.pages.forEach((page) => {
+                if (page.id !== selectedPage.id) {
+                  editPage(page.id, {
+                    ...page,
+                    logo: selectedPage.logo,
+                  });
+                }
+              });
+            }}
+          >
+            Apply logo to all pages
+            <ReplaceAllIcon className="size-4 ml-2" />
+          </Button>
+        </div>
       </div>
     </ScrollArea>
   );

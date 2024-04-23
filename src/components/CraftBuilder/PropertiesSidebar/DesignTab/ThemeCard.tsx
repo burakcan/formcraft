@@ -5,10 +5,10 @@ import {
   TrashIcon,
   WandIcon,
 } from "lucide-react";
-import Image from "next/image";
 import FontPicker from "react-fontpicker-ts";
 import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
+import { ThemeImage } from "../../PageRenderer/ThemeImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,17 +70,8 @@ export function ThemeCard(props: Props) {
           }
         )}
       >
-        {theme.backgroundImage?.url && (
-          <Image
-            unoptimized
-            style={{
-              objectFit: "cover",
-            }}
-            sizes="10vw"
-            fill
-            src={theme.backgroundImage.url}
-            alt="theme background"
-          />
+        {theme.backgroundImage && (
+          <ThemeImage imageObject={theme.backgroundImage} noAttribution />
         )}
         <div className="p-2 z-10 relative w-full">
           <h1

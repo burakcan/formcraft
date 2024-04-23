@@ -1,8 +1,8 @@
-import { ReplaceIcon, TrashIcon } from "lucide-react";
-import Image from "next/image";
+import { ReplaceAllIcon, ReplaceIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { ImageLibrary } from "../ImageLibrary/ImageLibrary";
+import { ThemeImage } from "../PageRenderer/ThemeImage";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,16 +11,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
 
 interface Props {
   label: string;
   value?: ThemeImageType;
   onChange: (backgroundImage?: ThemeImageType) => void;
+  onApplyToAll?: () => void;
+  defaultLibraryTab?: "unsplash" | "upload" | "library";
 }
 
 export function ImageInput(props: Props) {
-  const { value, onChange, label } = props;
+  const { value, onChange, label, onApplyToAll, defaultLibraryTab } = props;
   const [prevValue, setPrevValue] = useState(value);
   const [showLibrary, setShowLibrary] = useState(false);
 
@@ -40,15 +41,22 @@ export function ImageInput(props: Props) {
     setShowLibrary(false);
   };
 
-  const blurDataUrl = useBlurDataUrl(value?.blurHash || undefined);
+  const handleChange = (image?: ThemeImageType) => {
+    if (image) {
+      onChange(image);
+    } else {
+      onChange(prevValue);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2 items-start">
       <ImageLibrary
+        defaultTab={defaultLibraryTab}
         currentValue={value}
         open={showLibrary}
         onOpenChange={setShowLibrary}
-        onImageSelect={onChange}
+        onImageSelect={handleChange}
         onCancel={handleCancel}
         onSave={handleSave}
       />
@@ -64,21 +72,27 @@ export function ImageInput(props: Props) {
       )}
       {value && (
         <div className="w-full h-32 relative border rounded-md overflow-hidden">
-          <Image
-            suppressHydrationWarning
-            unoptimized
-            key={value.url}
-            placeholder={blurDataUrl ? "blur" : undefined}
-            blurDataURL={blurDataUrl}
-            src={value.url}
-            alt="background image"
-            style={{
-              objectFit: "cover",
-            }}
-            fill
-            sizes="20vw"
-          />
+          <ThemeImage imageObject={value} noAttribution />
           <div className="absolute top-2 right-2 flex gap-2">
+            {onApplyToAll && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      onClick={onApplyToAll}
+                      className="size-8"
+                      variant="secondary"
+                    >
+                      <ReplaceAllIcon className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Apply to all pages</span>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

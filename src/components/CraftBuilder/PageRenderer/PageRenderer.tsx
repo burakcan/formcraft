@@ -54,7 +54,7 @@ export function PageRenderer() {
         />
       )}
       <ThemeStyle theme={theme} />
-      <PageLayout theme={theme}>
+      <PageLayout theme={theme} page={selectedPage}>
         <pageDefinition.component
           page={selectedPage as never}
           onChange={editPage}

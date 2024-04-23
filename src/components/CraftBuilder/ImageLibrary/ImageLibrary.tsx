@@ -1,5 +1,7 @@
+import { Upload } from "lucide-react";
 import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { UnsplashTab } from "./UnsplashTab";
+import { UploadTab } from "./UploadTab";
 import {
   Sheet,
   SheetContent,
@@ -15,14 +17,16 @@ interface Props {
   onImageSelect: (image?: ThemeImageType) => void;
   onSave: () => void;
   onCancel: () => void;
+  defaultTab?: "unsplash" | "upload" | "library";
 }
 
 export function ImageLibrary(props: Props) {
-  const { open, onOpenChange, onImageSelect, onCancel, onSave } = props;
+  const { open, onOpenChange, onImageSelect, onCancel, onSave, defaultTab } =
+    props;
 
   return (
     <Sheet modal={false} open={open} onOpenChange={onOpenChange}>
-      <Tabs defaultValue="unsplash">
+      <Tabs defaultValue={defaultTab || "unsplash"}>
         <SheetContent side="right">
           <SheetHeader>
             <SheetTitle>
@@ -38,8 +42,21 @@ export function ImageLibrary(props: Props) {
               onCancel={onCancel}
               onSave={onSave}
             />
+
             <TabsContent value="upload" asChild>
-              <div>Upload</div>
+              <UploadTab
+                onCancel={onCancel}
+                onSave={onSave}
+                onImageSelect={onImageSelect}
+              />
+            </TabsContent>
+            <TabsContent value="library" asChild>
+              <div className="p-4">
+                <div className="flex items-center space-x-2">
+                  <Upload size={24} />
+                  <span className="text-sm">Upload from library</span>
+                </div>
+              </div>
             </TabsContent>
           </SheetHeader>
         </SheetContent>
