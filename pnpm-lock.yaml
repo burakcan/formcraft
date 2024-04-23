@@ -101,6 +101,18 @@ dependencies:
   date-fns:
     specifier: ^3.6.0
     version: 3.6.0
+  filepond:
+    specifier: ^4.31.1
+    version: 4.31.1
+  filepond-plugin-file-validate-type:
+    specifier: ^1.2.9
+    version: 1.2.9(filepond@4.31.1)
+  filepond-plugin-image-exif-orientation:
+    specifier: ^1.0.11
+    version: 1.0.11(filepond@4.31.1)
+  filepond-plugin-image-preview:
+    specifier: ^4.6.12
+    version: 4.6.12(filepond@4.31.1)
   framer-motion:
     specifier: ^11.0.28
     version: 11.0.28(react-dom@18.2.0)(react@18.2.0)
@@ -131,6 +143,9 @@ dependencies:
   react-dom:
     specifier: ^18
     version: 18.2.0(react@18.2.0)
+  react-filepond:
+    specifier: ^7.1.2
+    version: 7.1.2(filepond@4.31.1)(react-dom@18.2.0)(react@18.2.0)
   react-fontpicker-ts:
     specifier: ^0.3.1
     version: 0.3.1(react@18.2.0)
@@ -3854,6 +3869,34 @@ packages:
       flat-cache: 3.2.0
     dev: true
 
+  /filepond-plugin-file-validate-type@1.2.9(filepond@4.31.1):
+    resolution: {integrity: sha512-Tzv07aNdZvjUXDRA3XL16QMEvh6llDrXlcZ6W0eTHQ+taHaVg/JKJTFs/AViO+6ZcpPCcQStbhYEL2HoS+vldw==}
+    peerDependencies:
+      filepond: '>=1.x <5.x'
+    dependencies:
+      filepond: 4.31.1
+    dev: false
+
+  /filepond-plugin-image-exif-orientation@1.0.11(filepond@4.31.1):
+    resolution: {integrity: sha512-hLBc12Fk6Zkj3L8mSAn+elugHOqT5rLUbgVXQQIQjMe0FsGjtpoxqeVR6jt4IWHGat2L9sFAgU2TGmd1mqosCg==}
+    peerDependencies:
+      filepond: '>=3.x <5.x'
+    dependencies:
+      filepond: 4.31.1
+    dev: false
+
+  /filepond-plugin-image-preview@4.6.12(filepond@4.31.1):
+    resolution: {integrity: sha512-Y8ETX5QVV0mbPB0586UH8AUmG9tZg8PuN5bdEAIlZVJFTct5ebViJ7+Am94/VhTPjLqZjBf1zmDq5JU6XRsZKw==}
+    peerDependencies:
+      filepond: '>=4.x <5.x'
+    dependencies:
+      filepond: 4.31.1
+    dev: false
+
+  /filepond@4.31.1:
+    resolution: {integrity: sha512-yWYK91Ky72L2AG7BlI8Cb0UjvJz+DjuYdLN1JbkJg8qmoiZ9AU5b5MuOkHmExk/9jQ5R7tRT+H+b8wDiFEJlxQ==}
+    dev: false
+
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -5200,6 +5243,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-filepond@7.1.2(filepond@4.31.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-vrlx9o/n+jGikh6jLey+PpUGYtEZn8MdeB6JFeX/5/N/Mu75IHG+MFQbv8R27bNXvS41mDtV9Fo5DG+s6siVIA==}
+    peerDependencies:
+      filepond: '>=3.7.x < 5.x'
+      react: 16 - 18
+      react-dom: 16 - 18
+    dependencies:
+      filepond: 4.31.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-fontpicker-ts@0.3.1(react@18.2.0):

@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-export const themeImage = z.object({
+export const unsplashImage = z.object({
   url: z.string(),
+  source: z.literal("unsplash"),
   blurHash: z.string().optional().nullable(),
   attribution: z
     .object({
@@ -10,6 +11,18 @@ export const themeImage = z.object({
     })
     .optional(),
 });
+
+export const uploadedImage = z.object({
+  source: z.literal("upload"),
+  id: z.string(),
+});
+
+export const limboImage = z.object({
+  source: z.literal("limbo"),
+  url: z.string(),
+});
+
+export const themeImage = z.union([unsplashImage, uploadedImage, limboImage]);
 
 export const craftTheme = z.object({
   id: z.string(),

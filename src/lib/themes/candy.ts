@@ -11,6 +11,7 @@ export const candy: CraftTheme = {
   decorationImageLayout: "right-full",
   backgroundColor: "#ffffff",
   backgroundImage: {
+    source: "unsplash",
     url: "/theme-backgrounds/candy.jpg",
   },
   buttonColor: "#ff69b4",

@@ -11,6 +11,7 @@ export const greenery: CraftTheme = {
   answersColor: "#0b6623",
   backgroundColor: "#ffffff",
   backgroundImage: {
+    source: "unsplash",
     url: "/theme-backgrounds/greenery.jpg",
   },
   buttonColor: "#0b6623",

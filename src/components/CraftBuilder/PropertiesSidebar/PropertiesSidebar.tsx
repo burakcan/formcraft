@@ -33,7 +33,11 @@ export function PropertiesSidebar() {
           className="relative flex-1 m-0 h-[calc(100%-theme(spacing[10]))]"
         >
           <div className="relative flex flex-col m-0 h-full">
-            <ContentTab selectedPage={selectedPage} editPage={editPage} />
+            <ContentTab
+              selectedPage={selectedPage}
+              editPage={editPage}
+              editingVersion={editingVersion}
+            />
           </div>
         </TabsContent>
         <TabsContent

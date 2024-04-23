@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { debounce } from "lodash";
-import { CheckIcon, SearchIcon } from "lucide-react";
+import { CheckIcon, ImagesIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -95,6 +96,16 @@ export function UnsplashTab(props: Props) {
           </div>
         </div>
         <ScrollArea className="my-4 h-[calc(100vh-9rem)]">
+          {!loading && !searchResults && (
+            <Alert variant="default">
+              <ImagesIcon className="size-4" />
+              <AlertTitle>Search for images</AlertTitle>
+              <AlertDescription>
+                Start typing in the search bar to find images from Unsplash.
+                Images you select will be saved to your Library.
+              </AlertDescription>
+            </Alert>
+          )}
           {loading && (
             <div className="grid grid-cols-4 gap-2 py-4 px-1">
               {Array.from({ length: 16 }).map((_, index) => (
@@ -112,12 +123,15 @@ export function UnsplashTab(props: Props) {
                   className={cn(
                     "group relative h-32 overflow-hidden bg-gray-200 cursor-pointer rounded-md border",
                     {
-                      ["ring-2"]: currentValue?.url === photo.urls.full,
+                      ["ring-2"]:
+                        currentValue?.source === "unsplash" &&
+                        currentValue?.url === photo.urls.full,
                     }
                   )}
                   onClick={() =>
                     onImageSelect({
                       url: photo.urls.full,
+                      source: "unsplash",
                       blurHash: photo.blur_hash,
                       attribution: {
                         name: photo.user.name,

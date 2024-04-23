@@ -1,26 +1,7 @@
 import { z } from "zod";
-import { themeOverride } from "./theming";
+import { themeImage, themeOverride } from "./theming";
 
-const logoImage = z.object({
-  url: z.string(),
-});
-
-const mediaImage = z.object({
-  type: z.literal("image"),
-  url: z.string(),
-  blurHash: z.string().optional().nullable(),
-  attribution: z
-    .object({
-      name: z.string(),
-      url: z.string(),
-    })
-    .optional(),
-});
-
-const mediaYoutube = z.object({
-  type: z.literal("youtube"),
-  url: z.string(),
-});
+const logoImage = themeImage;
 
 export const basePage = z.object({
   _: z.literal("_bp_").default("_bp_"),
@@ -30,7 +11,6 @@ export const basePage = z.object({
   description: z.string().optional(),
   baseThemeId: z.string().default("default"),
   themeOverride: themeOverride.default({}),
-  media: mediaImage.or(mediaYoutube).optional(),
   logo: logoImage.optional(),
   logoPosition: z
     .enum(["top-left", "top-right", "bottom-left", "bottom-right"])
@@ -38,6 +18,3 @@ export const basePage = z.object({
 });
 
 export type BasePage = z.infer<typeof basePage>;
-export type MediaImage = z.infer<typeof mediaImage>;
-export type MediaYoutube = z.infer<typeof mediaYoutube>;
-export type PageMedia = MediaImage | MediaYoutube;

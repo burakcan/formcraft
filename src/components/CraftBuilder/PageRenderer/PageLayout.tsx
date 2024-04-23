@@ -6,10 +6,12 @@ import { ThemeImage } from "./ThemeImage";
 interface Props {
   theme: CraftTheme;
   children: ReactNode;
+  page: FormCraft.CraftPage;
 }
 
 export function PageLayout(props: Props) {
-  const { children, theme } = props;
+  const { children, theme, page } = props;
+  const { logo } = page;
 
   return (
     <div
@@ -25,15 +27,13 @@ export function PageLayout(props: Props) {
     >
       <div
         className={cn("flex-none relative", {
-          "w-2/3": theme.decorationImage?.url,
-          "w-full": !theme.decorationImage?.url,
+          "w-2/3": theme.decorationImage,
+          "w-full": !theme.decorationImage,
         })}
       >
-        {theme.backgroundImage?.url && (
+        {theme.backgroundImage && (
           <ThemeImage
-            url={theme.backgroundImage.url}
-            blurHash={theme.backgroundImage.blurHash}
-            attribution={theme.backgroundImage.attribution}
+            imageObject={theme.backgroundImage}
             attributionSide={
               theme.decorationImageLayout === "left-full" ? "right" : "left"
             }
@@ -42,15 +42,24 @@ export function PageLayout(props: Props) {
         <div className="absolute top-0 left-0 size-full">{children}</div>
       </div>
 
-      {theme.decorationImage?.url && (
+      {theme.decorationImage && (
         <div className="flex-none relative w-1/3">
           <ThemeImage
-            url={theme.decorationImage.url}
-            blurHash={theme.decorationImage.blurHash}
-            attribution={theme.decorationImage.attribution}
+            imageObject={theme.decorationImage}
             attributionSide={
               theme.decorationImageLayout === "left-full" ? "left" : "right"
             }
+          />
+        </div>
+      )}
+
+      {logo && (
+        <div className="w-16 h-16 absolute top-4 left-4">
+          <ThemeImage
+            imageObject={logo}
+            noAttribution
+            objectFit="contain"
+            noLoading
           />
         </div>
       )}
