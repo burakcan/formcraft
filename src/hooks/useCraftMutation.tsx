@@ -15,6 +15,7 @@ export function useCraftMutation(publish: boolean) {
   );
 
   const mutation = useMutation({
+    mutationKey: ["craft", craft.id],
     mutationFn: async () => {
       const response = await fetch(`/api/form/${craft.id}`, {
         method: "PUT",
