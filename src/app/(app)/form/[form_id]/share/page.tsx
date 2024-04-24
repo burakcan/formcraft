@@ -1,5 +1,6 @@
 import { LayoutWithTopbar } from "@/components/AppChrome";
 import { CraftBuilderTopBar } from "@/components/CraftBuilder";
+import { CraftShare } from "@/components/CraftShare";
 
 interface Props {
   params: {
@@ -14,7 +15,7 @@ export default async function CraftSharePage(props: Props) {
     <LayoutWithTopbar
       topBar={<CraftBuilderTopBar craft_id={form_id} activeTab="share" />}
     >
-      Share
+      <CraftShare />
     </LayoutWithTopbar>
   );
 }
