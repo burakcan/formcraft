@@ -1,4 +1,8 @@
-import type { EmailConnection, WebhookConnection } from "@prisma/client";
+import type {
+  EmailConnection,
+  GoogleSheetsConnection,
+  WebhookConnection,
+} from "@prisma/client";
 import type { QueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,6 +12,7 @@ export function useCraftConnectionsQuery(id: string) {
   return useQuery<{
     email: EmailConnection | null;
     webhook: WebhookConnection | null;
+    googleSheets: GoogleSheetsConnection | null;
   }>({
     refetchOnWindowFocus: false,
     refetchOnMount: true,
@@ -34,6 +39,7 @@ export function setCraftConnectionsQueryData(
   data: {
     email: EmailConnection | null;
     webhook: WebhookConnection | null;
+    googleSheets: GoogleSheetsConnection | null;
   }
 ) {
   queryClient.setQueryData([craftConnectionsQueryKey, id], data);
