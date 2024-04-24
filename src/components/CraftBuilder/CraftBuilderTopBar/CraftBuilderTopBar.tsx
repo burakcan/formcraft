@@ -1,4 +1,4 @@
-import { ArrowLeft, EyeIcon, LinkIcon } from "lucide-react";
+import { ArrowLeft, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar } from "./Avatar";
 import { CraftName } from "./CraftName";
@@ -12,10 +12,19 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface Props {
   craft_id: string;
   activeTab: "create" | "flow" | "connect" | "share" | "results";
+  hideUndoRedo?: boolean;
+  hidePreview?: boolean;
+  hideSave?: boolean;
 }
 
 export function CraftBuilderTopBar(props: Props) {
-  const { craft_id, activeTab } = props;
+  const {
+    craft_id,
+    activeTab,
+    hideUndoRedo = false,
+    hidePreview = false,
+    hideSave = false,
+  } = props;
 
   return (
     <TopBar className="flex items-center gap-2">
@@ -51,14 +60,13 @@ export function CraftBuilderTopBar(props: Props) {
       </div>
       <div className="flex-1" />
       <div className="flex gap-2 pr-4 justify-end">
-        <UndoRedo />
-        <Button size="icon" variant="outline">
-          <LinkIcon className="size-4" />
-        </Button>
-        <Button size="icon" variant="outline">
-          <EyeIcon className="size-4" />
-        </Button>
-        <SaveButton />
+        {!hideUndoRedo && <UndoRedo />}
+        {!hidePreview && (
+          <Button size="icon" variant="outline">
+            <EyeIcon className="size-4" />
+          </Button>
+        )}
+        {!hideSave && <SaveButton />}
         <SaveAndPublishButton />
       </div>
     </TopBar>

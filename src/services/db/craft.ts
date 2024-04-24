@@ -39,6 +39,7 @@ export async function getCraftAndEditingVersion(craft_id: string) {
   if (!authData || userId === null) {
     throw new Error(ErrorType.Unauthorized);
   }
+
   const [craft, editingVersion] = await db.$transaction([
     getCraft(craft_id, userId, orgId),
     getWorkingCraftVersion(craft_id, userId, orgId),
@@ -51,6 +52,46 @@ export async function getCraftAndEditingVersion(craft_id: string) {
   return {
     craft,
     editingVersion,
+  };
+}
+
+export async function getCraftConnections(craft_id: string) {
+  const authData = auth();
+  const { userId, orgId } = authData;
+
+  if (!authData || userId === null) {
+    throw new Error(ErrorType.Unauthorized);
+  }
+
+  const craftWithConnections = await db.craft.findFirst({
+    where: {
+      id: craft_id,
+      organizationId: orgId || undefined,
+      userId: !orgId ? userId : undefined,
+    },
+    include: {
+      emailConnection: {
+        select: {
+          email: true,
+          confirmedAt: true,
+        },
+      },
+      webhookConnection: {
+        select: {
+          url: true,
+          secret: true,
+        },
+      },
+    },
+  });
+
+  if (!craftWithConnections) {
+    throw new Error(ErrorType.Not_Found);
+  }
+
+  return {
+    email: craftWithConnections.emailConnection,
+    webhook: craftWithConnections.webhookConnection,
   };
 }
 

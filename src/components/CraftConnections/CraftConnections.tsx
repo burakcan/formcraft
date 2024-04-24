@@ -1,13 +1,9 @@
-import {
-  MailIcon,
-  MessageCircleQuestionIcon,
-  SheetIcon,
-  Webhook,
-} from "lucide-react";
+import { MessageCircleQuestionIcon, SheetIcon } from "lucide-react";
 import { FaSlack } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { ConnectionCard } from "./ConnectionCard";
+import { EmailCard } from "./EmailCard";
+import { WebhookCard } from "./WebhookCard";
 
 export function CraftConnections() {
   return (
@@ -18,36 +14,17 @@ export function CraftConnections() {
           Connect your form to your favorite apps and services.
         </p>
       </div>
-      <div className="max-w-screen-lg mx-auto grid grid-cols-2 gap-4 my-4 pb-24">
+      <div className="max-w-screen-lg mx-auto grid grid-cols-2 gap-2 my-4 pb-24">
+        <WebhookCard />
+        <EmailCard />
         <ConnectionCard
           title="Google Sheets"
-          description="Send submissions to a Google Sheet."
+          description="Save submissions to a Google Sheet."
           icon={SheetIcon}
           iconClassName="text-green-500"
         >
           <div className="flex justify-end">
             <Button>Authorize</Button>
-          </div>
-        </ConnectionCard>
-        <ConnectionCard
-          title="Webhook"
-          description="Send submissions to a webhook."
-          icon={Webhook}
-          iconClassName="text-blue-500"
-        >
-          <div className="flex justify-end">
-            <Button>Setup</Button>
-          </div>
-        </ConnectionCard>
-        <ConnectionCard
-          title="Email"
-          description="Send submissions to an email."
-          icon={MailIcon}
-          iconClassName="text-red-500"
-        >
-          <div className="flex gap-2">
-            <Input placeholder="Email address" type="email" />
-            <Button>Connect</Button>
           </div>
         </ConnectionCard>
         <ConnectionCard
