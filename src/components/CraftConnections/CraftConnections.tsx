@@ -1,8 +1,9 @@
-import { MessageCircleQuestionIcon, SheetIcon } from "lucide-react";
+import { MessageCircleQuestionIcon } from "lucide-react";
 import { FaSlack } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { ConnectionCard } from "./ConnectionCard";
 import { EmailCard } from "./EmailCard";
+import { GoogleSheetsCard } from "./GoogleSheetsCard";
 import { WebhookCard } from "./WebhookCard";
 
 export function CraftConnections() {
@@ -17,16 +18,7 @@ export function CraftConnections() {
       <div className="max-w-screen-lg mx-auto grid grid-cols-2 gap-2 my-4 pb-24">
         <WebhookCard />
         <EmailCard />
-        <ConnectionCard
-          title="Google Sheets"
-          description="Save submissions to a Google Sheet."
-          icon={SheetIcon}
-          iconClassName="text-green-500"
-        >
-          <div className="flex justify-end">
-            <Button>Authorize</Button>
-          </div>
-        </ConnectionCard>
+        <GoogleSheetsCard />
         <ConnectionCard
           title="Slack"
           description="Send submissions to a Slack channel."

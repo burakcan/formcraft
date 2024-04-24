@@ -42,10 +42,12 @@ model Craft {
   organizationId String?
   craftVersions  CraftVersion[]
 
-  webhookConnection   WebhookConnection? @relation(fields: [webhookConnectionId], references: [id])
-  emailConnection     EmailConnection?   @relation(fields: [emailConnectionId], references: [id])
-  webhookConnectionId String?
-  emailConnectionId   String?
+  webhookConnection        WebhookConnection?      @relation(fields: [webhookConnectionId], references: [id])
+  webhookConnectionId      String?
+  emailConnection          EmailConnection?        @relation(fields: [emailConnectionId], references: [id])
+  emailConnectionId        String?
+  googleSheetsConnection   GoogleSheetsConnection? @relation(fields: [googleSheetsConnectionId], references: [id])
+  googleSheetsConnectionId String?
 }
 
 model CraftVersion {
@@ -108,4 +110,18 @@ model EmailConnection {
   confirmedAt DateTime?
   email       String
   Craft       Craft[]
+}
+
+model GoogleSheetsConnection {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  sheetId       String
+  sheetUrl      String
+  access_token  String
+  refresh_token String
+  token_type    String
+  expiry_date   BigInt
+  scope         String
+  craft         Craft[]
 }

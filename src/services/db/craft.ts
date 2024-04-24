@@ -82,6 +82,12 @@ export async function getCraftConnections(craft_id: string) {
           secret: true,
         },
       },
+      googleSheetsConnection: {
+        select: {
+          sheetId: true,
+          sheetUrl: true,
+        },
+      },
     },
   });
 
@@ -92,6 +98,7 @@ export async function getCraftConnections(craft_id: string) {
   return {
     email: craftWithConnections.emailConnection,
     webhook: craftWithConnections.webhookConnection,
+    googleSheets: craftWithConnections.googleSheetsConnection,
   };
 }
 

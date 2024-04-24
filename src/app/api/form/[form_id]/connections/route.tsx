@@ -34,12 +34,18 @@ export async function PUT(
       throw new Error(ErrorType.Unauthorized);
     }
 
-    const { email, webhook } = (await req.json()) as {
+    const { email, webhook, googleSheets } = (await req.json()) as {
       email?: EmailConnection | null;
       webhook?: WebhookConnection | null;
+      googleSheets?: { sheetId: string; sheetUrl: string } | null;
     };
 
     const craft = await db.craft.update({
+      where: {
+        id: ctx.params.form_id,
+        organizationId: orgId || undefined,
+        userId: !orgId ? userId : undefined,
+      },
       include: {
         emailConnection: {
           select: {
@@ -53,18 +59,17 @@ export async function PUT(
             secret: true,
           },
         },
-      },
-      where: {
-        id: ctx.params.form_id,
-        organizationId: orgId || undefined,
-        userId: !orgId ? userId : undefined,
+        googleSheetsConnection: {
+          select: {
+            sheetId: true,
+            sheetUrl: true,
+          },
+        },
       },
       data: {
         emailConnection:
           email === null
-            ? {
-                delete: true,
-              }
+            ? { delete: true }
             : email === undefined
             ? {}
             : {
@@ -94,12 +99,24 @@ export async function PUT(
                   },
                 },
               },
+
+        googleSheetsConnection:
+          googleSheets === null
+            ? { delete: true }
+            : googleSheets === undefined
+            ? {}
+            : {
+                update: {
+                  sheetId: googleSheets.sheetId,
+                },
+              },
       },
     });
 
     return NextResponse.json({
       email: craft.emailConnection,
       webhook: craft.webhookConnection,
+      googleSheets: craft.googleSheetsConnection,
     });
   } catch (error) {
     return genericApiError(error);
