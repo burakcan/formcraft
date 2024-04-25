@@ -6,6 +6,7 @@ import { ErrorType } from "@/lib/errors";
 import { genericApiError } from "@/lib/utils";
 import db from "@/services/db";
 import { getCraftConnections } from "@/services/db/craft";
+import { emailConnectionConfirmation } from "@/services/email/emailConnectionConfirmation";
 
 export async function GET(
   req: NextRequest,
@@ -112,6 +113,22 @@ export async function PUT(
               },
       },
     });
+
+    if (email && !email.confirmedAt) {
+      const { confirmationCode } =
+        (await db.emailConnection.findFirst({
+          where: {
+            email: email.email,
+          },
+          select: {
+            confirmationCode: true,
+          },
+        })) || {};
+
+      if (confirmationCode) {
+        await emailConnectionConfirmation(email.email, confirmationCode, craft);
+      }
+    }
 
     return NextResponse.json({
       email: craft.emailConnection,
