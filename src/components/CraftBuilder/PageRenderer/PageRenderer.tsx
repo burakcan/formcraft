@@ -38,9 +38,6 @@ export function PageRenderer() {
         prose-headings:mb-4
         prose-headings:font-bold
       `}
-      style={{
-        colorScheme: "dark",
-      }}
       key={`${selectedPage.id}-${theme.id}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
