@@ -100,7 +100,7 @@ model WebhookConnection {
   updatedAt DateTime @updatedAt
   url       String
   secret    String   @default(cuid())
-  Craft     Craft[]
+  craft     Craft[]
 }
 
 model EmailConnection {
@@ -109,19 +109,30 @@ model EmailConnection {
   updatedAt   DateTime  @updatedAt
   confirmedAt DateTime?
   email       String
-  Craft       Craft[]
+  craft       Craft[]
 }
 
 model GoogleSheetsConnection {
-  id            String   @id @default(cuid())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  sheetId       String
-  sheetUrl      String
-  access_token  String
-  refresh_token String
-  token_type    String
-  expiry_date   BigInt
-  scope         String
-  craft         Craft[]
+  id                          String                    @id @default(cuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  sheetId                     String
+  sheetUrl                    String
+  connectionProblem           Boolean                   @default(false)
+  authorization               GoogleSheetsAuthorization @relation(fields: [googleSheetsAuthorizationId], references: [id])
+  googleSheetsAuthorizationId String
+  craft                       Craft[]
+}
+
+model GoogleSheetsAuthorization {
+  id                      String                   @id @default(cuid())
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  id_token                String
+  access_token            String
+  refresh_token           String
+  token_type              String
+  expiry_date             BigInt
+  scope                   String
+  googleSheetsConnections GoogleSheetsConnection[]
 }

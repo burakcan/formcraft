@@ -32,7 +32,11 @@ export async function GET(
 
     const url = oauth2Client.generateAuthUrl({
       access_type: "offline",
-      scope: ["https://www.googleapis.com/auth/spreadsheets"],
+      scope: [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "openid",
+      ],
       state: form_id,
     });
 
