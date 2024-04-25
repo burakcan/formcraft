@@ -103,7 +103,7 @@ export function EmailCard() {
             className="bg-secondary"
           />
           {connections.email.confirmedAt ? (
-            <CheckCircle2 className="text-emerald-500 size-6" />
+            <CheckCircle2 className="text-emerald-500 size-8" />
           ) : (
             <TooltipProvider>
               <Tooltip>

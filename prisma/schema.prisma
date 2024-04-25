@@ -104,12 +104,13 @@ model WebhookConnection {
 }
 
 model EmailConnection {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  confirmedAt DateTime?
-  email       String
-  craft       Craft[]
+  id               String    @id @default(cuid())
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  confirmedAt      DateTime?
+  email            String
+  craft            Craft[]
+  confirmationCode String    @default(nanoid(6))
 }
 
 model GoogleSheetsConnection {
