@@ -20,6 +20,10 @@ export default async function Page(props: {
     const authData = auth();
     const { userId, orgId } = authData;
 
+    console.log("authData", authData);
+    console.log("code", code);
+    console.log("state", state);
+
     if (!authData || userId === null) {
       throw new Error(ErrorType.Unauthorized);
     }
@@ -33,6 +37,8 @@ export default async function Page(props: {
     });
 
     const { tokens } = await ouath2Client.getToken(code);
+
+    console.log("tokens", tokens);
 
     if (!tokens || !tokens.access_token || !tokens.refresh_token) {
       throw new Error(ErrorType.Unauthorized);
@@ -52,6 +58,8 @@ export default async function Page(props: {
         },
       },
     });
+
+    console.log("sheet", sheet);
 
     if (!sheet.data.spreadsheetId) {
       throw new Error(ErrorType.Unauthorized);
