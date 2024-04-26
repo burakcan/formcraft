@@ -54,6 +54,7 @@ export function ThemeImage(props: Props) {
 
       <Image
         suppressHydrationWarning
+        key={url}
         onLoad={() => setLoading(false)}
         unoptimized
         placeholder={blurDataUrl ? "blur" : undefined}
@@ -63,12 +64,13 @@ export function ThemeImage(props: Props) {
         }}
         fill
         sizes="60vw"
-        src={url}
+        src={`${url}?auto=format,compress&&w=1920`}
         alt="theme image"
       />
 
       {imageObject.source === "upload" && blurImageUrl && loading && (
         <Image
+          key={blurImageUrl}
           suppressHydrationWarning
           unoptimized
           style={{

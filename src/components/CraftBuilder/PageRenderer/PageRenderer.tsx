@@ -3,10 +3,10 @@
 import "./style.css";
 import { motion } from "framer-motion";
 import FontPicker from "react-fontpicker-ts";
-import { pageDefinitions } from "@/lib/craftPageConfig";
-import { MadeWithFormCraft } from "../PageAtoms/MadeWithFormCraft";
 import { PageLayout } from "./PageLayout";
 import { ThemeStyle } from "./ThemeStyle";
+import { craftPageDefinitions } from "@/craftPages";
+import { MadeWithFormCraftEditor } from "@/craftPages/atoms/MadeWithFormcraft";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { usePageTheme } from "@/hooks/usePageTheme";
 
@@ -19,7 +19,8 @@ export function PageRenderer() {
     ),
   }));
 
-  const pageDefinition = selectedPage && pageDefinitions[selectedPage.type];
+  const pageDefinition =
+    selectedPage && craftPageDefinitions[selectedPage.type];
   const theme = usePageTheme(selectedPageId);
 
   if (!selectedPage || !pageDefinition) {
@@ -52,12 +53,12 @@ export function PageRenderer() {
       )}
       <ThemeStyle theme={theme} />
       <PageLayout theme={theme} page={selectedPage}>
-        <pageDefinition.component
+        <pageDefinition.editorComponent
           page={selectedPage as never}
           onChange={editPage}
         />
       </PageLayout>
-      <MadeWithFormCraft />
+      <MadeWithFormCraftEditor />
     </motion.div>
   );
 }

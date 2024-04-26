@@ -3,7 +3,6 @@
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { v4 as uuid } from "uuid";
-import { pageDefinitions } from "@/lib/craftPageConfig";
 import { splitContentAndEnding } from "@/lib/utils";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
@@ -14,6 +13,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
@@ -45,7 +45,7 @@ export function ContentSidebar() {
     const id = uuid();
 
     addPage(
-      pageDefinitions.end_screen.schema.parse({
+      craftPageDefinitions.end_screen.editorSchema.parse({
         id,
         type: "end_screen",
         title: "Thank you for completing the form!",

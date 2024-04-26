@@ -3,8 +3,8 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { v4 as uuid } from "uuid";
-import { pageDefinitions } from "@/lib/craftPageConfig";
 import { ErrorType } from "@/lib/errors";
+import { craftPageDefinitions } from "@/craftPages";
 import db from "@/services/db";
 
 export async function createCraft() {
@@ -14,14 +14,14 @@ export async function createCraft() {
     throw new Error(ErrorType.Unauthorized);
   }
 
-  const welcomePage = pageDefinitions.statement.schema.parse({
+  const welcomePage = craftPageDefinitions.statement.editorSchema.parse({
     id: uuid(),
     title: "Welcome to My Form",
     description: "This is a form created with FormCraft.",
     cta: "Let's get started!",
   });
 
-  const endScreen = pageDefinitions.end_screen.schema.parse({
+  const endScreen = craftPageDefinitions.end_screen.editorSchema.parse({
     id: uuid(),
     title: "Thank you for completing the form!",
     description: "Your responses have been submitted.",

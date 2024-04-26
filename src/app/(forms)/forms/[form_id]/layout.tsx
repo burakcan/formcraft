@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import ReactDOM from "react-dom";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,6 +15,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  ReactDOM.preconnect("https://fonts.gstatic.com");
+  ReactDOM.prefetchDNS("https://fonts.googleapis.com");
+
   return (
     <html lang="en">
       <body className={cn(inter.className, "bg-secondary")}>{children}</body>
