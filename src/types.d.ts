@@ -1,12 +1,12 @@
 import type { ReactFlowJsonObject } from "reactflow";
 import type { z } from "zod";
-import type { CraftTheme as _CraftTheme } from "@/lib/craftPageConfig/theming";
-import type { pageDefinitions } from "./lib/craftPageConfig";
+import type { craftPageDefinitions } from "./craftPages";
+import type { CraftTheme as _CraftTheme } from "@/craftPages/schemas/theming";
 
 declare global {
   namespace FormCraft {
     type CraftPage = z.infer<
-      (typeof pageDefinitions)[keyof typeof pageDefinitions]["schema"]
+      (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["editorSchema"]
     >;
 
     interface CraftVersionData {

@@ -5,7 +5,6 @@ import {
   TextCursorInputIcon,
 } from "lucide-react";
 import { v4 as uuid } from "uuid";
-import { pageDefinitions } from "@/lib/craftPageConfig";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface LibraryItemProps {
@@ -67,7 +67,7 @@ export function PageLibrary() {
     switch (type) {
       default:
         addPage(
-          pageDefinitions[type].schema.parse({
+          craftPageDefinitions[type].editorSchema.parse({
             ...common,
           })
         );
@@ -92,26 +92,26 @@ export function PageLibrary() {
           </SheetDescription>
           <div className="grid grid-cols-2 gap-2 mt-4">
             <LibraryItem
-              title={pageDefinitions["statement"].name}
-              description={pageDefinitions["statement"].description}
+              title={craftPageDefinitions["statement"].name}
+              description={craftPageDefinitions["statement"].description}
               onClick={() => handleAddPage("statement")}
               icon={<MegaphoneIcon className="size-4" />}
-              iconClassName={pageDefinitions["statement"].iconClassName}
+              iconClassName={craftPageDefinitions["statement"].iconClassName}
             />
             <div />
             <LibraryItem
-              title={pageDefinitions["short_text"].name}
-              description={pageDefinitions["short_text"].description}
+              title={craftPageDefinitions["short_text"].name}
+              description={craftPageDefinitions["short_text"].description}
               onClick={() => handleAddPage("short_text")}
               icon={<TextCursorInputIcon className="size-4" />}
-              iconClassName={pageDefinitions["short_text"].iconClassName}
+              iconClassName={craftPageDefinitions["short_text"].iconClassName}
             />
             <LibraryItem
-              title={pageDefinitions["long_text"].name}
-              description={pageDefinitions["long_text"].description}
+              title={craftPageDefinitions["long_text"].name}
+              description={craftPageDefinitions["long_text"].description}
               onClick={() => handleAddPage("long_text")}
               icon={<BookOpenTextIcon className="size-4" />}
-              iconClassName={pageDefinitions["long_text"].iconClassName}
+              iconClassName={craftPageDefinitions["long_text"].iconClassName}
             />
           </div>
         </SheetHeader>

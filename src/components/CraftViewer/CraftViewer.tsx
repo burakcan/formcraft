@@ -1,12 +1,13 @@
+/* eslint-disable @next/next/no-page-custom-font */
 "use client";
+
 import type { CraftVersion } from "@prisma/client";
 import { useMemo, useState } from "react";
-import FontPicker from "react-fontpicker-ts";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
-import { MadeWithFormCraft } from "../CraftBuilder/PageAtoms/MadeWithFormCraft";
-import { PageWrapper } from "../CraftBuilder/PageAtoms/PageWrapper";
 import { PageLayout } from "../CraftBuilder/PageRenderer/PageLayout";
 import { ThemeStyle } from "../CraftBuilder/PageRenderer/ThemeStyle";
+import { craftPageDefinitions } from "@/craftPages";
+import { MadeWithFormCraftViewer } from "@/craftPages/atoms/MadeWithFormcraft";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   version: CraftVersion;
@@ -37,6 +38,7 @@ export function CraftViewer(props: Props) {
     ...currentPageBaseTheme,
     ...currentPage.themeOverride,
   };
+  const pageDefinition = craftPageDefinitions[currentPage.type];
 
   return (
     <div
@@ -53,25 +55,21 @@ export function CraftViewer(props: Props) {
         prose-headings:font-bold
   `}
     >
-      {"document" in global && (
-        <FontPicker
-          loaderOnly
-          loadFonts={[theme.titleFont, theme.descriptionFont]}
-          loadAllVariants
-        />
-      )}
+      <link
+        href={`https://fonts.googleapis.com/css2?family=${theme.titleFont}&display=swap`}
+        rel="stylesheet"
+      />
+      <link
+        href={`https://fonts.googleapis.com/css2?family=${theme.descriptionFont}&display=swap`}
+        rel="stylesheet"
+      />
       <ThemeStyle theme={theme} />
       <PageLayout theme={theme} page={currentPage}>
-        <PageWrapper>
-          <h1 className="text-craft-title font-craft-title">
-            {currentPage.title}
-          </h1>
-          <p className="text-craft-description font-craft-description">
-            {currentPage.description}
-          </p>
-        </PageWrapper>
+        {"viewerComponent" in pageDefinition && (
+          <pageDefinition.viewerComponent page={currentPage as never} />
+        )}
       </PageLayout>
-      <MadeWithFormCraft />
+      <MadeWithFormCraftViewer />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { EndScreenRenderer } from "@/components/CraftBuilder/PageComponents/EndS
 import { LongTextRenderer } from "@/components/CraftBuilder/PageComponents/LongText";
 import { ShortTextRenderer } from "@/components/CraftBuilder/PageComponents/ShortText";
 import { StatementRenderer } from "@/components/CraftBuilder/PageComponents/Statement";
+import { StatementViewer } from "@/components/CraftViewer/PageComponents/Statement";
 
 export type { LongText } from "./longText";
 export type { ShortText } from "./shortText";
@@ -18,6 +19,7 @@ export const pageDefinitions = {
     name: "Statement",
     description: "A statement or question",
     component: StatementRenderer,
+    viewerComponent: StatementViewer,
     schema: statement,
     icon: Megaphone,
     iconClassName: "bg-rose-100",

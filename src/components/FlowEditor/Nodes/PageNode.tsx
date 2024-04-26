@@ -1,8 +1,8 @@
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
-import { pageDefinitions } from "@/lib/craftPageConfig";
 import { cn, findPageIndexes } from "@/lib/utils";
 import { SingleConnectionHandle } from "../Handles";
+import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface Data {
@@ -21,7 +21,7 @@ export function PageNode(props: NodeProps<Data>) {
     return null;
   }
 
-  const pageDefinition = pageDefinitions[page.type];
+  const pageDefinition = craftPageDefinitions[page.type];
 
   return (
     <>
