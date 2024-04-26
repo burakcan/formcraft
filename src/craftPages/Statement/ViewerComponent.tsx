@@ -13,9 +13,9 @@ export function StatementViewer(props: Props) {
   const { page } = props;
 
   return (
-    <PageWrapperViewer>
+    <PageWrapperViewer innerWrapperClassName="max-w-screen-md mx-auto">
       <BaseContentViewer page={page} />
-      <div className="w-full p-2">
+      <div className="w-full pt-2">
         <CtaButtonViewer page={page} />
       </div>
     </PageWrapperViewer>
