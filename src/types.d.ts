@@ -9,6 +9,10 @@ declare global {
       (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["editorSchema"]
     >;
 
+    type CraftAnswer = z.infer<
+      (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["viewerSchema"]
+    >;
+
     interface CraftVersionData {
       pages: CraftPage[];
       flow: ReactFlowJsonObject;

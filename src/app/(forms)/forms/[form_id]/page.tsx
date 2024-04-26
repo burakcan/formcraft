@@ -1,4 +1,5 @@
 import { builtinThemes } from "@/lib/themes";
+import { Providers } from "./providers";
 import { CraftViewer } from "@/components/CraftViewer";
 import db from "@/services/db";
 
@@ -11,19 +12,26 @@ interface Props {
 export default async function FormPage(props: Props) {
   const { form_id } = props.params;
 
-  const version = await db.craftVersion.findFirst({
-    orderBy: {
-      publishedAt: "desc",
-    },
-    where: {
-      craftId: form_id,
-      publishedAt: {
-        not: null,
+  const [craft, version] = await db.$transaction([
+    db.craft.findFirst({
+      where: {
+        id: form_id,
       },
-    },
-  });
+    }),
+    db.craftVersion.findFirst({
+      orderBy: {
+        publishedAt: "desc",
+      },
+      where: {
+        craftId: form_id,
+        publishedAt: {
+          not: null,
+        },
+      },
+    }),
+  ]);
 
-  if (!version) {
+  if (!version || !craft) {
     return <div>Form not found</div>;
   }
 
@@ -66,6 +74,14 @@ export default async function FormPage(props: Props) {
   };
 
   return (
-    <CraftViewer version={version} rootNodeId={rootNode.id} themes={themes} />
+    <Providers
+      craft={craft}
+      version={version}
+      themes={themes}
+      rootNodeId={rootNode.id}
+      rootPageId={rootNode.data.pageId}
+    >
+      <CraftViewer />
+    </Providers>
   );
 }

@@ -6,7 +6,7 @@ export const statementEditorSchema = basePage.extend({
   cta: z.string().default("Let's go!"),
 });
 
-export const statementViewerSchema = z.object({});
+export const statementViewerSchema = z.literal(true);
 
 export type Statement = z.infer<typeof statementEditorSchema>;
 

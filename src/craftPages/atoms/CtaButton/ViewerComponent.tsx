@@ -1,7 +1,8 @@
 import type { LucideIcon } from "lucide-react";
+import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 
-interface Props<T extends FormCraft.CraftPage> {
+interface Props<T extends FormCraft.CraftPage> extends ButtonProps {
   page: T;
   icon?: LucideIcon;
 }
@@ -9,12 +10,12 @@ interface Props<T extends FormCraft.CraftPage> {
 export function CtaButtonViewer<T extends FormCraft.CraftPage>(
   props: Props<T>
 ) {
-  const { page } = props;
+  const { page, icon: Icon, ...rest } = props;
 
   return (
-    <Button>
+    <Button {...rest}>
       {page.cta}
-      {props.icon && <props.icon className="ml-2 size-4" />}
+      {Icon && <Icon className="ml-2 size-4" />}
     </Button>
   );
 }

@@ -8,7 +8,7 @@ export function useLoadPageResources(
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const fonts = useMemo(
-    () => [theme.titleFont, theme.descriptionFont],
+    () => [theme.titleFont, theme.descriptionFont, "Inter"],
     [theme.titleFont, theme.descriptionFont]
   );
 

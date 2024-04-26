@@ -11,11 +11,11 @@ import {
 import { ConditionEditor } from "../../ConditionEditor";
 import { ConditionItem } from "../../ConditionItem";
 
-interface Data {
+export interface BranchingNodeData {
   conditions: FormCraft.BranchingCondition[];
 }
 
-export function BranchingNode(props: NodeProps<Data>) {
+export function BranchingNode(props: NodeProps<BranchingNodeData>) {
   const { data, id } = props;
   const { conditions = [] } = data;
   const updateNodeInternals = useUpdateNodeInternals();
@@ -57,7 +57,7 @@ export function BranchingNode(props: NodeProps<Data>) {
 
     flow.setNodes((nodes) => {
       const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
+        | Node<BranchingNodeData>
         | undefined;
 
       if (node) {
@@ -87,7 +87,7 @@ export function BranchingNode(props: NodeProps<Data>) {
   ) => {
     flow.setNodes((nodes) => {
       const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
+        | Node<BranchingNodeData>
         | undefined;
 
       if (node) {
@@ -117,7 +117,7 @@ export function BranchingNode(props: NodeProps<Data>) {
   ) => {
     flow.setNodes((nodes) => {
       const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
+        | Node<BranchingNodeData>
         | undefined;
 
       if (node) {

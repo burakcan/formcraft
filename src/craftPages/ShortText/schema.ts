@@ -8,7 +8,7 @@ export const shortTextEditorSchema = basePage.extend({
   required: z.boolean().optional(),
 });
 
-export const shortTextViewerSchema = z.object({});
+export const shortTextViewerSchema = z.string();
 
 export type ShortText = z.infer<typeof shortTextEditorSchema>;
 
