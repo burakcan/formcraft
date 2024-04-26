@@ -1,5 +1,4 @@
 import { Upload } from "lucide-react";
-import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { UnsplashTab } from "./UnsplashTab";
 import { UploadTab } from "./UploadTab";
 import {
@@ -9,6 +8,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props {
   open: boolean;

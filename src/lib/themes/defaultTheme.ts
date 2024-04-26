@@ -1,4 +1,4 @@
-import type { CraftTheme } from "../craftPageConfig/theming";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export const defaultTheme: CraftTheme = {
   id: "default",

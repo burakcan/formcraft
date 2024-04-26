@@ -8,9 +8,9 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import { CheckIcon, ImagesIcon } from "lucide-react";
 import { forwardRef, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
-import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
