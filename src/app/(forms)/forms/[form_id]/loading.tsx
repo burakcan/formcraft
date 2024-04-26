@@ -1,9 +1,5 @@
-import { BarLoader } from "@/components/BarLoader";
+import { FullPageLoading } from "@/components/FullPageLoading";
 
 export default function Loading() {
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <BarLoader />
-    </div>
-  );
+  return <FullPageLoading visible />;
 }
