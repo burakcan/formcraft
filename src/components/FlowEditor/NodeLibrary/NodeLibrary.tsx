@@ -1,7 +1,12 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { AmpersandIcon, GitBranchIcon, SlashIcon } from "lucide-react";
+import {
+  AmpersandIcon,
+  GitBranchIcon,
+  SlashIcon,
+  VariableIcon,
+} from "lucide-react";
 
 const LibraryItem = (props: {
   onDragStart: (
@@ -67,6 +72,13 @@ export function NodeLibrary() {
         nodeType="or"
         Icon={SlashIcon}
         title="OR"
+      />
+
+      <LibraryItem
+        onDragStart={onDragStart}
+        nodeType="setVariable"
+        Icon={VariableIcon}
+        title="Set Variable"
       />
     </div>
   );

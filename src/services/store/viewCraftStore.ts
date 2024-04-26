@@ -12,7 +12,7 @@ export type ViewCraftStoreState = {
   rootNodeId: string;
   currentNodeId: string;
   currentPageId: string;
-  variables: Record<string, string>;
+  variables: Record<string, FormCraft.CraftAnswer>;
   answers: Record<
     string,
     {
