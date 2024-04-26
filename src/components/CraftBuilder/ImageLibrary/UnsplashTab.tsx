@@ -2,7 +2,6 @@
 import { debounce } from "lodash";
 import { CheckIcon, ImagesIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/pagination";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TabsContent } from "@/components/ui/tabs";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 import { unsplash } from "@/services/unsplash";
 
 type SearchResults = Awaited<

@@ -1,9 +1,9 @@
 import "server-only";
 import { auth } from "@clerk/nextjs";
 import { v4 as uuid } from "uuid";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { ErrorType } from "@/lib/errors";
 import db from ".";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export async function getCustomThemes() {
   const authData = auth();

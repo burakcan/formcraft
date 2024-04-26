@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
 import { ThemeImage } from "./ThemeImage";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   theme: CraftTheme;

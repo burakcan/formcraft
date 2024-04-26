@@ -1,9 +1,9 @@
 "use client";
 
-import type { Statement } from "@/lib/craftPageConfig";
 import { BaseContentViewer } from "../atoms/BaseContent";
 import { CtaButtonViewer } from "../atoms/CtaButton";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
+import type { Statement } from "./schema";
 
 interface Props {
   page: Statement;

@@ -1,6 +1,5 @@
 import { ReplaceAllIcon, ReplaceIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
-import type { ThemeImageType } from "@/lib/craftPageConfig/theming";
 import { ImageLibrary } from "../ImageLibrary/ImageLibrary";
 import { ThemeImage } from "../PageRenderer/ThemeImage";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props {
   label: string;

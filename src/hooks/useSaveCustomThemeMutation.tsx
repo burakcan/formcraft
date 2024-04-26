@@ -1,7 +1,7 @@
 import type { CustomTheme } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { addCustomThemeToQuery } from "./useCustomThemesQuery";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export function useSaveCustomThemeMutation() {
   const queryClient = useQueryClient();

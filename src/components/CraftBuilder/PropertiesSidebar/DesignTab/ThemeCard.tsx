@@ -6,7 +6,6 @@ import {
   WandIcon,
 } from "lucide-react";
 import FontPicker from "react-fontpicker-ts";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { cn } from "@/lib/utils";
 import { ThemeImage } from "../../PageRenderer/ThemeImage";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   theme: CraftTheme;

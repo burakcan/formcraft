@@ -1,8 +1,8 @@
 import type { CustomTheme } from "@prisma/client";
 import { useMemo } from "react";
-import type { CraftTheme } from "@/lib/craftPageConfig/theming";
 import { builtinThemes } from "@/lib/themes";
 import { useCustomThemesQuery } from "./useCustomThemesQuery";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 const emptyArr: CustomTheme[] = [];
 
