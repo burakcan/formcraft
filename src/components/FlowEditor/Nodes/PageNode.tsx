@@ -5,11 +5,11 @@ import { SingleConnectionHandle } from "../Handles";
 import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
-interface Data {
+export interface PageNodeData {
   pageId: FormCraft.CraftPage["id"];
 }
 
-export function PageNode(props: NodeProps<Data>) {
+export function PageNode(props: NodeProps<PageNodeData>) {
   const { pageId } = props.data;
 
   const { page, index, indexInEndings } = useEditCraftStore((s) => ({

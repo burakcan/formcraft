@@ -4,6 +4,7 @@ import { BaseContentViewer } from "../atoms/BaseContent";
 import { CtaButtonViewer } from "../atoms/CtaButton";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
 import type { Statement } from "./schema";
+import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 interface Props {
   page: Statement;
@@ -11,12 +12,13 @@ interface Props {
 
 export function StatementViewer(props: Props) {
   const { page } = props;
+  const onAnswer = useViewCraftStore((s) => s.onAnswer);
 
   return (
     <PageWrapperViewer innerWrapperClassName="max-w-screen-md mx-auto">
       <BaseContentViewer page={page} />
       <div className="w-full pt-2">
-        <CtaButtonViewer page={page} />
+        <CtaButtonViewer page={page} onClick={() => onAnswer(page.id, true)} />
       </div>
     </PageWrapperViewer>
   );
