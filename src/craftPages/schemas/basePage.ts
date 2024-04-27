@@ -9,6 +9,7 @@ export const basePage = z.object({
   id: z.string(),
   title: z.string().default("Untitled Page").optional(),
   description: z.string().optional(),
+  variableName: z.string().optional(),
   baseThemeId: z.string().default("default"),
   themeOverride: themeOverride.default({}),
   logo: logoImage.optional(),

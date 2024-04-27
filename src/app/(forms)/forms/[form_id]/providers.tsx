@@ -32,6 +32,7 @@ export function Providers(props: PropsWithChildren<Props>) {
       currentPageId: rootPageId,
       variables: {},
       answers: {},
+      lastPageChangeReason: "init",
     });
   }
 

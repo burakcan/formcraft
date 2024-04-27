@@ -12,6 +12,7 @@ export type ViewCraftStoreState = {
   rootNodeId: string;
   currentNodeId: string;
   currentPageId: string;
+  lastPageChangeReason: "answer" | "prev" | "jump" | "init";
   variables: Record<string, FormCraft.CraftAnswer>;
   answers: Record<
     string,
@@ -36,10 +37,15 @@ export const createViewCraftStore = (initialData: ViewCraftStoreState) => {
       onAnswer: (pageId, answer, meta) => {
         set((state) =>
           produce(state, (draft) => {
+            const page = state.version.data.pages.find((p) => p.id === pageId);
+
             draft.answers[pageId] = {
               value: answer,
               meta: meta || {},
             };
+
+            draft.variables[page?.variableName || ""] = answer;
+            draft.lastPageChangeReason = "answer";
 
             runFlow(answer, state, draft);
           })
