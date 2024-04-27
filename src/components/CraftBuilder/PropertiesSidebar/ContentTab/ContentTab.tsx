@@ -46,6 +46,20 @@ export function ContentTab(props: Props) {
           />
         </div>
 
+        <div>
+          <Label htmlFor="variableName">Variable name</Label>
+          <Input
+            name="variableName"
+            value={selectedPage.variableName || ""}
+            onChange={(e) => {
+              editPage(selectedPage.id, {
+                ...selectedPage,
+                variableName: e.target.value,
+              });
+            }}
+          />
+        </div>
+
         {"cta" in selectedPage && (
           <div>
             <Label htmlFor="cta">Button text</Label>

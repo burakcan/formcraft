@@ -51,6 +51,7 @@ export function ShortTextViewer(props: Props) {
                   <>
                     <Input
                       {...field}
+                      autoFocus
                       className={cn(
                         "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers",
                         { "border-destructive": fieldState.error }
