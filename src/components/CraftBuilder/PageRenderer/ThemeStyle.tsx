@@ -3,14 +3,15 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   theme: CraftTheme;
+  pageId?: string;
 }
 
 export function ThemeStyle(props: Props) {
-  const { theme } = props;
+  const { theme, pageId } = props;
 
   const styleContent = useMemo(
     () => `
-  .craft-renderer {
+  .craft-renderer${pageId ? `#${pageId}` : ""} {
     --craft-background: ${theme.backgroundColor};
     --craft-title: ${theme.titleColor};
     --craft-description: ${theme.descriptionColor};
@@ -28,7 +29,7 @@ export function ThemeStyle(props: Props) {
     --craft-title-font: ${theme.titleFont};
     --craft-description-font: ${theme.descriptionFont};
   }`,
-    [theme]
+    [theme, pageId]
   );
 
   return (

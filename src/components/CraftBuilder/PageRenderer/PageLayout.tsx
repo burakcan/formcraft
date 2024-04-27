@@ -1,16 +1,19 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { BackgroundImage } from "./BackgroundImage";
+import { DecorationImage } from "./DecorationImage";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
+  disableTransitions?: boolean;
   theme: CraftTheme;
   children: ReactNode;
   page: FormCraft.CraftPage;
 }
 
 export function PageLayout(props: Props) {
-  const { children, theme, page } = props;
+  const { children, theme, disableTransitions, page } = props;
   const { logo } = page;
 
   return (
@@ -26,31 +29,27 @@ export function PageLayout(props: Props) {
       )}
     >
       <div
-        className={cn("flex-none relative", {
-          "w-2/3": theme.decorationImage,
-          "w-full": !theme.decorationImage,
-        })}
-      >
-        {theme.backgroundImage && (
-          <ThemeImage
-            imageObject={theme.backgroundImage}
-            attributionSide={
-              theme.decorationImageLayout === "left-full" ? "right" : "left"
-            }
-          />
+        className={cn(
+          "flex-none relative transition-colors duration-500 bg-craft-background",
+          {
+            "w-2/3": theme.decorationImage,
+            "w-full": !theme.decorationImage,
+          }
         )}
+      >
+        <BackgroundImage
+          theme={theme}
+          disableTransitions={disableTransitions}
+        />
         <div className="absolute top-0 left-0 size-full">{children}</div>
       </div>
 
       {theme.decorationImage && (
-        <div className="flex-none relative w-1/3">
-          <ThemeImage
-            imageObject={theme.decorationImage}
-            attributionSide={
-              theme.decorationImageLayout === "left-full" ? "left" : "right"
-            }
-          />
-        </div>
+        <DecorationImage
+          disableTransitions={disableTransitions}
+          theme={theme}
+          layout="left-full"
+        />
       )}
 
       {logo && (
