@@ -270,7 +270,7 @@ export function ThemeCustomization(props: Props) {
                 ...selectedPage,
                 themeOverride: {
                   ...overrides,
-                  backgroundImage: value,
+                  backgroundImage: value || null,
                 },
               });
             }}
@@ -283,7 +283,7 @@ export function ThemeCustomization(props: Props) {
                 ...selectedPage,
                 themeOverride: {
                   ...overrides,
-                  decorationImage: value,
+                  decorationImage: value || null,
                   decorationImageLayout:
                     selectedPage.themeOverride.decorationImageLayout ||
                     "left-full",

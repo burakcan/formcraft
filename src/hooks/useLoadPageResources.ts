@@ -48,10 +48,14 @@ export function useLoadPageResources(
         const src =
           imgObject?.source === "upload"
             ? `https://imagedelivery.net/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${imgObject.id}/public`
-            : imgObject.url;
+            : imgObject?.url;
+
+        if (!src) {
+          return resolve(void 0);
+        }
 
         const image = new Image();
-        image.onload = resolve;
+        image.onload = () => resolve(void 0);
         image.onerror = reject;
         image.src = src;
       });

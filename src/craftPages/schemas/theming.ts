@@ -22,7 +22,9 @@ export const limboImage = z.object({
   url: z.string(),
 });
 
-export const themeImage = z.union([unsplashImage, uploadedImage, limboImage]);
+export const themeImage = z
+  .union([unsplashImage, uploadedImage, limboImage])
+  .nullable();
 
 export const craftTheme = z.object({
   id: z.string(),

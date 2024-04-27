@@ -52,7 +52,7 @@ export function PageRenderer() {
         />
       )}
       <ThemeStyle theme={theme} />
-      <PageLayout theme={theme} page={selectedPage}>
+      <PageLayout theme={theme} page={selectedPage} disableTransitions>
         <pageDefinition.editorComponent
           page={selectedPage as never}
           onChange={editPage}

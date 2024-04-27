@@ -6,7 +6,7 @@ import type { ThemeImageType } from "@/craftPages/schemas/theming";
 import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
 
 interface Props {
-  imageObject: ThemeImageType;
+  imageObject: Exclude<ThemeImageType, null>;
   attributionSide?: "left" | "right";
   noAttribution?: boolean;
   objectFit?: "cover" | "contain";
