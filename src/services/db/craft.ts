@@ -115,6 +115,9 @@ export async function getCraftsListing() {
       organizationId: orgId || undefined,
       userId: !orgId ? userId : undefined,
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
 
   return {

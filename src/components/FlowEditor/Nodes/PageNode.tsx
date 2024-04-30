@@ -45,7 +45,11 @@ export function PageNode(props: NodeProps<PageNodeData>) {
           height: "10px",
         }}
       />
-      <div className="w-48 bg-background shadow-md rounded-md p-2 flex gap-2 items-center">
+      <div
+        className={cn(
+          "w-48 bg-background shadow-md rounded-md p-2 flex gap-2 items-center"
+        )}
+      >
         <div
           className={cn(
             "size-8 flex-none rounded flex items-center justify-center",

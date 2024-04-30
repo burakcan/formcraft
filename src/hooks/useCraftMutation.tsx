@@ -4,7 +4,7 @@ import { setCraftQueryData } from "./useCraftQuery";
 import { invalidateCraftsListingQuery } from "./useCraftsListingQuery";
 import { useEditCraftStore } from "./useEditCraftStore";
 
-export function useCraftMutation(publish: boolean) {
+export function useCraftMutation() {
   const queryClient = useQueryClient();
 
   const { craft, editingVersion } = useEditCraftStore(
@@ -16,7 +16,7 @@ export function useCraftMutation(publish: boolean) {
 
   const mutation = useMutation({
     mutationKey: ["craft", craft.id],
-    mutationFn: async () => {
+    mutationFn: async (publish: boolean) => {
       const response = await fetch(`/api/form/${craft.id}`, {
         method: "PUT",
         body: JSON.stringify({

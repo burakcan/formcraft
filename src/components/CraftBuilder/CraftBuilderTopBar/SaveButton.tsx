@@ -7,14 +7,14 @@ import { useEditCraftStoreTemporal } from "@/hooks/useEditCraftStore";
 
 export function SaveButton() {
   const dirty = useEditCraftStoreTemporal((s) => s.pastStates.length > 0);
-  const mutation = useCraftMutation(false);
+  const mutation = useCraftMutation();
 
   return (
     <Button
       size="icon"
       variant="secondary"
       className=" disabled:bg-background disabled:border disabled:text-foreground bg-emerald-500 hover:bg-emerald-600 text-white"
-      onClick={() => mutation.mutate()}
+      onClick={() => mutation.mutate(false)}
       disabled={!dirty}
     >
       {mutation.status === "success" && !dirty ? (

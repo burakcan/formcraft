@@ -14,13 +14,13 @@ export function SaveAndPublishButton() {
     ({ editingVersion }) => editingVersion.publishedAt
   );
 
-  const mutation = useCraftMutation(true);
+  const mutation = useCraftMutation();
   const isPublished = Boolean(publishedAt) && !dirty;
 
   return (
     <Button
       type="submit"
-      onClick={() => mutation.mutate()}
+      onClick={() => mutation.mutate(true)}
       disabled={isPublished}
     >
       {isPublished ? "Published" : "Publish"}
