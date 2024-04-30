@@ -1,4 +1,3 @@
-import {} from "@/components/ui/dialog";
 import { GitBranchIcon } from "lucide-react";
 import { useEffect } from "react";
 import type { Node, NodeProps } from "reactflow";
@@ -10,6 +9,7 @@ import {
 } from "reactflow";
 import { ConditionEditor } from "../../ConditionEditor";
 import { ConditionItem } from "../../ConditionItem";
+import { NodeRemoveButton } from "../../NodeRemoveButton";
 
 export interface BranchingNodeData {
   conditions: FormCraft.BranchingCondition[];
@@ -167,7 +167,8 @@ export function BranchingNode(props: NodeProps<BranchingNodeData>) {
           height: "10px",
         }}
       />
-      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2">
+      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2 group">
+        <NodeRemoveButton flow={flow} node={props} />
         <div className="flex gap-2 items-center">
           <div className="size-8 flex-none rounded flex items-center justify-center bg-black text-white">
             <GitBranchIcon className="size-4" />

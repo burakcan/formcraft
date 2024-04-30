@@ -1,10 +1,12 @@
 import type { CraftVersion } from "@prisma/client";
-import { ReplaceAllIcon } from "lucide-react";
+import { CheckCircle2, ReplaceAllIcon } from "lucide-react";
+import { toast } from "sonner";
 import { ImageInput } from "../ImageInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface Props {
   selectedPage: FormCraft.CraftPage;
@@ -13,7 +15,11 @@ interface Props {
 }
 
 export function ContentTab(props: Props) {
-  const { selectedPage, editPage, editingVersion } = props;
+  const { applyLogoToAll } = useEditCraftStore((s) => ({
+    applyLogoToAll: s.applyLogoToAll,
+  }));
+
+  const { selectedPage, editPage } = props;
 
   return (
     <ScrollArea className="flex-1">
@@ -94,13 +100,10 @@ export function ContentTab(props: Props) {
             variant="outline"
             size="sm"
             onClick={() => {
-              editingVersion.data.pages.forEach((page) => {
-                if (page.id !== selectedPage.id) {
-                  editPage(page.id, {
-                    ...page,
-                    logo: selectedPage.logo,
-                  });
-                }
+              applyLogoToAll(selectedPage.logo);
+              toast.success("Logo applied to all pages", {
+                icon: <CheckCircle2 />,
+                description: "This logo will be the default for new pages.",
               });
             }}
           >

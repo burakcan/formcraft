@@ -2,6 +2,7 @@ import { VariableIcon } from "lucide-react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position, useReactFlow } from "reactflow";
 import { SingleConnectionHandle } from "../../Handles";
+import { NodeRemoveButton } from "../../NodeRemoveButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -56,7 +57,8 @@ export function SetVariableNode(props: NodeProps<SetVariableNodeData>) {
           height: "10px",
         }}
       />
-      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2">
+      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2 group">
+        <NodeRemoveButton flow={flow} node={props} />
         <div className="flex gap-2 items-center">
           <div className="size-8 flex-none rounded flex items-center justify-center bg-black text-white">
             <VariableIcon className="size-4" />

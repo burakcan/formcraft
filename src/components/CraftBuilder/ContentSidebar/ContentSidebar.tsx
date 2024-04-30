@@ -24,8 +24,12 @@ export function ContentSidebar() {
     selectedPageId,
     onReorder,
     addPage,
+    defaultThemeForNewPages,
+    defaultLogoForNewPages,
   } = useEditCraftStore((s) => ({
     addPage: s.addPage,
+    defaultThemeForNewPages: s.defaultThemeForNewPages,
+    defaultLogoForNewPages: s.defaultLogoForNewPages,
     editingVersion: s.editingVersion,
     setSelectedPage: s.setSelectedPage,
     removePage: s.removePage,
@@ -50,6 +54,8 @@ export function ContentSidebar() {
         type: "end_screen",
         title: "Thank you for completing the form!",
         description: "Your responses have been submitted.",
+        baseThemeId: defaultThemeForNewPages,
+        logo: defaultLogoForNewPages,
       })
     );
 

@@ -184,7 +184,6 @@ export const UploadTab = forwardRef<HTMLDivElement, Props>(
           <AlertTitle>Upload image</AlertTitle>
           <AlertDescription>
             Maximum file size is 10MB. Allowed file types are JPG, PNG, and GIF.
-            Images you upload will be stored in your Library.
           </AlertDescription>
         </Alert>
       </div>

@@ -49,8 +49,15 @@ function LibraryItem(props: LibraryItemProps) {
 }
 
 export function PageLibrary() {
-  const { setSelectedPage, addPage } = useEditCraftStore((s) => ({
+  const {
+    setSelectedPage,
+    addPage,
+    defaultThemeForNewPages,
+    defaultLogoForNewPages,
+  } = useEditCraftStore((s) => ({
     setSelectedPage: s.setSelectedPage,
+    defaultThemeForNewPages: s.defaultThemeForNewPages,
+    defaultLogoForNewPages: s.defaultLogoForNewPages,
     addPage: s.addPage,
   }));
 
@@ -62,6 +69,8 @@ export function PageLibrary() {
       type,
       title: "Untitled Page",
       description: "",
+      baseThemeId: defaultThemeForNewPages,
+      logo: defaultLogoForNewPages,
     };
 
     switch (type) {

@@ -3,6 +3,7 @@
 import { LinkIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { UnpublishedAlert } from "../UnpublishedAlert";
 import { ShareCard } from "./ShareCard";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
@@ -11,6 +12,9 @@ export function CraftShare() {
 
   return (
     <div className="w-full p-4">
+      <div className="w-full max-w-screen-lg mx-auto">
+        <UnpublishedAlert />
+      </div>
       <div className="w-full max-w-screen-lg mx-auto">
         <h1 className="text-2xl font-bold">Share</h1>
         <p className="text-gray-500 mt-2">Share your form with the world.</p>
