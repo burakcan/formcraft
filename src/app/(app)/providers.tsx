@@ -1,8 +1,8 @@
 "use client";
-
 import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -35,8 +35,10 @@ function getQueryClient() {
 export function Providers(props: PropsWithChildren) {
   const queryClient = getQueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <ClerkProvider>{props.children}</ClerkProvider>
-    </QueryClientProvider>
+    <TooltipProvider>
+      <QueryClientProvider client={queryClient}>
+        <ClerkProvider>{props.children}</ClerkProvider>
+      </QueryClientProvider>
+    </TooltipProvider>
   );
 }

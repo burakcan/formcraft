@@ -1,7 +1,6 @@
 "use client";
 
 import "reactflow/dist/style.css";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { LayoutGridIcon } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import type {
@@ -140,21 +139,19 @@ export function FlowEditor() {
           position="top-right"
           className="bg-background rounded-md shadow-sm"
         >
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  className="size-7"
-                  variant="ghost"
-                  onClick={() => onLayout("LR")}
-                >
-                  <LayoutGridIcon className="size-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Auto Layout</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                className="size-7"
+                variant="ghost"
+                onClick={() => onLayout("LR")}
+              >
+                <LayoutGridIcon className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Auto Layout</TooltipContent>
+          </Tooltip>
         </Panel>
         <Controls
           className="rounded-md shadow-sm overflow-hidden"
