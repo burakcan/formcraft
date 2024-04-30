@@ -33,13 +33,22 @@ export async function saveCustomTheme(data: CraftTheme) {
     throw new Error(ErrorType.Unauthorized);
   }
 
-  const id = uuid();
+  const id = uuid() || data.id;
 
-  const theme = await db.customTheme.create({
-    data: {
+  const theme = await db.customTheme.upsert({
+    where: {
+      id: id,
+    },
+    create: {
       id: id,
       userId: userId,
       organizationId: orgId || undefined,
+      data: {
+        ...data,
+        id,
+      },
+    },
+    update: {
       data: {
         ...data,
         id,
