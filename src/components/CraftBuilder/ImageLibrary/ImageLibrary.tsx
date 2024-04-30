@@ -33,7 +33,7 @@ export function ImageLibrary(props: Props) {
               <TabsList className="">
                 <TabsTrigger value="unsplash">Unsplash</TabsTrigger>
                 <TabsTrigger value="upload">Upload</TabsTrigger>
-                <TabsTrigger value="library">Library</TabsTrigger>
+                {/* <TabsTrigger value="library">Library</TabsTrigger> */}
               </TabsList>
             </SheetTitle>
             <UnsplashTab

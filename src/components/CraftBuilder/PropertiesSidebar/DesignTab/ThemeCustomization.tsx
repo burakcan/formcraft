@@ -20,6 +20,8 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useThemes } from "@/hooks/useThemes";
+import { SaveThemeModal } from "./SaveThemeModal";
+import { builtinThemes } from "@/lib/themes";
 
 interface Props {
   selectedPage: FormCraft.CraftPage;
@@ -31,6 +33,7 @@ export function ThemeCustomization(props: Props) {
   const { selectedPage, editPage, onGallery } = props;
   const [showRevertConfirmation, setShowRevertConfirmation] = useState(false);
   const [showSaveAsNewModal, setShowSaveAsNewModal] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
   const themes = useThemes();
 
   const baseTheme = themes[selectedPage.baseThemeId] || defaultTheme;
@@ -61,6 +64,12 @@ export function ThemeCustomization(props: Props) {
         data={theme}
       />
 
+      <SaveThemeModal
+        data={theme}
+        open={showSaveModal}
+        onOpenChange={setShowSaveModal}
+      />
+
       <div className="border-b">
         <Button variant="link" onClick={onGallery}>
           <ChevronLeft className="size-4" />
@@ -76,13 +85,25 @@ export function ThemeCustomization(props: Props) {
         >
           Revert
         </Button>
+        <div className="flex-1" />
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={
+            Object.keys(overrides).length === 0 ||
+            Boolean(builtinThemes[theme.id])
+          }
+          onClick={() => setShowSaveModal(true)}
+        >
+          Save
+        </Button>
         <Button
           size="sm"
           variant="outline"
           disabled={Object.keys(overrides).length === 0}
           onClick={() => setShowSaveAsNewModal(true)}
         >
-          Save as new theme
+          Save as...
         </Button>
       </div>
       <ScrollArea className="flex-1">

@@ -51,3 +51,20 @@ export async function saveCustomTheme(data: CraftTheme) {
     data: theme,
   };
 }
+
+export const deleteCustomTheme = async (themeId: string) => {
+  const authData = auth();
+  const { userId, orgId } = authData;
+
+  if (!authData || userId === null) {
+    throw new Error(ErrorType.Unauthorized);
+  }
+
+  await db.customTheme.delete({
+    where: {
+      id: themeId,
+      userId: !orgId ? userId : undefined,
+      organizationId: orgId || undefined,
+    },
+  });
+};

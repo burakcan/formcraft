@@ -39,3 +39,20 @@ export function addCustomThemeToQuery(
     };
   });
 }
+
+export function removeCustomThemeFromQuery(
+  queryClient: QueryClient,
+  themeId: string
+) {
+  queryClient.setQueryData<{
+    data: CustomTheme[];
+  }>([customThemesQueryKey], (data) => {
+    if (!data) {
+      return data;
+    }
+
+    return {
+      data: data.data.filter((t) => t.id !== themeId),
+    };
+  });
+}

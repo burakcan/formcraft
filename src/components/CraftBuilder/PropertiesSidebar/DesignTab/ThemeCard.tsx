@@ -1,7 +1,7 @@
 import {
   EllipsisVertical,
   ReplaceAllIcon,
-  TextCursorInputIcon,
+  // TextCursorInputIcon,
   TrashIcon,
   WandIcon,
 } from "lucide-react";
@@ -28,6 +28,8 @@ interface Props {
   theme: CraftTheme;
   selected?: boolean;
   onSelect?: (themeId: string) => void;
+  onApplyToAll?: () => void;
+  onDelete?: () => void;
   hasOverrides?: boolean;
   hideName?: boolean;
   large?: boolean;
@@ -43,6 +45,8 @@ export function ThemeCard(props: Props) {
     hideName,
     large,
     isBuiltin,
+    onApplyToAll,
+    onDelete,
   } = props;
 
   return (
@@ -138,7 +142,11 @@ export function ThemeCard(props: Props) {
                   e.stopPropagation();
                 }}
               >
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => {
+                    onApplyToAll && onApplyToAll();
+                  }}
+                >
                   <ReplaceAllIcon className="mr-2 h-4 w-4" />
                   <span>Apply to all</span>
                 </DropdownMenuItem>
@@ -146,14 +154,17 @@ export function ThemeCard(props: Props) {
                 <DropdownMenuItem
                   className="text-destructive"
                   disabled={isBuiltin}
+                  onSelect={() => {
+                    onDelete && onDelete();
+                  }}
                 >
                   <TrashIcon className="mr-2 h-4 w-4" />
                   <span>Delete</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled={isBuiltin}>
+                {/* <DropdownMenuItem disabled={isBuiltin}>
                   <TextCursorInputIcon className="mr-2 h-4 w-4" />
                   <span>Rename</span>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
 
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={cn(inter.className, "bg-secondary")}>{children}</body>
+        <body className={cn(inter.className, "bg-secondary")}>
+          <NextTopLoader showSpinner={false} />
+          {children}
+        </body>
       </html>
     </Providers>
   );

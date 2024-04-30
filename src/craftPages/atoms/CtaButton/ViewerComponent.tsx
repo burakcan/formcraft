@@ -13,7 +13,7 @@ export function CtaButtonViewer<T extends FormCraft.CraftPage>(
   const { page, icon: Icon, ...rest } = props;
 
   return (
-    <Button {...rest}>
+    <Button variant="craft" {...rest}>
       {page.cta}
       {Icon && <Icon className="ml-2 size-4" />}
     </Button>

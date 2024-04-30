@@ -7,7 +7,7 @@ export function MadeWithFormCraftEditor() {
         rel="noopener noreferrer"
         className=" no-underline bold text-craft-button-text"
       >
-        Powered by FormCraft
+        Powered by <strong>FormCraft</strong>
       </a>
     </div>
   );

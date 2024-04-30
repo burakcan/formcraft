@@ -102,7 +102,6 @@ export function UnsplashTab(props: Props) {
               <AlertTitle>Search for images</AlertTitle>
               <AlertDescription>
                 Start typing in the search bar to find images from Unsplash.
-                Images you select will be saved to your Library.
               </AlertDescription>
             </Alert>
           )}

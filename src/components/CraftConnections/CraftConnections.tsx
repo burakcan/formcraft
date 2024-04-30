@@ -1,6 +1,7 @@
 import { MessageCircleQuestionIcon } from "lucide-react";
 import { FaSlack } from "react-icons/fa";
 import { Button } from "../ui/button";
+import { UnpublishedAlert } from "../UnpublishedAlert";
 import { ConnectionCard } from "./ConnectionCard";
 import { EmailCard } from "./EmailCard";
 import { GoogleSheetsCard } from "./GoogleSheetsCard";
@@ -9,6 +10,9 @@ import { WebhookCard } from "./WebhookCard";
 export function CraftConnections() {
   return (
     <div className="w-full p-4">
+      <div className="w-full max-w-screen-lg mx-auto">
+        <UnpublishedAlert />
+      </div>
       <div className="w-full max-w-screen-lg mx-auto">
         <h1 className="text-2xl font-bold">Connect</h1>
         <p className="text-gray-500 mt-2">

@@ -11,13 +11,14 @@ import {
 import { ConditionEditor } from "../../ConditionEditor";
 import { ConditionItem } from "../../ConditionItem";
 import { SingleConnectionHandle } from "../../Handles";
+import { NodeRemoveButton } from "../../NodeRemoveButton";
 import { Badge } from "@/components/ui/badge";
 
-interface Data {
+export interface OrNodeData {
   conditions: FormCraft.BranchingCondition[];
 }
 
-export function OrNode(props: NodeProps<Data>) {
+export function OrNode(props: NodeProps<OrNodeData>) {
   const { data, id } = props;
   const { conditions = [] } = data;
   const updateNodeInternals = useUpdateNodeInternals();
@@ -59,7 +60,7 @@ export function OrNode(props: NodeProps<Data>) {
 
     flow.setNodes((nodes) => {
       const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
+        | Node<OrNodeData>
         | undefined;
 
       if (node) {
@@ -89,7 +90,7 @@ export function OrNode(props: NodeProps<Data>) {
   ) => {
     flow.setNodes((nodes) => {
       const node = nodes.find((node) => node.id === props.id) as
-        | Node<Data>
+        | Node<OrNodeData>
         | undefined;
 
       if (node) {
@@ -124,7 +125,8 @@ export function OrNode(props: NodeProps<Data>) {
           height: "10px",
         }}
       />
-      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2">
+      <div className="w-64 bg-background shadow-md rounded-md p-2 flex flex-col gap-2 group">
+        <NodeRemoveButton flow={flow} node={props} />
         <div className="flex gap-2 items-center">
           <div className="size-8 flex-none rounded flex items-center justify-center bg-black text-white">
             <SlashIcon className="size-4" />

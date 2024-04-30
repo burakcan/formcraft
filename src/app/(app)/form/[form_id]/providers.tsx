@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren } from "react";
 import { useEffect, useMemo, useRef } from "react";
+import { Toaster } from "sonner";
 import { CraftNavigationBlockProvider } from "@/components/CraftNavigationBlock";
 import { SavingOverlay } from "@/components/SavingOverlay";
 import { useCraftQuery } from "@/hooks/useCraftQuery";
@@ -19,6 +20,8 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
       craft: queryData!.craft,
       editingVersion: queryData!.editingVersion,
       selectedPageId: queryData!.editingVersion?.data.pages[0].id,
+      defaultThemeForNewPages: undefined,
+      defaultLogoForNewPages: undefined,
     }),
     [queryData]
   );
@@ -50,6 +53,7 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
     <EditCraftStoreContext.Provider value={storeRef.current}>
       <CraftNavigationBlockProvider>
         <SavingOverlay />
+        <Toaster />
         {props.children}
       </CraftNavigationBlockProvider>
     </EditCraftStoreContext.Provider>

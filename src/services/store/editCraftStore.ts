@@ -20,11 +20,14 @@ import {
   shiftEndingsToEnd,
   splitContentAndEnding,
 } from "@/lib/utils";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 export type EditCraftStoreState = {
   craft: FormCraft.Craft;
   editingVersion: CraftVersion;
   selectedPageId: string;
+  defaultThemeForNewPages: string | undefined;
+  defaultLogoForNewPages: ThemeImageType | undefined;
 };
 
 export type EditCraftStoreActions = {
@@ -42,11 +45,16 @@ export type EditCraftStoreActions = {
   setEdges: (edges: SetStateAction<Edge[]>) => void;
   onNodesChange: (changes: NodeChange[]) => void;
   onEdgesChange: (changes: EdgeChange[]) => void;
+  applyThemeToAll: (themeId: string) => void;
+  applyLogoToAll: (logo: ThemeImageType | undefined) => void;
 };
 
 export type EditCraftStore = EditCraftStoreState & EditCraftStoreActions;
 export type TemporalEditCraftStore = TemporalState<
-  Omit<EditCraftStoreState, "selectedPageId">
+  Omit<
+    EditCraftStoreState,
+    "selectedPageId" | "defaultThemeForNewPages" | "defaultLogoForNewPages"
+  >
 >;
 
 const syncFlowOrderWithPages = (
@@ -252,6 +260,30 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
     temporal(
       (set) => ({
         ...initialData,
+
+        applyThemeToAll: (themeId: string) =>
+          set((state) =>
+            produce(state, (draft) => {
+              draft.defaultThemeForNewPages = themeId;
+
+              draft.editingVersion.data.pages.forEach((page) => {
+                page.baseThemeId = themeId;
+                page.themeOverride = {};
+              });
+            })
+          ),
+
+        applyLogoToAll: (logoId: ThemeImageType | undefined) =>
+          set((state) =>
+            produce(state, (draft) => {
+              draft.defaultLogoForNewPages = logoId;
+
+              draft.editingVersion.data.pages.forEach((page) => {
+                page.logo = logoId;
+              });
+            })
+          ),
+
         setCraft: (craft: FormCraft.Craft) =>
           set({
             craft,
@@ -426,7 +458,11 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
         handleSet: (handleSet) =>
           debounce(handleSet, 1000, { leading: true, trailing: false }),
         partialize: (state) => {
-          return omit(state, ["selectedPageId"]);
+          return omit(state, [
+            "selectedPageId",
+            "defaultThemeForNewPages",
+            "defaultLogoForNewPages",
+          ]);
         },
       }
     )
