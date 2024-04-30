@@ -66,6 +66,10 @@ export function ThemeCustomization(props: Props) {
 
       <SaveThemeModal
         data={theme}
+        onSave={() => {
+          handleRevert();
+          onGallery();
+        }}
         open={showSaveModal}
         onOpenChange={setShowSaveModal}
       />

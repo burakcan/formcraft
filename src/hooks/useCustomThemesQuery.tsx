@@ -35,7 +35,7 @@ export function addCustomThemeToQuery(
     }
 
     return {
-      data: [...data.data, theme],
+      data: [...data.data.filter((t) => t.id === theme.id), theme],
     };
   });
 }
