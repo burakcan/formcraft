@@ -10,6 +10,28 @@ export function getCraft(id: string, userId: string, orgId?: string) {
       organizationId: orgId || undefined,
       userId: !orgId ? userId : undefined,
     },
+    include: {
+      craftVersions: {
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: {
+          publishedAt: true,
+        },
+        take: 1,
+      },
+      _count: {
+        select: {
+          craftVersions: {
+            where: {
+              publishedAt: {
+                not: null,
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -50,7 +72,11 @@ export async function getCraftAndEditingVersion(craft_id: string) {
   }
 
   return {
-    craft,
+    craft: {
+      ...craft,
+      published: craft._count.craftVersions > 0,
+      unpublishedChanges: editingVersion.publishedAt === null,
+    },
     editingVersion,
   };
 }
@@ -102,7 +128,9 @@ export async function getCraftConnections(craft_id: string) {
   };
 }
 
-export async function getCraftsListing() {
+export async function getCraftsListing(): Promise<{
+  data: FormCraft.CraftListingItem[];
+}> {
   const authData = auth();
   const { userId, orgId } = authData;
 
@@ -110,15 +138,52 @@ export async function getCraftsListing() {
     throw new Error(ErrorType.Unauthorized);
   }
 
-  const crafts = await db.craft.findMany({
-    where: {
-      organizationId: orgId || undefined,
-      userId: !orgId ? userId : undefined,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  });
+  const crafts = await db.craft
+    .findMany({
+      where: {
+        organizationId: orgId || undefined,
+        userId: !orgId ? userId : undefined,
+      },
+      select: {
+        id: true,
+        title: true,
+
+        craftVersions: {
+          orderBy: {
+            updatedAt: "desc",
+          },
+          select: {
+            publishedAt: true,
+          },
+          take: 1,
+        },
+
+        _count: {
+          select: {
+            craftSubmissions: true,
+            craftVersions: {
+              where: {
+                publishedAt: {
+                  not: null,
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    })
+    .then((crafts) =>
+      crafts.map((craft) => ({
+        id: craft.id,
+        title: craft.title,
+        submissionsCount: craft._count.craftSubmissions,
+        published: craft._count.craftVersions > 0,
+        unpublishedChanges: craft.craftVersions[0]?.publishedAt === null,
+      }))
+    );
 
   return {
     data: crafts,

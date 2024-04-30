@@ -15,6 +15,7 @@ export function Navbar() {
               "border rounded-lg p-1 pr-0 flex items-center hover:bg-accent",
             organizationSwitcherTrigger: "hover:bg-transparent focus:ring-0",
           },
+          variables: {},
         }}
       />
       <div className="flex-1" />

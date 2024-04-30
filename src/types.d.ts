@@ -1,3 +1,4 @@
+import type { Craft as DBCraft } from "@prisma/client";
 import type { ReactFlowJsonObject } from "reactflow";
 import type { z } from "zod";
 import type { craftPageDefinitions } from "./craftPages";
@@ -5,6 +6,11 @@ import type { CraftTheme as _CraftTheme } from "@/craftPages/schemas/theming";
 
 declare global {
   namespace FormCraft {
+    type Craft = DBCraft & {
+      published: boolean;
+      unpublishedChanges: boolean;
+    };
+
     type CraftPage = z.infer<
       (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["editorSchema"]
     >;
@@ -54,6 +60,14 @@ declare global {
       | BranchingConditionDefault
       | BranchingConditionInput
       | BranchingConditionVariable;
+
+    type CraftListingItem = {
+      id: string;
+      title: string;
+      submissionsCount: number;
+      published: boolean;
+      unpublishedChanges: boolean;
+    };
   }
 
   namespace PrismaJson {

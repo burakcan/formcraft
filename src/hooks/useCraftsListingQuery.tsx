@@ -1,4 +1,3 @@
-import type { Craft } from "@prisma/client";
 import type { QueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,7 +5,7 @@ export const craftsListingQueryKey = "crafts-listing";
 
 export function useCraftsListingQuery() {
   return useQuery<{
-    data: Craft[];
+    data: FormCraft.CraftListingItem[];
   }>({
     refetchOnWindowFocus: false,
     refetchOnMount: true,

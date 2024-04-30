@@ -2,6 +2,7 @@ import { ArrowLeft, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar } from "./Avatar";
 import { CraftName } from "./CraftName";
+import { CraftStatusBadge } from "./CraftStatusBadge";
 import { SaveAndPublishButton } from "./SaveAndPublishButton";
 import { SaveButton } from "./SaveButton";
 import { UndoRedo } from "./UndoRedo";
@@ -64,6 +65,7 @@ export function CraftBuilderTopBar(props: Props) {
         </Tabs>
       </div>
       <div className="flex-1" />
+      <CraftStatusBadge />
       <div className="flex gap-2 pr-4 justify-end">
         {!hideUndoRedo && <UndoRedo />}
         {!hidePreview && (
