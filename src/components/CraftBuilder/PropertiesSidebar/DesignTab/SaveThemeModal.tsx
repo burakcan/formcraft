@@ -25,10 +25,11 @@ interface Props {
   data: CraftTheme;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSave: () => void;
 }
 
 export function SaveThemeModal(props: Props) {
-  const { data, open, onOpenChange } = props;
+  const { data, open, onOpenChange, onSave } = props;
   const mutation = useSaveCustomThemeMutation();
 
   const form = useForm({
@@ -48,6 +49,7 @@ export function SaveThemeModal(props: Props) {
       {
         onSuccess: () => {
           onOpenChange(false);
+          onSave();
         },
       }
     );
