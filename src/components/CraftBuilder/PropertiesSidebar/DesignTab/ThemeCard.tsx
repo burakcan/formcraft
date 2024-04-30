@@ -20,7 +20,6 @@ import {
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
@@ -101,21 +100,19 @@ export function ThemeCard(props: Props) {
             </Badge>
           </div>
           {Boolean(hasOverrides && selected) && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="absolute right-1 top-1">
-                    <Badge
-                      variant="secondary"
-                      className="bg-amber-100 border-amber-700 text-amber-700 px-2"
-                    >
-                      <WandIcon className="size-4" />
-                    </Badge>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="text-xs">Customized</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="absolute right-1 top-1">
+                  <Badge
+                    variant="secondary"
+                    className="bg-amber-100 border-amber-700 text-amber-700 px-2"
+                  >
+                    <WandIcon className="size-4" />
+                  </Badge>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="text-xs">Customized</TooltipContent>
+            </Tooltip>
           )}
         </div>
         {!hideName && (

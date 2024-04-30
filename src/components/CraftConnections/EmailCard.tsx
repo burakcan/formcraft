@@ -18,12 +18,7 @@ import {
 } from "../ui/dialog";
 import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ConnectionCard } from "./ConnectionCard";
 import { useCraftConnectionsMutation } from "@/hooks/useCraftConnectionsMutation";
 import { useCraftConnectionsQuery } from "@/hooks/useCraftConnectionsQuery";
@@ -105,17 +100,14 @@ export function EmailCard() {
           {connections.email.confirmedAt ? (
             <CheckCircle2 className="text-emerald-500 size-8" />
           ) : (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <CircleXIcon className="size-6 cursor-default" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  Email not confirmed. Check your inbox for a confirmation
-                  email.
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <CircleXIcon className="size-6 cursor-default" />
+              </TooltipTrigger>
+              <TooltipContent>
+                Email not confirmed. Check your inbox for a confirmation email.
+              </TooltipContent>
+            </Tooltip>
           )}
           <Button onClick={handleDisconnect} variant="destructive">
             {mutation.status === "pending" ? (

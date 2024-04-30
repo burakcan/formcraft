@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
@@ -75,57 +74,53 @@ export function ImageInput(props: Props) {
           <ThemeImage imageObject={value} noAttribution />
           <div className="absolute top-2 right-2 flex gap-2">
             {onApplyToAll && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size="icon"
-                      onClick={onApplyToAll}
-                      className="size-8"
-                      variant="secondary"
-                    >
-                      <ReplaceAllIcon className="size-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>Apply to all pages</span>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    onClick={onApplyToAll}
+                    className="size-8"
+                    variant="secondary"
+                  >
+                    <ReplaceAllIcon className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Apply to all pages</span>
+                </TooltipContent>
+              </Tooltip>
             )}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    onClick={handleReplace}
-                    className="size-8"
-                    variant="secondary"
-                  >
-                    <ReplaceIcon className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <span>Replace image</span>
-                </TooltipContent>
-              </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  onClick={handleReplace}
+                  className="size-8"
+                  variant="secondary"
+                >
+                  <ReplaceIcon className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Replace image</span>
+              </TooltipContent>
+            </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    onClick={() => onChange(undefined)}
-                    className="size-8"
-                    variant="secondary"
-                  >
-                    <TrashIcon className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <span>Remove image</span>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  onClick={() => onChange(undefined)}
+                  className="size-8"
+                  variant="secondary"
+                >
+                  <TrashIcon className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Remove image</span>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
       )}
