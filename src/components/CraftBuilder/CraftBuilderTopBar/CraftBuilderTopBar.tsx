@@ -1,14 +1,14 @@
-import { ArrowLeft, EyeIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Avatar } from "./Avatar";
 import { CraftName } from "./CraftName";
 import { CraftStatusBadge } from "./CraftStatusBadge";
+import { PreviewButton } from "./PreviewButton";
 import { SaveAndPublishButton } from "./SaveAndPublishButton";
 import { SaveButton } from "./SaveButton";
 import { UndoRedo } from "./UndoRedo";
 import { TopBar } from "@/components/AppChrome";
 import { BlockerLink } from "@/components/CraftNavigationBlock";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Props {
@@ -68,11 +68,7 @@ export function CraftBuilderTopBar(props: Props) {
       <CraftStatusBadge />
       <div className="flex gap-2 pr-4 justify-end">
         {!hideUndoRedo && <UndoRedo />}
-        {!hidePreview && (
-          <Button size="icon" variant="outline">
-            <EyeIcon className="size-4" />
-          </Button>
-        )}
+        {!hidePreview && <PreviewButton />}
         {!hideSave && <SaveButton />}
         <SaveAndPublishButton />
       </div>
