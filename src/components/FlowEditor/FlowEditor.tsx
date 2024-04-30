@@ -19,6 +19,7 @@ import ReactFlow, {
   ConnectionLineType,
   Panel,
   MarkerType,
+  ConnectionMode,
 } from "reactflow";
 import { v4 as uuid } from "uuid";
 import { Button } from "../ui/button";
@@ -125,6 +126,7 @@ export function FlowEditor() {
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        deleteKeyCode={null}
         onNodesChange={handleNodesChange}
         onEdgesChange={handleEdgesChange}
         onConnect={onConnect}
@@ -132,6 +134,7 @@ export function FlowEditor() {
         onInit={setEditorInstance}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        connectionMode={ConnectionMode.Strict}
       >
         <Panel
           position="top-right"

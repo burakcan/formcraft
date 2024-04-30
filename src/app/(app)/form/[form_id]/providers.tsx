@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren } from "react";
 import { useEffect, useMemo, useRef } from "react";
+import { CraftNavigationBlockProvider } from "@/components/CraftNavigationBlock";
 import { SavingOverlay } from "@/components/SavingOverlay";
 import { useCraftQuery } from "@/hooks/useCraftQuery";
 import {
@@ -47,8 +48,10 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
 
   return (
     <EditCraftStoreContext.Provider value={storeRef.current}>
-      <SavingOverlay />
-      {props.children}
+      <CraftNavigationBlockProvider>
+        <SavingOverlay />
+        {props.children}
+      </CraftNavigationBlockProvider>
     </EditCraftStoreContext.Provider>
   );
 }

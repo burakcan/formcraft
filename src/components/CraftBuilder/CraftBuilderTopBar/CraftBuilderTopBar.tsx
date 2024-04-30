@@ -6,6 +6,7 @@ import { SaveAndPublishButton } from "./SaveAndPublishButton";
 import { SaveButton } from "./SaveButton";
 import { UndoRedo } from "./UndoRedo";
 import { TopBar } from "@/components/AppChrome";
+import { BlockerLink } from "@/components/CraftNavigationBlock";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -29,16 +30,16 @@ export function CraftBuilderTopBar(props: Props) {
   return (
     <TopBar className="flex items-center gap-2">
       <div className="flex h-full items-center gap-2">
-        <Link href="/dashboard" className="h-full flex items-center">
+        <BlockerLink href="/dashboard" className="h-full flex items-center">
           <div className="w-12 flex items-center justify-center">
             <ArrowLeft className="size-5" />
           </div>
           <Avatar />
-        </Link>
+        </BlockerLink>
         <CraftName />
       </div>
       <div>
-        <Tabs defaultValue={activeTab}>
+        <Tabs defaultValue={activeTab} value={activeTab}>
           <TabsList>
             <TabsTrigger value="create" asChild>
               <Link href={`/form/${craft_id}/edit`}>Create</Link>
@@ -47,13 +48,17 @@ export function CraftBuilderTopBar(props: Props) {
               <Link href={`/form/${craft_id}/flow`}>Flow</Link>
             </TabsTrigger>
             <TabsTrigger value="connect" asChild>
-              <Link href={`/form/${craft_id}/connect`}>Connect</Link>
+              <BlockerLink href={`/form/${craft_id}/connect`}>
+                Connect
+              </BlockerLink>
             </TabsTrigger>
             <TabsTrigger value="share" asChild>
-              <Link href={`/form/${craft_id}/share`}>Share</Link>
+              <BlockerLink href={`/form/${craft_id}/share`}>Share</BlockerLink>
             </TabsTrigger>
             <TabsTrigger value="results" asChild>
-              <Link href={`/form/${craft_id}/results`}>Results</Link>
+              <BlockerLink href={`/form/${craft_id}/results`}>
+                Results
+              </BlockerLink>
             </TabsTrigger>
           </TabsList>
         </Tabs>

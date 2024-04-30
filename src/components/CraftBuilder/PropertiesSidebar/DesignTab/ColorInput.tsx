@@ -11,7 +11,7 @@ export function ColorInput(props: Props) {
 
   return (
     <div className="flex justify-between items-center">
-      <Label className="font-normal">{label}</Label>
+      <Label>{label}</Label>
       <input
         type="color"
         value={value}

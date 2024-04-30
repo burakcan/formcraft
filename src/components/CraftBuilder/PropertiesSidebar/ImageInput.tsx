@@ -61,7 +61,7 @@ export function ImageInput(props: Props) {
         onSave={handleSave}
       />
 
-      <Label className="font-normal">{label}</Label>
+      <Label>{label}</Label>
       {!value && (
         <div
           className="w-full h-32 relative border rounded-md overflow-hidden bg-secondary flex items-center justify-center"

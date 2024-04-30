@@ -166,7 +166,7 @@ export function ThemeCustomization(props: Props) {
             }
           />
           <div className="flex flex-col gap-2">
-            <Label className="font-normal">Title Font</Label>
+            <Label>Title Font</Label>
             <FontPicker
               defaultValue={theme.titleFont}
               value={(value) => {
@@ -182,7 +182,7 @@ export function ThemeCustomization(props: Props) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="font-normal">Description Font</Label>
+            <Label>Description Font</Label>
             <FontPicker
               defaultValue={theme.descriptionFont}
               value={(value) => {
@@ -198,7 +198,7 @@ export function ThemeCustomization(props: Props) {
             />
           </div>
           <div className="flex justify-between items-center">
-            <Label className="font-normal">Text size</Label>
+            <Label>Text size</Label>
             <ToggleGroup
               type="single"
               size="sm"
@@ -235,7 +235,7 @@ export function ThemeCustomization(props: Props) {
             </ToggleGroup>
           </div>
           <div className="flex justify-between items-center">
-            <Label className="font-normal">Align</Label>
+            <Label>Align</Label>
             <ToggleGroup
               type="single"
               size="sm"
@@ -292,7 +292,7 @@ export function ThemeCustomization(props: Props) {
             }}
           />
           <div className="flex justify-between items-center">
-            <Label className="font-normal">Decoration layout</Label>
+            <Label>Decoration layout</Label>
             <ToggleGroup
               type="single"
               size="sm"

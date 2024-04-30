@@ -3,9 +3,8 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { LayoutWithSidebar } from "@/components/AppChrome";
+import { LayoutWithTopbar } from "@/components/AppChrome";
 import { CraftListing } from "@/components/CraftListing";
-import { ListingSidebar } from "@/components/ListingSidebar";
 import { Navbar } from "@/components/Navbar";
 import { craftsListingQueryKey } from "@/hooks/useCraftsListingQuery";
 import { getCraftsListing } from "@/services/db/craft";
@@ -27,9 +26,11 @@ export default async function Dashboard() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <LayoutWithSidebar topBar={<Navbar />} left={<ListingSidebar />}>
-        <CraftListing />
-      </LayoutWithSidebar>
+      <LayoutWithTopbar topBar={<Navbar />}>
+        <div className="flex-1 overflow-y-auto">
+          <CraftListing />
+        </div>
+      </LayoutWithTopbar>
     </HydrationBoundary>
   );
 }
