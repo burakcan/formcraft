@@ -1,8 +1,12 @@
-import type { Craft } from "@prisma/client";
+import { truncate } from "lodash";
+import { EllipsisVerticalIcon } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 interface Props {
-  craft: Craft;
+  craft: FormCraft.CraftListingItem;
 }
 
 export function CraftCard(props: Props) {
@@ -10,10 +14,51 @@ export function CraftCard(props: Props) {
   return (
     <Link
       href={`/form/${craft.id}/edit`}
-      className="bg-background shadow-sm h-64 p-4 rounded hover:shadow-xl transition duration-500 ease-in-out"
+      className={cn(
+        `bg-background shadow-sm h-56 rounded hover:shadow-xl transition duration-500 ease-in-out
+         grid grid-rows-[1fr_auto_auto]
+        `
+      )}
     >
-      <h1 className="text-xl font-bold">{craft.title}</h1>
-      <p className="text-gray-500">Description of item 1</p>
+      <div className="flex items-start justify-center text-left break-words p-4">
+        <h2 className="text-xl font-regular w-full">
+          {truncate(craft.title, {
+            length: 38,
+            omission: "...",
+          })}
+        </h2>
+      </div>
+      <div className="relative">
+        <Button
+          size="icon"
+          className="size-8 absolute bottom-2 right-2 z-10"
+          variant="secondary"
+        >
+          <EllipsisVerticalIcon className="size-4" />
+        </Button>
+        {craft.published && (
+          <p className="text-xs text-slate-500 p-2 pb-4">
+            {craft.submissionsCount}{" "}
+            {craft.submissionsCount === 1 ? "response" : "responses"}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col gap-1 items-start flex-wrap p-2 border-t bg-accent/50">
+        {craft.published ? (
+          <Badge className=" bg-emerald-500 text-emerald-900 pointer-events-none">
+            Published
+          </Badge>
+        ) : (
+          <Badge className=" bg-slate-300 text-slate-100 pointer-events-none">
+            Draft
+          </Badge>
+        )}
+        {craft.unpublishedChanges && craft.published && (
+          <Badge className=" bg-amber-300 text-amber-50 pointer-events-none whitespace-nowrap">
+            Unpublished changes
+          </Badge>
+        )}
+      </div>
     </Link>
   );
 }

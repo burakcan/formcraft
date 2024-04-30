@@ -1,4 +1,4 @@
-import type { Craft, CraftVersion } from "@prisma/client";
+import type { CraftVersion } from "@prisma/client";
 import { produce } from "immer";
 import { debounce, isEqual, omit } from "lodash";
 import type { SetStateAction } from "react";
@@ -22,13 +22,13 @@ import {
 } from "@/lib/utils";
 
 export type EditCraftStoreState = {
-  craft: Craft;
+  craft: FormCraft.Craft;
   editingVersion: CraftVersion;
   selectedPageId: string;
 };
 
 export type EditCraftStoreActions = {
-  setCraft: (craft: Craft) => void;
+  setCraft: (craft: FormCraft.Craft) => void;
   setCraftTitle: (title: string) => void;
   addPage: (page: FormCraft.CraftPage) => void;
   removePage: (pageId: string) => void;
@@ -252,7 +252,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
     temporal(
       (set) => ({
         ...initialData,
-        setCraft: (craft: Craft) =>
+        setCraft: (craft: FormCraft.Craft) =>
           set({
             craft,
           }),

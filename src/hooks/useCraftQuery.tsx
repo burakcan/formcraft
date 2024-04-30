@@ -1,4 +1,4 @@
-import type { Craft, CraftVersion } from "@prisma/client";
+import type { CraftVersion } from "@prisma/client";
 import type { QueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,7 +6,7 @@ export const craftQueryKey = "craft";
 
 export function useCraftQuery(id: string) {
   return useQuery<{
-    craft: Craft;
+    craft: FormCraft.Craft;
     editingVersion: CraftVersion;
   }>({
     refetchOnWindowFocus: false,
@@ -29,7 +29,7 @@ export function setCraftQueryData(
   queryClient: QueryClient,
   id: string,
   data: {
-    craft: Craft;
+    craft: FormCraft.Craft;
     editingVersion: CraftVersion;
   }
 ) {

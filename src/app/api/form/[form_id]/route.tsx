@@ -1,6 +1,6 @@
 import "server-only";
 import { auth } from "@clerk/nextjs/server";
-import type { Craft, CraftVersion } from "@prisma/client";
+import type { CraftVersion } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
 import { ErrorType } from "@/lib/errors";
 import { genericApiError } from "@/lib/utils";
@@ -37,7 +37,7 @@ export async function PUT(
     }
 
     const json = (await req.json()) as {
-      craft: Craft;
+      craft: FormCraft.Craft;
       version: CraftVersion;
       publish: boolean;
     };
@@ -45,18 +45,6 @@ export async function PUT(
     const updateExisting = json.publish || !json.version.publishedAt;
 
     const [craft, version] = await db.$transaction(async (tx) => {
-      const updatedCraft = await tx.craft.update({
-        where: {
-          id: ctx.params.form_id,
-          organizationId: orgId || undefined,
-          userId: !orgId ? userId : undefined,
-          updatedAt: json.craft.updatedAt,
-        },
-        data: {
-          title: json.craft.title,
-        },
-      });
-
       const updatedVersion = updateExisting
         ? await tx.craftVersion.update({
             where: { id: json.version.id },
@@ -67,11 +55,53 @@ export async function PUT(
           })
         : await tx.craftVersion.create({
             data: {
-              craftId: updatedCraft.id,
+              craftId: json.craft.id,
               data: json.version.data,
               publishedAt: null,
             },
           });
+
+      const updatedCraft = await tx.craft
+        .update({
+          where: {
+            id: ctx.params.form_id,
+            organizationId: orgId || undefined,
+            userId: !orgId ? userId : undefined,
+            updatedAt: json.craft.updatedAt,
+          },
+          data: {
+            title: json.craft.title,
+          },
+          include: {
+            craftVersions: {
+              orderBy: {
+                updatedAt: "desc",
+              },
+              select: {
+                publishedAt: true,
+              },
+              take: 1,
+            },
+            _count: {
+              select: {
+                craftVersions: {
+                  where: {
+                    publishedAt: {
+                      not: null,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
+        .then((craft) => {
+          return {
+            ...craft,
+            published: craft._count.craftVersions > 0,
+            unpublishedChanges: craft.craftVersions[0]?.publishedAt === null,
+          };
+        });
 
       return [updatedCraft, updatedVersion];
     });

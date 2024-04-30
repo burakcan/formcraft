@@ -39,6 +39,7 @@ export default async function CraftConnectPage(props: Props) {
         topBar={
           <CraftBuilderTopBar
             hideUndoRedo
+            hideSave
             craft_id={form_id}
             activeTab="connect"
           />
