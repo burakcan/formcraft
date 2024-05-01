@@ -1,7 +1,8 @@
 "use client";
 
+import { ChevronRight } from "lucide-react";
 import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaButtonViewer } from "../atoms/CtaButton";
+import { CtaButtonViewerAsLink } from "../atoms/CtaButton";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
 import type { EndScreen } from "./schema";
 
@@ -15,9 +16,11 @@ export function EndScreenViewer(props: Props) {
   return (
     <PageWrapperViewer>
       <BaseContentViewer page={page} />
-      <div className="w-full p-2">
-        <CtaButtonViewer page={page} />
-      </div>
+      {page.showCta && (
+        <div className="w-full pt-2">
+          <CtaButtonViewerAsLink page={page} icon={ChevronRight} />
+        </div>
+      )}
     </PageWrapperViewer>
   );
 }

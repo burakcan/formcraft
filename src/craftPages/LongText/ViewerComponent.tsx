@@ -15,7 +15,7 @@ export function LongTextViewer(props: Props) {
   const { page } = props;
 
   return (
-    <PageWrapperViewer innerWrapperClassName="max-w-screen-md mx-auto">
+    <PageWrapperViewer>
       <BaseContentViewer page={page} />
       <div className="w-full pt-2">
         <Textarea

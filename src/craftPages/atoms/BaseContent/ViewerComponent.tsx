@@ -5,19 +5,66 @@ interface Props<T extends FormCraft.CraftPage> {
   page: T;
 }
 
+function notify() {
+  console.log(
+    "If you need to call a function, please email us at hello@formcraft.io with your use case."
+  );
+}
+
+const templateImports = {
+  window: new Proxy({}, { get: () => notify }),
+  document: new Proxy({}, { get: () => notify }),
+  history: new Proxy({}, { get: () => notify }),
+  location: new Proxy({}, { get: () => notify }),
+  localStorage: new Proxy({}, { get: () => notify }),
+  sessionStorage: new Proxy({}, { get: () => notify }),
+  fetch: notify,
+  alert: notify,
+  confirm: notify,
+  prompt: notify,
+  FormData: notify,
+  setTimeout: notify,
+  clearTimeout: notify,
+  setInterval: notify,
+  clearInterval: notify,
+  requestAnimationFrame: notify,
+  cancelAnimationFrame: notify,
+  XMLHttpRequest: notify,
+  WebSocket: notify,
+  Headers: notify,
+  Request: notify,
+  Response: notify,
+  URL: notify,
+  URLSearchParams: notify,
+  Date: new Proxy({}, { get: () => notify }),
+  console: new Proxy({}, { get: () => notify }),
+};
+
 export function BaseContentViewer<T extends FormCraft.CraftPage>(
   props: Props<T>
 ) {
   const variables = useViewCraftStore((state) => state.variables);
   const { page } = props;
 
-  const title = template(page.title || "", {
-    interpolate: /{([\s\S]+?)}/g,
-  })(variables);
+  let title = page.title;
+  try {
+    title = template(page.title || "", {
+      interpolate: /{([\s\S]+?)}/g,
+      imports: templateImports,
+    })(variables);
+  } catch (e) {
+    console.error(e);
+  }
 
-  const description = template(page.description || "", {
-    interpolate: /{([\s\S]+?)}/g,
-  })(variables);
+  let description = page.description;
+  try {
+    description = template(page.description || "", {
+      interpolate: /{([\s\S]+?)}/g,
+      imports: templateImports,
+    })(variables);
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
     <>
