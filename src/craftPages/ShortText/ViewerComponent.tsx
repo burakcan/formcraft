@@ -39,7 +39,7 @@ export function ShortTextViewer(props: Props) {
 
   return (
     <Form {...form}>
-      <PageWrapperViewer innerWrapperClassName="max-w-screen-md mx-auto">
+      <PageWrapperViewer>
         <BaseContentViewer page={page} />
         <div className="w-full pt-2">
           <form onSubmit={handleSubmit} id={formDomId}>

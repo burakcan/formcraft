@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronRight } from "lucide-react";
 import { BaseContentEditor } from "../atoms/BaseContent";
 import { CtaButtonEditor } from "../atoms/CtaButton";
 import { PageWrapperEditor } from "../atoms/PageWrapper";
@@ -17,7 +18,7 @@ export function StatementEditor(props: Props) {
     <PageWrapperEditor>
       <BaseContentEditor page={page} onChange={onChange} />
       <div className="w-full p-2">
-        <CtaButtonEditor page={page} onChange={onChange} />
+        <CtaButtonEditor page={page} onChange={onChange} icon={ChevronRight} />
       </div>
     </PageWrapperEditor>
   );

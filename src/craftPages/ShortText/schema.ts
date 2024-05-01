@@ -5,7 +5,7 @@ export const shortTextEditorSchema = basePage.extend({
   type: z.literal("short_text").default("short_text"),
   cta: z.string().default("Confirm"),
   maxLength: z.number().optional(),
-  required: z.boolean().optional(),
+  required: z.boolean().default(true),
 });
 
 export const shortTextViewerSchema = z.string();

@@ -25,7 +25,7 @@ export function PropertiesSidebar() {
     <div className="w-full h-full">
       <Tabs defaultValue="content" className="h-full flex flex-col">
         <TabsList className="w-full h-10 rounded-none flex-none">
-          <TabsTrigger value="content">Content</TabsTrigger>
+          <TabsTrigger value="content">Page Content</TabsTrigger>
           <TabsTrigger value="design">Page Design</TabsTrigger>
         </TabsList>
         <TabsContent

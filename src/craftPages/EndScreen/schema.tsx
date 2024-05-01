@@ -3,8 +3,9 @@ import { basePage } from "../schemas/basePage";
 
 export const endScreenEditorSchema = basePage.extend({
   type: z.literal("end_screen").default("end_screen"),
-  cta: z.string().optional(),
-  ctaLink: z.string().optional(),
+  showCta: z.boolean().default(true),
+  cta: z.string().default("Create your own form"),
+  ctaLink: z.string().url().default("https://formcraft.io"),
 });
 
 export const endScreenViewerSchema = z.object({});

@@ -19,7 +19,12 @@ export function PageWrapperEditor(props: PropsWithChildren<Props>) {
       )}
       ref={ref}
     >
-      <div className={cn("w-full", props.innerWrapperClassName)}>
+      <div
+        className={cn(
+          "max-w-screen-md w-full mx-auto",
+          props.innerWrapperClassName
+        )}
+      >
         {props.children}
       </div>
     </div>
