@@ -1,6 +1,5 @@
 "use client";
 import {
-  CopyIcon,
   EllipsisVerticalIcon,
   Loader2Icon,
   TextCursorInput,
@@ -9,6 +8,7 @@ import {
 import { useState } from "react";
 import { FaTrashRestore } from "react-icons/fa";
 import { ArchiveCraftModal } from "../../ArchiveCraftModal";
+import { RenameCraftModal } from "@/components/RenameCraftModal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,6 +26,8 @@ interface Props {
 export function ActionsMenu(props: Props) {
   const { craft } = props;
   const [showArchiveModal, setShowArchiveModal] = useState(false);
+  const [showRenameModal, setShowRenameModal] = useState(false);
+
   const unarchiveMutation = useUnarchiveCraftMutation();
 
   return (
@@ -35,6 +37,13 @@ export function ActionsMenu(props: Props) {
           open={showArchiveModal}
           onOpenChange={setShowArchiveModal}
           craft={craft}
+        />
+      )}
+      {showRenameModal && (
+        <RenameCraftModal
+          open={showRenameModal}
+          onOpenChange={setShowRenameModal}
+          data={{ id: craft.id, title: craft.title }}
         />
       )}
       <DropdownMenu>
@@ -63,11 +72,7 @@ export function ActionsMenu(props: Props) {
             e.nativeEvent.stopImmediatePropagation();
           }}
         >
-          <DropdownMenuItem>
-            <CopyIcon className="mr-2 h-4 w-4" />
-            <span>Duplicate</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setShowRenameModal(true)}>
             <TextCursorInput className="mr-2 h-4 w-4" />
             <span>Rename</span>
           </DropdownMenuItem>
