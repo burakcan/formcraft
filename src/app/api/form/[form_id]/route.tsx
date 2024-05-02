@@ -114,3 +114,69 @@ export async function PUT(
     return genericApiError(error);
   }
 }
+
+export async function POST(
+  req: NextRequest,
+  ctx: { params: { form_id: string } }
+) {
+  try {
+    const authData = auth();
+    const { userId, orgId } = authData;
+
+    if (!authData || userId === null) {
+      throw new Error(ErrorType.Unauthorized);
+    }
+
+    const result = await db.craft.update({
+      select: {
+        id: true,
+        archivedAt: true,
+      },
+      where: {
+        id: ctx.params.form_id,
+        organizationId: orgId || undefined,
+        userId: !orgId ? userId : undefined,
+      },
+      data: {
+        archivedAt: null,
+      },
+    });
+
+    return NextResponse.json(result);
+  } catch (error) {
+    return genericApiError(error);
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  ctx: { params: { form_id: string } }
+) {
+  try {
+    const authData = auth();
+    const { userId, orgId } = authData;
+
+    if (!authData || userId === null) {
+      throw new Error(ErrorType.Unauthorized);
+    }
+
+    const result = await db.craft.update({
+      select: {
+        id: true,
+        archivedAt: true,
+      },
+      where: {
+        id: ctx.params.form_id,
+        organizationId: orgId || undefined,
+        userId: !orgId ? userId : undefined,
+      },
+      data: {
+        archivedAt: new Date(),
+      },
+    });
+
+    return NextResponse.json(result);
+  } catch (error) {
+    return genericApiError(error);
+  }
+}

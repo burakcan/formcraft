@@ -74,6 +74,7 @@ export async function getCraftAndEditingVersion(craft_id: string) {
   return {
     craft: {
       ...craft,
+      archived: craft.archivedAt !== null,
       published: craft._count.craftVersions > 0,
       unpublishedChanges: editingVersion.publishedAt === null,
     },
@@ -128,7 +129,9 @@ export async function getCraftConnections(craft_id: string) {
   };
 }
 
-export async function getCraftsListing(): Promise<{
+export async function getCraftsListing(
+  includeArchived: boolean = false
+): Promise<{
   data: FormCraft.CraftListingItem[];
 }> {
   const authData = auth();
@@ -143,10 +146,12 @@ export async function getCraftsListing(): Promise<{
       where: {
         organizationId: orgId || undefined,
         userId: !orgId ? userId : undefined,
+        archivedAt: !includeArchived ? null : undefined,
       },
       select: {
         id: true,
         title: true,
+        archivedAt: true,
 
         craftVersions: {
           orderBy: {
@@ -179,6 +184,7 @@ export async function getCraftsListing(): Promise<{
       crafts.map((craft) => ({
         id: craft.id,
         title: craft.title,
+        archived: craft.archivedAt !== null,
         submissionsCount: craft._count.craftSubmissions,
         published: craft._count.craftVersions > 0,
         unpublishedChanges: craft.craftVersions[0]?.publishedAt === null,

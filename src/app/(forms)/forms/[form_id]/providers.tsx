@@ -1,6 +1,6 @@
 "use client";
 
-import type { Craft, CraftVersion } from "@prisma/client";
+import type { Craft, CraftSubmission, CraftVersion } from "@prisma/client";
 import type { PropsWithChildren } from "react";
 import { useRef } from "react";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
@@ -12,13 +12,14 @@ import {
 interface Props {
   craft: Craft;
   version: CraftVersion;
+  submission: CraftSubmission;
   themes: Record<string, CraftTheme>;
   rootNodeId: string;
   rootPageId: string;
 }
 
 export function Providers(props: PropsWithChildren<Props>) {
-  const { craft, version, themes, rootNodeId, rootPageId } = props;
+  const { craft, version, submission, themes, rootNodeId, rootPageId } = props;
 
   const storeRef = useRef<ReturnType<typeof createViewCraftStore>>();
 
@@ -27,6 +28,7 @@ export function Providers(props: PropsWithChildren<Props>) {
       craft,
       version,
       themes,
+      submission: submission,
       rootNodeId,
       currentNodeId: rootNodeId,
       currentPageId: rootPageId,
