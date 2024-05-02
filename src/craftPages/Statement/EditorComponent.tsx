@@ -2,7 +2,7 @@
 
 import { ChevronRight } from "lucide-react";
 import { BaseContentEditor } from "../atoms/BaseContent";
-import { CtaButtonEditor } from "../atoms/CtaButton";
+import { CtaSectionEditor } from "../atoms/CtaSection";
 import { PageWrapperEditor } from "../atoms/PageWrapper";
 import type { Statement } from "./schema";
 
@@ -17,9 +17,7 @@ export function StatementEditor(props: Props) {
   return (
     <PageWrapperEditor>
       <BaseContentEditor page={page} onChange={onChange} />
-      <div className="w-full p-2">
-        <CtaButtonEditor page={page} onChange={onChange} icon={ChevronRight} />
-      </div>
+      <CtaSectionEditor page={page} onChange={onChange} icon={ChevronRight} />
     </PageWrapperEditor>
   );
 }

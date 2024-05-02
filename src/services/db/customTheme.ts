@@ -2,6 +2,7 @@ import "server-only";
 import { auth } from "@clerk/nextjs";
 import { v4 as uuid } from "uuid";
 import { ErrorType } from "@/lib/errors";
+import { builtinThemes } from "@/lib/themes";
 import db from ".";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
@@ -34,6 +35,10 @@ export async function saveCustomTheme(data: CraftTheme) {
   }
 
   const id = data.id || uuid();
+
+  if (builtinThemes[id]) {
+    throw new Error(ErrorType.Invalid_Request);
+  }
 
   const theme = await db.customTheme.upsert({
     where: {

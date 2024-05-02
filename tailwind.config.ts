@@ -26,12 +26,12 @@ const config = {
         craft: "var(--craft-font-size)",
       },
       colors: {
-        "craft-background": "var(--craft-background)",
-        "craft-title": "var(--craft-title)",
-        "craft-description": "var(--craft-description)",
-        "craft-answers": "var(--craft-answers)",
-        "craft-button": "var(--craft-button)",
-        "craft-button-text": "var(--craft-button-text)",
+        "craft-background": "hsl(var(--craft-background))",
+        "craft-title": "hsl(var(--craft-title))",
+        "craft-description": "hsl(var(--craft-description))",
+        "craft-answers": "hsl(var(--craft-answers))",
+        "craft-button": "hsl(var(--craft-button))",
+        "craft-button-text": "hsl(var(--craft-button-text))",
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

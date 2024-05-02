@@ -8,6 +8,7 @@ import {
 import FontPicker from "react-fontpicker-ts";
 import { cn } from "@/lib/utils";
 import { ThemeImage } from "../../PageRenderer/ThemeImage";
+import { ThemeStyle } from "../../PageRenderer/ThemeStyle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +38,7 @@ interface Props {
 }
 
 export function ThemeCard(props: Props) {
+  const domId = "t" + props.theme.id.replaceAll("-", "");
   const {
     theme,
     selected,
@@ -59,47 +61,29 @@ export function ThemeCard(props: Props) {
         />
       )}
       <div
-        style={{
-          backgroundColor: theme.backgroundColor,
-        }}
+        id={domId}
         onClick={() => {
           onSelect && onSelect(theme.id);
         }}
         className={cn(
-          "group border rounded-md cursor-default overflow-hidden relative select-none flex items-start flex-col justify-center",
+          "craft-renderer group border bg-craft-background rounded-md cursor-default overflow-hidden relative select-none flex items-start flex-col justify-center",
           {
             "ring-2 ring-blue-500": selected,
             "size-24": large,
           }
         )}
       >
+        <ThemeStyle theme={theme} pageId={domId} />
         {theme.backgroundImage && (
           <ThemeImage imageObject={theme.backgroundImage} noAttribution />
         )}
         <div className="p-2 z-10 relative w-full">
-          <h1
-            style={{
-              color: theme.titleColor,
-              fontFamily: theme.titleFont,
-            }}
-            className="text-2xl font-bold"
-          >
+          <h1 className="text-2xl font-bold text-craft-title font-craft-title">
             Aa
           </h1>
-          <div
-            style={{
-              color: theme.descriptionColor,
-              fontFamily: theme.descriptionFont,
-            }}
-          >
+          <div className="text-craft-description font-craft-description">
             Aa{" "}
-            <Badge
-              style={{
-                backgroundColor: theme.buttonColor,
-                color: theme.buttonTextColor,
-              }}
-              className="font-sans"
-            >
+            <Badge className="font-sans bg-craft-button text-craft-button-text">
               Aa
             </Badge>
           </div>

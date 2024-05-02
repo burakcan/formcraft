@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { HSLToRGB } from "@/lib/color";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
@@ -28,6 +29,8 @@ export function ThemeStyle(props: Props) {
     --craft-text-align: ${theme.textAlign};
     --craft-title-font: ${theme.titleFont};
     --craft-description-font: ${theme.descriptionFont};
+    --tw-prose-kbd: ${theme.descriptionColor};
+    --tw-prose-kbd-shadows: ${HSLToRGB(theme.descriptionColor)};
   }`,
     [theme, pageId]
   );

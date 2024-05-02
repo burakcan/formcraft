@@ -3,13 +3,14 @@ import Link from "next/link";
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 
-interface Props<T extends FormCraft.CraftPage> extends ButtonProps {
+export interface CtaButtonViewerProps<T extends FormCraft.CraftPage>
+  extends ButtonProps {
   page: T;
   icon?: LucideIcon;
 }
 
 export function CtaButtonViewer<T extends FormCraft.CraftPage>(
-  props: Props<T>
+  props: CtaButtonViewerProps<T>
 ) {
   const { page, icon: Icon, ...rest } = props;
 
@@ -25,7 +26,7 @@ export function CtaButtonViewerAsLink<
   T extends FormCraft.CraftPage & {
     ctaLink: string;
   }
->(props: Props<T>) {
+>(props: CtaButtonViewerProps<T>) {
   const { page, icon: Icon, ...rest } = props;
 
   return (

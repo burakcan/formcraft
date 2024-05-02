@@ -2,7 +2,6 @@
 
 import "./style.css";
 import { motion } from "framer-motion";
-import FontPicker from "react-fontpicker-ts";
 import { PageLayout } from "./PageLayout";
 import { ThemeStyle } from "./ThemeStyle";
 import { craftPageDefinitions } from "@/craftPages";
@@ -39,20 +38,21 @@ export function PageRenderer() {
         prose-headings:mb-4
         prose-headings:font-bold
       `}
-      key={`${selectedPage.id}-${theme.id}`}
+      key={`${theme.id}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {"document" in global && (
-        <FontPicker
-          loaderOnly
-          loadFonts={[theme.titleFont, theme.descriptionFont]}
-          loadAllVariants
-        />
-      )}
-      <ThemeStyle theme={theme} />
       <PageLayout theme={theme} page={selectedPage} disableTransitions>
+        <ThemeStyle theme={theme} />
+        <link
+          href={`https://fonts.googleapis.com/css2?family=${theme.titleFont}&display=swap`}
+          rel="stylesheet"
+        />
+        <link
+          href={`https://fonts.googleapis.com/css2?family=${theme.descriptionFont}&display=swap`}
+          rel="stylesheet"
+        />
         <pageDefinition.editorComponent
           page={selectedPage as never}
           onChange={editPage}

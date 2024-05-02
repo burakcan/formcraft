@@ -1,6 +1,6 @@
 import type { CustomTheme } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCustomThemeToQuery } from "./useCustomThemesQuery";
+import { invalidateCustomThemesQuery } from "./useCustomThemesQuery";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export function useSaveCustomThemeMutation() {
@@ -19,8 +19,8 @@ export function useSaveCustomThemeMutation() {
 
       return response.json();
     },
-    onSuccess: (response) => {
-      addCustomThemeToQuery(queryClient, response.data);
+    onSuccess: () => {
+      invalidateCustomThemesQuery(queryClient);
     },
   });
 

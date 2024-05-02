@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaButtonViewer } from "../atoms/CtaButton";
+import { CtaSectionViewer } from "../atoms/CtaSection";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
 import { shortTextViewerSchema, type ShortText } from "./schema";
 import { Form, FormField } from "@/components/ui/form";
@@ -69,17 +69,7 @@ export function ShortTextViewer(props: Props) {
             />
           </form>
         </div>
-        <div className="w-full py-2">
-          <CtaButtonViewer
-            type="submit"
-            page={page}
-            icon={CheckIcon}
-            form={formDomId}
-          />
-          <span className="ml-2 text-sm whitespace-nowrap">
-            or press <kbd>Enter</kbd>
-          </span>
-        </div>
+        <CtaSectionViewer page={page} icon={CheckIcon} form={formDomId} />
       </PageWrapperViewer>
     </Form>
   );
