@@ -36,6 +36,7 @@ model Craft {
   title            String
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  archivedAt       DateTime?
   user             User              @relation(fields: [userId], references: [id])
   userId           String
   organization     Organization?     @relation(fields: [organizationId], references: [id])
@@ -72,7 +73,9 @@ model CraftSubmission {
   craftId        String
   craftVersion   CraftVersion @relation(fields: [craftVersionId], references: [id], onDelete: Cascade)
   craftVersionId String
-  data           Json
+
+  /// [CraftSubmissionData]
+  data Json
 }
 
 model CustomTheme {

@@ -10,12 +10,17 @@ import {
 
 export function SaveAndPublishButton() {
   const dirty = useEditCraftStoreTemporal((s) => s.pastStates.length > 0);
-  const publishedAt = useEditCraftStore(
-    ({ editingVersion }) => editingVersion.publishedAt
-  );
+  const { publishedAt, archived } = useEditCraftStore((s) => ({
+    publishedAt: s.editingVersion.publishedAt,
+    archived: s.craft.archivedAt !== null,
+  }));
 
   const mutation = useCraftMutation();
   const isPublished = Boolean(publishedAt) && !dirty;
+
+  if (archived) {
+    return null;
+  }
 
   return (
     <Button

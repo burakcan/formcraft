@@ -9,14 +9,22 @@ import { Navbar } from "@/components/Navbar";
 import { craftsListingQueryKey } from "@/hooks/useCraftsListingQuery";
 import { getCraftsListing } from "@/services/db/craft";
 
-export default async function Dashboard() {
+interface Props {
+  searchParams: {
+    showArchived?: string;
+  };
+}
+
+export default async function Dashboard(props: Props) {
+  const { searchParams } = props;
+  const includeArchived = searchParams.showArchived === "true";
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: [craftsListingQueryKey],
+    queryKey: [craftsListingQueryKey, includeArchived],
     queryFn: async () => {
       try {
-        return await getCraftsListing();
+        return await getCraftsListing(includeArchived);
       } catch (error) {
         console.error(error);
         throw error;

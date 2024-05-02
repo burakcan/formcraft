@@ -1,4 +1,4 @@
-import type { Craft, CraftVersion } from "@prisma/client";
+import type { Craft, CraftSubmission, CraftVersion } from "@prisma/client";
 import { produce } from "immer";
 import { createContext } from "react";
 import { create } from "zustand";
@@ -8,6 +8,7 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 export type ViewCraftStoreState = {
   craft: Craft;
   version: CraftVersion;
+  submission?: CraftSubmission; // empty when previewing
   themes: Record<string, CraftTheme>;
   rootNodeId: string;
   currentNodeId: string;

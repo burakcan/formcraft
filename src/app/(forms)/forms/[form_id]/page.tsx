@@ -2,6 +2,10 @@ import { builtinThemes } from "@/lib/themes";
 import { Providers } from "./providers";
 import { CraftViewer } from "@/components/CraftViewer";
 import db from "@/services/db";
+import {
+  createSubmission,
+  getCraftWithLiveVersion,
+} from "@/services/db/submission";
 
 interface Props {
   params: {
@@ -12,24 +16,18 @@ interface Props {
 export default async function FormPage(props: Props) {
   const { form_id } = props.params;
 
-  const [craft, version] = await db.$transaction([
-    db.craft.findFirst({
-      where: {
-        id: form_id,
-      },
-    }),
-    db.craftVersion.findFirst({
-      orderBy: {
-        publishedAt: "desc",
-      },
-      where: {
-        craftId: form_id,
-        publishedAt: {
-          not: null,
-        },
-      },
-    }),
-  ]);
+  const [craft, version, submission] = await db.$transaction(async (tx) => {
+    const craft = await getCraftWithLiveVersion(form_id, tx);
+    const version = craft?.craftVersions[0];
+
+    if (!version || !craft) {
+      throw new Error("Form not found");
+    }
+
+    const submission = await createSubmission(form_id, version.id, tx);
+
+    return [craft, version, submission];
+  });
 
   if (!version || !craft) {
     return <div>Form not found</div>;
@@ -78,6 +76,7 @@ export default async function FormPage(props: Props) {
       craft={craft}
       version={version}
       themes={themes}
+      submission={submission}
       rootNodeId={rootNode.id}
       rootPageId={rootNode.data.pageId}
     >

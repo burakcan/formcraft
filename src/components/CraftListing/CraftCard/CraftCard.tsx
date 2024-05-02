@@ -1,9 +1,8 @@
 import { truncate } from "lodash";
-import { EllipsisVerticalIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import { ActionsMenu } from "./ActionsMenu";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   craft: FormCraft.CraftListingItem;
@@ -29,14 +28,8 @@ export function CraftCard(props: Props) {
         </h2>
       </div>
       <div className="relative">
-        <Button
-          size="icon"
-          className="size-8 absolute bottom-2 right-2 z-10"
-          variant="secondary"
-        >
-          <EllipsisVerticalIcon className="size-4" />
-        </Button>
-        {craft.published && (
+        <ActionsMenu craft={craft} />
+        {(craft.published || craft.submissionsCount > 0) && (
           <p className="text-xs text-slate-500 p-2 pb-4">
             {craft.submissionsCount}{" "}
             {craft.submissionsCount === 1 ? "response" : "responses"}
@@ -44,19 +37,28 @@ export function CraftCard(props: Props) {
         )}
       </div>
       <div className="flex flex-col gap-1 items-start flex-wrap p-2 border-t bg-accent/50">
-        {craft.published ? (
-          <Badge className=" bg-emerald-500 text-emerald-900 pointer-events-none">
-            Published
-          </Badge>
-        ) : (
-          <Badge className=" bg-slate-300 text-slate-100 pointer-events-none">
-            Draft
+        {craft.archived && (
+          <Badge className=" bg-rose-300 text-rose-100 pointer-events-none">
+            Archived
           </Badge>
         )}
-        {craft.unpublishedChanges && craft.published && (
-          <Badge className=" bg-amber-300 text-amber-50 pointer-events-none whitespace-nowrap">
-            Unpublished changes
-          </Badge>
+        {!craft.archived && (
+          <>
+            {craft.published ? (
+              <Badge className=" bg-emerald-500 text-emerald-900 pointer-events-none">
+                Published
+              </Badge>
+            ) : (
+              <Badge className=" bg-slate-300 text-slate-100 pointer-events-none">
+                Draft
+              </Badge>
+            )}
+            {craft.unpublishedChanges && craft.published && (
+              <Badge className=" bg-amber-300 text-amber-50 pointer-events-none whitespace-nowrap">
+                Unpublished changes
+              </Badge>
+            )}
+          </>
         )}
       </div>
     </Link>
