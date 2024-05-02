@@ -15,6 +15,8 @@ export const BlockerLink = forwardRef<
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (dirty) {
       e.preventDefault();
+      e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
       setShowModal(true);
       setTargetHref(props.href);
       return;
