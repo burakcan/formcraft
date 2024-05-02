@@ -18,7 +18,7 @@ export function EndScreenEditor(props: Props) {
     <PageWrapperEditor>
       <BaseContentEditor page={page} onChange={onChange} />
       {page.showCta && (
-        <div className="w-full p-2">
+        <div className="w-full p-2 pb-0">
           <CtaButtonEditor
             page={page}
             onChange={onChange}

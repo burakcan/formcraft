@@ -1,3 +1,4 @@
+import { hexToHSL } from "../color";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export const greenery: CraftTheme = {
@@ -6,16 +7,16 @@ export const greenery: CraftTheme = {
   titleFont: "Averia Serif Libre",
   descriptionFont: "Averia Serif Libre",
   decorationImageLayout: "right-full",
-  titleColor: "#0b6623",
-  descriptionColor: "#000000",
-  answersColor: "#0b6623",
-  backgroundColor: "#ffffff",
+  titleColor: hexToHSL("#0b6623"),
+  descriptionColor: hexToHSL("#000000"),
+  answersColor: hexToHSL("#0b6623"),
+  backgroundColor: hexToHSL("#ffffff"),
   backgroundImage: {
     source: "unsplash",
     url: "/theme-backgrounds/greenery.jpg",
   },
-  buttonColor: "#0b6623",
-  buttonTextColor: "#ffffff",
+  buttonColor: hexToHSL("#0b6623"),
+  buttonTextColor: hexToHSL("#ffffff"),
   fontSize: "medium",
   textAlign: "left",
 };

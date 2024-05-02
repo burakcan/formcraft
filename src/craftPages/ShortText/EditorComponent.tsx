@@ -2,7 +2,7 @@
 
 import { CheckIcon } from "lucide-react";
 import { BaseContentEditor } from "../atoms/BaseContent";
-import { CtaButtonEditor } from "../atoms/CtaButton";
+import { CtaSectionEditor } from "../atoms/CtaSection";
 import { PageWrapperEditor } from "../atoms/PageWrapper";
 import type { ShortText } from "./schema";
 import { Input } from "@/components/ui/input";
@@ -24,12 +24,7 @@ export function ShortTextEditor(props: Props) {
           placeholder="Type your answer here..."
         />
       </div>
-      <div className="w-full p-2">
-        <CtaButtonEditor page={page} onChange={onChange} icon={CheckIcon} />
-        <span className="ml-2 text-sm">
-          or press <kbd>Enter</kbd>
-        </span>
-      </div>
+      <CtaSectionEditor page={page} onChange={onChange} icon={CheckIcon} />
     </PageWrapperEditor>
   );
 }

@@ -2,7 +2,7 @@
 
 import { CheckIcon } from "lucide-react";
 import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaButtonViewer } from "../atoms/CtaButton";
+import { CtaSectionViewer } from "../atoms/CtaSection";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
 import type { LongText } from "./schema";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,12 +23,7 @@ export function LongTextViewer(props: Props) {
           placeholder="Type your answer here..."
         />
       </div>
-      <div className="w-full py-2">
-        <CtaButtonViewer page={page} icon={CheckIcon} />
-        <span className="ml-2 text-sm whitespace-nowrap">
-          or press <kbd>Meta</kbd> + <kbd>Enter</kbd>
-        </span>
-      </div>
+      <CtaSectionViewer page={page} icon={CheckIcon} withMeta />
     </PageWrapperViewer>
   );
 }

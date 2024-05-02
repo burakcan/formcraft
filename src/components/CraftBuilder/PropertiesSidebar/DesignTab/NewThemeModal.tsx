@@ -1,5 +1,6 @@
 import { CheckIcon, LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 import { ThemeCard } from "./ThemeCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,10 +28,11 @@ interface Props {
   data: CraftTheme;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSave: () => void;
 }
 
 export function NewThemeModal(props: Props) {
-  const { data, open, onOpenChange, selectedPage } = props;
+  const { data, open, onOpenChange, selectedPage, onSave } = props;
   const mutation = useSaveCustomThemeMutation();
   const { editPage } = useEditCraftStore((s) => ({
     editPage: s.editPage,
@@ -48,17 +50,18 @@ export function NewThemeModal(props: Props) {
     mutation.mutate(
       {
         ...data,
+        id: uuid(),
         name: values.themeName,
       },
       {
         onSuccess: (response) => {
-          onOpenChange(false);
-
           editPage(selectedPage.id, {
             ...selectedPage,
             baseThemeId: response.data.id,
             themeOverride: {},
           });
+
+          onSave();
         },
       }
     );

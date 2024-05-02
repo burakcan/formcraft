@@ -15,7 +15,12 @@ export function CraftListing() {
   const router = useRouter();
 
   const handleToggleArchived = (checked: boolean) => {
-    router.replace("?showArchived=" + checked);
+    if (checked) {
+      router.replace("?showArchived=true");
+      return;
+    }
+
+    router.replace("/dashboard");
   };
 
   return (
@@ -34,7 +39,7 @@ export function CraftListing() {
         <CreateCraftButton />
       </div>
       {data?.data.length === 0 && <EmptyState />}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 ">
         {data?.data.map((craft) => (
           <CraftCard craft={craft} key={craft.id} />
         ))}

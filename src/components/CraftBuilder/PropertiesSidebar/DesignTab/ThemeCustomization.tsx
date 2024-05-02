@@ -62,6 +62,9 @@ export function ThemeCustomization(props: Props) {
         open={showSaveAsNewModal}
         onOpenChange={setShowSaveAsNewModal}
         data={theme}
+        onSave={() => {
+          onGallery();
+        }}
       />
 
       <SaveThemeModal

@@ -1,3 +1,4 @@
+import { hexToHSL } from "../color";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export const dark: CraftTheme = {
@@ -5,13 +6,13 @@ export const dark: CraftTheme = {
   name: "Dark",
   titleFont: "Inter",
   descriptionFont: "Inter",
-  titleColor: "#FFFFFF",
-  descriptionColor: "#FFFFFF",
-  answersColor: "#FFFFFF",
-  backgroundColor: "#000000",
+  titleColor: hexToHSL("#FFFFFF"),
+  descriptionColor: hexToHSL("#FFFFFF"),
+  answersColor: hexToHSL("#FFFFFF"),
+  backgroundColor: hexToHSL("#000000"),
   decorationImageLayout: "right-full",
-  buttonColor: "#FFFFFF",
-  buttonTextColor: "#000000",
+  buttonColor: hexToHSL("#FFFFFF"),
+  buttonTextColor: hexToHSL("#000000"),
   fontSize: "medium",
   textAlign: "left",
 };

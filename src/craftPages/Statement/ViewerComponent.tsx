@@ -2,7 +2,7 @@
 
 import { ChevronRight } from "lucide-react";
 import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaButtonViewer } from "../atoms/CtaButton";
+import { CtaSectionViewer } from "../atoms/CtaSection";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
 import type { Statement } from "./schema";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
@@ -18,13 +18,11 @@ export function StatementViewer(props: Props) {
   return (
     <PageWrapperViewer>
       <BaseContentViewer page={page} />
-      <div className="w-full pt-2">
-        <CtaButtonViewer
-          page={page}
-          onClick={() => onAnswer(page.id, true)}
-          icon={ChevronRight}
-        />
-      </div>
+      <CtaSectionViewer
+        page={page}
+        onClick={() => onAnswer(page.id, true)}
+        icon={ChevronRight}
+      />
     </PageWrapperViewer>
   );
 }

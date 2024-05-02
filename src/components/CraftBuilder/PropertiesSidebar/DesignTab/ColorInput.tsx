@@ -1,3 +1,4 @@
+import { HSLToHex, hexToHSL } from "@/lib/color";
 import { Label } from "@/components/ui/label";
 
 interface Props {
@@ -14,9 +15,9 @@ export function ColorInput(props: Props) {
       <Label>{label}</Label>
       <input
         type="color"
-        value={value}
+        value={HSLToHex(value)}
         className="size-8 bg-transparent"
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(hexToHSL(e.target.value))}
       />
     </div>
   );
