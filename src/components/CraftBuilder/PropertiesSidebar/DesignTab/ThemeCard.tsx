@@ -83,7 +83,7 @@ export function ThemeCard(props: Props) {
           </h1>
           <div className="text-craft-description font-craft-description">
             Aa{" "}
-            <Badge className="font-sans bg-craft-button text-craft-button-text">
+            <Badge className="font-sans bg-craft-button text-craft-button-text hover:bg-craft-button hover:opacity-60">
               Aa
             </Badge>
           </div>
