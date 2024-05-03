@@ -1,48 +1,28 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon } from "lucide-react";
-import { useId } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { BaseContentViewer } from "../atoms/BaseContent";
 import { CtaSectionViewer } from "../atoms/CtaSection";
+import { FieldValidationErrorViewer } from "../atoms/FieldValidationError";
 import { PageWrapperViewer } from "../atoms/PageWrapper";
-import { shortTextViewerSchema, type ShortText } from "./schema";
-import { Form, FormField } from "@/components/ui/form";
+import { type ShortText } from "./schema";
+import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 interface Props {
   page: ShortText;
 }
 
-const formSchema = z.object({
-  value: shortTextViewerSchema,
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
 export function ShortTextViewer(props: Props) {
-  const onAnswer = useViewCraftStore((state) => state.onAnswer);
   const { page } = props;
-  const formDomId = useId();
-  const form = useForm<FormValues>({
-    defaultValues: { value: "" },
-    resolver: zodResolver(formSchema),
-  });
-
-  const handleSubmit = form.handleSubmit((data) => {
-    onAnswer(page.id, data.value);
-  });
 
   return (
-    <Form {...form}>
-      <PageWrapperViewer>
-        <BaseContentViewer page={page} />
-        <div className="w-full pt-2">
-          <form onSubmit={handleSubmit} id={formDomId}>
+    <PageWrapperViewer page={page}>
+      {({ form, formDomId }) => (
+        <>
+          <BaseContentViewer page={page} />
+          <div className="w-full pt-2">
             <FormField
               control={form.control}
               name="value"
@@ -51,26 +31,26 @@ export function ShortTextViewer(props: Props) {
                   <>
                     <Input
                       {...field}
+                      value={field.value ?? ""}
                       autoFocus
                       className={cn(
-                        "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers",
-                        { "border-destructive": fieldState.error }
+                        "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers"
                       )}
                       placeholder="Type your answer here..."
                     />
                     {fieldState.error && (
-                      <div className="text-craft-description text-sm mt-1">
+                      <FieldValidationErrorViewer>
                         {fieldState.error.message}
-                      </div>
+                      </FieldValidationErrorViewer>
                     )}
                   </>
                 );
               }}
             />
-          </form>
-        </div>
-        <CtaSectionViewer page={page} icon={CheckIcon} form={formDomId} />
-      </PageWrapperViewer>
-    </Form>
+          </div>
+          <CtaSectionViewer page={page} icon={CheckIcon} form={formDomId} />
+        </>
+      )}
+    </PageWrapperViewer>
   );
 }

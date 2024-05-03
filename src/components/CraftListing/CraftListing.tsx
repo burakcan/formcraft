@@ -2,12 +2,27 @@
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { EmptyState } from "./EmptyState";
 import { CraftCard } from "@/components/CraftListing/CraftCard";
 import { CreateCraftButton } from "@/components/CreateCraftButton";
 import { useCraftsListingQuery } from "@/hooks/useCraftsListingQuery";
+
+async function ArchivedSwitch(props: {
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  const showArchived = useSearchParams().get("showArchived") === "true";
+
+  return (
+    <Switch
+      id="show-archived"
+      checked={showArchived}
+      onCheckedChange={props.onCheckedChange}
+    />
+  );
+}
 
 export function CraftListing() {
   const showArchived = useSearchParams().get("showArchived") === "true";
@@ -30,11 +45,9 @@ export function CraftListing() {
         <div className="flex-auto" />
         <div className="flex items-center space-x-2">
           <Label htmlFor="show-archived">Show archived</Label>
-          <Switch
-            id="show-archived"
-            checked={showArchived}
-            onCheckedChange={handleToggleArchived}
-          />
+          <Suspense>
+            <ArchivedSwitch onCheckedChange={handleToggleArchived} />
+          </Suspense>
         </div>
         <CreateCraftButton />
       </div>

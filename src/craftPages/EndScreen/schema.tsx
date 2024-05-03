@@ -8,8 +8,10 @@ export const endScreenEditorSchema = basePage.extend({
   ctaLink: z.string().url().default("https://formcraft.io"),
 });
 
-export const endScreenViewerSchema = z.object({});
-
 export type EndScreen = z.infer<typeof endScreenEditorSchema>;
 
-export type EndScreenAnswer = z.infer<typeof endScreenViewerSchema>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getEndScreenViewerSchema = (page: EndScreen) => {
+  const answerSchema = z.any();
+  return answerSchema;
+};

@@ -14,12 +14,16 @@ export function EndScreenViewer(props: Props) {
   const { page } = props;
 
   return (
-    <PageWrapperViewer>
-      <BaseContentViewer page={page} />
-      {page.showCta && (
-        <div className="w-full pt-2">
-          <CtaButtonViewerAsLink page={page} icon={ChevronRight} />
-        </div>
+    <PageWrapperViewer page={page}>
+      {() => (
+        <>
+          <BaseContentViewer page={page} />
+          {page.showCta && (
+            <div className="w-full pt-2">
+              <CtaButtonViewerAsLink page={page} icon={ChevronRight} />
+            </div>
+          )}
+        </>
       )}
     </PageWrapperViewer>
   );
