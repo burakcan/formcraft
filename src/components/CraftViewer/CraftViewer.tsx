@@ -71,7 +71,6 @@ export function CraftViewer() {
           (!fontsLoaded || !imagesLoaded) && currentNode.id === rootNodeId
         }
       />
-      <ThemeStyle theme={theme} />
       <PageLayout theme={theme} page={currentPage}>
         <AnimatePresence initial={false}>
           <motion.div

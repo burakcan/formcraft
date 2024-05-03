@@ -8,8 +8,22 @@ export const longTextEditorSchema = basePage.extend({
   maxLength: z.number().default(1000),
 });
 
-export const longTextViewerSchema = z.object({});
-
 export type LongText = z.infer<typeof longTextEditorSchema>;
 
-export type LongTextAnswer = z.infer<typeof longTextViewerSchema>;
+export const getLongTextViewerSchema = (page: LongText) => {
+  let answerSchema = z.string();
+
+  if (page.minLength) {
+    answerSchema = answerSchema.min(page.minLength, {
+      message: `Please enter at least ${page.minLength} characters.`,
+    });
+  }
+
+  if (page.maxLength) {
+    answerSchema = answerSchema.max(page.maxLength, {
+      message: `Please enter no more than ${page.maxLength} characters.`,
+    });
+  }
+
+  return answerSchema.default("");
+};

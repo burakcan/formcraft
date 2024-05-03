@@ -3,17 +3,17 @@ import {
   EndScreenEditor,
   EndScreenViewer,
   endScreenEditorSchema,
-  endScreenViewerSchema,
+  getEndScreenViewerSchema,
 } from "./EndScreen";
 import {
   LongTextEditor,
   LongTextViewer,
   longTextEditorSchema,
-  longTextViewerSchema,
+  getLongTextViewerSchema,
 } from "./LongText";
 import {
   ShortTextEditor,
-  shortTextViewerSchema,
+  getShortTextViewerSchema,
   shortTextEditorSchema,
 } from "./ShortText";
 import { ShortTextViewer } from "./ShortText/ViewerComponent";
@@ -21,7 +21,7 @@ import {
   StatementEditor,
   StatementViewer,
   statementEditorSchema,
-  statementViewerSchema,
+  getStatementViewerSchema,
 } from "./Statement";
 
 export const craftPageDefinitions = {
@@ -32,7 +32,7 @@ export const craftPageDefinitions = {
     editorComponent: StatementEditor,
     editorSchema: statementEditorSchema,
     viewerComponent: StatementViewer,
-    viewerSchema: statementViewerSchema,
+    getViewerSchema: getStatementViewerSchema,
 
     icon: Megaphone,
     iconClassName: "bg-rose-100",
@@ -45,7 +45,7 @@ export const craftPageDefinitions = {
     editorComponent: EndScreenEditor,
     editorSchema: endScreenEditorSchema,
     viewerComponent: EndScreenViewer,
-    viewerSchema: endScreenViewerSchema,
+    getViewerSchema: getEndScreenViewerSchema,
 
     icon: BookOpen,
     iconClassName: "bg-emerald-100",
@@ -58,7 +58,7 @@ export const craftPageDefinitions = {
     editorComponent: ShortTextEditor,
     editorSchema: shortTextEditorSchema,
     viewerComponent: ShortTextViewer,
-    viewerSchema: shortTextViewerSchema,
+    getViewerSchema: getShortTextViewerSchema,
 
     icon: TextCursorInput,
     iconClassName: "bg-amber-100",
@@ -71,7 +71,7 @@ export const craftPageDefinitions = {
     editorComponent: LongTextEditor,
     editorSchema: longTextEditorSchema,
     viewerComponent: LongTextViewer,
-    viewerSchema: longTextViewerSchema,
+    getViewerSchema: getLongTextViewerSchema,
 
     icon: BookOpen,
     iconClassName: "bg-amber-100",
