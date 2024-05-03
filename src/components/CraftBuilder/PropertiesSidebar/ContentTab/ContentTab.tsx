@@ -60,61 +60,57 @@ export function ContentTab(props: Props) {
           </div>
         </div>
 
-        {("minLength" in selectedPage ||
-          "maxLength" in selectedPage ||
-          "required" in selectedPage) && (
-          <div className="p-2 pt-0 border rounded flex flex-col gap-2">
-            {"minLength" in selectedPage && (
-              <div>
-                <Label htmlFor="minLength">Minimum length</Label>
-                <Input
-                  name="minLength"
-                  type="number"
-                  value={selectedPage.minLength ?? 0}
-                  onChange={(e) => {
-                    editPage(selectedPage.id, {
-                      ...selectedPage,
-                      minLength: parseInt(e.target.value, 10),
-                    });
-                  }}
-                />
-              </div>
-            )}
+        <div className="p-2 pt-0 border rounded flex flex-col gap-2">
+          {"minLength" in selectedPage && (
+            <div>
+              <Label htmlFor="minLength">Minimum length</Label>
+              <Input
+                name="minLength"
+                type="number"
+                value={selectedPage.minLength ?? 0}
+                onChange={(e) => {
+                  editPage(selectedPage.id, {
+                    ...selectedPage,
+                    minLength: parseInt(e.target.value, 10),
+                  });
+                }}
+              />
+            </div>
+          )}
 
-            {"maxLength" in selectedPage && (
-              <div>
-                <Label htmlFor="maxLength">Maximum length</Label>
-                <Input
-                  name="maxLength"
-                  type="number"
-                  value={selectedPage.maxLength || ""}
-                  onChange={(e) => {
-                    editPage(selectedPage.id, {
-                      ...selectedPage,
-                      maxLength: parseInt(e.target.value, 10),
-                    });
-                  }}
-                />
-              </div>
-            )}
+          {"maxLength" in selectedPage && (
+            <div>
+              <Label htmlFor="maxLength">Maximum length</Label>
+              <Input
+                name="maxLength"
+                type="number"
+                value={selectedPage.maxLength || ""}
+                onChange={(e) => {
+                  editPage(selectedPage.id, {
+                    ...selectedPage,
+                    maxLength: parseInt(e.target.value, 10),
+                  });
+                }}
+              />
+            </div>
+          )}
 
-            {"required" in selectedPage && (
-              <div className="flex items-center justify-between pt-2">
-                <Label htmlFor="required">Required</Label>
-                <Checkbox
-                  name="required"
-                  checked={selectedPage.required}
-                  onCheckedChange={(checked) => {
-                    editPage(selectedPage.id, {
-                      ...selectedPage,
-                      required: checked === true,
-                    });
-                  }}
-                />
-              </div>
-            )}
-          </div>
-        )}
+          {"required" in selectedPage && (
+            <div className="flex items-center justify-between pt-2">
+              <Label htmlFor="required">Required</Label>
+              <Checkbox
+                name="required"
+                checked={selectedPage.required}
+                onCheckedChange={(checked) => {
+                  editPage(selectedPage.id, {
+                    ...selectedPage,
+                    required: checked === true,
+                  });
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {("showCta" in selectedPage ||
           "cta" in selectedPage ||

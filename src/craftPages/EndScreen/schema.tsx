@@ -12,6 +12,6 @@ export type EndScreen = z.infer<typeof endScreenEditorSchema>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getEndScreenViewerSchema = (page: EndScreen) => {
-  const answerSchema = z.any();
-  return answerSchema;
+  const answerSchema = z.literal(null);
+  return answerSchema.default(null);
 };
