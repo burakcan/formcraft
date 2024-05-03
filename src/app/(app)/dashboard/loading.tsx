@@ -1,5 +1,7 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { LayoutWithTopbar } from "@/components/AppChrome";
 import { CreateCraftButton } from "@/components/CreateCraftButton";
 import { Navbar } from "@/components/Navbar";
@@ -7,9 +9,12 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 
-export default function DashboardLoading() {
+async function ArchivedSwitch() {
   const showArchived = useSearchParams().get("showArchived") === "true";
+  return <Switch id="show-archived" checked={showArchived} />;
+}
 
+export default function DashboardLoading() {
   return (
     <LayoutWithTopbar topBar={<Navbar />}>
       <div className="flex-1 overflow-y-auto">
@@ -19,7 +24,9 @@ export default function DashboardLoading() {
             <div className="flex-auto" />
             <div className="flex items-center space-x-2">
               <Label htmlFor="show-archived">Show archived</Label>
-              <Switch id="show-archived" checked={showArchived} />
+              <Suspense>
+                <ArchivedSwitch />
+              </Suspense>
             </div>
             <CreateCraftButton />
           </div>
