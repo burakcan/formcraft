@@ -37,7 +37,7 @@ export type EditCraftStoreActions = {
   removePage: (pageId: string) => void;
   setEditingVersion: (editingVersion: CraftVersion) => void;
   setSelectedPage: (pageId: string) => void;
-  editPage: (pageId: string, page: FormCraft.CraftPage) => void;
+  editPage: <T extends FormCraft.CraftPage>(pageId: string, page: T) => void;
   reset: (data: EditCraftStoreState) => void;
   onReorder: (pages: FormCraft.CraftPage[]) => void;
   setFlow: (flow: ReactFlowJsonObject) => void;
@@ -371,7 +371,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
             })
           ),
 
-        editPage: (pageId: string, page: FormCraft.CraftPage) =>
+        editPage: <T extends FormCraft.CraftPage>(pageId: string, page: T) =>
           set((state) =>
             produce(state, (draft) => {
               draft.editingVersion.data.pages =

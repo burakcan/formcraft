@@ -12,12 +12,16 @@ declare global {
       unpublishedChanges: boolean;
     };
 
-    type CraftPage = z.infer<
-      (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["editorSchema"]
-    >;
+    type CraftPageDefinitions = typeof craftPageDefinitions;
+
+    type CraftPageType = keyof CraftPageDefinitions;
+
+    type CraftPageDefinition = CraftPageDefinitions[CraftPageType];
+
+    type CraftPage = z.infer<CraftPageDefinition["editorSchema"]>;
 
     type CraftAnswer = z.infer<
-      (typeof craftPageDefinitions)[keyof typeof craftPageDefinitions]["viewerSchema"]
+      ReturnType<CraftPageDefinition["getViewerSchema"]>
     >;
 
     interface CraftVersionData {
