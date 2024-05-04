@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 
-async function ArchivedSwitch() {
+function ArchivedSwitch() {
   const showArchived = useSearchParams().get("showArchived") === "true";
   return <Switch id="show-archived" checked={showArchived} />;
 }

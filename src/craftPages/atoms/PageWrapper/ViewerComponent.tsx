@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useId, useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
@@ -31,7 +31,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
   const ref = useRef<HTMLFormElement>(null);
   const onAnswer = useViewCraftStore((state) => state.onAnswer);
   const pageDefinition = craftPageDefinitions[page.type];
-  const formDomId = useId();
+  const formDomId = `form_${page.id.replaceAll("-", "")}`;
 
   const getViewerSchema = pageDefinition.getViewerSchema as (
     page: T
