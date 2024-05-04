@@ -1,12 +1,13 @@
 import type { CraftVersion } from "@prisma/client";
 import { CheckCircle2, CircleHelpIcon, ReplaceAllIcon } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { ImageInput } from "../ImageInput";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -30,10 +31,11 @@ export function ContentTab(props: Props) {
   return (
     <ScrollArea className="flex-1">
       <div className="px-2 pb-4 flex flex-col gap-4 pt-2">
-        <div className="p-2 pt-0 border rounded flex flex-col gap-2">
+        <div className="p-2 pt-1 border rounded flex flex-col gap-2">
           <div>
             <Label htmlFor="title">Title</Label>
             <Input
+              className="h-8 mt-1"
               name="title"
               value={selectedPage.title}
               onChange={(e) => {
@@ -48,6 +50,7 @@ export function ContentTab(props: Props) {
           <div>
             <Label htmlFor="description">Description</Label>
             <Input
+              className="h-8 mt-1"
               name="description"
               value={selectedPage.description}
               onChange={(e) => {
@@ -60,11 +63,55 @@ export function ContentTab(props: Props) {
           </div>
         </div>
 
-        <div className="p-2 pt-0 border rounded flex flex-col gap-2">
+        {selectedPage.type !== "statement" &&
+          selectedPage.type !== "end_screen" && (
+            <div className="p-2 pt-1 border rounded flex flex-col gap-2">
+              <div>
+                <Label htmlFor="variableName">
+                  Variable name
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CircleHelpIcon className="size-4 ml-1 inline-block" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-sm">
+                        You can refer to this answer in the next pages by using{" "}
+                        <br />
+                        this variable name like <code>{`{variable_name}`}</code>
+                        .
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
+                <Input
+                  className="h-8 mt-1"
+                  name="variableName"
+                  value={selectedPage.variableName || ""}
+                  onChange={(e) => {
+                    editPage(selectedPage.id, {
+                      ...selectedPage,
+                      variableName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+        <div
+          className={cn("p-2 pt-1 border rounded flex flex-col gap-2", {
+            hidden: !(
+              "minLength" in selectedPage ||
+              "maxLength" in selectedPage ||
+              "required" in selectedPage
+            ),
+          })}
+        >
           {"minLength" in selectedPage && (
             <div>
               <Label htmlFor="minLength">Minimum length</Label>
               <Input
+                className="h-8 mt-1"
                 name="minLength"
                 type="number"
                 value={selectedPage.minLength ?? 0}
@@ -82,6 +129,7 @@ export function ContentTab(props: Props) {
             <div>
               <Label htmlFor="maxLength">Maximum length</Label>
               <Input
+                className="h-8 mt-1"
                 name="maxLength"
                 type="number"
                 value={selectedPage.maxLength || ""}
@@ -98,7 +146,7 @@ export function ContentTab(props: Props) {
           {"required" in selectedPage && (
             <div className="flex items-center justify-between pt-2">
               <Label htmlFor="required">Required</Label>
-              <Checkbox
+              <Switch
                 name="required"
                 checked={selectedPage.required}
                 onCheckedChange={(checked) => {
@@ -115,11 +163,11 @@ export function ContentTab(props: Props) {
         {("showCta" in selectedPage ||
           "cta" in selectedPage ||
           "ctaLink" in selectedPage) && (
-          <div className="p-2 pt-0 border rounded flex flex-col gap-2">
+          <div className="p-2 pt-1 border rounded flex flex-col gap-2">
             {"showCta" in selectedPage && (
               <div className="flex items-center justify-between pt-2">
                 <Label htmlFor="showCta">Show button</Label>
-                <Checkbox
+                <Switch
                   name="showCta"
                   checked={selectedPage.showCta}
                   onCheckedChange={(checked) => {
@@ -138,6 +186,7 @@ export function ContentTab(props: Props) {
                 <div>
                   <Label htmlFor="cta">Button text</Label>
                   <Input
+                    className="h-8 mt-1"
                     name="cta"
                     value={selectedPage.cta}
                     onChange={(e) => {
@@ -156,6 +205,7 @@ export function ContentTab(props: Props) {
                 <div>
                   <Label htmlFor="ctaLink">Button link</Label>
                   <Input
+                    className="h-8 mt-1"
                     name="ctaLink"
                     value={selectedPage.ctaLink}
                     onChange={(e) => {
@@ -201,40 +251,6 @@ export function ContentTab(props: Props) {
             </Button>
           </div>
         </div>
-
-        {selectedPage.type !== "statement" &&
-          selectedPage.type !== "end_screen" && (
-            <div className="p-2 pt-0 border rounded flex flex-col gap-2">
-              <div>
-                <Label htmlFor="variableName">
-                  Variable name
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <CircleHelpIcon className="size-4 ml-1 inline-block" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="text-sm">
-                        You can refer to this answer in the next pages by using{" "}
-                        <br />
-                        this variable name like <code>{`{variable_name}`}</code>
-                        .
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </Label>
-                <Input
-                  name="variableName"
-                  value={selectedPage.variableName || ""}
-                  onChange={(e) => {
-                    editPage(selectedPage.id, {
-                      ...selectedPage,
-                      variableName: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          )}
       </div>
     </ScrollArea>
   );

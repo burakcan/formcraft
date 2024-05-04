@@ -10,7 +10,7 @@ import { CraftCard } from "@/components/CraftListing/CraftCard";
 import { CreateCraftButton } from "@/components/CreateCraftButton";
 import { useCraftsListingQuery } from "@/hooks/useCraftsListingQuery";
 
-async function ArchivedSwitch(props: {
+function ArchivedSwitch(props: {
   onCheckedChange: (checked: boolean) => void;
 }) {
   const showArchived = useSearchParams().get("showArchived") === "true";
