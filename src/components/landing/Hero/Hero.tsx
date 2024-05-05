@@ -17,16 +17,16 @@ export function Hero() {
         </div>
         <div className="w-full">
           <h1 className="text-5xl font-bold leading-[3.25rem] font-landing-secondary">
-            Lorem ipsum
+            Elevate Your Form Game.
             <br />
-            Dolor sit amet
+            Try Formcraft today.
           </h1>
           <Badge className=" pointer-events-none flex-none inline-block bg-blue-100 text-blue-700 mt-2">
-            An afforable alternative to Typeform
+            An affordable alternative to Typeform
           </Badge>
           <div className="text-lg leading-[2rem] mt-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-            tincidunt, nunc non vestibulum bibendum, sem mi fermentum orci.
+            Create, share, and integrate unlimited forms for free with
+            Formcraft. No gimmicks, no hidden fees.
           </div>
           <div className="mt-8 grid grid-cols-[auto_1fr] gap-2">
             <div>
