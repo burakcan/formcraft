@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lalezar } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const primary = Inter({
+  subsets: ["latin"],
+  variable: "--font-landing",
+});
+
+const secondary = Lalezar({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-landing-secondary",
+});
 
 export const metadata: Metadata = {
   title: "FormCraft - home",
@@ -16,7 +25,15 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "bg-secondary")}>{children}</body>
+      <body
+        className={cn(
+          primary.variable,
+          secondary.variable,
+          "font-landing overflow-x-hidden"
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }
