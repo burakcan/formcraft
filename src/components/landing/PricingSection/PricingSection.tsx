@@ -14,7 +14,8 @@ export function PricingSection() {
           Pick a plan that works for you
         </h3>
         <div className="text-lg leading-[2rem] mt-4 text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Start for free, upgrade as you scale. Explore features that expand
+          with your needs.
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           <div className="h-full">
@@ -27,8 +28,8 @@ export function PricingSection() {
                   <span className="text-gray-500 font-light">/mo</span>
                 </div>
                 <div className="text-sm text-gray-500 mb-5">
-                  There are many variations available, but the majority have
-                  suffered.
+                  Launch your projects at no cost with unlimited forms and
+                  responses, enhanced with customizable themes.
                 </div>
                 <Button className="w-full rounded-full" size="lg" asChild>
                   <Link href="/auth/sign-up">Get started for free</Link>
@@ -71,8 +72,8 @@ export function PricingSection() {
                   <span className="text-gray-500 font-light">/mo</span>
                 </div>
                 <div className="text-sm text-gray-500 mb-5">
-                  There are many variations available, but the majority have
-                  suffered.
+                  Take your forms to the next level with advanced customization
+                  and logic capabilities, suitable for detailed data collection.
                 </div>
                 <Button
                   className="w-full rounded-full bg-rose-600"
@@ -121,8 +122,8 @@ export function PricingSection() {
                   <span className="text-gray-500 font-light">/mo</span>
                 </div>
                 <div className="text-sm text-gray-500 mb-5">
-                  There are many variations available, but the majority have
-                  suffered.
+                  Enhance team productivity with all Pro features and shared
+                  workspaces for seamless collaboration.
                 </div>
                 <Button
                   className="w-full rounded-full bg-blue-600"
@@ -161,11 +162,11 @@ export function PricingSection() {
       <div className="w-full pt-8">
         <div className="w-full mx-auto max-w-screen-lg flex flex-col items-center">
           <h2 className="text-2xl text-center font-landing">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-            tincidunt, nunc non vestibulum bibendum, sem mi fermentum orci.
+            Ready to elevate your forms? Sign up now and transform your data
+            collection experience.
           </h2>
           <Button className="mt-8 rounded-full bg-rose-600" size="lg" asChild>
-            <Link href="/auth/sign-up">Get started for free</Link>
+            <Link href="/auth/sign-up">Start Creating Now</Link>
           </Button>
         </div>
       </div>
