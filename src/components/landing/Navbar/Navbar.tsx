@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export function Navbar() {
   return (
     <div className="w-full p-4 sticky top-0 z-30">
-      <div className="w-full mx-auto max-w-screen-lg h-16 rounded-full flex items-center justify-between px-8 space-x-12 bg-background">
+      <div className="w-full mx-auto max-w-screen-lg h-16 rounded-full flex items-center justify-between pl-8 pr-4 space-x-12 bg-background">
         <a href="#" className="-mt-1">
           <Logo />
         </a>
@@ -18,7 +18,7 @@ export function Navbar() {
           </Button>
           <Button variant="ghost" className="rounded-full" asChild>
             <a href="#" className="text-sm">
-              Features
+              Product
               <ChevronDownIcon
                 className="w-
             4 h-4 ml-2 inline-block"
