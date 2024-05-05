@@ -47,7 +47,11 @@ export function NavMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Use cases</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[600px] lg:grid-cols-2">
+            <div className="m-4 mb-0 p-4 text-sm bg-muted text-muted-foreground rounded">
+              🚀 Explore practical examples of how Formcraft can enhance your
+              form creations.
+            </div>
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[620px] lg:grid-cols-2">
               <h5 className="col-span-2 text-sm text-muted-foreground">
                 Business
               </h5>
@@ -88,9 +92,9 @@ export function NavMenu() {
               </ListItem>
               <ListItem
                 href="/docs/primitives/typography"
-                title="Contest Entry Forms"
+                title="Personality Tests"
               >
-                Increase contest entries with easy-fill forms
+                Engage users with interactive personality tests.
               </ListItem>
 
               <h5 className="col-span-2 text-sm text-muted-foreground">
@@ -114,32 +118,25 @@ export function NavMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Product</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
-                  >
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
-                    </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components that you can copy and
-                      paste into your apps. Accessible. Customizable. Open
-                      Source.
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-              </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[620px] lg:grid-cols-[1fr_1fr]">
+              <ListItem href="/docs" title="Form builder">
+                Design and customize forms with ease using our intuitive
+                drag-and-drop builder.
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
+              <ListItem href="/docs/installation" title="Flow editor">
+                Enhance form interactivity with conditional logic that adapts
+                based on user responses.
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
+              <ListItem href="/docs/primitives/typography" title="Integrations">
+                Connect your forms seamlessly to tools like Stripe, Google
+                Sheets, and more for efficient workflow automation.
+              </ListItem>
+              <ListItem
+                href="/docs/primitives/typography"
+                title="Organizations"
+              >
+                Share a common workspace with your team to streamline form
+                creation and management collaboratively.
               </ListItem>
             </ul>
           </NavigationMenuContent>
