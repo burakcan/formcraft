@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "lucide-react";
+import { NavMenu } from "./NavMenu";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 
@@ -10,26 +10,7 @@ export function Navbar() {
           <Logo />
         </a>
         <div className="flex items-center">
-          <Button variant="ghost" className="rounded-full" asChild>
-            <a href="#" className="text-sm">
-              Use cases
-              <ChevronDownIcon className="w-4 h-4 ml-2 inline-block" />
-            </a>
-          </Button>
-          <Button variant="ghost" className="rounded-full" asChild>
-            <a href="#" className="text-sm">
-              Product
-              <ChevronDownIcon
-                className="w-
-            4 h-4 ml-2 inline-block"
-              />
-            </a>
-          </Button>
-          <Button variant="ghost" className="rounded-full" asChild>
-            <a href="#" className="text-sm">
-              Pricing
-            </a>
-          </Button>
+          <NavMenu />
         </div>
         <div className="flex-auto" />
         <div className="flex gap-2">
