@@ -9,7 +9,7 @@ const sarina = Yellowtail({
 export function Logo(props: { size?: "sm" | "md" | "lg" }) {
   const { size = "md" } = props;
   return (
-    <div className="flex items-center">
+    <div className="flex items-center select-none">
       <span
         className={cn(
           "text-2xl underline-offset-4 underline decoration-emerald-500",

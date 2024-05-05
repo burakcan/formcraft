@@ -12,7 +12,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "4rem",
       screens: {
         "2xl": "1400px",
       },
@@ -21,6 +21,8 @@ const config = {
       fontFamily: {
         "craft-title": "var(--craft-title-font)",
         "craft-description": "var(--craft-description-font)",
+        landing: "var(--font-landing)",
+        "landing-secondary": "var(--font-landing-secondary)",
       },
       fontSize: {
         craft: "var(--craft-font-size)",
