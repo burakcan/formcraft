@@ -36,7 +36,7 @@ export function Navbar() {
           <Button variant="ghost" className="rounded-full">
             Log in
           </Button>
-          <Button className="bg-rose-600 text-white rounded-full ">
+          <Button className="rounded-full" variant="secondary">
             Sign up
           </Button>
         </div>

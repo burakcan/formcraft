@@ -1,9 +1,10 @@
 "use client";
 
-import { TabsContent } from "@radix-ui/react-tabs";
+import { CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+// Free, pro, organization
 
 export function PricingSection() {
   return (
@@ -14,43 +15,137 @@ export function PricingSection() {
       <div className="text-lg leading-[2rem] mt-4 text-center">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </div>
-      <Tabs defaultValue="personal" className="dark mt-4" value="personal">
-        <div className="flex justify-center">
-          <TabsList>
-            <TabsTrigger value="personal">Personal</TabsTrigger>
-            <TabsTrigger value="business">Organization</TabsTrigger>
-          </TabsList>
-        </div>
-        <TabsContent value="personal" asChild>
-          <div className="grid grid-cols-2 gap-4 mt-8">
-            <div className="bg-primary-foreground p-8 rounded-3xl">
-              <h4 className="text-3xl font-bold">Free</h4>
-              <div className="text-2xl mt-4">$0/month</div>
-              <div className="text-lg mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <div className="h-full">
+          <div className="relative flex flex-col h-full p-8 rounded-2xl bg-white  ">
+            <div className="mb-5">
+              <div className="text-gray-900  font-semibold mb-1">Free</div>
+              <div className="inline-flex items-baseline mb-2">
+                <span className="text-gray-900 font-bold text-3xl">$</span>
+                <span className="text-gray-900 font-bold text-4xl">0</span>
+                <span className="text-gray-500 font-light">/mo</span>
               </div>
-              <div className="mt-4">
-                <Button className="rounded-full" size="lg" asChild>
-                  <Link href="/signup">Get started for free</Link>
-                </Button>
-                <div className="text-xs mt-2 ">No credit card required</div>
+              <div className="text-sm text-gray-500 mb-5">
+                There are many variations available, but the majority have
+                suffered.
               </div>
-            </div>
-            <div className="bg-primary-foreground p-8 rounded-3xl">
-              <h4 className="text-3xl font-bold">Pro</h4>
-              <div className="text-2xl mt-4">$29.99/month</div>
-              <div className="text-lg mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </div>
-              <div className="mt-4">
-                <Button className="rounded-full" size="lg" asChild>
-                  <Link href="/signup">Get started</Link>
-                </Button>
+              <Button className="w-full rounded-full" size="lg" asChild>
+                <Link href="/auth/sign-up">Get started for free</Link>
+              </Button>
+              <div className="text-xs mt-2 text-gray-500 text-center">
+                No credit card required
               </div>
             </div>
+            <div className="text-gray-900 font-medium mb-3">Includes:</div>
+            <ul className="text-gray-600 text-sm space-y-3 grow">
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Unlimited placeholder texts</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Consectetur adipiscing elit</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Excepteur sint occaecat cupidatat</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Officia deserunt mollit anim</span>
+              </li>
+            </ul>
           </div>
-        </TabsContent>
-      </Tabs>
+        </div>
+
+        <div className="h-full">
+          <div className="relative flex flex-col h-full p-8 rounded-2xl bg-white  ">
+            <div className="mb-5">
+              <div className="text-gray-900  font-semibold mb-1">Pro</div>
+              <div className="inline-flex items-baseline mb-2">
+                <span className="text-gray-900 font-bold text-3xl">$</span>
+                <span className="text-gray-900 font-bold text-4xl">29.99</span>
+                <span className="text-gray-500 font-light">/mo</span>
+              </div>
+              <div className="text-sm text-gray-500 mb-5">
+                There are many variations available, but the majority have
+                suffered.
+              </div>
+              <Button
+                className="w-full rounded-full bg-rose-600"
+                size="lg"
+                asChild
+              >
+                <Link href="/auth/sign-up">Get started</Link>
+              </Button>
+            </div>
+            <div className="text-gray-900 font-medium mb-3">Includes:</div>
+            <ul className="text-gray-600 text-sm space-y-3 grow">
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Unlimited placeholder texts</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Consectetur adipiscing elit</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Excepteur sint occaecat cupidatat</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Officia deserunt mollit anim</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="h-full">
+          <div className="relative flex flex-col h-full p-8 rounded-2xl bg-white  ">
+            <div className="mb-5">
+              <div className="text-gray-900  font-semibold mb-1">
+                Organization
+              </div>
+              <div className="inline-flex items-baseline mb-2">
+                <span className="text-gray-900 font-bold text-3xl">$</span>
+                <span className="text-gray-900 font-bold text-4xl">49.99</span>
+                <span className="text-gray-500 font-light">/mo</span>
+              </div>
+              <div className="text-sm text-gray-500 mb-5">
+                There are many variations available, but the majority have
+                suffered.
+              </div>
+              <Button
+                className="w-full rounded-full bg-blue-600"
+                size="lg"
+                asChild
+              >
+                <Link href="/auth/sign-up">Get started</Link>
+              </Button>
+            </div>
+            <div className="text-gray-900 font-medium mb-3">Includes:</div>
+            <ul className="text-gray-600 text-sm space-y-3 grow">
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Unlimited placeholder texts</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Consectetur adipiscing elit</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Excepteur sint occaecat cupidatat</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2Icon className="flex-none size-5 text-emerald-500" />
+                <span>Officia deserunt mollit anim</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
