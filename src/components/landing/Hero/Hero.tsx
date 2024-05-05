@@ -11,8 +11,9 @@ export function Hero() {
             className="rounded-lg ring-1 ring-offset-4 ring-gray-300 ring-offset-gray-200"
             src="/landing-images/onboarding-form.png"
             alt="Form builder"
-            width={1000}
-            height={1000}
+            width={845}
+            height={537}
+            priority
           />
         </div>
         <div className="w-full">
