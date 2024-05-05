@@ -21,7 +21,7 @@ export function Hero() {
             <br />
             Dolor sit amet
           </h1>
-          <Badge className="flex-none inline-block bg-amber-100 text-amber-700 mt-2">
+          <Badge className=" pointer-events-none flex-none inline-block bg-blue-100 text-blue-700 mt-2">
             An afforable alternative to Typeform
           </Badge>
           <div className="text-lg leading-[2rem] mt-4">
