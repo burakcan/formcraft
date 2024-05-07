@@ -6,16 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function PropertiesSidebar() {
-  const { editingVersion, selectedPageId, editPage } = useEditCraftStore(
-    (s) => ({
-      editingVersion: s.editingVersion,
-      selectedPageId: s.selectedPageId,
-      editPage: s.editPage,
-    })
-  );
-  const selectedPage = editingVersion?.data.pages.find(
-    (page) => page.id === selectedPageId
-  );
+  const { editingVersion, selectedPage, editPage } = useEditCraftStore((s) => ({
+    editingVersion: s.editingVersion,
+    selectedPage: s.getSelectedPage(),
+    editPage: s.editPage,
+  }));
 
   if (!selectedPage) {
     return null;

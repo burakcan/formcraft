@@ -1,6 +1,7 @@
 import type { Craft, CraftSubmission, CraftVersion } from "@prisma/client";
 import { produce } from "immer";
 import { createContext } from "react";
+import type { Node } from "reactflow";
 import { create } from "zustand";
 import { runFlow } from "@/lib/flowRunners";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
@@ -26,14 +27,27 @@ export type ViewCraftStoreState = {
 
 export type ViewCraftStoreActions = {
   onAnswer(pageId: string, answer: FormCraft.CraftAnswer, meta?: {}): void;
+
+  getCurrentNode(): Node;
+  getCurrentPage(): FormCraft.CraftPage;
 };
 
 export type ViewCraftStore = ViewCraftStoreState & ViewCraftStoreActions;
 
 export const createViewCraftStore = (initialData: ViewCraftStoreState) => {
-  return create<ViewCraftStore>((set) => {
+  return create<ViewCraftStore>((set, get) => {
     return {
       ...initialData,
+
+      getCurrentNode: () =>
+        get().version.data.flow.nodes.find(
+          (node) => node.id === get().currentNodeId
+        )!,
+
+      getCurrentPage: () =>
+        [...get().version.data.pages, ...get().version.data.end_pages].find(
+          (page) => page.id === get().currentPageId
+        )!,
 
       onAnswer: (pageId, answer, meta) => {
         set((state) =>

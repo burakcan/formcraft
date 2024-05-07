@@ -7,39 +7,32 @@ import type { Edge, EdgeChange, Node, NodeChange } from "reactflow";
 import {
   applyEdgeChanges,
   applyNodeChanges,
-  getConnectedEdges,
-  getOutgoers,
-  updateEdge,
+  // getConnectedEdges,
+  // getOutgoers,
+  // updateEdge,
   type ReactFlowJsonObject,
 } from "reactflow";
 import type { TemporalState } from "zundo";
 import { temporal } from "zundo";
 import { create } from "zustand";
-import {
-  findPageIndexes,
-  shiftEndingsToEnd,
-  splitContentAndEnding,
-} from "@/lib/utils";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 export type EditCraftStoreState = {
   craft: FormCraft.Craft;
   editingVersion: CraftVersion;
   selectedPageId: string;
-  defaultThemeForNewPages: string | undefined;
-  defaultLogoForNewPages: ThemeImageType | undefined;
 };
 
 export type EditCraftStoreActions = {
   setCraft: (craft: FormCraft.Craft) => void;
   setCraftTitle: (title: string) => void;
-  addPage: (page: FormCraft.CraftPage) => void;
-  removePage: (pageId: string) => void;
+  addPage: (page: FormCraft.CraftPage, ending?: boolean) => void;
+  removePage: (pageId: string, ending?: boolean) => void;
   setEditingVersion: (editingVersion: CraftVersion) => void;
   setSelectedPage: (pageId: string) => void;
   editPage: <T extends FormCraft.CraftPage>(pageId: string, page: T) => void;
   reset: (data: EditCraftStoreState) => void;
-  onReorder: (pages: FormCraft.CraftPage[]) => void;
+  onReorderPages: (pages: FormCraft.CraftPage[], endings?: boolean) => void;
   setFlow: (flow: ReactFlowJsonObject) => void;
   setNodes: (nodes: SetStateAction<Node[]>) => void;
   setEdges: (edges: SetStateAction<Edge[]>) => void;
@@ -47,6 +40,10 @@ export type EditCraftStoreActions = {
   onEdgesChange: (changes: EdgeChange[]) => void;
   applyThemeToAll: (themeId: string) => void;
   applyLogoToAll: (logo: ThemeImageType | undefined) => void;
+  getSelectedPage: () =>
+    | FormCraft.CraftPage
+    | FormCraft.CraftEndPage
+    | undefined;
 };
 
 export type EditCraftStore = EditCraftStoreState & EditCraftStoreActions;
@@ -57,306 +54,113 @@ export type TemporalEditCraftStore = TemporalState<
   >
 >;
 
-const syncFlowOrderWithPages = (
-  state: EditCraftStoreState,
-  draftState: EditCraftStoreState
-) => {
-  const stateFlow = state.editingVersion.data.flow;
-  const draftFlow = draftState.editingVersion.data.flow;
-  const statePages = state.editingVersion.data.pages;
-  const draftPages = draftState.editingVersion.data.pages;
-
-  if (stateFlow.nodes.length !== draftPages.length) {
-    // The number of pages in the flow and the number of pages in the pages list are different
-    // We can't sync the flow with the pages
-    return;
-  }
-
-  // find the root node of the flow
-  const rootNode = stateFlow.nodes.find((n) => {
-    const connectedEdges = getConnectedEdges([n], stateFlow.edges);
-    return connectedEdges.length === 1 && connectedEdges[0].source === n.id;
-  }) as Node;
-
-  let orderMatch = true;
-
-  const walkFlow = (node: Node, step: number) => {
-    const matchesPage = statePages[step]?.id === node.data.pageId;
-
-    if (!matchesPage) {
-      orderMatch = false;
-      return;
-    }
-
-    const [nextNode] = getOutgoers(node, stateFlow.nodes, stateFlow.edges);
-
-    if (!nextNode) return;
-
-    walkFlow(nextNode, step + 1);
-  };
-
-  walkFlow(rootNode, 0);
-
-  if (!orderMatch) {
-    // The order of the pages in the flow does not match the order of the pages in the pages list
-    // We can't sync the flow with the pages
-    return;
-  }
-
-  draftFlow.edges = [];
-  draftPages.forEach((page, index) => {
-    const nextPage = draftPages[index + 1];
-    const node = stateFlow.nodes.find((n) => n.data.pageId === page.id);
-
-    if (!node) return;
-
-    const existingConnections = getConnectedEdges([node], stateFlow.edges);
-
-    if (
-      !existingConnections.length ||
-      !nextPage ||
-      page.type === "end_screen"
-    ) {
-      return;
-    }
-
-    const edge: Edge = {
-      id: `edge-${page.id}-${nextPage.id}`,
-      source: page.id,
-      sourceHandle: "output",
-      target: nextPage.id,
-      targetHandle: "input",
-      type: "removable",
-    };
-
-    draftFlow.edges.push(edge);
-  });
-
-  draftFlow.nodes.sort((a, b) => {
-    const aIndex = draftPages.findIndex((p) => p.id === a.data.pageId);
-    const bIndex = draftPages.findIndex((p) => p.id === b.data.pageId);
-
-    return bIndex - aIndex;
-  });
-};
-
-const syncFlowWithPages = (
-  state: EditCraftStoreState,
-  draftState: EditCraftStoreState
-) => {
-  const stateFlow = state.editingVersion.data.flow;
-  const draftFlow = draftState.editingVersion.data.flow;
-  const draftPages = draftState.editingVersion.data.pages;
-
-  // pages that exist in the draft but not in the state flow
-  const newPages = draftPages.filter(
-    (p) =>
-      !state.editingVersion.data.flow.nodes.some((e) => e.data.pageId === p.id)
-  );
-
-  // pages that exist in the state flow but not in the draft
-  const removedPageNodes = stateFlow.nodes.filter(
-    (e) => e.type === "page" && !draftPages.some((p) => p.id === e.data.pageId)
-  );
-
-  newPages.forEach((page) => {
-    // find the page that comes before the new page
-    const { index } = findPageIndexes(draftPages, page.id);
-    const previousPage = draftPages[index - 1];
-    const previousPageNode = stateFlow.nodes.find(
-      (n) => n.data.pageId === previousPage?.id
-    );
-
-    const newNode = {
-      id: page.id,
-      type: "page",
-      position: { x: 0, y: 0 },
-      data: { pageId: page.id },
-    };
-
-    // find the node that is most right and most bottom
-
-    const maxX = Math.max(...stateFlow.nodes.map((n) => n.position.x), 0);
-    const minX = Math.min(...stateFlow.nodes.map((n) => n.position.x), 0);
-    const maxY = Math.max(...stateFlow.nodes.map((n) => n.position.y), 0);
-
-    newNode.position =
-      page.type === "end_screen"
-        ? {
-            x: maxX,
-            y: maxY + 100,
-          }
-        : {
-            x: minX,
-            y: maxY + 70,
-          };
-
-    draftFlow.nodes.push(newNode);
-
-    if (previousPageNode) {
-      const connectedEdges = getConnectedEdges(
-        [previousPageNode],
-        stateFlow.edges
-      );
-
-      const [prevNodeOutputConnection] = connectedEdges.filter(
-        (e) => e.source === previousPageNode.id
-      );
-
-      if (!prevNodeOutputConnection) {
-        // Probably the previous page is an ending page
-        return;
-      }
-
-      const targetNode = stateFlow.nodes.find(
-        (n) => n.id === prevNodeOutputConnection.target
-      );
-
-      if (targetNode?.type === "page" && page.type !== "end_screen") {
-        // New page is created between two pages.
-        // Connect the previous page to the new page
-        // and the new page to the next page
-
-        // Connect the previous page to the new page
-        draftFlow.edges = updateEdge(
-          prevNodeOutputConnection,
-          {
-            target: prevNodeOutputConnection.target,
-            targetHandle: "input",
-            source: page.id,
-            sourceHandle: "output",
-          },
-          draftFlow.edges
-        );
-
-        // Connect the new page to the next page
-        draftFlow.edges.push({
-          id: `${previousPage.id}-${page.id}`,
-          source: previousPage.id,
-          target: page.id,
-          type: "removable",
-        });
-      } else {
-        // TODO: Show a warning to the user
-      }
-    }
-  });
-
-  removedPageNodes.forEach((node) => {
-    draftFlow.nodes = draftFlow.nodes.filter((n) => n.id !== node.data.pageId);
-
-    const connectedEdges = getConnectedEdges([node], stateFlow.edges).map(
-      (e) => e.id
-    );
-
-    draftFlow.edges = draftFlow.edges.filter(
-      (e) => !connectedEdges.includes(e.id)
-    );
-  });
-};
-
 export const createEditCraftStore = (initialData: EditCraftStoreState) => {
   return create<EditCraftStore>()(
     temporal(
-      (set) => ({
+      (set, get) => ({
         ...initialData,
 
-        applyThemeToAll: (themeId: string) =>
+        getSelectedPage: () =>
+          get().editingVersion.data.pages.find(
+            (p) => p.id === get().selectedPageId
+          ) ||
+          get().editingVersion.data.end_pages.find(
+            (p) => p.id === get().selectedPageId
+          ),
+
+        applyThemeToAll: (themeId) =>
           set((state) =>
             produce(state, (draft) => {
-              draft.defaultThemeForNewPages = themeId;
+              draft.editingVersion.data.defaultTheme = themeId;
 
-              draft.editingVersion.data.pages.forEach((page) => {
+              [
+                ...draft.editingVersion.data.pages,
+                ...draft.editingVersion.data.end_pages,
+              ].forEach((page) => {
                 page.baseThemeId = themeId;
                 page.themeOverride = {};
               });
             })
           ),
 
-        applyLogoToAll: (logoId: ThemeImageType | undefined) =>
+        applyLogoToAll: (logo) =>
           set((state) =>
             produce(state, (draft) => {
-              draft.defaultLogoForNewPages = logoId;
+              draft.editingVersion.data.defaultLogo = logo;
 
-              draft.editingVersion.data.pages.forEach((page) => {
-                page.logo = logoId;
+              [
+                ...draft.editingVersion.data.pages,
+                ...draft.editingVersion.data.end_pages,
+              ].forEach((page) => {
+                page.logo = logo;
               });
             })
           ),
 
-        setCraft: (craft: FormCraft.Craft) =>
+        setCraft: (craft) =>
           set({
             craft,
           }),
 
-        setEditingVersion: (editingVersion: CraftVersion) =>
+        setEditingVersion: (editingVersion) =>
           set({
             editingVersion,
           }),
 
-        setCraftTitle: (title: string) =>
+        setCraftTitle: (title) =>
           set((state) =>
             produce(state, (draft) => {
               draft.craft.title = title;
             })
           ),
 
-        addPage: (page: FormCraft.CraftPage) =>
+        addPage: (page, ending) =>
           set((state) =>
             produce(state, (draft) => {
-              const { index: selectedPageIndex } = findPageIndexes(
-                state.editingVersion.data.pages,
-                state.selectedPageId
+              const statePages = ending
+                ? state.editingVersion.data.end_pages
+                : state.editingVersion.data.pages;
+
+              const draftPages = ending
+                ? draft.editingVersion.data.end_pages
+                : draft.editingVersion.data.pages;
+
+              const selectedPageIndex = statePages.findIndex(
+                (p) => p.id === state.selectedPageId
               );
 
-              draft.editingVersion.data.pages.splice(
-                selectedPageIndex + 1,
-                0,
-                page
-              );
+              let insertIndex =
+                selectedPageIndex === -1
+                  ? statePages.length
+                  : selectedPageIndex + 1;
 
-              draft.editingVersion.data.pages = shiftEndingsToEnd(
-                draft.editingVersion.data.pages
-              );
-
-              syncFlowWithPages(state, draft);
+              draftPages.splice(insertIndex, 0, page);
             })
           ),
 
-        removePage: (pageId: string) =>
+        removePage: (pageId, ending) =>
           set((state) =>
             produce(state, (draft) => {
-              const { endingPages, contentPages } = splitContentAndEnding(
-                state.editingVersion.data.pages
-              );
+              const statePages = ending
+                ? state.editingVersion.data.end_pages
+                : state.editingVersion.data.pages;
 
-              const indexInContent = contentPages.findIndex(
-                (p) => p.id === pageId
-              );
-              const indexInEndings = endingPages.findIndex(
-                (p) => p.id === pageId
-              );
+              const draftPages = ending
+                ? draft.editingVersion.data.end_pages
+                : draft.editingVersion.data.pages;
 
-              if (
-                (indexInContent > -1 && contentPages.length === 1) ||
-                (indexInEndings > -1 && endingPages.length === 1)
-              ) {
-                // Block removing the last page
+              const pageIndex = statePages.findIndex((p) => p.id === pageId);
+
+              if (pageIndex > -1 && statePages.length === 1) {
                 return state;
               }
 
               let nextSelectedPageId = state.selectedPageId;
 
-              if (state.selectedPageId === pageId) {
-                if (indexInContent > -1) {
-                  nextSelectedPageId =
-                    contentPages[indexInContent + 1]?.id ||
-                    contentPages[indexInContent - 1]?.id;
-                } else if (indexInEndings > -1) {
-                  nextSelectedPageId =
-                    endingPages[indexInEndings + 1]?.id ||
-                    endingPages[indexInEndings - 1]?.id;
-                }
+              if (state.selectedPageId === pageId && statePages.length > 1) {
+                nextSelectedPageId =
+                  statePages[pageIndex + 1]?.id ||
+                  statePages[pageIndex - 1]?.id;
               }
 
               if (!nextSelectedPageId) {
@@ -364,16 +168,34 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
               }
 
               draft.selectedPageId = nextSelectedPageId;
-              draft.editingVersion.data.pages =
-                draft.editingVersion.data.pages.filter((p) => p.id !== pageId);
 
-              syncFlowWithPages(state, draft);
+              if (ending) {
+                draft.editingVersion.data.end_pages = draftPages.filter(
+                  (p) => p.id !== pageId
+                ) as FormCraft.CraftEndPage[];
+              } else {
+                draft.editingVersion.data.pages =
+                  draft.editingVersion.data.pages.filter(
+                    (p) => p.id !== pageId
+                  );
+              }
             })
           ),
 
-        editPage: <T extends FormCraft.CraftPage>(pageId: string, page: T) =>
+        editPage: (pageId, page) =>
           set((state) =>
             produce(state, (draft) => {
+              const isEnding = page.type === "end_screen";
+
+              if (isEnding) {
+                draft.editingVersion.data.end_pages =
+                  state.editingVersion.data.end_pages.map((p) =>
+                    p.id === pageId ? page : p
+                  ) as FormCraft.CraftEndPage[];
+
+                return;
+              }
+
               draft.editingVersion.data.pages =
                 state.editingVersion.data.pages.map((p) =>
                   p.id === pageId ? page : p
@@ -381,16 +203,20 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
             })
           ),
 
-        onReorder: (pages: FormCraft.CraftPage[]) =>
+        onReorderPages: (pages, endings) =>
           set((state) =>
             produce(state, (draft) => {
-              draft.editingVersion.data.pages = pages;
+              if (endings) {
+                draft.editingVersion.data.end_pages =
+                  pages as FormCraft.CraftEndPage[];
+                return;
+              }
 
-              syncFlowOrderWithPages(state, draft);
+              draft.editingVersion.data.pages = pages;
             })
           ),
 
-        setFlow: (flow: ReactFlowJsonObject) =>
+        setFlow: (flow) =>
           set((state) =>
             produce(state, (draft) => {
               draft.editingVersion.data.flow = flow;
@@ -423,7 +249,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
           });
         },
 
-        onNodesChange: (changes: NodeChange[]) => {
+        onNodesChange: (changes) => {
           set((state) =>
             produce(state, (draft) => {
               if (changes.every((c) => c.type === "dimensions")) {
@@ -438,7 +264,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
           );
         },
 
-        onEdgesChange: (changes: EdgeChange[]) =>
+        onEdgesChange: (changes) =>
           set((state) =>
             produce(state, (draft) => {
               draft.editingVersion.data.flow.edges = applyEdgeChanges(
@@ -450,19 +276,15 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
 
         setSelectedPage: (selectedPageId) => set({ selectedPageId }),
 
-        reset: (data: EditCraftStoreState) => set(data),
+        reset: set,
       }),
       {
         equality: isEqual,
         limit: 50,
         handleSet: (handleSet) =>
-          debounce(handleSet, 1000, { leading: true, trailing: false }),
+          debounce(handleSet, 500, { leading: true, trailing: false }),
         partialize: (state) => {
-          return omit(state, [
-            "selectedPageId",
-            "defaultThemeForNewPages",
-            "defaultLogoForNewPages",
-          ]);
+          return omit(state, ["selectedPageId"]);
         },
       }
     )

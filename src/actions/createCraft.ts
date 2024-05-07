@@ -35,7 +35,9 @@ export async function createCraft() {
       craftVersions: {
         create: {
           data: {
-            pages: [welcomePage, endScreen],
+            defaultTheme: "default",
+            pages: [welcomePage],
+            end_pages: [endScreen],
             flow: {
               nodes: [
                 {
@@ -46,7 +48,7 @@ export async function createCraft() {
                 },
                 {
                   id: endScreen.id,
-                  type: "page",
+                  type: "endPage",
                   data: { pageId: endScreen.id },
                   position: { x: 400, y: 100 },
                 },

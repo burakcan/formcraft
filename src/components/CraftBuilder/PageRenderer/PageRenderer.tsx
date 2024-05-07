@@ -13,9 +13,7 @@ export function PageRenderer() {
   const { selectedPageId, editPage, selectedPage } = useEditCraftStore((s) => ({
     selectedPageId: s.selectedPageId,
     editPage: s.editPage,
-    selectedPage: s.editingVersion.data.pages.find(
-      (page) => page.id === s.selectedPageId
-    ),
+    selectedPage: s.getSelectedPage(),
   }));
 
   const pageDefinition =

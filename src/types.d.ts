@@ -19,6 +19,9 @@ declare global {
     type CraftPageDefinition = CraftPageDefinitions[CraftPageType];
 
     type CraftPage = z.infer<CraftPageDefinition["editorSchema"]>;
+    type CraftEndPage = z.infer<
+      CraftPageDefinitions["end_screen"]["editorSchema"]
+    >;
 
     type CraftAnswer = z.infer<
       ReturnType<CraftPageDefinition["getViewerSchema"]>
@@ -26,7 +29,10 @@ declare global {
 
     interface CraftVersionData {
       pages: CraftPage[];
+      end_pages: CraftEndPage[];
       flow: ReactFlowJsonObject;
+      defaultTheme: string;
+      defaultLogo?: ThemeImageType | undefined;
     }
 
     type BranchingConditionType =

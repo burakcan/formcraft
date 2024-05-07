@@ -3,7 +3,7 @@ import { runNode } from "./runNode";
 import type { SetVariableNodeData } from "@/components/FlowEditor/Nodes/SetVariableNode";
 import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
 
-export type SetVariableNode = Node<SetVariableNodeData, "page">;
+export type SetVariableNode = Node<SetVariableNodeData, "setVariable">;
 
 export function setVariableNodeRunner(
   node: SetVariableNode,

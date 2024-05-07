@@ -68,7 +68,6 @@ export function ThemeSelection(props: Props) {
       setThemeToApplyToAll(null);
       toast.success("Theme applied to all pages", {
         icon: <CheckCircle2 />,
-        description: "This theme will be the default for all new pages.",
       });
     }
   };

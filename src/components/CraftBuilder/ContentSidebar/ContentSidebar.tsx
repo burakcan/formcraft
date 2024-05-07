@@ -3,7 +3,6 @@
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { v4 as uuid } from "uuid";
-import { splitContentAndEnding } from "@/lib/utils";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
 import { Button } from "@/components/ui/button";
@@ -24,25 +23,19 @@ export function ContentSidebar() {
     selectedPageId,
     onReorder,
     addPage,
-    defaultThemeForNewPages,
-    defaultLogoForNewPages,
   } = useEditCraftStore((s) => ({
     addPage: s.addPage,
-    defaultThemeForNewPages: s.defaultThemeForNewPages,
-    defaultLogoForNewPages: s.defaultLogoForNewPages,
     editingVersion: s.editingVersion,
     setSelectedPage: s.setSelectedPage,
     removePage: s.removePage,
     selectedPageId: s.selectedPageId,
-    onReorder: s.onReorder,
+    onReorder: s.onReorderPages,
   }));
 
-  const { endingPages, contentPages } = splitContentAndEnding(
-    editingVersion.data.pages
-  );
+  const { pages, end_pages } = editingVersion.data;
 
   const handleReorderContent = (pages: FormCraft.CraftPage[]) => {
-    onReorder([...pages, ...endingPages]);
+    onReorder(pages);
   };
 
   const handleAddEnding = () => {
@@ -54,16 +47,17 @@ export function ContentSidebar() {
         type: "end_screen",
         title: "Thank you for completing the form!",
         description: "Your responses have been submitted.",
-        baseThemeId: defaultThemeForNewPages,
-        logo: defaultLogoForNewPages,
-      })
+        baseThemeId: editingVersion.data.defaultTheme,
+        logo: editingVersion.data.defaultLogo,
+      }),
+      true
     );
 
     setSelectedPage(id);
   };
 
-  const handleReorderEndings = (pages: FormCraft.CraftPage[]) => {
-    onReorder([...contentPages, ...pages]);
+  const handleReorderEndings = (pages: FormCraft.CraftEndPage[]) => {
+    onReorder(pages, true);
   };
 
   return (
@@ -78,15 +72,15 @@ export function ContentSidebar() {
             <Reorder.Group
               as="div"
               axis="y"
-              values={contentPages}
+              values={pages}
               onReorder={handleReorderContent}
             >
-              {contentPages.map((page, index) => (
+              {pages.map((page, index) => (
                 <ContentItem
                   key={page.id}
                   index={index}
                   page={page}
-                  totalItems={contentPages.length}
+                  totalItems={pages.length}
                   selectedPageId={selectedPageId}
                   onSelect={() => setSelectedPage(page.id)}
                   onDelete={() => removePage(page.id)}
@@ -112,19 +106,19 @@ export function ContentSidebar() {
             <Reorder.Group
               as="div"
               axis="y"
-              values={endingPages}
+              values={end_pages}
               onReorder={handleReorderEndings}
             >
-              {endingPages.map((page, index) => (
+              {end_pages.map((page, index) => (
                 <ContentItem
                   isEnding
                   index={index}
                   key={page.id}
                   page={page}
-                  totalItems={endingPages.length}
+                  totalItems={end_pages.length}
                   selectedPageId={selectedPageId}
                   onSelect={() => setSelectedPage(page.id)}
-                  onDelete={() => removePage(page.id)}
+                  onDelete={() => removePage(page.id, true)}
                 />
               ))}
             </Reorder.Group>
