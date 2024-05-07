@@ -50,7 +50,9 @@ export default async function FormPage(props: Props) {
   }
 
   const themesInUse = new Set(
-    version.data.pages.map((page) => page.baseThemeId)
+    [...version.data.pages, ...version.data.end_pages].map(
+      (page) => page.baseThemeId
+    )
   );
 
   const customThemes = (

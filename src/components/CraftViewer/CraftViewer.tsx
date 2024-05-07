@@ -2,8 +2,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useMemo } from "react";
-import type { Node } from "reactflow";
 import { PageLayout } from "../CraftBuilder/PageRenderer/PageLayout";
 import { ThemeStyle } from "../CraftBuilder/PageRenderer/ThemeStyle";
 import { FullPageLoading } from "../FullPageLoading";
@@ -14,23 +12,15 @@ import { useLoadPageResources } from "@/hooks/useLoadPageResources";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 export function CraftViewer() {
-  const { version, rootNodeId, currentNodeId, currentPageId, themes } =
+  const { version, rootNodeId, currentNode, currentPage, themes } =
     useViewCraftStore((s) => ({
       version: s.version,
       rootNodeId: s.rootNodeId,
-      currentNodeId: s.currentNodeId,
-      currentPageId: s.currentPageId,
+      currentNode: s.getCurrentNode(),
+      currentPage: s.getCurrentPage(),
       themes: s.themes,
       answers: s.answers,
     }));
-
-  const currentNode = useMemo(() => {
-    return version.data.flow.nodes.find((node) => node.id === currentNodeId);
-  }, [currentNodeId, version.data.flow.nodes]) as Node;
-
-  const currentPage = useMemo(() => {
-    return version.data.pages.find((page) => page.id === currentPageId);
-  }, [currentPageId, version.data.pages]) as FormCraft.CraftPage;
 
   const currentPageBaseTheme = themes[currentPage.baseThemeId];
   const theme = {

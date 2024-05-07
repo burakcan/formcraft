@@ -3,6 +3,8 @@ import type { AndNode } from "./andNodeRunner";
 import { andNodeRunner } from "./andNodeRunner";
 import type { BranchingNode } from "./branchingNodeRunner";
 import { branchingNodeRunner } from "./branchingNodeRunner";
+import type { EndPageNode } from "./endPageNodeRunner";
+import { endPageNodeRunner } from "./endPageNodeRunner";
 import type { OrNode } from "./orNodeRunner";
 import { orNodeRunner } from "./orNodeRunner";
 import type { PageNode } from "./pageNodeRunner";
@@ -20,6 +22,10 @@ export function runNode<T>(
   switch (node.type) {
     case "page":
       pageNodeRunner(node as PageNode, input, state, draft);
+      break;
+
+    case "endPage":
+      endPageNodeRunner(node as EndPageNode, input, state, draft);
       break;
 
     case "branching":

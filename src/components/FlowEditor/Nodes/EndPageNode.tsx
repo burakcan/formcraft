@@ -1,39 +1,29 @@
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import { cn } from "@/lib/utils";
-import { SingleConnectionHandle } from "../Handles";
 import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
-export interface PageNodeData {
-  pageId: FormCraft.CraftPage["id"];
+export interface EndPageNodeData {
+  pageId: FormCraft.CraftEndPage["id"];
 }
 
-export function PageNode(props: NodeProps<PageNodeData>) {
+export function EndPageNode(props: NodeProps<EndPageNodeData>) {
   const { pageId } = props.data;
 
   const { page, index } = useEditCraftStore((s) => ({
-    page: s.editingVersion.data.pages.find((p) => p.id === pageId),
-    index: s.editingVersion.data.pages.findIndex((p) => p.id === pageId),
+    page: s.editingVersion.data.end_pages.find((p) => p.id === pageId),
+    index: s.editingVersion.data.end_pages.findIndex((p) => p.id === pageId),
   }));
 
   if (!page || index === -1) {
     return null;
   }
 
-  const pageDefinition = craftPageDefinitions[page.type];
+  const pageDefinition = craftPageDefinitions.end_screen;
 
   return (
     <>
-      <SingleConnectionHandle
-        type="source"
-        id="output"
-        position={Position.Right}
-        style={{
-          width: "10px",
-          height: "10px",
-        }}
-      />
       <Handle
         type="target"
         id="input"
@@ -59,7 +49,7 @@ export function PageNode(props: NodeProps<PageNodeData>) {
         <div className="overflow-hidden text-ellipsis flex-auto">
           <div className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
             <span className=" font-medium mr-1 text-xs text-muted-foreground">
-              {index + 1}.
+              e{index + 1}.
             </span>
             <span>{page.title || "Untitled Page"}</span>
           </div>

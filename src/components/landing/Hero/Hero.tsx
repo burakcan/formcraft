@@ -1,8 +1,12 @@
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
+  const authData = auth();
+
   return (
     <div className="container pt-8 pb-16">
       <div className="grid grid-cols-[1fr_1fr] gap-8 justify-center items-center">
@@ -34,8 +38,11 @@ export function Hero() {
               <Button
                 className="bg-rose-600 text-white rounded-full "
                 size="lg"
+                asChild
               >
-                Get started for free
+                <Link href={authData.userId ? "/dashboard" : "/sign-up"}>
+                  Get started for free
+                </Link>
               </Button>
               <div className="text-xs mt-2 text-gray-500 text-center">
                 🎉 Unlimited forms & responses

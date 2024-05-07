@@ -1,15 +1,16 @@
-"use client";
-
+import { auth } from "@clerk/nextjs";
 import { CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-// Free, pro, organization
-
 export function PricingSection() {
+  const authData = auth();
   return (
     <>
-      <div className="w-full mx-auto max-w-screen-lg mt-8 mb-8 p-16 rounded-3xl bg-primary text-primary-foreground">
+      <div
+        className="w-full mx-auto max-w-screen-lg mt-8 mb-8 p-16 rounded-3xl bg-primary text-primary-foreground"
+        id="pricing"
+      >
         <h3 className="text-5xl text-center font-bold leading-[3.25rem] font-landing-secondary">
           Pick a plan that works for you
         </h3>
@@ -32,7 +33,9 @@ export function PricingSection() {
                   responses, enhanced with customizable themes.
                 </div>
                 <Button className="w-full rounded-full" size="lg" asChild>
-                  <Link href="/auth/sign-up">Get started for free</Link>
+                  <Link href={authData.userId ? "/dashboard" : "/sign-up"}>
+                    Get started for free
+                  </Link>
                 </Button>
                 <div className="text-xs mt-2 text-gray-500 text-center">
                   No credit card required
@@ -166,7 +169,9 @@ export function PricingSection() {
             collection experience.
           </h2>
           <Button className="mt-8 rounded-full bg-rose-600" size="lg" asChild>
-            <Link href="/auth/sign-up">Start Creating Now</Link>
+            <Link href={authData.userId ? "/dashboard" : "/sign-up"}>
+              Start creating now
+            </Link>
           </Button>
         </div>
       </div>

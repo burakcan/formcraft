@@ -242,7 +242,6 @@ export function ContentTab(props: Props) {
                 applyLogoToAll(selectedPage.logo);
                 toast.success("Logo applied to all pages", {
                   icon: <CheckCircle2 />,
-                  description: "This logo will be the default for new pages.",
                 });
               }}
             >
