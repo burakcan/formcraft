@@ -5,13 +5,17 @@ import type { SetStateAction } from "react";
 import { createContext } from "react";
 import type { Edge, EdgeChange, Node, NodeChange } from "reactflow";
 import {
+  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  // getConnectedEdges,
+  getIncomers,
+  getConnectedEdges,
   // getOutgoers,
-  // updateEdge,
+  updateEdge,
   type ReactFlowJsonObject,
+  getOutgoers,
 } from "reactflow";
+import { v4 as uuid } from "uuid";
 import type { TemporalState } from "zundo";
 import { temporal } from "zundo";
 import { create } from "zustand";
@@ -135,6 +139,68 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
                   : selectedPageIndex + 1;
 
               draftPages.splice(insertIndex, 0, page);
+
+              // create and add the new node
+              const newNode: Node = {
+                id: page.id,
+                type: ending ? "endPage" : "page",
+                position: { x: 0, y: 0 },
+                data: { pageId: page.id },
+              };
+
+              draft.editingVersion.data.flow.nodes.push(newNode);
+
+              // Find a logical place to connect the new node
+              let nextPageId: string;
+
+              if (ending) {
+                nextPageId = draftPages[insertIndex + 1]?.id;
+              } else {
+                nextPageId =
+                  draftPages[insertIndex + 1]?.id ||
+                  draft.editingVersion.data.end_pages[0]?.id;
+              }
+
+              const nextPageNode = state.editingVersion.data.flow.nodes.find(
+                (n) => n.data.pageId === nextPageId
+              );
+
+              if (!nextPageNode || page.type === "end_screen") {
+                // probably added as a last ending page
+                return;
+              }
+
+              const [firstIncomer] = getIncomers(
+                nextPageNode,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
+
+              const [existingConnection] = getConnectedEdges(
+                [nextPageNode, firstIncomer],
+                state.editingVersion.data.flow.edges
+              ).filter((e) => e.target === nextPageNode.id);
+
+              draft.editingVersion.data.flow.edges = addEdge(
+                {
+                  id: uuid(),
+                  target: newNode.id,
+                  targetHandle: "input",
+                  source: existingConnection.source,
+                  sourceHandle: existingConnection.sourceHandle,
+                  type: "removable",
+                },
+                updateEdge(
+                  existingConnection,
+                  {
+                    source: newNode.id,
+                    sourceHandle: "output",
+                    target: nextPageNode.id,
+                    targetHandle: "input",
+                  },
+                  state.editingVersion.data.flow.edges
+                )
+              );
             })
           ),
 
@@ -179,6 +245,38 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
                     (p) => p.id !== pageId
                   );
               }
+
+              const pageNode = state.editingVersion.data.flow.nodes.find(
+                (n) => n.data.pageId === pageId
+              );
+
+              if (!pageNode) {
+                return;
+              }
+
+              draft.editingVersion.data.flow.nodes =
+                draft.editingVersion.data.flow.nodes.filter(
+                  (n) => n.id !== pageId
+                );
+
+              const outGoers = getOutgoers(
+                pageNode,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
+
+              draft.editingVersion.data.flow.edges =
+                draft.editingVersion.data.flow.edges.map((e) => {
+                  if (e.target === pageNode.id && outGoers[0]) {
+                    return {
+                      ...e,
+                      target: outGoers[0].id,
+                      targetHandle: "input",
+                    };
+                  }
+
+                  return e;
+                });
             })
           ),
 
