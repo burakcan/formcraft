@@ -55,7 +55,7 @@ export async function createCraft() {
               ],
               edges: [
                 {
-                  id: `edge-${welcomePage.id}-${endScreen.id}`,
+                  id: uuid(),
                   source: welcomePage.id,
                   sourceHandle: "output",
                   target: endScreen.id,
