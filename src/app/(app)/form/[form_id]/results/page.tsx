@@ -1,10 +1,40 @@
+import { Suspense } from "react";
 import { LayoutWithTopbar } from "@/components/AppChrome";
 import { CraftBuilderTopBar } from "@/components/CraftBuilder";
+import { CraftResultsTable } from "@/components/CraftResults";
+import db from "@/services/db";
+import {
+  getVersionsFromSubmissionsList,
+  listSubmissions,
+} from "@/services/db/submission";
 
 interface Props {
   params: {
     form_id: string;
   };
+  searchParams: {
+    page?: string;
+    pageSize?: string;
+    search?: string;
+  };
+}
+
+async function TableWrapper(props: Props) {
+  const { page = 1, pageSize = 10, search = "" } = props.searchParams;
+  const [data, versions] = await db.$transaction(async (tx) => {
+    const data = await listSubmissions(
+      props.params.form_id,
+      Math.abs(Number(page)) || 1,
+      Math.min(100, Math.max(0, Number(pageSize))),
+      search,
+      true,
+      tx
+    );
+    const versions = await getVersionsFromSubmissionsList(data.data, tx);
+    return [data, versions];
+  });
+
+  return <CraftResultsTable data={data} versions={versions} />;
 }
 
 export default async function CraftResultsPage(props: Props) {
@@ -14,7 +44,9 @@ export default async function CraftResultsPage(props: Props) {
     <LayoutWithTopbar
       topBar={<CraftBuilderTopBar craft_id={form_id} activeTab="results" />}
     >
-      Results
+      <Suspense fallback={<div>Loading table...</div>}>
+        <TableWrapper {...props} />
+      </Suspense>
     </LayoutWithTopbar>
   );
 }

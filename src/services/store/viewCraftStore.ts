@@ -9,7 +9,7 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 export type ViewCraftStoreState = {
   craft: Craft;
   version: CraftVersion;
-  submission?: CraftSubmission; // empty when previewing
+  submissionId?: CraftSubmission["id"]; // empty when previewing
   themes: Record<string, CraftTheme>;
   rootNodeId: string;
   currentNodeId: string;

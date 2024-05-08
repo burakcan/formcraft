@@ -78,7 +78,7 @@ export default async function FormPage(props: Props) {
       craft={craft}
       version={version}
       themes={themes}
-      submission={submission}
+      submissionId={submission.id}
       rootNodeId={rootNode.id}
       rootPageId={rootNode.data.pageId}
     >
