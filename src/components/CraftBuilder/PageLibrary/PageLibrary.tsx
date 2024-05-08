@@ -56,8 +56,8 @@ export function PageLibrary() {
     defaultLogoForNewPages,
   } = useEditCraftStore((s) => ({
     setSelectedPage: s.setSelectedPage,
-    defaultThemeForNewPages: s.defaultThemeForNewPages,
-    defaultLogoForNewPages: s.defaultLogoForNewPages,
+    defaultThemeForNewPages: s.editingVersion.data.defaultTheme,
+    defaultLogoForNewPages: s.editingVersion.data.defaultLogo,
     addPage: s.addPage,
   }));
 

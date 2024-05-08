@@ -11,6 +11,7 @@ interface Props {
   totalItems: number;
   onSelect: () => void;
   onDelete: () => void;
+  setMovingItem: (id: string | null) => void;
 }
 
 export function ContentItem(props: Props) {
@@ -22,6 +23,7 @@ export function ContentItem(props: Props) {
     onSelect,
     onDelete,
     totalItems,
+    setMovingItem,
   } = props;
 
   const handleDelete = (e: React.MouseEvent) => {
@@ -35,6 +37,12 @@ export function ContentItem(props: Props) {
       as="div"
       data-active={page.id === selectedPageId}
       onClick={onSelect}
+      onPointerDown={() => {
+        setMovingItem(page.id);
+      }}
+      onPointerUp={() => {
+        setMovingItem(null);
+      }}
       className={cn(
         `group p-2 text-sm rounded m-2 cursor-default
         whitespace-nowrap text-ellipsis overflow-hidden relative w-60`,

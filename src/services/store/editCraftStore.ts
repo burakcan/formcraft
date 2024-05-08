@@ -36,7 +36,11 @@ export type EditCraftStoreActions = {
   setSelectedPage: (pageId: string) => void;
   editPage: <T extends FormCraft.CraftPage>(pageId: string, page: T) => void;
   reset: (data: EditCraftStoreState) => void;
-  onReorderPages: (pages: FormCraft.CraftPage[], endings?: boolean) => void;
+  onReorderPages: (
+    pages: FormCraft.CraftPage[],
+    movingItem: string,
+    endings?: boolean
+  ) => void;
   setFlow: (flow: ReactFlowJsonObject) => void;
   setNodes: (nodes: SetStateAction<Node[]>) => void;
   setEdges: (edges: SetStateAction<Edge[]>) => void;
@@ -301,16 +305,112 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
             })
           ),
 
-        onReorderPages: (pages, endings) =>
+        onReorderPages: (pages, movingItem, endings) =>
           set((state) =>
             produce(state, (draft) => {
               if (endings) {
                 draft.editingVersion.data.end_pages =
                   pages as FormCraft.CraftEndPage[];
+              } else {
+                draft.editingVersion.data.pages = pages;
+              }
+
+              if (endings) {
+                // if the moving item is an ending page, we don't need to do anything
                 return;
               }
 
-              draft.editingVersion.data.pages = pages;
+              const movingNode = state.editingVersion.data.flow.nodes.find(
+                (n) => n.data.pageId === movingItem
+              )!;
+
+              const [oldOutgoer] = getOutgoers(
+                movingNode,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
+
+              // remove edges from the old node to the outgoer
+              draft.editingVersion.data.flow.edges =
+                draft.editingVersion.data.flow.edges.filter(
+                  (e) => e.source !== movingItem
+                );
+
+              // connect all incomers to the outgoer
+              const oldIncomers = getIncomers(
+                movingNode,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
+
+              const edgesToReconnect = getConnectedEdges(
+                [movingNode, ...oldIncomers],
+                state.editingVersion.data.flow.edges
+              );
+
+              edgesToReconnect.forEach((edge) => {
+                if (edge.target !== movingNode.id) {
+                  return;
+                }
+
+                draft.editingVersion.data.flow.edges = updateEdge(
+                  edge,
+                  {
+                    source: edge.source,
+                    sourceHandle: edge.sourceHandle!,
+                    target: oldOutgoer.id,
+                    targetHandle: edge.targetHandle!,
+                  },
+                  draft.editingVersion.data.flow.edges
+                );
+              });
+
+              // make new connections
+              const newIndex = pages.findIndex((p) => p.id === movingItem);
+              const newNextPage =
+                pages[newIndex + 1] || state.editingVersion.data.end_pages[0];
+              const newNextNode = state.editingVersion.data.flow.nodes.find(
+                (n) => n.data.pageId === newNextPage.id
+              );
+              const newNextNodeIncomers = getIncomers(
+                newNextNode!,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
+
+              const newNextNodeEdgesToReconnect = getConnectedEdges(
+                [newNextNode!, ...newNextNodeIncomers],
+                state.editingVersion.data.flow.edges
+              );
+
+              newNextNodeEdgesToReconnect.forEach((edge) => {
+                if (edge.target !== newNextNode!.id) {
+                  return;
+                }
+
+                draft.editingVersion.data.flow.edges = updateEdge(
+                  edge,
+                  {
+                    source: edge.source,
+                    sourceHandle: edge.sourceHandle!,
+                    target: movingNode.id,
+                    targetHandle: "input",
+                  },
+                  draft.editingVersion.data.flow.edges
+                );
+              });
+
+              draft.editingVersion.data.flow.edges = addEdge(
+                {
+                  id: uuid(),
+                  source: movingNode.id,
+                  sourceHandle: "output",
+                  target: newNextNode!.id,
+                  targetHandle: "input",
+                  type: "removable",
+                },
+                draft.editingVersion.data.flow.edges
+              );
             })
           ),
 
