@@ -13,9 +13,6 @@ export const basePage = z.object({
   baseThemeId: z.string().default("default"),
   themeOverride: themeOverride.default({}),
   logo: logoImage.optional(),
-  logoPosition: z
-    .enum(["top-left", "top-right", "bottom-left", "bottom-right"])
-    .default("top-left"),
 });
 
 export type BasePage = z.infer<typeof basePage>;

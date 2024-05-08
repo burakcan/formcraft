@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { craftPageDefinitions } from "@/craftPages";
+import { useAnswerMutation } from "@/hooks/useAnswerMutation";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 type FormValues<T extends FormCraft.CraftPage> = {
@@ -29,7 +30,12 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 ) {
   const { page } = props;
   const ref = useRef<HTMLFormElement>(null);
-  const onAnswer = useViewCraftStore((state) => state.onAnswer);
+  const { onAnswer, submissionId, answers } = useViewCraftStore((state) => ({
+    onAnswer: state.onAnswer,
+    submissionId: state.submissionId,
+    answers: state.answers,
+  }));
+  const mutation = useAnswerMutation(submissionId, page.id);
   const pageDefinition = craftPageDefinitions[page.type];
   const formDomId = `form_${page.id.replaceAll("-", "")}`;
 
@@ -50,7 +56,26 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 
   const handleSubmit = form.handleSubmit((data) => {
     onAnswer(page.id, data.value);
+
+    mutation.mutate({
+      [page.id]: {
+        value: data.value,
+        meta: {},
+      },
+    });
   });
+
+  useEffect(() => {
+    if (page.type === "end_screen" && mutation.isIdle) {
+      mutation.mutate({
+        end_screen: {
+          value: true,
+          meta: {},
+        },
+        ...answers,
+      });
+    }
+  }, [page.type, answers, mutation]);
 
   const hasScroll =
     (ref.current?.scrollHeight || 0) > (ref.current?.clientHeight || 0);
