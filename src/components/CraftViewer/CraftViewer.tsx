@@ -40,7 +40,6 @@ export function CraftViewer() {
   return (
     <div
       className={`
-        craft-renderer
         absolute
         top-0
         left-0
@@ -104,8 +103,8 @@ export function CraftViewer() {
             <pageDefinition.viewerComponent page={currentPage as never} />
           </motion.div>
         </AnimatePresence>
+        <MadeWithFormCraftViewer theme={theme} />
       </PageLayout>
-      <MadeWithFormCraftViewer />
     </div>
   );
 }

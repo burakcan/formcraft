@@ -16,18 +16,25 @@ interface Props {
     page?: string;
     pageSize?: string;
     search?: string;
+    partial?: string;
   };
 }
 
 async function TableWrapper(props: Props) {
-  const { page = 1, pageSize = 10, search = "" } = props.searchParams;
+  const {
+    page = 1,
+    pageSize = 10,
+    search = "",
+    partial = "false",
+  } = props.searchParams;
+
   const [data, versions] = await db.$transaction(async (tx) => {
     const data = await listSubmissions(
       props.params.form_id,
       Math.abs(Number(page)) || 1,
       Math.min(100, Math.max(0, Number(pageSize))),
       search,
-      true,
+      partial === "true",
       tx
     );
     const versions = await getVersionsFromSubmissionsList(data.data, tx);

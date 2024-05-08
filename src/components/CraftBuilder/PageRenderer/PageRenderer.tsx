@@ -56,7 +56,7 @@ export function PageRenderer() {
           onChange={editPage}
         />
       </PageLayout>
-      <MadeWithFormCraftEditor />
+      <MadeWithFormCraftEditor theme={theme} />
     </motion.div>
   );
 }
