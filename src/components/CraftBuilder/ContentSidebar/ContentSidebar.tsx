@@ -2,6 +2,7 @@
 
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
@@ -16,6 +17,7 @@ import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function ContentSidebar() {
+  const [movingItem, setMovingItem] = useState<string | null>(null);
   const {
     editingVersion,
     setSelectedPage,
@@ -35,7 +37,8 @@ export function ContentSidebar() {
   const { pages, end_pages } = editingVersion.data;
 
   const handleReorderContent = (pages: FormCraft.CraftPage[]) => {
-    onReorder(pages);
+    if (!movingItem) return;
+    onReorder(pages, movingItem);
   };
 
   const handleAddEnding = () => {
@@ -57,7 +60,8 @@ export function ContentSidebar() {
   };
 
   const handleReorderEndings = (pages: FormCraft.CraftEndPage[]) => {
-    onReorder(pages, true);
+    if (!movingItem) return;
+    onReorder(pages, movingItem, true);
   };
 
   return (
@@ -84,6 +88,7 @@ export function ContentSidebar() {
                   selectedPageId={selectedPageId}
                   onSelect={() => setSelectedPage(page.id)}
                   onDelete={() => removePage(page.id)}
+                  setMovingItem={setMovingItem}
                 />
               ))}
             </Reorder.Group>
@@ -117,6 +122,7 @@ export function ContentSidebar() {
                   page={page}
                   totalItems={end_pages.length}
                   selectedPageId={selectedPageId}
+                  setMovingItem={setMovingItem}
                   onSelect={() => setSelectedPage(page.id)}
                   onDelete={() => removePage(page.id, true)}
                 />
