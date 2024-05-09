@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaSectionViewer } from "../atoms/CtaSection";
-import { PageWrapperViewer } from "../atoms/PageWrapper";
+import { BaseContentViewer } from "../pageAtoms/BaseContent";
+import { CtaSectionViewer } from "../pageAtoms/CtaSection";
+import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import type { Statement } from "./schema";
 import { FormField } from "@/components/ui/form";
 

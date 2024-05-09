@@ -1,4 +1,4 @@
-import { BookOpen, Megaphone, TextCursorInput } from "lucide-react";
+import { BookOpen, HashIcon, Megaphone, TextCursorInput } from "lucide-react";
 import {
   EndScreenEditor,
   EndScreenViewer,
@@ -11,6 +11,12 @@ import {
   longTextEditorSchema,
   getLongTextViewerSchema,
 } from "./LongText";
+import {
+  NumberInputEditor,
+  NumberInputViewer,
+  getNumberInputViewerSchema,
+  numberInputEditorSchema,
+} from "./NumberInput";
 import {
   ShortTextEditor,
   getShortTextViewerSchema,
@@ -61,6 +67,19 @@ export const craftPageDefinitions = {
     getViewerSchema: getShortTextViewerSchema,
 
     icon: TextCursorInput,
+    iconClassName: "bg-amber-100",
+  },
+
+  number_input: {
+    name: "Number",
+    description: "A number input",
+
+    editorComponent: NumberInputEditor,
+    editorSchema: numberInputEditorSchema,
+    viewerComponent: NumberInputViewer,
+    getViewerSchema: getNumberInputViewerSchema,
+
+    icon: HashIcon,
     iconClassName: "bg-amber-100",
   },
 

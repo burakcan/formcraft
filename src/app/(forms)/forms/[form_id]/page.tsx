@@ -24,7 +24,8 @@ export default async function FormPage(props: Props) {
       throw new Error("Form not found");
     }
 
-    const submission = await createSubmission(form_id, version.id, tx);
+    // const submission = await createSubmission(form_id, version.id, tx);
+    const submission = null;
 
     return [craft, version, submission];
   });
@@ -78,7 +79,7 @@ export default async function FormPage(props: Props) {
       craft={craft}
       version={version}
       themes={themes}
-      submissionId={submission.id}
+      submissionId={submission?.id}
       rootNodeId={rootNode.id}
       rootPageId={rootNode.data.pageId}
     >

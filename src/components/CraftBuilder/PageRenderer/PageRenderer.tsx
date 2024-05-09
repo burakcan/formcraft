@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { PageLayout } from "./PageLayout";
 import { ThemeStyle } from "./ThemeStyle";
 import { craftPageDefinitions } from "@/craftPages";
-import { MadeWithFormCraftEditor } from "@/craftPages/atoms/MadeWithFormcraft";
+import { MadeWithFormCraftEditor } from "@/craftPages/pageAtoms/MadeWithFormcraft";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { usePageTheme } from "@/hooks/usePageTheme";
 
@@ -37,9 +37,9 @@ export function PageRenderer() {
         prose-headings:font-bold
       `}
       key={`${theme.id}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // transition={{ duration: 0.3 }}
     >
       <PageLayout theme={theme} page={selectedPage} disableTransitions>
         <ThemeStyle theme={theme} />

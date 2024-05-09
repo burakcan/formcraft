@@ -30,7 +30,7 @@ export function PageLayout(props: Props) {
     >
       <div
         className={cn(
-          "flex-none relative transition-colors duration-500 bg-craft-background",
+          "flex-none relative transition-colors duration-500 bg-craft-background overflow-hidden",
           {
             "w-2/3": theme.decorationImage,
             "w-full": !theme.decorationImage,
@@ -41,7 +41,9 @@ export function PageLayout(props: Props) {
           theme={theme}
           disableTransitions={disableTransitions}
         />
-        <div className="absolute top-0 left-0 size-full">{children}</div>
+        <div className="absolute top-0 left-0 size-full overflow-hidden">
+          {children}
+        </div>
       </div>
 
       {theme.decorationImage && (

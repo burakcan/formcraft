@@ -13,6 +13,7 @@ import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props {
   label: string;
+  hideTabs?: boolean;
   value?: ThemeImageType;
   onChange: (backgroundImage?: ThemeImageType) => void;
   onApplyToAll?: () => void;
@@ -20,7 +21,8 @@ interface Props {
 }
 
 export function ImageInput(props: Props) {
-  const { value, onChange, label, onApplyToAll, defaultLibraryTab } = props;
+  const { value, hideTabs, onChange, label, onApplyToAll, defaultLibraryTab } =
+    props;
   const [prevValue, setPrevValue] = useState(value);
   const [showLibrary, setShowLibrary] = useState(false);
 
@@ -51,6 +53,7 @@ export function ImageInput(props: Props) {
   return (
     <div className="flex flex-col gap-2 items-start">
       <ImageLibrary
+        hideTabs={hideTabs}
         defaultTab={defaultLibraryTab}
         currentValue={value}
         open={showLibrary}

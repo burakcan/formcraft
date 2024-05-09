@@ -103,10 +103,50 @@ export function ContentTab(props: Props) {
             hidden: !(
               "minLength" in selectedPage ||
               "maxLength" in selectedPage ||
+              "minValue" in selectedPage ||
+              "maxValue" in selectedPage ||
               "required" in selectedPage
             ),
           })}
         >
+          {"maxValue" in selectedPage && (
+            <div>
+              <Label htmlFor="maxValue">Maximum Value</Label>
+              <Input
+                min={0}
+                className="h-8 mt-1"
+                name="maxValue"
+                type="number"
+                value={selectedPage.maxValue ?? ""}
+                onChange={(e) => {
+                  editPage(selectedPage.id, {
+                    ...selectedPage,
+                    maxValue: parseInt(e.target.value, 10),
+                  });
+                }}
+              />
+            </div>
+          )}
+
+          {"minValue" in selectedPage && selectedPage.required && (
+            <div>
+              <Label htmlFor="minValue">Minimum Value</Label>
+              <Input
+                min={0}
+                className="h-8 mt-1"
+                name="minValue"
+                type="number"
+                value={selectedPage.minValue ?? ""}
+                onChange={(e) => {
+                  editPage(selectedPage.id, {
+                    ...selectedPage,
+                    minValue: parseInt(e.target.value, 10),
+                  });
+                }}
+              />
+            </div>
+          )}
+
           {"minLength" in selectedPage && (
             <div>
               <Label htmlFor="minLength">Minimum length</Label>
@@ -222,6 +262,7 @@ export function ContentTab(props: Props) {
 
         <div className="p-2 pt-0 border rounded flex flex-col gap-1">
           <ImageInput
+            hideTabs
             label="Logo"
             defaultLibraryTab="upload"
             value={selectedPage.logo}

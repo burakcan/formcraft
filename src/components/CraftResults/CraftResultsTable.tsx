@@ -162,6 +162,7 @@ export function CraftResultsTable(props: Props) {
     <div className="p-4 w-full h-full">
       <div className="w-full mb-4 max-w-screen-xl mx-auto flex justify-between items-center gap-4">
         <h1 className="text-2xl font-bold">Results</h1>
+
         <div className="flex items-center gap-4">
           <div className="flex items-center space-x-2">
             <Label htmlFor="show-partial">Include partial</Label>
@@ -241,7 +242,7 @@ export function CraftResultsTable(props: Props) {
       </ScrollArea>
       <div className="flex w-full items-center justify-between space-x-2 py-4 max-w-screen-xl mx-auto">
         <div className="text-sm text-gray-600">
-          Showing {pagination.pageIndex * pagination.pageSize + 1}-{" "}
+          Showing {pagination.pageIndex * pagination.pageSize + 1} -{" "}
           {Math.min(
             data.total,
             (pagination.pageIndex + 1) * pagination.pageSize
