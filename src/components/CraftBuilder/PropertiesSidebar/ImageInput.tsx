@@ -15,14 +15,24 @@ interface Props {
   label: string;
   hideTabs?: boolean;
   value?: ThemeImageType;
+  objectFit?: "cover" | "contain";
   onChange: (backgroundImage?: ThemeImageType) => void;
   onApplyToAll?: () => void;
+  noLoading?: boolean;
   defaultLibraryTab?: "unsplash" | "upload" | "library";
 }
 
 export function ImageInput(props: Props) {
-  const { value, hideTabs, onChange, label, onApplyToAll, defaultLibraryTab } =
-    props;
+  const {
+    value,
+    hideTabs,
+    onChange,
+    label,
+    onApplyToAll,
+    noLoading,
+    objectFit,
+    defaultLibraryTab,
+  } = props;
   const [prevValue, setPrevValue] = useState(value);
   const [showLibrary, setShowLibrary] = useState(false);
 
@@ -74,7 +84,12 @@ export function ImageInput(props: Props) {
       )}
       {value && (
         <div className="w-full h-32 relative border rounded-md overflow-hidden">
-          <ThemeImage imageObject={value} noAttribution />
+          <ThemeImage
+            imageObject={value}
+            noAttribution
+            objectFit={objectFit}
+            noLoading={noLoading}
+          />
           <div className="absolute top-2 right-2 flex gap-2">
             {onApplyToAll && (
               <Tooltip>

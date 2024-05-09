@@ -110,6 +110,14 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["long_text"]}
               onClick={() => handleAddPage("long_text")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["email"]}
+              onClick={() => handleAddPage("email")}
+            />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["website"]}
+              onClick={() => handleAddPage("website")}
+            />
           </div>
         </SheetHeader>
       </SheetContent>

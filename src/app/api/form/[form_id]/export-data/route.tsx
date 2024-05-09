@@ -59,7 +59,7 @@ export async function GET(
     ];
 
     const csvData = data.data.map((submission) => {
-      const row: Record<string, string | boolean> = {
+      const row: Record<string, string | boolean | number> = {
         id: submission.id,
         submitted_at: submission.updatedAt.toJSON(),
         is_partial: submission.data["end_screen"]?.value ? "true" : "false",
