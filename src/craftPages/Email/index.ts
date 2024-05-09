@@ -1,0 +1,21 @@
+import { AtSignIcon } from "lucide-react";
+import { EmailContentSettings } from "./ContentSettings";
+import { EmailEditor } from "./EditorComponent";
+import { getEmailViewerSchema, emailEditorSchema } from "./schema";
+import { EmailViewer } from "./ViewerComponent";
+
+const pageDefinition = {
+  name: "Email address",
+  description: "Ask for an email address",
+
+  editorComponent: EmailEditor,
+  editorSchema: emailEditorSchema,
+  viewerComponent: EmailViewer,
+  getViewerSchema: getEmailViewerSchema,
+  settingsComponent: EmailContentSettings,
+
+  icon: AtSignIcon,
+  iconClassName: "bg-amber-100",
+};
+
+export default pageDefinition;

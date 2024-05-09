@@ -4,8 +4,8 @@ import { basePage } from "../schemas/basePage";
 export const shortTextEditorSchema = basePage.extend({
   type: z.literal("short_text").default("short_text"),
   cta: z.string().default("Confirm"),
-  maxLength: z.number().default(99),
-  required: z.boolean().default(true),
+  required: z.boolean().default(false),
+  maxLength: z.number().optional().nullable(),
 });
 
 export type ShortText = z.infer<typeof shortTextEditorSchema>;

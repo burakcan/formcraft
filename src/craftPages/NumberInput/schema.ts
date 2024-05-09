@@ -5,9 +5,9 @@ import { basePage } from "../schemas/basePage";
 export const numberInputEditorSchema = basePage.extend({
   type: z.literal("number_input").default("number_input"),
   cta: z.string().default("Confirm"),
-  minValue: z.number().nullable().default(null),
-  maxValue: z.number().nullable().default(null),
-  required: z.boolean().default(true),
+  min: z.number().optional().nullable(),
+  max: z.number().optional().nullable(),
+  required: z.boolean().default(false),
 });
 
 export type NumberInput = z.infer<typeof numberInputEditorSchema>;
@@ -22,15 +22,15 @@ export const getNumberInputViewerSchema = (page: NumberInput) => {
     answerSchema = answerSchema.optional() as unknown as ZodNumber;
   }
 
-  if (page.maxValue) {
-    answerSchema = answerSchema.max(page.maxValue, {
-      message: `The maximum value is ${page.maxValue}.`,
+  if (page.max) {
+    answerSchema = answerSchema.max(page.max, {
+      message: `The maximum value is ${page.max}.`,
     });
   }
 
-  if (page.minValue) {
-    answerSchema = answerSchema.min(page.minValue, {
-      message: `The minimum value is ${page.minValue}.`,
+  if (page.min) {
+    answerSchema = answerSchema.min(page.min, {
+      message: `The minimum value is ${page.min}.`,
     });
   }
 

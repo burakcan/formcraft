@@ -288,20 +288,17 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
           set((state) =>
             produce(state, (draft) => {
               const isEnding = page.type === "end_screen";
+              const pages = isEnding
+                ? state.editingVersion.data.end_pages
+                : state.editingVersion.data.pages;
 
-              if (isEnding) {
-                draft.editingVersion.data.end_pages =
-                  state.editingVersion.data.end_pages.map((p) =>
-                    p.id === pageId ? page : p
-                  ) as FormCraft.CraftEndPage[];
+              const draftPages = isEnding
+                ? draft.editingVersion.data.end_pages
+                : draft.editingVersion.data.pages;
 
-                return;
-              }
+              const index = pages.findIndex((p) => p.id === pageId);
 
-              draft.editingVersion.data.pages =
-                state.editingVersion.data.pages.map((p) =>
-                  p.id === pageId ? page : p
-                );
+              draftPages[index] = page;
             })
           ),
 
