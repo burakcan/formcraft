@@ -22,9 +22,9 @@ export function BackgroundImage(props: Props) {
         <motion.div
           className="w-full h-full absolute top-0 left-0"
           key={bgImageKey}
-          initial={!disableTransitions && { opacity: 0, y: 300 }}
+          initial={!disableTransitions && { opacity: 0, y: "10%" }}
           animate={!disableTransitions && { opacity: 1, y: 0 }}
-          exit={!disableTransitions ? { opacity: 0, y: -300 } : undefined}
+          exit={!disableTransitions ? { opacity: 0, y: "-10%" } : undefined}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
           <ThemeImage

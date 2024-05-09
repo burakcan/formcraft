@@ -165,7 +165,13 @@ export async function getCraftsListing(
 
         _count: {
           select: {
-            craftSubmissions: true,
+            craftSubmissions: {
+              where: {
+                data: {
+                  not: {},
+                },
+              },
+            },
             craftVersions: {
               where: {
                 publishedAt: {

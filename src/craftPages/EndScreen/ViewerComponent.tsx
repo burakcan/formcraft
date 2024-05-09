@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import { BaseContentViewer } from "../atoms/BaseContent";
-import { CtaButtonViewerAsLink } from "../atoms/CtaButton";
-import { PageWrapperViewer } from "../atoms/PageWrapper";
+import { BaseContentViewer } from "../pageAtoms/BaseContent";
+import { CtaButtonViewerAsLink } from "../pageAtoms/CtaButton";
+import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import type { EndScreen } from "./schema";
 
 interface Props {

@@ -1,9 +1,4 @@
-import {
-  BookOpenTextIcon,
-  MegaphoneIcon,
-  PlusIcon,
-  TextCursorInputIcon,
-} from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { v4 as uuid } from "uuid";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,28 +15,26 @@ import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 interface LibraryItemProps {
-  title: string;
-  description: string;
+  pageDefinition: FormCraft.CraftPageDefinition;
   onClick: () => void;
-  icon: React.ReactNode;
-  iconClassName?: string;
 }
 
 function LibraryItem(props: LibraryItemProps) {
+  const { pageDefinition } = props;
+  const { icon: Icon, iconClassName, name, description } = pageDefinition;
+
   return (
     <SheetClose asChild>
       <div
         className="flex items-center p-2 cursor-default rounded hover:bg-gray-100"
         onClick={props.onClick}
       >
-        <div className={cn("mr-2 p-2 rounded", props.iconClassName)}>
-          {props.icon}
+        <div className={cn("mr-2 p-2 rounded", iconClassName)}>
+          <Icon className={cn("size-4", iconClassName)} />
         </div>
         <div>
-          <div className="text-sm font-medium">{props.title}</div>
-          <div className="text-sm text-muted-foreground">
-            {props.description}
-          </div>
+          <div className="text-sm font-medium">{name}</div>
+          <div className="text-sm text-muted-foreground">{description}</div>
         </div>
       </div>
     </SheetClose>
@@ -101,26 +94,21 @@ export function PageLibrary() {
           </SheetDescription>
           <div className="grid grid-cols-2 gap-2 mt-4">
             <LibraryItem
-              title={craftPageDefinitions["statement"].name}
-              description={craftPageDefinitions["statement"].description}
+              pageDefinition={craftPageDefinitions["statement"]}
               onClick={() => handleAddPage("statement")}
-              icon={<MegaphoneIcon className="size-4" />}
-              iconClassName={craftPageDefinitions["statement"].iconClassName}
             />
             <div />
             <LibraryItem
-              title={craftPageDefinitions["short_text"].name}
-              description={craftPageDefinitions["short_text"].description}
+              pageDefinition={craftPageDefinitions["short_text"]}
               onClick={() => handleAddPage("short_text")}
-              icon={<TextCursorInputIcon className="size-4" />}
-              iconClassName={craftPageDefinitions["short_text"].iconClassName}
             />
             <LibraryItem
-              title={craftPageDefinitions["long_text"].name}
-              description={craftPageDefinitions["long_text"].description}
+              pageDefinition={craftPageDefinitions["number_input"]}
+              onClick={() => handleAddPage("number_input")}
+            />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["long_text"]}
               onClick={() => handleAddPage("long_text")}
-              icon={<BookOpenTextIcon className="size-4" />}
-              iconClassName={craftPageDefinitions["long_text"].iconClassName}
             />
           </div>
         </SheetHeader>

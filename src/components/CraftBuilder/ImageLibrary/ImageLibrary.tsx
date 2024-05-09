@@ -12,6 +12,7 @@ import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props {
   open: boolean;
+  hideTabs?: boolean;
   currentValue?: ThemeImageType;
   onOpenChange: (open: boolean) => void;
   onImageSelect: (image?: ThemeImageType) => void;
@@ -21,8 +22,15 @@ interface Props {
 }
 
 export function ImageLibrary(props: Props) {
-  const { open, onOpenChange, onImageSelect, onCancel, onSave, defaultTab } =
-    props;
+  const {
+    open,
+    hideTabs,
+    onOpenChange,
+    onImageSelect,
+    onCancel,
+    onSave,
+    defaultTab,
+  } = props;
 
   return (
     <Sheet modal={false} open={open} onOpenChange={onOpenChange}>
@@ -30,11 +38,13 @@ export function ImageLibrary(props: Props) {
         <SheetContent side="right">
           <SheetHeader>
             <SheetTitle>
-              <TabsList className="">
-                <TabsTrigger value="unsplash">Unsplash</TabsTrigger>
-                <TabsTrigger value="upload">Upload</TabsTrigger>
-                {/* <TabsTrigger value="library">Library</TabsTrigger> */}
-              </TabsList>
+              {!hideTabs && (
+                <TabsList className="">
+                  <TabsTrigger value="unsplash">Unsplash</TabsTrigger>
+                  <TabsTrigger value="upload">Upload</TabsTrigger>
+                  {/* <TabsTrigger value="library">Library</TabsTrigger> */}
+                </TabsList>
+              )}
             </SheetTitle>
             <UnsplashTab
               currentValue={props.currentValue}

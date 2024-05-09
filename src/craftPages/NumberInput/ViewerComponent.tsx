@@ -6,15 +6,15 @@ import { BaseContentViewer } from "../pageAtoms/BaseContent";
 import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
 import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
-import { type ShortText } from "./schema";
+import { type NumberInput } from "./schema";
 import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 interface Props {
-  page: ShortText;
+  page: NumberInput;
 }
 
-export function ShortTextViewer(props: Props) {
+export function NumberInputViewer(props: Props) {
   const { page } = props;
 
   return (
@@ -37,6 +37,15 @@ export function ShortTextViewer(props: Props) {
                         "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers"
                       )}
                       placeholder="Type your answer here..."
+                      type="number"
+                      onChange={(e) => {
+                        if (e.target.value === "") {
+                          field.onChange(null);
+                          return;
+                        }
+
+                        field.onChange(Number(e.target.value));
+                      }}
                     />
                     {fieldState.error && (
                       <FieldValidationErrorViewer>

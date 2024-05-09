@@ -2,12 +2,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { PageLayout } from "../CraftBuilder/PageRenderer/PageLayout";
 import { ThemeStyle } from "../CraftBuilder/PageRenderer/ThemeStyle";
 import { FullPageLoading } from "../FullPageLoading";
 import { ResourcePreloader } from "./ResourcePreloader";
 import { craftPageDefinitions } from "@/craftPages";
-import { MadeWithFormCraftViewer } from "@/craftPages/atoms/MadeWithFormcraft";
+import { MadeWithFormCraftViewer } from "@/craftPages/pageAtoms/MadeWithFormcraft";
 import { useLoadPageResources } from "@/hooks/useLoadPageResources";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
@@ -22,7 +23,7 @@ export function CraftViewer() {
       answers: s.answers,
     }));
 
-  const currentPageBaseTheme = themes[currentPage.baseThemeId];
+  const currentPageBaseTheme = themes[currentPage.baseThemeId] || defaultTheme;
   const theme = {
     ...currentPageBaseTheme,
     ...currentPage.themeOverride,
@@ -48,6 +49,7 @@ export function CraftViewer() {
         prose-p:m-0
         prose-headings:mb-4
         prose-headings:font-bold
+        overflow-hidden
   `}
     >
       <ResourcePreloader
@@ -70,20 +72,19 @@ export function CraftViewer() {
             variants={{
               initial: (direction: "up" | "down") => ({
                 opacity: 0,
-                y: direction === "up" ? 50 : -50,
+                y: direction === "up" ? "50%" : "-50%",
               }),
               target: {
                 opacity: 1,
                 y: 0,
                 transition: {
-                  delay: 0.2,
                   duration: 0.4,
                   ease: "easeInOut",
                 },
               },
               exit: (direction: "up" | "down") => ({
                 opacity: 0,
-                y: direction === "up" ? -50 : 50,
+                y: direction === "up" ? "-50%" : "50%",
               }),
             }}
             initial="initial"
