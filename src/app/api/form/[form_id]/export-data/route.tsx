@@ -75,9 +75,9 @@ export async function GET(
       return row;
     });
 
-    const csv = columns.map((col) => col.header).join(",") + "\n";
+    const csv = columns.map((col) => `"${col.header}"`).join(",") + "\n";
     const csvRows = csvData.map((row) =>
-      columns.map((col) => row[col.header]).join(",")
+      columns.map((col) => `"${row[col.header]}"`).join(",")
     );
 
     const csvString = csv + csvRows.join("\n");
