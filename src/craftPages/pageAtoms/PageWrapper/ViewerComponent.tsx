@@ -87,7 +87,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
         onSubmit={handleSubmit}
         id={formDomId}
         className={cn(
-          "size-full flex flex-col items-center p-16 break-before-all overflow-y-auto",
+          "size-full flex flex-col items-center p-4 sm:p-16 break-before-all overflow-y-auto",
           { "justify-center": !hasScroll }
         )}
         ref={ref}
