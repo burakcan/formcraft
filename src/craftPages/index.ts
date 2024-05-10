@@ -1,3 +1,4 @@
+import choices from "./Choices";
 import date_text from "./DateText";
 import email from "./Email";
 import end_screen from "./EndScreen";
@@ -18,4 +19,5 @@ export const craftPageDefinitions = {
   website,
   date_text,
   phone_number,
+  choices,
 };

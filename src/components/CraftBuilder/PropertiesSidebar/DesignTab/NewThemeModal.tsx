@@ -1,6 +1,6 @@
 import { CheckIcon, LoaderCircle } from "lucide-react";
+import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
 import { ThemeCard } from "./ThemeCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,7 +50,7 @@ export function NewThemeModal(props: Props) {
     mutation.mutate(
       {
         ...data,
-        id: uuid(),
+        id: nanoid(5),
         name: values.themeName,
       },
       {

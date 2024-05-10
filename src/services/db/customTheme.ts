@@ -1,6 +1,6 @@
 import "server-only";
 import { auth } from "@clerk/nextjs";
-import { v4 as uuid } from "uuid";
+import { nanoid } from "nanoid";
 import { ErrorType } from "@/lib/errors";
 import { builtinThemes } from "@/lib/themes";
 import db from ".";
@@ -34,7 +34,7 @@ export async function saveCustomTheme(data: CraftTheme) {
     throw new Error(ErrorType.Unauthorized);
   }
 
-  const id = data.id || uuid();
+  const id = data.id || nanoid(5);
 
   if (builtinThemes[id]) {
     throw new Error(ErrorType.Invalid_Request);

@@ -1,6 +1,7 @@
 import type { CraftVersion } from "@prisma/client";
 import { produce } from "immer";
 import { debounce, isEqual, omit } from "lodash";
+import { nanoid } from "nanoid";
 import type { SetStateAction } from "react";
 import { createContext } from "react";
 import type { Edge, EdgeChange, Node, NodeChange } from "reactflow";
@@ -15,7 +16,6 @@ import {
   type ReactFlowJsonObject,
   getOutgoers,
 } from "reactflow";
-import { v4 as uuid } from "uuid";
 import type { TemporalState } from "zundo";
 import { temporal } from "zundo";
 import { create } from "zustand";
@@ -187,7 +187,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
 
               draft.editingVersion.data.flow.edges = addEdge(
                 {
-                  id: uuid(),
+                  id: nanoid(5),
                   target: newNode.id,
                   targetHandle: "input",
                   source: existingConnection.source,
@@ -399,7 +399,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
 
               draft.editingVersion.data.flow.edges = addEdge(
                 {
-                  id: uuid(),
+                  id: nanoid(5),
                   source: movingNode.id,
                   sourceHandle: "output",
                   target: newNextNode!.id,

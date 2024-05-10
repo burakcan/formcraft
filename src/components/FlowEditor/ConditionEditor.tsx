@@ -1,6 +1,6 @@
+import { nanoid } from "nanoid";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -54,7 +54,7 @@ export function ConditionEditor(props: Props) {
   const { onConfirm, trigger, condition } = props;
   const form = useForm<FormCraft.BranchingCondition>({
     defaultValues: condition || {
-      id: uuid(),
+      id: nanoid(5),
       source: "input",
       condition: "eq",
       value: "",
@@ -73,7 +73,7 @@ export function ConditionEditor(props: Props) {
       onOpenChange={() => {
         form.reset(
           condition || {
-            id: uuid(),
+            id: nanoid(5),
             source: "input",
             condition: "eq",
             value: "",
