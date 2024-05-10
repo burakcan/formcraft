@@ -1,5 +1,5 @@
 import { PlusIcon } from "lucide-react";
-import { v4 as uuid } from "uuid";
+import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,7 +55,7 @@ export function PageLibrary() {
   }));
 
   const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
-    const id = uuid();
+    const id = nanoid(5);
 
     const common = {
       id,
@@ -127,6 +127,11 @@ export function PageLibrary() {
             <LibraryItem
               pageDefinition={craftPageDefinitions["date_text"]}
               onClick={() => handleAddPage("date_text")}
+            />
+            <div />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["choices"]}
+              onClick={() => handleAddPage("choices")}
             />
           </div>
         </SheetHeader>

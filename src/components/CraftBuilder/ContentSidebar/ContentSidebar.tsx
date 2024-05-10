@@ -2,8 +2,8 @@
 
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
+import { nanoid } from "nanoid";
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ export function ContentSidebar() {
   };
 
   const handleAddEnding = () => {
-    const id = uuid();
+    const id = nanoid(5);
 
     addPage(
       craftPageDefinitions.end_screen.editorSchema.parse({
