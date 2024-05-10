@@ -12,6 +12,9 @@ export function PhoneNumberFieldViewer<T extends { value: string }>(
   props: Props<T>
 ) {
   const { form, name } = props;
+  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
+    navigator.userAgent
+  );
 
   return (
     <div className="w-full pt-2">
@@ -21,7 +24,7 @@ export function PhoneNumberFieldViewer<T extends { value: string }>(
         render={({ field, fieldState }) => (
           <>
             {/* @ts-expect-error */}
-            <PhoneInput {...field} international autoFocus />
+            <PhoneInput {...field} international autoFocus={autofocus} />
             {fieldState.error && (
               <FieldValidationErrorViewer>
                 {fieldState.error.message}

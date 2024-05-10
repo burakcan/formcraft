@@ -22,6 +22,7 @@ export function EmailViewer(props: Props) {
           <ShortInputViewer
             form={form}
             name="value"
+            type="email"
             placeholder="name@example.com"
           />
           <CtaSectionViewer page={page} icon={CheckIcon} form={formDomId} />

@@ -15,6 +15,9 @@ interface Props {
 
 export function LongTextViewer(props: Props) {
   const { page } = props;
+  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
+    navigator.userAgent
+  );
 
   return (
     <PageWrapperViewer page={page}>
@@ -29,7 +32,7 @@ export function LongTextViewer(props: Props) {
                 <>
                   <Textarea
                     {...field}
-                    autoFocus
+                    autoFocus={autofocus}
                     value={field.value ?? ""}
                     className="text-xl h-44 border-b-4 border-craft-answers focus-visible:ring-craft-answers"
                     placeholder="Type your answer here..."

@@ -26,6 +26,9 @@ export function DateInputViewer<T extends { value: InputValue }>(
 ) {
   const { form, name, dateFormat, separator } = props;
   const placeholder = usePlaceholder(dateFormat, separator);
+  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
+    navigator.userAgent
+  );
 
   const pattern = useMemo(() => {
     switch (dateFormat) {
@@ -128,7 +131,7 @@ export function DateInputViewer<T extends { value: InputValue }>(
             <>
               <Input
                 ref={ref as LegacyRef<HTMLInputElement> | undefined}
-                autoFocus
+                autoFocus={autofocus}
                 placeholder={placeholder}
                 className={cn(
                   "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers font-mono caret-black text-transparent"
