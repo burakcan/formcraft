@@ -54,7 +54,7 @@ export async function GET(
       },
       ...uniquePages.map((p) => ({
         id: p.id,
-        header: p.title || p.description || "Untitled Page",
+        header: p.title || p.description || "",
       })),
     ];
 

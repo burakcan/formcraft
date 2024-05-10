@@ -60,7 +60,7 @@ export function PageLibrary() {
     const common = {
       id,
       type,
-      title: "Untitled Page",
+      title: "",
       description: "",
       baseThemeId: defaultThemeForNewPages,
       logo: defaultLogoForNewPages,
@@ -103,13 +103,14 @@ export function PageLibrary() {
               onClick={() => handleAddPage("short_text")}
             />
             <LibraryItem
-              pageDefinition={craftPageDefinitions["number_input"]}
-              onClick={() => handleAddPage("number_input")}
-            />
-            <LibraryItem
               pageDefinition={craftPageDefinitions["long_text"]}
               onClick={() => handleAddPage("long_text")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["number_input"]}
+              onClick={() => handleAddPage("number_input")}
+            />
+            <div />
             <LibraryItem
               pageDefinition={craftPageDefinitions["email"]}
               onClick={() => handleAddPage("email")}
@@ -119,12 +120,13 @@ export function PageLibrary() {
               onClick={() => handleAddPage("website")}
             />
             <LibraryItem
-              pageDefinition={craftPageDefinitions["date_text"]}
-              onClick={() => handleAddPage("date_text")}
-            />
-            <LibraryItem
               pageDefinition={craftPageDefinitions["phone_number"]}
               onClick={() => handleAddPage("phone_number")}
+            />
+            <div />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["date_text"]}
+              onClick={() => handleAddPage("date_text")}
             />
           </div>
         </SheetHeader>

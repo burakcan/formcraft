@@ -15,7 +15,7 @@ const pageDefinition = {
   settingsComponent: PhoneNumberContentSettings,
 
   icon: PhoneIcon,
-  iconClassName: "bg-amber-100",
+  iconClassName: "bg-blue-100",
 };
 
 export default pageDefinition;

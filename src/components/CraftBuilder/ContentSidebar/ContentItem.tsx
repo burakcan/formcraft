@@ -1,7 +1,8 @@
 import { Reorder } from "framer-motion";
-import { GripVertical, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { craftPageDefinitions } from "@/craftPages";
 
 interface Props {
   index: number;
@@ -26,6 +27,9 @@ export function ContentItem(props: Props) {
     setMovingItem,
   } = props;
 
+  const pageDefinition = craftPageDefinitions[page.type];
+  const { icon: Icon, iconClassName } = pageDefinition;
+
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete();
@@ -44,8 +48,8 @@ export function ContentItem(props: Props) {
         setMovingItem(null);
       }}
       className={cn(
-        `group p-2 text-sm rounded m-2 cursor-default
-        whitespace-nowrap text-ellipsis overflow-hidden relative w-60`,
+        `group p-1 text-sm rounded m-2 cursor-default
+        whitespace-nowrap relative w-60 flex items-center bg-background`,
         {
           "bg-accent": page.id === selectedPageId,
           "data-[active=true]:pr-6": totalItems > 1,
@@ -53,12 +57,18 @@ export function ContentItem(props: Props) {
         }
       )}
     >
-      <GripVertical className="inline-block mr-2 size-4 stroke-muted-foreground/50" />
-      <span className=" font-medium mr-1 text-xs text-muted-foreground">
-        {isEnding && "e"}
-        {index + 1}.
-      </span>
-      <span>{page.title || page.description}</span>
+      <div
+        className={cn("mr-2 p-2 rounded size-8 inline-block", iconClassName)}
+      >
+        <Icon className={cn("size-4", iconClassName)} />
+      </div>
+      <div className="overflow-hidden text-ellipsis">
+        <span className="font-semibold mr-1 text-xs">
+          {isEnding && "e"}
+          {index + 1}.
+        </span>
+        <span>{page.title || page.description}</span>
+      </div>
       {totalItems > 1 && (
         <div className="absolute right-1 top-0 h-full hidden items-center group-hover:flex group-data-[active=true]:flex">
           <Button
