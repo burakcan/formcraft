@@ -66,7 +66,10 @@ export async function GET(
       };
 
       columns.forEach((col) => {
-        row[col.header] = row[col.id] || submission.data[col.id]?.value || "";
+        let val = row[col.id] || submission.data[col.id]?.value || "";
+        val = Array.isArray(val) ? val.join(", ") : val;
+
+        row[col.header] = val;
       });
 
       return row;
