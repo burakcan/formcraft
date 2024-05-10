@@ -1,3 +1,4 @@
+import FontPicker from "react-fontpicker-ts";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 import { useLoadPageResources } from "@/hooks/useLoadPageResources";
 
@@ -14,18 +15,19 @@ function PageResourcePreloader(props: {
   const { page, theme } = props;
   useLoadPageResources(page, theme);
 
-  return (
-    <>
-      <link
-        href={`https://fonts.googleapis.com/css2?family=${theme.titleFont}&display=swap`}
-        rel="stylesheet"
-      />
-      <link
-        href={`https://fonts.googleapis.com/css2?family=${theme.descriptionFont}&display=swap`}
-        rel="stylesheet"
-      />
-    </>
-  );
+  if ("document" in global) {
+    return (
+      <>
+        <FontPicker
+          loaderOnly
+          loadFonts={[theme.titleFont, theme.descriptionFont]}
+          loadAllVariants
+        />
+      </>
+    );
+  }
+
+  return null;
 }
 
 export function ResourcePreloader(props: Props) {

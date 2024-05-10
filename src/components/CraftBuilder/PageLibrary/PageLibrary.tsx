@@ -118,6 +118,10 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["website"]}
               onClick={() => handleAddPage("website")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["date_text"]}
+              onClick={() => handleAddPage("date_text")}
+            />
           </div>
         </SheetHeader>
       </SheetContent>
