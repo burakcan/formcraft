@@ -1,5 +1,5 @@
 export function HSLToHex(hsl: string) {
-  let [h, s, l] = hsl.split(" ").map(Number);
+  let [h, s, l] = hsl.replaceAll("%", "").split(" ").map(Number);
 
   s /= 100;
   l /= 100;
@@ -91,11 +91,12 @@ export function hexToHSL(hex: string) {
   s = Math.round(s * 100);
   l = Math.round(l * 100);
 
-  return `${h} ${s} ${l}`;
+  return `${h} ${s}% ${l}%`;
 }
 
 export function HSLToRGB(hsl: string) {
-  let [h, s, l] = hsl.split(" ").map(Number);
+  let [h, s, l] = hsl.replaceAll("%", "").split(" ").map(Number);
+
   // Must be fractions of 1
   s /= 100;
   l /= 100;
