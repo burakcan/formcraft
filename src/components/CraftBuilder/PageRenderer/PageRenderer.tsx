@@ -37,7 +37,8 @@ export function PageRenderer() {
         prose prose-md
         prose-p:m-0
         prose-headings:mb-4
-        prose-headings:font-bold
+        prose-headings:font-normal
+        overflow-hidden
       `}
     >
       {!fontsLoaded && (

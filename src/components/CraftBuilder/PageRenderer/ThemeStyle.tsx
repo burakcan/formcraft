@@ -21,9 +21,9 @@ export function ThemeStyle(props: Props) {
     --craft-button-text: ${theme.buttonTextColor};
     --craft-font-size: ${
       theme.fontSize === "small"
-        ? "1rem"
+        ? "0.7rem"
         : theme.fontSize === "medium"
-        ? "1.25rem"
+        ? "1rem"
         : "1.5rem"
     };
     --craft-text-align: ${theme.textAlign};

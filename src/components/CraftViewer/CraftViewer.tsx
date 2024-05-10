@@ -49,7 +49,7 @@ export function CraftViewer() {
         prose prose-md
         prose-p:m-0
         prose-headings:mb-4
-        prose-headings:font-bold
+        prose-headings:font-normal
         overflow-hidden
   `}
     >
@@ -68,7 +68,7 @@ export function CraftViewer() {
           <motion.div
             id={pageDomId}
             custom="up"
-            className="craft-renderer w-full h-full absolute top-0 left-0"
+            className="craft-renderer w-full h-full absolute top-0 left-0 text-craft"
             key={currentPage.id}
             variants={{
               initial: (direction: "up" | "down") => ({
