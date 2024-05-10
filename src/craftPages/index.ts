@@ -17,5 +17,5 @@ export const craftPageDefinitions = {
   email,
   website,
   date_text,
-  phone_number
+  phone_number,
 };

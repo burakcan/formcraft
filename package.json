@@ -66,6 +66,7 @@
     "googleapis": "^134.0.0",
     "hotkeys-js": "^3.13.7",
     "immer": "^10.0.4",
+    "libphonenumber-js": "^1.11.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.365.0",
     "next": "14.1.4",
