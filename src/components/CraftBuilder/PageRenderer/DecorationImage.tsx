@@ -18,7 +18,7 @@ export function DecorationImage(props: Props) {
       : decorationImage?.url || "";
 
   return (
-    <div className="flex-none relative w-1/3">
+    <div className="flex-none relative w-full sm:w-1/3 h-1/3 sm:h-full">
       <AnimatePresence initial={false}>
         <motion.div
           className="w-full h-full absolute top-0 left-0"

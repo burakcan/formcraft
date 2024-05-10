@@ -19,9 +19,9 @@ export function PageLayout(props: Props) {
   return (
     <div
       className={cn(
-        "w-full h-full absolute top-0 left-0 z-10 text-craft flex",
+        "w-full h-full absolute top-0 left-0 z-10 text-craft flex flex-col-reverse",
         {
-          ["flex-row-reverse"]: theme.decorationImageLayout === "left-full",
+          ["sm:flex-row-reverse"]: theme.decorationImageLayout === "left-full",
           "text-center": theme.textAlign === "center",
           "text-left": theme.textAlign === "left",
           "text-right": theme.textAlign === "right",
@@ -32,8 +32,10 @@ export function PageLayout(props: Props) {
         className={cn(
           "flex-none relative transition-colors duration-500 bg-craft-background overflow-hidden",
           {
-            "w-2/3": theme.decorationImage,
-            "w-full": !theme.decorationImage,
+            "h-2/3 sm:h-full": theme.decorationImage,
+            "h-full": !theme.decorationImage,
+            "w-full sm:w-2/3": theme.decorationImage,
+            "sm:w-full": !theme.decorationImage,
           }
         )}
       >
