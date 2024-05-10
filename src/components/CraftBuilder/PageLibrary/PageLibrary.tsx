@@ -122,6 +122,10 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["date_text"]}
               onClick={() => handleAddPage("date_text")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["phone_number"]}
+              onClick={() => handleAddPage("phone_number")}
+            />
           </div>
         </SheetHeader>
       </SheetContent>
