@@ -146,6 +146,9 @@ dependencies:
   immer:
     specifier: ^10.0.4
     version: 10.0.4
+  libphonenumber-js:
+    specifier: ^1.11.1
+    version: 1.11.1
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
