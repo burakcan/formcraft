@@ -4,7 +4,9 @@ import { useThemes } from "./useThemes";
 
 export function usePageTheme(pageId: string) {
   const page = useEditCraftStore((s) =>
-    s.editingVersion?.data.pages.find((page) => page.id === pageId)
+    [...s.editingVersion.data.pages, ...s.editingVersion.data.end_pages].find(
+      (page) => page.id === pageId
+    )
   );
 
   const themes = useThemes();
