@@ -101,7 +101,7 @@ export function CraftResultsTable(props: Props) {
 
     const answerColumns = uniquePages.map<ColumnDef<CraftSubmission>>((p) => ({
       id: p.id,
-      header: p.title || p.description || "Untitled Page",
+      header: p.title || p.description || "",
       accessorFn: (row: CraftSubmission) => {
         return row.data[p.id]?.value;
       },

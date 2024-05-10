@@ -15,7 +15,7 @@ const pageDefinition = {
   settingsComponent: WebsiteContentSettings,
 
   icon: Link2Icon,
-  iconClassName: "bg-amber-100",
+  iconClassName: "bg-blue-100",
 };
 
 export default pageDefinition;

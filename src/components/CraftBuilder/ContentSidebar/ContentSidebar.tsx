@@ -66,7 +66,7 @@ export function ContentSidebar() {
 
   return (
     <div className="w-full h-full">
-      <ResizablePanelGroup direction="vertical">
+      <ResizablePanelGroup direction="vertical" autoSaveId="fc_content_sidebar">
         <ResizablePanel defaultSize={75} minSize={25}>
           <div className="flex-none flex items-center justify-between h-14 mx-2 text-sm font-medium border-b">
             Content

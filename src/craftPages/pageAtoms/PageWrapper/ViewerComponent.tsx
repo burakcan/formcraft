@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -97,7 +98,16 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
             props.innerWrapperClassName
           )}
         >
-          {props.children({ form, formDomId })}
+          {page.type === "end_screen" && mutation.isPending && (
+            <div className="text-center mx-auto flex gap-4 items-center justify-center text-craft-title">
+              <Loader2 className="size-8 animate-spin" />
+              <div className="font-semibold text-sm">
+                Submitting your answers...
+              </div>
+            </div>
+          )}
+          {(page.type !== "end_screen" || !mutation.isPending) &&
+            props.children({ form, formDomId })}
         </div>
       </form>
     </Form>

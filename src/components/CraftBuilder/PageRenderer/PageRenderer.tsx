@@ -1,12 +1,14 @@
 "use client";
 
 import "./style.css";
-import { motion } from "framer-motion";
+import FontPicker from "react-fontpicker-ts";
 import { PageLayout } from "./PageLayout";
 import { ThemeStyle } from "./ThemeStyle";
+import { FullPageLoading } from "@/components/FullPageLoading";
 import { craftPageDefinitions } from "@/craftPages";
 import { MadeWithFormCraftEditor } from "@/craftPages/pageAtoms/MadeWithFormcraft";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useLoadPageResources } from "@/hooks/useLoadPageResources";
 import { usePageTheme } from "@/hooks/usePageTheme";
 
 export function PageRenderer() {
@@ -19,13 +21,14 @@ export function PageRenderer() {
   const pageDefinition =
     selectedPage && craftPageDefinitions[selectedPage.type];
   const theme = usePageTheme(selectedPageId);
+  const { fontsLoaded } = useLoadPageResources(selectedPage!, theme);
 
   if (!selectedPage || !pageDefinition) {
     return null;
   }
 
   return (
-    <motion.div
+    <div
       className={`
         craft-renderer
         relative
@@ -36,27 +39,28 @@ export function PageRenderer() {
         prose-headings:mb-4
         prose-headings:font-bold
       `}
-      key={`${theme.id}`}
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // transition={{ duration: 0.3 }}
     >
+      {!fontsLoaded && (
+        <div className="absolute size-full transform-gpu translate-x-0 z-50">
+          <FullPageLoading visible={!fontsLoaded} />
+        </div>
+      )}
+
       <PageLayout theme={theme} page={selectedPage} disableTransitions>
         <ThemeStyle theme={theme} />
-        <link
-          href={`https://fonts.googleapis.com/css2?family=${theme.titleFont}&display=swap`}
-          rel="stylesheet"
-        />
-        <link
-          href={`https://fonts.googleapis.com/css2?family=${theme.descriptionFont}&display=swap`}
-          rel="stylesheet"
-        />
+        {"document" in global && (
+          <FontPicker
+            loaderOnly
+            loadFonts={[theme.titleFont, theme.descriptionFont]}
+            loadAllVariants
+          />
+        )}
         <pageDefinition.editorComponent
           page={selectedPage as never}
           onChange={editPage}
         />
       </PageLayout>
       <MadeWithFormCraftEditor theme={theme} />
-    </motion.div>
+    </div>
   );
 }

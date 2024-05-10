@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react";
+import { PartyPopperIcon } from "lucide-react";
 import { EndScreenContentSettings } from "./ContentSettings";
 import { EndScreenEditor } from "./EditorComponent";
 import { endScreenEditorSchema, getEndScreenViewerSchema } from "./schema";
@@ -14,7 +14,7 @@ const pageDefinition = {
   getViewerSchema: getEndScreenViewerSchema,
   settingsComponent: EndScreenContentSettings,
 
-  icon: BookOpen,
+  icon: PartyPopperIcon,
   iconClassName: "bg-emerald-100",
 };
 

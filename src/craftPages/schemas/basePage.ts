@@ -7,7 +7,7 @@ export const basePage = z.object({
   _: z.literal("_bp_").default("_bp_"),
 
   id: z.string(),
-  title: z.string().default("Untitled Page").optional(),
+  title: z.string().default("").optional(),
   description: z.string().optional(),
   variableName: z.string().optional().nullable(),
   baseThemeId: z.string().default("default"),

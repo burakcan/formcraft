@@ -61,7 +61,7 @@ export function PageNode(props: NodeProps<PageNodeData>) {
             <span className=" font-medium mr-1 text-xs text-muted-foreground">
               {index + 1}.
             </span>
-            <span>{page.title || "Untitled Page"}</span>
+            <span>{page.title || ""}</span>
           </div>
           {page.description ? (
             <div className="text-xs text-muted-foreground mt-1 whitespace-nowrap overflow-hidden text-ellipsis">
