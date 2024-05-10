@@ -2,6 +2,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import FontPicker from "react-fontpicker-ts";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { PageLayout } from "../CraftBuilder/PageRenderer/PageLayout";
 import { ThemeStyle } from "../CraftBuilder/PageRenderer/ThemeStyle";
@@ -93,14 +94,13 @@ export function CraftViewer() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <ThemeStyle theme={theme} pageId={pageDomId} />
-            <link
-              href={`https://fonts.googleapis.com/css2?family=${theme.titleFont}&display=swap`}
-              rel="stylesheet"
-            />
-            <link
-              href={`https://fonts.googleapis.com/css2?family=${theme.descriptionFont}&display=swap`}
-              rel="stylesheet"
-            />
+            {"document" in global && (
+              <FontPicker
+                loaderOnly
+                loadFonts={[theme.titleFont, theme.descriptionFont]}
+                loadAllVariants
+              />
+            )}
             <pageDefinition.viewerComponent page={currentPage as never} />
           </motion.div>
         </AnimatePresence>

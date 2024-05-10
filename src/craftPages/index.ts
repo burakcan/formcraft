@@ -1,3 +1,4 @@
+import date_text from "./DateText";
 import email from "./Email";
 import end_screen from "./EndScreen";
 import long_text from "./LongText";
@@ -14,4 +15,5 @@ export const craftPageDefinitions = {
   long_text,
   email,
   website,
+  date_text,
 };
