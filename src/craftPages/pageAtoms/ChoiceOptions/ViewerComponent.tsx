@@ -113,9 +113,9 @@ export function ChoiceOptionsViewer<
             <div>
               <div
                 className={cn(
-                  "inline-flex min-w-56 max-w-full flex-col flex-wrap gap-3 pb-1",
+                  "grid grid-cols-1 sm:inline-flex min-w-56 max-w-full sm:flex-col flex-wrap gap-3 pb-1",
                   {
-                    "grid grid-cols-3":
+                    "sm:grid sm:grid-cols-3":
                       orientation === "horizontal" || page.imageChoices,
                   }
                 )}
