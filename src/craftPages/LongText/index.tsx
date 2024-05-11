@@ -5,7 +5,7 @@ import { getLongTextViewerSchema, longTextEditorSchema } from "./schema";
 import { LongTextViewer } from "./ViewerComponent";
 
 const pageDefinition = {
-  name: "Long Text",
+  name: "Long text",
   description: "Multi line text input",
 
   editorComponent: LongTextEditor,

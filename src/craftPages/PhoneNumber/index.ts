@@ -6,7 +6,7 @@ import { PhoneNumberViewer } from "./ViewerComponent";
 
 const pageDefinition = {
   name: "Phone number",
-  description: "A phone number input field.",
+  description: "A phone number input field",
 
   editorComponent: PhoneNumberEditor,
   editorSchema: phoneNumberEditorSchema,

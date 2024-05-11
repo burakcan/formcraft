@@ -6,7 +6,7 @@ import { DateTextViewer } from "./ViewerComponent";
 
 const pageDefinition = {
   name: "Date",
-  description: "A date input field.",
+  description: "A date input field",
 
   editorComponent: DateTextEditor,
   editorSchema: dateTextEditorSchema,

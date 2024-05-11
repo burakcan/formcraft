@@ -5,7 +5,7 @@ import { getShortTextViewerSchema, shortTextEditorSchema } from "./schema";
 import { ShortTextViewer } from "./ViewerComponent";
 
 const pageDefinition = {
-  name: "Short Text",
+  name: "Short text",
   description: "A single line of text",
 
   editorComponent: ShortTextEditor,

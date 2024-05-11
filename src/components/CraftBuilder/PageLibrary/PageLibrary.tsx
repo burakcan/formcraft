@@ -1,4 +1,4 @@
-import { PlusIcon } from "lucide-react";
+import { ImagesIcon, PlusIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,10 @@ export function PageLibrary() {
     addPage: s.addPage,
   }));
 
-  const handleAddPage = (type: FormCraft.CraftPage["type"]) => {
+  const handleAddPage = (
+    type: FormCraft.CraftPage["type"],
+    defaults: Partial<FormCraft.CraftPage> = {}
+  ) => {
     const id = nanoid(5);
 
     const common = {
@@ -71,6 +74,7 @@ export function PageLibrary() {
         addPage(
           craftPageDefinitions[type].editorSchema.parse({
             ...common,
+            ...defaults,
           })
         );
         break;
@@ -110,7 +114,10 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["number_input"]}
               onClick={() => handleAddPage("number_input")}
             />
-            <div />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["date_text"]}
+              onClick={() => handleAddPage("date_text")}
+            />
             <LibraryItem
               pageDefinition={craftPageDefinitions["email"]}
               onClick={() => handleAddPage("email")}
@@ -125,13 +132,21 @@ export function PageLibrary() {
             />
             <div />
             <LibraryItem
-              pageDefinition={craftPageDefinitions["date_text"]}
-              onClick={() => handleAddPage("date_text")}
-            />
-            <div />
-            <LibraryItem
               pageDefinition={craftPageDefinitions["choices"]}
               onClick={() => handleAddPage("choices")}
+            />
+            <LibraryItem
+              pageDefinition={{
+                ...craftPageDefinitions["choices"],
+                name: "Image choices",
+                icon: ImagesIcon,
+                description: "Select an image from a list",
+              }}
+              onClick={() =>
+                handleAddPage("choices", {
+                  imageChoices: true,
+                })
+              }
             />
           </div>
         </SheetHeader>

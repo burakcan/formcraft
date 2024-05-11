@@ -288,7 +288,7 @@ export function ChoiceOptionsEditor<
         <Button
           variant="choiceOption"
           size="choiceOption"
-          className="bg-primary/10 text-primary border-primary/50 hover:bg-primary/20 h-10"
+          className="bg-primary/5 text-primary border-primary/30 hover:bg-primary/10 h-10"
           onClick={() => {
             onChange(page.id, {
               ...page,
