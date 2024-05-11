@@ -10,7 +10,7 @@ import { useAnswerMutation } from "@/hooks/useAnswerMutation";
 import { useHasScroll } from "@/hooks/useHasScroll";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
-type FormValues<T extends FormCraft.CraftPage> = {
+export type FormValues<T extends FormCraft.CraftPage> = {
   value: z.infer<
     ReturnType<(typeof craftPageDefinitions)[T["type"]]["getViewerSchema"]>
   >;
@@ -79,7 +79,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
     }
   }, [page.type, answers, mutation]);
 
-  const hasScroll = useHasScroll(ref);
+  const hasScroll = useHasScroll(ref, [page]);
 
   return (
     <Form {...form}>
