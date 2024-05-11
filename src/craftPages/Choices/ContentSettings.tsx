@@ -52,21 +52,31 @@ export function ChoicesContentSettings(props: Props) {
           </>
         )}
         <SwitchField
+          label="Image choices"
+          name="imageChoices"
+          checked={page.imageChoices}
+          onCheckedChange={(value) =>
+            onChange({ ...page, imageChoices: value })
+          }
+        />
+        {!page.imageChoices && (
+          <SwitchField
+            label="Horizontal orientation"
+            name="orientation"
+            checked={page.orientation === "horizontal"}
+            onCheckedChange={(value) =>
+              onChange({
+                ...page,
+                orientation: value ? "horizontal" : "vertical",
+              })
+            }
+          />
+        )}
+        <SwitchField
           label="Randomize"
           name="randomize"
           checked={page.randomize}
           onCheckedChange={(value) => onChange({ ...page, randomize: value })}
-        />
-        <SwitchField
-          label="Horizontal orientation"
-          name="orientation"
-          checked={page.orientation === "horizontal"}
-          onCheckedChange={(value) =>
-            onChange({
-              ...page,
-              orientation: value ? "horizontal" : "vertical",
-            })
-          }
         />
       </InputGroup>
       <VariableName page={page} onChange={onChange} />

@@ -2,9 +2,14 @@ import { Document } from "@tiptap/extension-document";
 import Text from "@tiptap/extension-text";
 import { useEditor } from "@tiptap/react";
 import { useEffect } from "react";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 export type PageWithOptions = FormCraft.CraftPage & {
-  options: { label: string; id: string }[];
+  options: {
+    label: string;
+    id: string;
+    image: ThemeImageType | null;
+  }[];
 };
 
 export function useChoiceOptionEditor<T extends PageWithOptions>(

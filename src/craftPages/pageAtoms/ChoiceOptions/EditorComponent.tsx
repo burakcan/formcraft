@@ -10,11 +10,15 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EditorContent } from "@tiptap/react";
-import { PlusIcon, XIcon } from "lucide-react";
-import type { PointerEvent } from "react";
+import { ImageIcon, PlusIcon, XIcon } from "lucide-react";
+import { nanoid } from "nanoid";
+import { useState, type PointerEvent } from "react";
 import { cn } from "@/lib/utils";
 import { ChoiceLetter } from "./ChoiceLetter";
+import { ImageLibrary } from "@/components/CraftBuilder/ImageLibrary/ImageLibrary";
+import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
 import { Button } from "@/components/ui/button";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 import { useChoiceOptionEditor } from "@/hooks/useChoiceOptionEditor";
 
@@ -24,7 +28,11 @@ interface Props<T> {
 }
 
 interface ItemProps<T> {
-  option: { label: string; id: string };
+  option: {
+    label: string;
+    id: string;
+    image: ThemeImageType | null;
+  };
   page: T;
   onChange: (pageId: string, page: T) => void;
   index: number;
@@ -40,6 +48,9 @@ class EditorPointerSensor extends PointerSensor {
           event.nativeEvent.button !== 0 ||
           (event.nativeEvent.target instanceof HTMLElement &&
             (event.nativeEvent.target.classList.contains("tiptap") ||
+              event.nativeEvent.target.classList.contains(
+                "choiceOptionImage"
+              ) ||
               event.nativeEvent.target.nodeName === "BUTTON"))
         ) {
           return false;
@@ -51,8 +62,14 @@ class EditorPointerSensor extends PointerSensor {
   ];
 }
 
-function ChoiceOptionItem<T extends PageWithOptions>(props: ItemProps<T>) {
+function ChoiceOptionItem<
+  T extends PageWithOptions & {
+    imageChoices: boolean;
+  }
+>(props: ItemProps<T>) {
   const { option, page, onChange, index } = props;
+  const [prevImage, setPrevImage] = useState(option.image);
+  const [showImageLibrary, setShowImageLibrary] = useState(false);
   const editor = useChoiceOptionEditor(page, option, onChange);
   const {
     attributes,
@@ -72,61 +89,161 @@ function ChoiceOptionItem<T extends PageWithOptions>(props: ItemProps<T>) {
     transition,
   };
 
+  const handleImageReplace = () => {
+    setPrevImage(option.image);
+    setShowImageLibrary(true);
+  };
+
+  const handleImageCancel = () => {
+    onChange(page.id, {
+      ...page,
+      options: page.options.map((o) =>
+        o.id === option.id ? { ...o, image: prevImage } : o
+      ),
+    });
+    setShowImageLibrary(false);
+  };
+
+  const handleImageSave = () => {
+    setPrevImage(option.image);
+    onChange(page.id, {
+      ...page,
+      options: page.options.map((o) =>
+        o.id === option.id ? { ...o, image: option.image } : o
+      ),
+    });
+    setShowImageLibrary(false);
+  };
+
+  const handleImageChange = (image?: ThemeImageType) => {
+    if (image) {
+      onChange(page.id, {
+        ...page,
+        options: page.options.map((o) =>
+          o.id === option.id ? { ...o, image } : o
+        ),
+      });
+    } else {
+      onChange(page.id, {
+        ...page,
+        options: page.options.map((o) =>
+          o.id === option.id ? { ...o, image: prevImage } : o
+        ),
+      });
+    }
+  };
+
   return (
-    <Button
-      variant="choiceOption"
-      size="choiceOption"
-      className="cursor-move relative group choiceOptionItem"
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      asChild
-    >
-      <div>
-        <ChoiceLetter index={index} />
-        <EditorContent
-          editor={editor}
-          className="flex-auto break-all cursor-text choiceOptionEditor"
-        />
-        <div
-          className={cn(
-            "absolute -right-3 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity",
-            {
-              "opacity-100": editor?.isFocused,
-              "group-hover:opacity-100": !isDragging && !isOver,
-            }
+    <>
+      <Button
+        variant="choiceOption"
+        size="choiceOption"
+        className={cn("cursor-move relative group choiceOptionItem", {
+          "items-start pt-2": page.imageChoices,
+        })}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        asChild
+      >
+        <div>
+          {page.imageChoices && (
+            <ImageLibrary
+              open={showImageLibrary}
+              onOpenChange={setShowImageLibrary}
+              currentValue={option.image}
+              onImageSelect={handleImageChange}
+              onCancel={handleImageCancel}
+              onSave={handleImageSave}
+            />
           )}
-        >
-          <Button
-            className={cn("size-5 p-0 rounded-full", {
-              hidden: page.options.length === 1,
-            })}
-            variant="destructive"
-            onClick={() => {
-              onChange(page.id, {
-                ...page,
-                options: page.options.filter((o) => o.id !== option.id),
-              });
-            }}
+          <ChoiceLetter index={index} />
+          <div className="flex-auto flex flex-col">
+            {page.imageChoices && (
+              <div
+                className={cn(
+                  "choiceOptionImage relative flex-auto h-36 mx-2 mb-1 flex items-center justify-center cursor-pointer overflow-hidden rounded",
+                  {
+                    "bg-craft-answers/20 border border-craft-answers/30":
+                      !option.image,
+                  }
+                )}
+                onClick={handleImageReplace}
+              >
+                {option.image && (
+                  <div className="blur-md size-full">
+                    <ThemeImage
+                      imageObject={option.image}
+                      objectFit="cover"
+                      noAttribution
+                      noLoading
+                    />
+                  </div>
+                )}
+                {!option.image ? (
+                  <ImageIcon className="size-8 text-craft-answers/50" />
+                ) : (
+                  <ThemeImage
+                    imageObject={option.image}
+                    objectFit="contain"
+                    noAttribution
+                    noLoading
+                  />
+                )}
+              </div>
+            )}
+            <EditorContent
+              editor={editor}
+              className="break-all cursor-text choiceOptionEditor"
+            />
+          </div>
+          <div
+            className={cn(
+              "absolute -right-3 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity",
+              {
+                "opacity-100": editor?.isFocused,
+                "group-hover:opacity-100": !isDragging && !isOver,
+              }
+            )}
           >
-            <XIcon className="size-3 pointer-events-none" />
-          </Button>
+            <Button
+              className={cn("size-5 p-0 rounded-full", {
+                hidden: page.options.length === 1,
+              })}
+              variant="destructive"
+              onClick={() => {
+                onChange(page.id, {
+                  ...page,
+                  options: page.options.filter((o) => o.id !== option.id),
+                });
+              }}
+            >
+              <XIcon className="size-3 pointer-events-none" />
+            </Button>
+          </div>
         </div>
-      </div>
-    </Button>
+      </Button>
+    </>
   );
 }
 
 export function ChoiceOptionsEditor<
   T extends PageWithOptions & {
     orientation: "vertical" | "horizontal";
+    imageChoices: boolean;
   }
 >(props: Props<T>) {
   const { page, onChange } = props;
   const { options, orientation } = page;
 
-  const sensors = useSensors(useSensor(EditorPointerSensor));
+  const sensors = useSensors(
+    useSensor(EditorPointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -147,11 +264,12 @@ export function ChoiceOptionsEditor<
       className={cn(
         "px-2 pt-2 inline-flex min-w-56 max-w-full flex-col flex-wrap gap-3",
         {
-          "grid grid-cols-3": orientation === "horizontal",
+          "grid grid-cols-3": orientation === "horizontal" || page.imageChoices,
         }
       )}
     >
       <DndContext
+        id="choiceOptions"
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -178,7 +296,8 @@ export function ChoiceOptionsEditor<
                 ...options,
                 {
                   label: `Option ${options.length + 1}`,
-                  id: `option-${options.length + 1}`,
+                  id: nanoid(3),
+                  image: null,
                 },
               ],
             });

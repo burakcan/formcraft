@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { basePage } from "../schemas/basePage";
+import { themeImage } from "../schemas/theming";
 
 export const choicesEditorSchema = basePage.extend({
   type: z.literal("choices").default("choices"),
@@ -11,14 +12,16 @@ export const choicesEditorSchema = basePage.extend({
   maxSelections: z.number().optional().nullable(),
   randomize: z.boolean().default(false),
   orientation: z.enum(["vertical", "horizontal"]).default("vertical"),
+  imageChoices: z.boolean().default(false),
   options: z
     .array(
       z.object({
         label: z.string(),
         id: z.string(),
+        image: themeImage.nullable(),
       })
     )
-    .default([{ label: "Option 1", id: nanoid(3) }]),
+    .default([{ label: "Option 1", id: nanoid(3), image: null }]),
 });
 
 export type Choices = z.infer<typeof choicesEditorSchema>;
