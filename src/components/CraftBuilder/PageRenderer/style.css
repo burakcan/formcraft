@@ -17,9 +17,15 @@
   @apply border-transparent;
 }
 
+.choiceOptionItem .tiptap.ProseMirror,
 button .tiptap.ProseMirror {
   @apply px-3;
   @apply py-1;
   @apply m-1;
   @apply rounded-md;
+}
+
+.choiceOptionEditor .tiptap.ProseMirror {
+  @apply border-craft-answers;
+  @apply brightness-75;
 }

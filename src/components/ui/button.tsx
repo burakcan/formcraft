@@ -11,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         craft:
           "bg-craft-button hover:bg-craft-button hover:opacity-60 text-craft-button-text",
+        choiceOption:
+          "max-w-full justify-start bg-craft-answers/10 border border-craft-answers text-craft-answers font-normal hover:bg-craft-answers/20 text-left h-auto",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
@@ -27,6 +29,7 @@ const buttonVariants = cva(
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
         editable: "h-10 p-0 cursor-text",
+        choiceOption: "h-auto p-0",
       },
     },
     defaultVariants: {

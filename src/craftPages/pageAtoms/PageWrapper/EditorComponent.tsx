@@ -8,7 +8,7 @@ interface Props {
 
 export function PageWrapperEditor(props: PropsWithChildren<Props>) {
   const ref = useRef<HTMLDivElement>(null);
-  const hasScroll = useHasScroll(ref);
+  const hasScroll = useHasScroll(ref, [props.children]);
 
   return (
     <div

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-export function useHasScroll(ref: React.RefObject<HTMLElement>) {
+export function useHasScroll(
+  ref: React.RefObject<HTMLElement>,
+  deps: any[] = []
+) {
   const [hasScroll, setHasScroll] = useState(false);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ export function useHasScroll(ref: React.RefObject<HTMLElement>) {
       observer.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, deps);
 
   return hasScroll;
 }
