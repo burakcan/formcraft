@@ -8,6 +8,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+}
+
+export function isMacish() {
+  var macOsPattern = /Mac|iPod|iPhone|iPad/;
+  return typeof window !== "undefined" &&
+    navigator.userAgent.match(macOsPattern)
+    ? true
+    : false;
+}
+
 export function genericApiError(error: any) {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     return NextResponse.json(

@@ -15,7 +15,7 @@ const pageDefinition = {
   settingsComponent: EndScreenContentSettings,
 
   icon: PartyPopperIcon,
-  iconClassName: "bg-emerald-100",
+  iconClassName: "bg-stone-200",
 };
 
 export default pageDefinition;

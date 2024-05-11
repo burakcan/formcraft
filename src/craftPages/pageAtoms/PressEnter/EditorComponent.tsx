@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { isMacish } from "@/lib/isMacish";
+import { isMacish, isMobile } from "@/lib/utils";
 
 interface Props {
   withMeta?: boolean;
@@ -7,10 +7,19 @@ interface Props {
 
 export function PressEnterEditor(props: Props) {
   const [isMac, setIsMac] = useState(false);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     setIsMac(isMacish());
   }, []);
+
+  useEffect(() => {
+    setMobile(isMobile());
+  }, []);
+
+  if (mobile) {
+    return null;
+  }
 
   const metaKey = isMac ? "⌘" : "Ctrl";
 

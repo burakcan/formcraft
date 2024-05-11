@@ -1,4 +1,5 @@
 import type { Path, UseFormReturn } from "react-hook-form";
+import { isMobile } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { FormField } from "@/components/ui/form";
 import { PhoneInput } from "@/components/ui/phone-input";
@@ -12,9 +13,7 @@ export function PhoneNumberFieldViewer<T extends { value: string }>(
   props: Props<T>
 ) {
   const { form, name } = props;
-  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-    navigator.userAgent
-  );
+  const autofocus = !isMobile();
 
   return (
     <div className="w-full pt-2">

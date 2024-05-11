@@ -1,27 +1,28 @@
 // eslint-disable-next-line sort/imports
 import "react-fontpicker-ts/dist/index.css";
 import "./fontpicker.css";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   AlignCenterIcon,
   AlignLeftIcon,
   AlignRightIcon,
   ChevronLeft,
-  LayoutPanelLeftIcon,
+  // LayoutPanelLeftIcon,
 } from "lucide-react";
 import { useState } from "react";
 import FontPicker from "react-fontpicker-ts";
+import { builtinThemes } from "@/lib/themes";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { ImageInput } from "../ImageInput";
 import { ColorInput } from "./ColorInput";
 import { NewThemeModal } from "./NewThemeModal";
 import { RevertModal } from "./RevertModal";
+import { SaveThemeModal } from "./SaveThemeModal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useThemes } from "@/hooks/useThemes";
-import { SaveThemeModal } from "./SaveThemeModal";
-import { builtinThemes } from "@/lib/themes";
 
 interface Props {
   selectedPage: FormCraft.CraftPage;
@@ -83,36 +84,44 @@ export function ThemeCustomization(props: Props) {
           Themes
         </Button>
       </div>
-      <div className="p-2 w-full bg-background border-b flex gap-2 justify-between">
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={Object.keys(overrides).length === 0}
-          onClick={() => setShowRevertConfirmation(true)}
-        >
-          Revert
-        </Button>
-        <div className="flex-1" />
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={
-            Object.keys(overrides).length === 0 ||
-            Boolean(builtinThemes[theme.id])
-          }
-          onClick={() => setShowSaveModal(true)}
-        >
-          Save
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={Object.keys(overrides).length === 0}
-          onClick={() => setShowSaveAsNewModal(true)}
-        >
-          Save as...
-        </Button>
-      </div>
+      <AnimatePresence>
+        {Object.keys(overrides).length !== 0 && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: 54 }}
+            className="p-2 w-full bg-background border-b flex gap-2 overflow-hidden"
+          >
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={Object.keys(overrides).length === 0}
+              onClick={() => setShowRevertConfirmation(true)}
+            >
+              Revert
+            </Button>
+            <div className="flex-1" />
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={
+                Object.keys(overrides).length === 0 ||
+                Boolean(builtinThemes[theme.id])
+              }
+              onClick={() => setShowSaveModal(true)}
+            >
+              Save
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={Object.keys(overrides).length === 0}
+              onClick={() => setShowSaveAsNewModal(true)}
+            >
+              Save as...
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <ScrollArea className="flex-1">
         <div className="px-4 pb-4 flex flex-col gap-2 pt-2">
           <ColorInput
@@ -319,7 +328,7 @@ export function ThemeCustomization(props: Props) {
               });
             }}
           />
-          <div className="flex justify-between items-center">
+          {/* <div className="flex justify-between items-center">
             <Label>Decoration layout</Label>
             <ToggleGroup
               type="single"
@@ -344,7 +353,7 @@ export function ThemeCustomization(props: Props) {
                 <LayoutPanelLeftIcon className="size-4 rotate-180" />
               </ToggleGroupItem>
             </ToggleGroup>
-          </div>
+          </div> */}
         </div>
       </ScrollArea>
     </>

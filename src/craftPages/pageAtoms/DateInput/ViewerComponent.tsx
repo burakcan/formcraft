@@ -6,7 +6,7 @@ import {
 } from "react";
 import type { Path, UseFormReturn } from "react-hook-form";
 import { IMask, useIMask } from "react-imask";
-import { cn } from "@/lib/utils";
+import { cn, isMobile } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -26,9 +26,7 @@ export function DateInputViewer<T extends { value: InputValue }>(
 ) {
   const { form, name, dateFormat, separator } = props;
   const placeholder = usePlaceholder(dateFormat, separator);
-  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-    navigator.userAgent
-  );
+  const autofocus = !isMobile();
 
   const pattern = useMemo(() => {
     switch (dateFormat) {

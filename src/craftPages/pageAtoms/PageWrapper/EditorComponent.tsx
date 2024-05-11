@@ -1,5 +1,6 @@
 import { useRef, type PropsWithChildren } from "react";
 import { cn } from "@/lib/utils";
+import { useHasScroll } from "@/hooks/useHasScroll";
 
 interface Props {
   innerWrapperClassName?: string;
@@ -7,9 +8,7 @@ interface Props {
 
 export function PageWrapperEditor(props: PropsWithChildren<Props>) {
   const ref = useRef<HTMLDivElement>(null);
-
-  const hasScroll =
-    (ref.current?.scrollHeight || 0) > (ref.current?.clientHeight || 0);
+  const hasScroll = useHasScroll(ref);
 
   return (
     <div
