@@ -263,24 +263,43 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
                   (n) => n.id !== pageId
                 );
 
+              // remove outgoing edges
+              draft.editingVersion.data.flow.edges =
+                draft.editingVersion.data.flow.edges.filter(
+                  (e) => e.source !== pageNode.id
+                );
+
+              // reconnect incoming edges to outgoers
+
               const outGoers = getOutgoers(
                 pageNode,
                 state.editingVersion.data.flow.nodes,
                 state.editingVersion.data.flow.edges
               );
 
-              draft.editingVersion.data.flow.edges =
-                draft.editingVersion.data.flow.edges.map((e) => {
-                  if (e.target === pageNode.id && outGoers[0]) {
-                    return {
-                      ...e,
-                      target: outGoers[0].id,
-                      targetHandle: "input",
-                    };
-                  }
+              const incomers = getIncomers(
+                pageNode,
+                state.editingVersion.data.flow.nodes,
+                state.editingVersion.data.flow.edges
+              );
 
-                  return e;
-                });
+              const incomingEdges = getConnectedEdges(
+                [pageNode, ...incomers],
+                state.editingVersion.data.flow.edges
+              ).filter((e) => e.target === pageNode.id);
+
+              incomingEdges.forEach((edge) => {
+                draft.editingVersion.data.flow.edges = updateEdge(
+                  edge,
+                  {
+                    source: edge.source,
+                    sourceHandle: edge.sourceHandle!,
+                    target: outGoers[0].id,
+                    targetHandle: edge.targetHandle!,
+                  },
+                  draft.editingVersion.data.flow.edges
+                );
+              });
             })
           ),
 
