@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { craftPageDefinitions } from "@/craftPages";
 import { useAnswerMutation } from "@/hooks/useAnswerMutation";
+import { useHasScroll } from "@/hooks/useHasScroll";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 type FormValues<T extends FormCraft.CraftPage> = {
@@ -78,8 +79,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
     }
   }, [page.type, answers, mutation]);
 
-  const hasScroll =
-    (ref.current?.scrollHeight || 0) > (ref.current?.clientHeight || 0);
+  const hasScroll = useHasScroll(ref);
 
   return (
     <Form {...form}>

@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from "react";
 import type { Path, UseFormReturn } from "react-hook-form";
-import { cn } from "@/lib/utils";
+import { cn, isMobile } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,7 @@ export function ShortInputViewer<T extends { value: InputValue }>(
   props: Props<T>
 ) {
   const { form, name, type, placeholder, format = (v) => v } = props;
-  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-    navigator.userAgent
-  );
+  const autofocus = !isMobile();
 
   return (
     <div className="w-full pt-2">

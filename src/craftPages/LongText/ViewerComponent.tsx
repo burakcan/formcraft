@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon } from "lucide-react";
+import { isMobile } from "@/lib/utils";
 import { BaseContentViewer } from "../pageAtoms/BaseContent";
 import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
@@ -15,9 +16,7 @@ interface Props {
 
 export function LongTextViewer(props: Props) {
   const { page } = props;
-  const autofocus = !/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-    navigator.userAgent
-  );
+  const autofocus = !isMobile();
 
   return (
     <PageWrapperViewer page={page}>
