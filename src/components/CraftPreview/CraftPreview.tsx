@@ -2,6 +2,7 @@
 
 import { DialogContent } from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
+import { findRootNode } from "@/lib/findRootNode";
 import { CraftViewer } from "../CraftViewer";
 import { Button } from "../ui/button";
 import { Dialog, DialogClose } from "../ui/dialog";
@@ -28,14 +29,7 @@ export function CraftPreview(props: Props) {
 
   const nodes = version.data.flow.nodes;
   const edges = version.data.flow.edges;
-
-  const rootNode = nodes.find((node) => {
-    const isPage = node.type === "page";
-    const incomingEdges = edges.filter((edge) => edge.target === node.id);
-    const outgoingEdges = edges.filter((edge) => edge.source === node.id);
-
-    return isPage && incomingEdges.length === 0 && outgoingEdges.length > 0;
-  });
+  const rootNode = findRootNode(nodes, edges);
 
   if (!rootNode) {
     return null;
@@ -52,7 +46,6 @@ export function CraftPreview(props: Props) {
       currentPageId: rootNode.data.pageId,
       variables: {},
       answers: {},
-      lastPageChangeReason: "init",
     });
 
   return (

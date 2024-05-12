@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
 import { useRef } from "react";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
+import { PageChangeReasonProvider } from "@/hooks/usePageChangeReason";
 import {
   ViewCraftStoreContext,
   createViewCraftStore,
@@ -66,15 +67,16 @@ export function Providers(props: PropsWithChildren<Props>) {
       currentPageId: rootPageId,
       variables: {},
       answers: {},
-      lastPageChangeReason: "init",
     });
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ViewCraftStoreContext.Provider value={storeRef.current}>
-        {props.children}
-      </ViewCraftStoreContext.Provider>
+      <PageChangeReasonProvider>
+        <ViewCraftStoreContext.Provider value={storeRef.current}>
+          {props.children}
+        </ViewCraftStoreContext.Provider>
+      </PageChangeReasonProvider>
     </QueryClientProvider>
   );
 }

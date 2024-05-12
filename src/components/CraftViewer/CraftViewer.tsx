@@ -11,9 +11,11 @@ import { ResourcePreloader } from "./ResourcePreloader";
 import { craftPageDefinitions } from "@/craftPages";
 import { MadeWithFormCraftViewer } from "@/craftPages/pageAtoms/MadeWithFormcraft";
 import { useLoadPageResources } from "@/hooks/useLoadPageResources";
+import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 export function CraftViewer() {
+  const { reason: pageChangeReason } = usePageChangeReason();
   const { version, rootNodeId, currentNode, currentPage, themes } =
     useViewCraftStore((s) => ({
       version: s.version,
@@ -67,13 +69,17 @@ export function CraftViewer() {
         <AnimatePresence initial={false}>
           <motion.div
             id={pageDomId}
-            custom="up"
+            custom={pageChangeReason}
             className="craft-renderer w-full h-full absolute top-0 left-0 text-craft"
             key={currentPage.id}
             variants={{
-              initial: (direction: "up" | "down") => ({
+              initial: (reason: typeof pageChangeReason) => ({
                 opacity: 0,
-                y: direction === "up" ? "50%" : "-50%",
+                y: {
+                  prev: "-50%",
+                  answer: "50%",
+                  init: 0,
+                }[reason],
               }),
               target: {
                 opacity: 1,
@@ -83,9 +89,18 @@ export function CraftViewer() {
                   ease: "easeInOut",
                 },
               },
-              exit: (direction: "up" | "down") => ({
+              exit: (reason: typeof pageChangeReason) => ({
                 opacity: 0,
-                y: direction === "up" ? "-50%" : "50%",
+                y: {
+                  prev: "50%",
+                  answer: "-50%",
+                  init: 0,
+                }[reason],
+                transition: {
+                  delay: 0.1,
+                  duration: 0.4,
+                  ease: "easeInOut",
+                },
               }),
             }}
             initial="initial"
