@@ -4,10 +4,12 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
+import { PageNavigationViewer } from "../PageNavigation";
 import { Form } from "@/components/ui/form";
 import { craftPageDefinitions } from "@/craftPages";
 import { useAnswerMutation } from "@/hooks/useAnswerMutation";
 import { useHasScroll } from "@/hooks/useHasScroll";
+import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 export type FormValues<T extends FormCraft.CraftPage> = {
@@ -32,6 +34,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 ) {
   const { page } = props;
   const ref = useRef<HTMLFormElement>(null);
+  const { setReason: setPageChangeReson } = usePageChangeReason();
   const { onAnswer, submissionId, answers } = useViewCraftStore((state) => ({
     onAnswer: state.onAnswer,
     submissionId: state.submissionId,
@@ -52,12 +55,18 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
   });
 
   const form = useForm<FormValues<T>>({
-    defaultValues: {},
+    defaultValues: {
+      value: answers[page.id]?.value,
+    },
     resolver: zodResolver(formSchema),
   });
 
   const handleSubmit = form.handleSubmit((data) => {
-    onAnswer(page.id, data.value);
+    setPageChangeReson("answer");
+
+    requestAnimationFrame(() => {
+      onAnswer(page.id, data.value);
+    });
 
     mutation.mutate({
       [page.id]: {
@@ -110,6 +119,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
             props.children({ form, formDomId })}
         </div>
       </form>
+      {page.type !== "end_screen" && <PageNavigationViewer form={formDomId} />}
     </Form>
   );
 }

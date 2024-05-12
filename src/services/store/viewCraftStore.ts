@@ -2,6 +2,8 @@ import type { Craft, CraftSubmission, CraftVersion } from "@prisma/client";
 import { produce } from "immer";
 import { createContext } from "react";
 import type { Node } from "reactflow";
+import type { TemporalState } from "zundo";
+import { temporal } from "zundo";
 import { create } from "zustand";
 import { runFlow } from "@/lib/flowRunners";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
@@ -14,7 +16,6 @@ export type ViewCraftStoreState = {
   rootNodeId: string;
   currentNodeId: string;
   currentPageId: string;
-  lastPageChangeReason: "answer" | "prev" | "jump" | "init";
   variables: Record<string, FormCraft.CraftAnswer>;
   answers: Record<
     string,
@@ -34,40 +35,60 @@ export type ViewCraftStoreActions = {
 
 export type ViewCraftStore = ViewCraftStoreState & ViewCraftStoreActions;
 
+export type TemporalViewCraftStore = TemporalState<
+  Pick<ViewCraftStoreState, "currentNodeId" | "currentPageId" | "variables">
+>;
+
 export const createViewCraftStore = (initialData: ViewCraftStoreState) => {
-  return create<ViewCraftStore>((set, get) => {
-    return {
-      ...initialData,
+  return create<ViewCraftStore>()(
+    temporal(
+      (set, get) => {
+        return {
+          ...initialData,
 
-      getCurrentNode: () =>
-        get().version.data.flow.nodes.find(
-          (node) => node.id === get().currentNodeId
-        )!,
+          getCurrentNode: () =>
+            get().version.data.flow.nodes.find(
+              (node) => node.id === get().currentNodeId
+            )!,
 
-      getCurrentPage: () =>
-        [...get().version.data.pages, ...get().version.data.end_pages].find(
-          (page) => page.id === get().currentPageId
-        )!,
+          getCurrentPage: () =>
+            [...get().version.data.pages, ...get().version.data.end_pages].find(
+              (page) => page.id === get().currentPageId
+            )!,
 
-      onAnswer: (pageId, answer, meta) => {
-        set((state) =>
-          produce(state, (draft) => {
-            const page = state.version.data.pages.find((p) => p.id === pageId);
+          onAnswer: (pageId, answer, meta) => {
+            set((state) =>
+              produce(state, (draft) => {
+                const page = state.version.data.pages.find(
+                  (p) => p.id === pageId
+                );
 
-            draft.answers[pageId] = {
-              value: answer,
-              meta: meta || {},
-            };
+                draft.answers[pageId] = {
+                  value: answer,
+                  meta: meta || {},
+                };
 
-            draft.variables[page?.variableName || ""] = answer;
-            draft.lastPageChangeReason = "answer";
+                draft.variables[page?.variableName || ""] = answer;
 
-            runFlow(answer, state, draft);
-          })
-        );
+                runFlow(answer, state, draft);
+              })
+            );
+          },
+        };
       },
-    };
-  });
+      {
+        partialize: (state) => {
+          // THIS IS IMPORTANT.
+          // Be very careful and understand how everything works before changing this.
+          return {
+            currentNodeId: state.currentNodeId,
+            currentPageId: state.currentPageId,
+            variables: state.variables,
+          };
+        },
+      }
+    )
+  );
 };
 
 export const ViewCraftStoreContext = createContext<ReturnType<

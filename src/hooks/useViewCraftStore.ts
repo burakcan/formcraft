@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import type { ViewCraftStore } from "@/services/store/viewCraftStore";
+import type {
+  TemporalViewCraftStore,
+  ViewCraftStore,
+} from "@/services/store/viewCraftStore";
 import { ViewCraftStoreContext } from "@/services/store/viewCraftStore";
 
 export const useViewCraftStore = <T>(
@@ -16,4 +19,18 @@ export const useViewCraftStore = <T>(
   }
 
   return useStore(viewCraftStore, useShallow(selector));
+};
+
+export const useViewCraftStoreTemporal = <T>(
+  selector: (store: TemporalViewCraftStore) => T
+): T => {
+  const counterStoreContext = useContext(ViewCraftStoreContext);
+
+  if (!counterStoreContext) {
+    throw new Error(
+      `useViewCraftStore must be use within CounterStoreProvider`
+    );
+  }
+
+  return useStore(counterStoreContext.temporal, selector);
 };

@@ -1,3 +1,4 @@
+import { findRootNode } from "@/lib/findRootNode";
 import { builtinThemes } from "@/lib/themes";
 import { Providers } from "./providers";
 import { CraftViewer } from "@/components/CraftViewer";
@@ -25,6 +26,7 @@ export default async function FormPage(props: Props) {
     }
 
     const submission = await createSubmission(form_id, version.id, tx);
+
     // const submission = null;
 
     return [craft, version, submission];
@@ -37,14 +39,7 @@ export default async function FormPage(props: Props) {
   // react-flow nodes and edges
   const nodes = version.data.flow.nodes;
   const edges = version.data.flow.edges;
-
-  const rootNode = nodes.find((node) => {
-    const isPage = node.type === "page";
-    const incomingEdges = edges.filter((edge) => edge.target === node.id);
-    const outgoingEdges = edges.filter((edge) => edge.source === node.id);
-
-    return isPage && incomingEdges.length === 0 && outgoingEdges.length > 0;
-  });
+  const rootNode = findRootNode(nodes, edges);
 
   if (!rootNode) {
     return <div>Form is not valid</div>;
@@ -79,7 +74,7 @@ export default async function FormPage(props: Props) {
       craft={craft}
       version={version}
       themes={themes}
-      submissionId={submission?.id}
+      submissionId={submission.id}
       rootNodeId={rootNode.id}
       rootPageId={rootNode.data.pageId}
     >
