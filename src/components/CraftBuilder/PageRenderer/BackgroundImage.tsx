@@ -22,7 +22,7 @@ export function BackgroundImage(props: Props) {
     <AnimatePresence initial={false} custom={pageChangeReason}>
       {backgroundImage && (
         <motion.div
-          className="size-full fixed top-0 left-0 z-0"
+          className="size-full fixed top-0 left-0 z-0 will-change-transform"
           key={bgImageKey}
           custom={pageChangeReason}
           variants={{
