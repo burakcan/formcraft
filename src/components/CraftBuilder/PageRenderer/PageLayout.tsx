@@ -1,9 +1,11 @@
+import { AnimatePresence, motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { BackgroundImage } from "./BackgroundImage";
 import { DecorationImage } from "./DecorationImage";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
+import { useBreakpoint } from "@/hooks/useTailwindBreakpoints";
 
 interface Props {
   disableTransitions?: boolean;
@@ -15,49 +17,85 @@ interface Props {
 export function PageLayout(props: Props) {
   const { children, theme, disableTransitions, page } = props;
   const { logo } = page;
+  const { decorationImage } = theme;
+  const isDesktop = useBreakpoint("sm");
 
   return (
     <div
-      className={cn(
-        "w-full h-full absolute top-0 left-0 z-10 text-craft flex flex-col-reverse",
-        {
-          ["sm:flex-row-reverse"]: theme.decorationImageLayout === "left-full",
-          "text-center": theme.textAlign === "center",
-          "text-left": theme.textAlign === "left",
-          "text-right": theme.textAlign === "right",
-        }
-      )}
+      className={cn("fixed size-full top-0 left-0 z-10 text-craft", {
+        "text-center": theme.textAlign === "center",
+        "text-left": theme.textAlign === "left",
+        "text-right": theme.textAlign === "right",
+      })}
     >
-      <div
-        className={cn(
-          "flex-none relative transition-colors duration-500 bg-craft-background overflow-hidden",
-          {
-            "h-2/3 sm:h-full": theme.decorationImage,
-            "h-full": !theme.decorationImage,
-            "w-full sm:w-2/3": theme.decorationImage,
-            "sm:w-full": !theme.decorationImage,
-          }
+      <BackgroundImage theme={theme} disableTransitions={disableTransitions} />
+      <AnimatePresence initial={false}>
+        {decorationImage && (
+          <motion.div
+            className={cn("fixed w-full h-1/4 sm:w-1/3 sm:h-full top-0 z-10", {
+              "sm:left-0": theme.decorationImageLayout === "left-full",
+              "sm:right-0": theme.decorationImageLayout === "right-full",
+            })}
+            custom={theme.decorationImageLayout}
+            key={theme.decorationImageLayout}
+            variants={{
+              initial: (layout: string) => {
+                return {
+                  y: !isDesktop ? "-100%" : undefined,
+                  x: !isDesktop
+                    ? undefined
+                    : layout === "left-full"
+                    ? "-100%"
+                    : "100%",
+                  opacity: 0,
+                };
+              },
+              target: {
+                y: !isDesktop ? 0 : undefined,
+                x: 0,
+                opacity: 1,
+              },
+              exit: (layout: string) => {
+                return {
+                  y: !isDesktop ? "-100%" : undefined,
+                  x: !isDesktop
+                    ? undefined
+                    : layout === "left-full"
+                    ? "-100%"
+                    : "100%",
+                  opacity: 0,
+                };
+              },
+            }}
+            transition={{ duration: 0.5 }}
+            initial={disableTransitions ? undefined : "initial"}
+            animate={disableTransitions ? undefined : "target"}
+            exit={disableTransitions ? undefined : "exit"}
+          >
+            <DecorationImage
+              disableTransitions={disableTransitions}
+              theme={theme}
+              layout="left-full"
+            />
+          </motion.div>
         )}
+      </AnimatePresence>
+      <div
+        className={cn("transform-gpu fixed z-40 overflow-hidden", {
+          "transition-all duration-500": !disableTransitions,
+          "top-1/4 sm:top-0 h-3/4 sm:h-full w-full sm:w-2/3": decorationImage,
+          "top-0 left-0 w-full h-full": !decorationImage,
+
+          "sm:left-1/3":
+            decorationImage && theme.decorationImageLayout === "left-full",
+          "left-0":
+            !decorationImage || theme.decorationImageLayout === "right-full",
+        })}
       >
-        <BackgroundImage
-          theme={theme}
-          disableTransitions={disableTransitions}
-        />
-        <div className="absolute top-0 left-0 size-full overflow-hidden">
-          {children}
-        </div>
+        {children}
       </div>
-
-      {theme.decorationImage && (
-        <DecorationImage
-          disableTransitions={disableTransitions}
-          theme={theme}
-          layout="left-full"
-        />
-      )}
-
       {logo && (
-        <div className="w-16 h-16 absolute top-4 left-4">
+        <div className="w-16 h-16 fixed top-4 left-4 z-20">
           <ThemeImage
             imageObject={logo}
             noAttribution

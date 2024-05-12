@@ -63,10 +63,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 
   const handleSubmit = form.handleSubmit((data) => {
     setPageChangeReson("answer");
-
-    requestAnimationFrame(() => {
-      onAnswer(page.id, data.value);
-    });
+    onAnswer(page.id, data.value);
 
     mutation.mutate({
       [page.id]: {

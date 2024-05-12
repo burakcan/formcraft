@@ -39,76 +39,69 @@ export function CraftViewer() {
 
   const pageDefinition = craftPageDefinitions[currentPage.type];
 
-  const pageDomId = "p_" + currentPage.id.replaceAll("-", "_");
+  const isRootNodeLoading =
+    (!fontsLoaded || !imagesLoaded) && currentNode.id === rootNodeId;
 
   return (
     <div
       className={`
-        absolute
-        top-0
-        left-0
-        max-w-full w-full h-full
-        prose prose-md
-        prose-p:m-0
-        prose-headings:mb-4
-        prose-headings:font-normal
-        overflow-hidden
-  `}
+          fixed
+          max-w-full
+          max-h-full
+          size-full
+          top-0
+          left-0
+          overflow-hidden
+          prose prose-md
+          prose-p:m-0
+          prose-headings:mb-4
+          prose-headings:font-normal
+      `}
     >
-      <ResourcePreloader
-        pages={version.data.pages}
-        themes={themes}
-        enabled={currentNode.id === rootNodeId && fontsLoaded && imagesLoaded}
-      />
-      <FullPageLoading
-        visible={
-          (!fontsLoaded || !imagesLoaded) && currentNode.id === rootNodeId
-        }
-      />
+      <FullPageLoading visible={isRootNodeLoading} />
+      <ResourcePreloader pages={version.data.pages} themes={themes} enabled />
       <PageLayout theme={theme} page={currentPage}>
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} custom={pageChangeReason}>
           <motion.div
-            id={pageDomId}
-            custom={pageChangeReason}
-            className="craft-renderer w-full h-full absolute top-0 left-0 text-craft"
             key={currentPage.id}
+            id={currentPage.id.replaceAll("-", "_")}
+            custom={pageChangeReason}
+            className="fixed top-0 left-0 size-full craft-renderer"
             variants={{
-              initial: (reason: typeof pageChangeReason) => ({
-                opacity: 0,
-                y: {
-                  prev: "-50%",
-                  answer: "50%",
-                  init: 0,
-                }[reason],
-              }),
-              target: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  duration: 0.4,
-                  ease: "easeInOut",
-                },
+              initial: (reason: typeof pageChangeReason) => {
+                return {
+                  y: {
+                    prev: "-100%",
+                    answer: "100%",
+                    init: 0,
+                  }[reason],
+                  opacity: 0,
+                };
               },
-              exit: (reason: typeof pageChangeReason) => ({
-                opacity: 0,
-                y: {
-                  prev: "50%",
-                  answer: "-50%",
-                  init: 0,
-                }[reason],
-                transition: {
-                  delay: 0.1,
-                  duration: 0.4,
-                  ease: "easeInOut",
-                },
-              }),
+              target: {
+                y: 0,
+                opacity: 1,
+              },
+              exit: (reason: typeof pageChangeReason) => {
+                return {
+                  y: {
+                    prev: "100%",
+                    answer: "-100%",
+                    init: 0,
+                  }[reason],
+                  opacity: 0,
+                };
+              },
             }}
+            transition={{ duration: 0.5 }}
             initial="initial"
             animate="target"
             exit="exit"
-            transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <ThemeStyle theme={theme} pageId={pageDomId} />
+            <ThemeStyle
+              theme={theme}
+              pageId={currentPage.id.replaceAll("-", "_")}
+            />
             {"document" in global && (
               <FontPicker
                 loaderOnly
@@ -116,11 +109,14 @@ export function CraftViewer() {
                 loadAllVariants
               />
             )}
-            <pageDefinition.viewerComponent page={currentPage as never} />
+            <pageDefinition.viewerComponent
+              key={currentPage.id}
+              page={currentPage as never}
+            />
           </motion.div>
         </AnimatePresence>
-        <MadeWithFormCraftViewer theme={theme} />
       </PageLayout>
+      <MadeWithFormCraftViewer theme={theme} />
     </div>
   );
 }

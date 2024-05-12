@@ -5,6 +5,7 @@ export function useLoadPageResources(
   page: FormCraft.CraftPage,
   theme: CraftTheme
 ) {
+  const [loadedPages, setLoadedPages] = useState<string[]>([]);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const fonts = useMemo(
@@ -21,6 +22,10 @@ export function useLoadPageResources(
   );
 
   useEffect(() => {
+    if (loadedPages.includes(page.id)) {
+      return;
+    }
+
     setFontsLoaded(false);
 
     if ("fonts" in document) {
@@ -34,10 +39,14 @@ export function useLoadPageResources(
     } else {
       setFontsLoaded(true);
     }
-  }, [fonts]);
+  }, [fonts, loadedPages, page.id]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
+      return;
+    }
+
+    if (loadedPages.includes(page.id)) {
       return;
     }
 
@@ -64,7 +73,17 @@ export function useLoadPageResources(
     Promise.all(imagePromises).then(() => {
       setImagesLoaded(true);
     });
-  }, [images]);
+  }, [images, loadedPages, page.id]);
+
+  useEffect(() => {
+    if (loadedPages.includes(page.id)) {
+      return;
+    }
+
+    if (fontsLoaded && imagesLoaded) {
+      setLoadedPages((prev) => [...prev, page.id]);
+    }
+  }, [imagesLoaded, fontsLoaded, loadedPages, page.id]);
 
   return {
     fontsLoaded,

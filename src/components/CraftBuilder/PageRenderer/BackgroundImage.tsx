@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
+import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 
 interface Props {
   theme: CraftTheme;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function BackgroundImage(props: Props) {
+  const { reason: pageChangeReason } = usePageChangeReason();
   const { theme, disableTransitions } = props;
   const { backgroundImage } = theme;
 
@@ -17,15 +19,42 @@ export function BackgroundImage(props: Props) {
       : backgroundImage?.url || "";
 
   return (
-    <AnimatePresence initial={false}>
+    <AnimatePresence initial={false} custom={pageChangeReason}>
       {backgroundImage && (
         <motion.div
-          className="w-full h-full absolute top-0 left-0"
+          className="size-full fixed top-0 left-0 z-0"
           key={bgImageKey}
-          initial={!disableTransitions && { opacity: 0, y: "10%" }}
-          animate={!disableTransitions && { opacity: 1, y: 0 }}
-          exit={!disableTransitions ? { opacity: 0, y: "-10%" } : undefined}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          custom={pageChangeReason}
+          variants={{
+            initial: (reason: typeof pageChangeReason) => {
+              return {
+                y: {
+                  prev: "-10%",
+                  answer: "10%",
+                  init: 0,
+                }[reason],
+                opacity: 0,
+              };
+            },
+            target: {
+              y: 0,
+              opacity: 1,
+            },
+            exit: (reason: typeof pageChangeReason) => {
+              return {
+                y: {
+                  prev: "10%",
+                  answer: "-10%",
+                  init: 0,
+                }[reason],
+                opacity: 0,
+              };
+            },
+          }}
+          transition={{ duration: 0.5 }}
+          initial={disableTransitions ? undefined : "initial"}
+          animate={disableTransitions ? undefined : "target"}
+          exit={disableTransitions ? undefined : "exit"}
         >
           <ThemeImage
             imageObject={backgroundImage}
