@@ -66,7 +66,7 @@ export function CraftViewer() {
             key={currentPage.id}
             id={currentPage.id.replaceAll("-", "_")}
             custom={pageChangeReason}
-            className="fixed top-0 left-0 size-full craft-renderer"
+            className="fixed top-0 left-0 size-full craft-renderer will-change-transform"
             variants={{
               initial: (reason: typeof pageChangeReason) => {
                 return {

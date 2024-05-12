@@ -23,7 +23,7 @@ export function DecorationImage(props: Props) {
     <div className="flex-none relative size-full">
       <AnimatePresence initial={false} custom={pageChangeReason}>
         <motion.div
-          className="w-full h-full absolute top-0 left-0"
+          className="w-full h-full absolute top-0 left-0 will-change-transform"
           key={decoImageKey}
           custom={pageChangeReason}
           variants={{

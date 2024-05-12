@@ -32,10 +32,13 @@ export function PageLayout(props: Props) {
       <AnimatePresence initial={false}>
         {decorationImage && (
           <motion.div
-            className={cn("fixed w-full h-1/4 sm:w-1/3 sm:h-full top-0 z-10", {
-              "sm:left-0": theme.decorationImageLayout === "left-full",
-              "sm:right-0": theme.decorationImageLayout === "right-full",
-            })}
+            className={cn(
+              "fixed w-full h-1/4 sm:w-1/3 sm:h-full top-0 z-10 will-change-transform",
+              {
+                "sm:left-0": theme.decorationImageLayout === "left-full",
+                "sm:right-0": theme.decorationImageLayout === "right-full",
+              }
+            )}
             custom={theme.decorationImageLayout}
             key={theme.decorationImageLayout}
             variants={{
