@@ -43,7 +43,7 @@ export function PageNavigationViewer(props: Props) {
       {"document" in global &&
         isMounted &&
         createPortal(
-          <div className="absolute right-4 bottom-4 z-20">
+          <div className="absolute right-2 bottom-8 z-20">
             <Button
               className="size-8 p-0 rounded-r-none"
               onClick={() => handlePrev()}

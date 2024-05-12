@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
+import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 
 interface Props {
   disableTransitions?: boolean;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export function DecorationImage(props: Props) {
+  const { reason: pageChangeReason } = usePageChangeReason();
   const { theme, layout, disableTransitions } = props;
   const { decorationImage } = theme;
 
@@ -18,15 +20,42 @@ export function DecorationImage(props: Props) {
       : decorationImage?.url || "";
 
   return (
-    <div className="flex-none relative w-full sm:w-1/3 h-1/3 sm:h-full">
-      <AnimatePresence initial={false}>
+    <div className="flex-none relative size-full">
+      <AnimatePresence initial={false} custom={pageChangeReason}>
         <motion.div
           className="w-full h-full absolute top-0 left-0"
           key={decoImageKey}
-          initial={!disableTransitions && { opacity: 0, y: "10%" }}
-          animate={!disableTransitions && { opacity: 1, y: 0 }}
-          exit={!disableTransitions ? { opacity: 0, y: "-10%" } : undefined}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          custom={pageChangeReason}
+          variants={{
+            initial: (reason: typeof pageChangeReason) => {
+              return {
+                y: {
+                  prev: "-10%",
+                  answer: "10%",
+                  init: 0,
+                }[reason],
+                opacity: 0,
+              };
+            },
+            target: {
+              y: 0,
+              opacity: 1,
+            },
+            exit: (reason: typeof pageChangeReason) => {
+              return {
+                y: {
+                  prev: "10%",
+                  answer: "-10%",
+                  init: 0,
+                }[reason],
+                opacity: 0,
+              };
+            },
+          }}
+          transition={{ duration: 0.5 }}
+          initial={disableTransitions ? undefined : "initial"}
+          animate={disableTransitions ? undefined : "target"}
+          exit={disableTransitions ? undefined : "exit"}
         >
           {decorationImage && (
             <ThemeImage
