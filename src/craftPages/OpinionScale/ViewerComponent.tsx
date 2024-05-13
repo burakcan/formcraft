@@ -56,7 +56,7 @@ export function OpinionScaleViewer(props: Props) {
                           className={cn(
                             "relative group choiceOptionItem min-h-12 justify-center min-w-12 aspect-square",
                             {
-                              "bg-craft-answers/30 hover:bg-craft-answers/30":
+                              "bg-craft-answers/30 hover:bg-craft-answers/30 animate-pulse repeat-[2] duration-500":
                                 field.value === item,
                             }
                           )}

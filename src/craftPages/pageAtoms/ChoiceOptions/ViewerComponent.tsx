@@ -45,7 +45,8 @@ function ChoiceOptionItem<
       className={cn(
         "h-auto min-h-10 pl-0 pr-2 gap-2 whitespace-normal transition-colors",
         {
-          "bg-craft-answers/30 hover:bg-craft-answers/30": active,
+          "bg-craft-answers/30 hover:bg-craft-answers/30 animate-pulse repeat-[2] duration-500":
+            active,
           "items-start pt-2": page.imageChoices,
         }
       )}
