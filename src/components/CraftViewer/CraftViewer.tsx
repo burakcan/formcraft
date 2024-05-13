@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-page-custom-font */
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -56,6 +55,7 @@ export function CraftViewer() {
           prose-p:m-0
           prose-headings:mb-4
           prose-headings:font-normal
+          z-30
       `}
     >
       <FullPageLoading visible={isRootNodeLoading} />
