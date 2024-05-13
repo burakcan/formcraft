@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://formcraft.io"),
   title: "FormCraft",
   description: "A form builder",
 };
