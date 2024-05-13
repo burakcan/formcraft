@@ -7,6 +7,7 @@ import number_input from "./NumberInput";
 import opinion_scale from "./OpinionScale";
 import phone_number from "./PhoneNumber";
 import short_text from "./ShortText";
+import star_rating from "./StarRating";
 import statement from "./Statement";
 import website from "./Website";
 
@@ -22,4 +23,5 @@ export const craftPageDefinitions = {
   phone_number,
   choices,
   opinion_scale,
+  star_rating,
 };

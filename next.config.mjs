@@ -4,6 +4,10 @@ const nextConfig = {
     domains: ['plus.unsplash.com', 'images.unsplash.com', 'imagedelivery.net'],
   },
   redirects: async () => {
+    if (process.env.NODE_ENV === 'development') {
+      return [];
+    }
+
     return [
       {
         source: '/',

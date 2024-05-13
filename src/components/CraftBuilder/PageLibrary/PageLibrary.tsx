@@ -152,6 +152,10 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["opinion_scale"]}
               onClick={() => handleAddPage("opinion_scale")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["star_rating"]}
+              onClick={() => handleAddPage("star_rating")}
+            />
           </div>
         </SheetHeader>
       </SheetContent>
