@@ -7,6 +7,7 @@ import { CraftViewer } from "../CraftViewer";
 import { Button } from "../ui/button";
 import { Dialog, DialogClose } from "../ui/dialog";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { PageChangeReasonProvider } from "@/hooks/usePageChangeReason";
 import { useThemes } from "@/hooks/useThemes";
 import {
   ViewCraftStoreContext,
@@ -67,10 +68,12 @@ export function CraftPreview(props: Props) {
                   </Button>
                 </DialogClose>
               </div>
-              <div className="relative overflow-hidden">
-                <ViewCraftStoreContext.Provider value={store}>
-                  <CraftViewer />
-                </ViewCraftStoreContext.Provider>
+              <div className="relative overflow-hidden transform-gpu">
+                <PageChangeReasonProvider>
+                  <ViewCraftStoreContext.Provider value={store}>
+                    <CraftViewer />
+                  </ViewCraftStoreContext.Provider>
+                </PageChangeReasonProvider>
               </div>
             </div>
           </div>
