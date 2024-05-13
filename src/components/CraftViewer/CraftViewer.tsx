@@ -59,7 +59,11 @@ export function CraftViewer() {
       `}
     >
       <FullPageLoading visible={isRootNodeLoading} />
-      <ResourcePreloader pages={version.data.pages} themes={themes} enabled />
+      <ResourcePreloader
+        pages={version.data.pages}
+        themes={themes}
+        enabled={!isRootNodeLoading}
+      />
       <PageLayout theme={theme} page={currentPage}>
         <AnimatePresence initial={false} custom={pageChangeReason}>
           <motion.div
