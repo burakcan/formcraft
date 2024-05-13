@@ -56,8 +56,8 @@ export function useLoadPageResources(
       return new Promise((resolve, reject) => {
         const src =
           imgObject?.source === "upload"
-            ? `https://imagedelivery.net/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${imgObject.id}/public`
-            : imgObject?.url;
+            ? `https://imagedelivery.net/${process.env.NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH}/${imgObject.id}/public?auto=format,compress&w=1080`
+            : imgObject?.url + "?auto=format,compress&w=1080";
 
         if (!src) {
           return resolve(void 0);
