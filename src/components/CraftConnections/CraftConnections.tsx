@@ -1,5 +1,5 @@
 import { MessageCircleQuestionIcon } from "lucide-react";
-import { FaSlack } from "react-icons/fa";
+import { FaHubspot, FaSlack } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { UnpublishedAlert } from "../UnpublishedAlert";
 import { ConnectionCard } from "./ConnectionCard";
@@ -28,6 +28,16 @@ export function CraftConnections() {
           description="Send submissions to a Slack channel."
           icon={FaSlack}
           iconClassName="text-purple-500"
+        >
+          <div className="flex justify-end">
+            <Button disabled>Coming soon</Button>
+          </div>
+        </ConnectionCard>
+        <ConnectionCard
+          title="HubSpot"
+          description="Sync submissions to your HubSpot account."
+          icon={FaHubspot}
+          iconClassName="text-red-400"
         >
           <div className="flex justify-end">
             <Button disabled>Coming soon</Button>
