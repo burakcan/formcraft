@@ -1,4 +1,5 @@
 import { template } from "lodash";
+import { cn } from "@/lib/utils";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 interface Props<T extends FormCraft.CraftPage> {
@@ -69,7 +70,14 @@ export function BaseContentViewer<T extends FormCraft.CraftPage>(
   return (
     <>
       {page.title && (
-        <h1 className="text-craft-title font-craft-title w-full">{title}</h1>
+        <h1
+          className={cn("text-craft-title font-craft-title w-full relative", {
+            "before:content-['*'] before:absolute before:-left-3 before:top-1 before:text-base before:text-destructive":
+              "required" in page && page.required,
+          })}
+        >
+          {title}
+        </h1>
       )}
       {page.description && (
         <p className="text-craft-description font-craft-description w-full">
