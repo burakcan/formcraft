@@ -64,7 +64,7 @@ export function ThemeImage(props: Props) {
         }}
         fill
         sizes="60vw"
-        src={`${url}?auto=format,compress&&w=1920`}
+        src={`${url}?auto=format,compress&w=1080`}
         alt="theme image"
       />
 
