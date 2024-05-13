@@ -4,6 +4,7 @@ import email from "./Email";
 import end_screen from "./EndScreen";
 import long_text from "./LongText";
 import number_input from "./NumberInput";
+import opinion_scale from "./OpinionScale";
 import phone_number from "./PhoneNumber";
 import short_text from "./ShortText";
 import statement from "./Statement";
@@ -20,4 +21,5 @@ export const craftPageDefinitions = {
   date_text,
   phone_number,
   choices,
+  opinion_scale,
 };
