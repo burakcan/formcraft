@@ -33,7 +33,7 @@ export function Navbar() {
           url="/billing"
           labelIcon={<ReceiptTextIcon className="cl-navbarButtonIcon size-4" />}
         >
-          <Billing for="organization" />
+          <Billing />
         </OrganizationProfile.Page>
       </OrganizationSwitcher>
       <div className="flex-1" />
@@ -44,7 +44,7 @@ export function Navbar() {
           url="/billing"
           labelIcon={<ReceiptTextIcon className="cl-navbarButtonIcon size-4" />}
         >
-          <Billing for="user" />
+          <Billing />
         </UserProfile.Page>
       </UserButton>
     </TopBar>

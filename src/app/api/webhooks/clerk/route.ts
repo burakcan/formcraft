@@ -1,6 +1,4 @@
 import type { WebhookEvent } from "@clerk/nextjs/server";
-import type { Environment } from "@paddle/paddle-node-sdk";
-import { Paddle } from "@paddle/paddle-node-sdk";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -39,47 +37,15 @@ export async function POST(req: NextRequest) {
     const event = await verifyEvent(req);
 
     if (relevantEvents.has(event.type)) {
-      const paddle = new Paddle(process.env.PADDLE_API_KEY as string, {
-        environment: process.env.NEXT_PUBLIC_PADDLE_ENV as Environment,
-      });
-
       switch (event.type) {
         case "user.created":
         case "user.updated": {
-          await db.$transaction(async (tx) => {
-            const user = await tx.user.upsert({
-              where: { id: event.data.id },
-              create: { id: event.data.id },
-              update: { id: event.data.id },
-            });
-
-            const primaryEmail = event.data.email_addresses.find(
-              (e) => e.id === event.data.primary_email_address_id
-            );
-
-            if (!primaryEmail) {
-              return;
-            }
-
-            if (user.paddleCustomerId) {
-              await paddle.customers.update(user.paddleCustomerId, {
-                email: primaryEmail.email_address,
-                name: event.data.first_name + " " + event.data.last_name,
-              });
-            } else {
-              const paddleCustomer = await paddle.customers.create({
-                email: primaryEmail.email_address,
-                name: event.data.first_name + " " + event.data.last_name,
-              });
-
-              await tx.user.update({
-                where: { id: event.data.id },
-                data: {
-                  paddleCustomerId: paddleCustomer.id,
-                },
-              });
-            }
+          await db.user.upsert({
+            where: { id: event.data.id },
+            create: { id: event.data.id },
+            update: { id: event.data.id },
           });
+
           break;
         }
 
@@ -90,47 +56,10 @@ export async function POST(req: NextRequest) {
           break;
         case "organization.created":
         case "organization.updated": {
-          await db.$transaction(async (tx) => {
-            const owner = await tx.user.findUniqueOrThrow({
-              where: { id: event.data.created_by },
-            });
-
-            if (!owner.paddleCustomerId) {
-              throw new Error("Owner does not have a customer id");
-            }
-
-            const organization = await tx.organization.upsert({
-              where: { id: event.data.id },
-              update: {
-                id: event.data.id,
-                paddleCustomerId: owner.paddleCustomerId,
-              },
-              create: {
-                id: event.data.id,
-                paddleCustomerId: owner.paddleCustomerId,
-              },
-            });
-
-            if (organization.paddleBusinessId) {
-              await paddle.businesses.update(
-                owner.paddleCustomerId,
-                organization.paddleBusinessId,
-                { name: event.data.name }
-              );
-            } else {
-              const paddleBusiness = await paddle.businesses.create(
-                owner.paddleCustomerId,
-                { name: event.data.name }
-              );
-
-              await tx.organization.update({
-                where: { id: event.data.id },
-                data: {
-                  paddleBusinessId: paddleBusiness.id,
-                  paddleCustomerId: owner.paddleCustomerId,
-                },
-              });
-            }
+          await db.organization.upsert({
+            where: { id: event.data.id },
+            update: { id: event.data.id },
+            create: { id: event.data.id },
           });
           break;
         }
