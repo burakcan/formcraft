@@ -46,6 +46,8 @@ export async function getPaddleIds() {
       organizationCustomerId: organization?.paddleCustomerId,
       subscription: {
         enabled: !!subscription,
+        scheduled_change: subscription?.scheduled_change,
+        next_billed_at: subscription?.next_billed_at,
       },
     };
   });

@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
             const data = {
               id: event.data.id,
               occured_at: event.occurredAt,
+              next_billed_at: event.data.nextBilledAt,
               status: {
                 active: PaddleSubscriptionStatus.ACTIVE,
                 canceled: PaddleSubscriptionStatus.CANCELLED,
