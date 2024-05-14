@@ -17,19 +17,21 @@ datasource db {
 }
 
 model User {
-  id            String          @id
-  organizations Organization[]
-  crafts        Craft[]
-  CustomTheme   CustomTheme[]
-  UploadedImage UploadedImage[]
+  id               String          @id
+  organizations    Organization[]
+  crafts           Craft[]
+  CustomTheme      CustomTheme[]
+  UploadedImage    UploadedImage[]
+  paddleCustomerId String?
 }
 
 model Organization {
-  id            String          @id
-  users         User[]
-  crafts        Craft[]
-  CustomTheme   CustomTheme[]
-  UploadedImage UploadedImage[]
+  id               String          @id
+  users            User[]
+  crafts           Craft[]
+  CustomTheme      CustomTheme[]
+  UploadedImage    UploadedImage[]
+  paddleBusinessId String?
 }
 
 model Craft {
