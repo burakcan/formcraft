@@ -6,6 +6,7 @@ export function usePaddleIdsQuery(userId: string, organizationId: string = "") {
     organizationBusinessId: string | undefined;
     organizationCustomerId: string | undefined;
   }>({
+    enabled: !!userId,
     queryKey: ["paddle-ids", userId, organizationId],
     queryFn: async () => {
       const res = await fetch("/api/paddle-ids");

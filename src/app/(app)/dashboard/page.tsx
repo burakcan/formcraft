@@ -36,7 +36,7 @@ export default async function Dashboard(props: Props) {
       },
     }),
     queryClient.prefetchQuery({
-      queryKey: ["paddle-ids", authData.userId, authData.orgId],
+      queryKey: ["paddle-ids", authData.userId, authData.orgId || ""],
       queryFn: async () => getPaddleIds(),
     }),
   ]);
