@@ -29,8 +29,9 @@ export async function getPaddleIds() {
     });
 
     return {
-      user: user?.paddleCustomerId,
-      organization: organization?.paddleBusinessId,
+      userCustomerId: user?.paddleCustomerId,
+      organizationBusinessId: organization?.paddleBusinessId,
+      organizationCustomerId: organization?.paddleCustomerId,
     };
   });
 }

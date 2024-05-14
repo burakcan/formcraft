@@ -10,21 +10,30 @@ export function TryProButton() {
   const { organization, isLoaded: isOrganizationLoaded } = useOrganization();
   const { user, isLoaded: isUserLoaded } = useUser();
   const paddle = usePaddle();
-  const paddleIds = usePaddleIdsQuery(user?.id || "", organization?.id);
-
-  console.log(paddleIds.data);
+  const { data: paddleIds } = usePaddleIdsQuery(
+    user?.id || "",
+    organization?.id
+  );
 
   const handleClick = () => {
-    if (!paddle || !user) {
+    if (!paddle || !user || !paddleIds) {
       return;
     }
 
-    const customer = user.primaryEmailAddress?.emailAddress
-      ? { email: user.primaryEmailAddress.emailAddress }
-      : undefined;
+    const customer =
+      paddleIds.organizationCustomerId && paddleIds.organizationBusinessId
+        ? {
+            id: paddleIds.organizationCustomerId,
+            business: {
+              id: paddleIds.organizationBusinessId,
+            },
+          }
+        : {
+            id: paddleIds.userCustomerId!,
+          };
 
     paddle.Checkout.open({
-      ...(customer ? { customer } : {}),
+      customer,
       settings: {
         displayMode: "overlay",
         showAddTaxId: organization ? true : false,
