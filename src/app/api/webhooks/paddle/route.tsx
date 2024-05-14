@@ -12,7 +12,7 @@ const relevantEvents = new Set([
 
 export async function POST(req: NextRequest) {
   try {
-    const signature = (req.headers.get("paddle-signature") as string) || "";
+    const signature = (req.headers.get("Paddle-Signature") as string) || " ";
     const secretKey = process.env.PADDLE_WEBHOOK_SECRET || "";
     const paddle = new Paddle(process.env.PADDLE_API_KEY as string, {
       environment: process.env.NEXT_PUBLIC_PADDLE_ENV as Environment,
