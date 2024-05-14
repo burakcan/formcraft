@@ -4,11 +4,15 @@ import { useOrganization, useUser } from "@clerk/nextjs";
 import { BadgeCheckIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { usePaddle } from "@/hooks/usePaddle";
+import { usePaddleIdsQuery } from "@/hooks/usePaddleIdsQuery";
 
 export function TryProButton() {
   const { organization, isLoaded: isOrganizationLoaded } = useOrganization();
   const { user, isLoaded: isUserLoaded } = useUser();
   const paddle = usePaddle();
+  const paddleIds = usePaddleIdsQuery(user?.id || "", organization?.id);
+
+  console.log(paddleIds.data);
 
   const handleClick = () => {
     if (!paddle || !user) {
@@ -27,7 +31,13 @@ export function TryProButton() {
         allowLogout: false,
         locale: "en",
       },
-      items: [{ priceId: "pri_01hxtw3cn3hy1qkmtmwnb80h1y" }],
+      items: [
+        {
+          priceId: organization
+            ? "pri_01hxtw73cys5ggcy1psx0csbc7"
+            : "pri_01hxtw3cn3hy1qkmtmwnb80h1y",
+        },
+      ],
     });
   };
 

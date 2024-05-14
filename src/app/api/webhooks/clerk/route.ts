@@ -64,10 +64,12 @@ export async function POST(req: NextRequest) {
             if (user.paddleCustomerId) {
               await paddle.customers.update(user.paddleCustomerId, {
                 email: primaryEmail.email_address,
+                name: event.data.first_name + " " + event.data.last_name,
               });
             } else {
               const paddleCustomer = await paddle.customers.create({
                 email: primaryEmail.email_address,
+                name: event.data.first_name + " " + event.data.last_name,
               });
 
               await tx.user.update({
@@ -89,29 +91,35 @@ export async function POST(req: NextRequest) {
         case "organization.created":
         case "organization.updated": {
           await db.$transaction(async (tx) => {
-            const user = await tx.user.findUniqueOrThrow({
+            const owner = await tx.user.findUniqueOrThrow({
               where: { id: event.data.created_by },
             });
 
-            if (!user.paddleCustomerId) {
-              throw new Error("User does not have a customer id");
+            if (!owner.paddleCustomerId) {
+              throw new Error("Owner does not have a customer id");
             }
 
             const organization = await tx.organization.upsert({
               where: { id: event.data.id },
-              update: { id: event.data.id },
-              create: { id: event.data.id },
+              update: {
+                id: event.data.id,
+                paddleCustomerId: owner.paddleCustomerId,
+              },
+              create: {
+                id: event.data.id,
+                paddleCustomerId: owner.paddleCustomerId,
+              },
             });
 
             if (organization.paddleBusinessId) {
               await paddle.businesses.update(
-                user.paddleCustomerId,
+                owner.paddleCustomerId,
                 organization.paddleBusinessId,
                 { name: event.data.name }
               );
             } else {
               const paddleBusiness = await paddle.businesses.create(
-                user.paddleCustomerId,
+                owner.paddleCustomerId,
                 { name: event.data.name }
               );
 
@@ -119,6 +127,7 @@ export async function POST(req: NextRequest) {
                 where: { id: event.data.id },
                 data: {
                   paddleBusinessId: paddleBusiness.id,
+                  paddleCustomerId: owner.paddleCustomerId,
                 },
               });
             }

@@ -32,6 +32,7 @@ model Organization {
   CustomTheme      CustomTheme[]
   UploadedImage    UploadedImage[]
   paddleBusinessId String?
+  paddleCustomerId String?
 }
 
 model Craft {
