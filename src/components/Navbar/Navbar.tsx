@@ -1,6 +1,7 @@
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { TopBar } from "../AppChrome";
 import { Logo } from "../Logo";
+import { TryProButton } from "./TryProButton";
 
 export function Navbar() {
   return (
@@ -19,6 +20,7 @@ export function Navbar() {
         }}
       />
       <div className="flex-1" />
+      <TryProButton />
       <UserButton />
     </TopBar>
   );
