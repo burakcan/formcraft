@@ -1,5 +1,6 @@
 import "server-only";
 import { auth } from "@clerk/nextjs";
+import { PaddleSubscriptionStatus } from "@prisma/client";
 import { ErrorType } from "@/lib/errors";
 import db from ".";
 
@@ -28,10 +29,24 @@ export async function getPaddleIds() {
       },
     });
 
+    const subscription = await tx.paddleSubscription.findFirst({
+      where: {
+        OR: [
+          { status: PaddleSubscriptionStatus.ACTIVE },
+          { status: PaddleSubscriptionStatus.TRIALING },
+        ],
+        organizationId: orgId ? orgId : null,
+        userId: !orgId ? userId : undefined,
+      },
+    });
+
     return {
       userCustomerId: user?.paddleCustomerId,
       organizationBusinessId: organization?.paddleBusinessId,
       organizationCustomerId: organization?.paddleCustomerId,
+      subscription: {
+        enabled: !!subscription,
+      },
     };
   });
 }

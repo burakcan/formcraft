@@ -6,7 +6,14 @@ import { NextResponse } from "next/server";
 import db from "@/services/db";
 
 const relevantEvents = new Set([
+  EventName.SubscriptionActivated,
+  EventName.SubscriptionCanceled,
+  EventName.SubscriptionImported,
   EventName.SubscriptionCreated,
+  EventName.SubscriptionPastDue,
+  EventName.SubscriptionPaused,
+  EventName.SubscriptionResumed,
+  EventName.SubscriptionTrialing,
   EventName.SubscriptionUpdated,
 ]);
 
@@ -23,15 +30,19 @@ export async function POST(req: NextRequest) {
     }
 
     const requestBody = await req.text();
-
     const event = paddle.webhooks.unmarshal(requestBody, secretKey, signature);
-
-    console.log("Event:", event);
 
     if (event && relevantEvents.has(event.eventType)) {
       switch (event.eventType) {
-        case EventName.SubscriptionUpdated:
-        case EventName.SubscriptionCreated: {
+        case EventName.SubscriptionActivated:
+        case EventName.SubscriptionCanceled:
+        case EventName.SubscriptionImported:
+        case EventName.SubscriptionCreated:
+        case EventName.SubscriptionPastDue:
+        case EventName.SubscriptionPaused:
+        case EventName.SubscriptionResumed:
+        case EventName.SubscriptionTrialing:
+        case EventName.SubscriptionUpdated: {
           await db.$transaction(async (tx) => {
             const user = event.data.customerId
               ? await tx.user.findFirst({

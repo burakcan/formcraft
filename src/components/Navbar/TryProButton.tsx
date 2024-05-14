@@ -4,32 +4,33 @@ import { useOrganization, useUser } from "@clerk/nextjs";
 import { BadgeCheckIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { usePaddle } from "@/hooks/usePaddle";
-import { usePaddleIdsQuery } from "@/hooks/usePaddleIdsQuery";
+import { useSubscriptionQuery } from "@/hooks/useSubscriptionQuery";
 
 export function TryProButton() {
   const { organization, isLoaded: isOrganizationLoaded } = useOrganization();
   const { user, isLoaded: isUserLoaded } = useUser();
   const paddle = usePaddle();
-  const { data: paddleIds } = usePaddleIdsQuery(
+  const { data: subscriptionData } = useSubscriptionQuery(
     user?.id || "",
     organization?.id
   );
 
   const handleClick = () => {
-    if (!paddle || !user || !paddleIds) {
+    if (!paddle || !user || !subscriptionData) {
       return;
     }
 
     const customer =
-      paddleIds.organizationCustomerId && paddleIds.organizationBusinessId
+      subscriptionData.organizationCustomerId &&
+      subscriptionData.organizationBusinessId
         ? {
-            id: paddleIds.organizationCustomerId,
+            id: subscriptionData.organizationCustomerId,
             business: {
-              id: paddleIds.organizationBusinessId,
+              id: subscriptionData.organizationBusinessId,
             },
           }
         : {
-            id: paddleIds.userCustomerId!,
+            id: subscriptionData.userCustomerId!,
           };
 
     paddle.Checkout.open({
@@ -50,7 +51,12 @@ export function TryProButton() {
     });
   };
 
-  if (!paddle || !isOrganizationLoaded || !isUserLoaded) {
+  if (
+    !paddle ||
+    !isOrganizationLoaded ||
+    !isUserLoaded ||
+    subscriptionData?.subscription.enabled
+  ) {
     return null;
   }
 

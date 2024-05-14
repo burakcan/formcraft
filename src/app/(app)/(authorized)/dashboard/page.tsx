@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs/server";
 import {
   HydrationBoundary,
   QueryClient,
@@ -9,7 +8,6 @@ import { CraftListing } from "@/components/CraftListing";
 import { Navbar } from "@/components/Navbar";
 import { craftsListingQueryKey } from "@/hooks/useCraftsListingQuery";
 import { getCraftsListing } from "@/services/db/craft";
-import { getPaddleIds } from "@/services/db/paddle";
 
 interface Props {
   searchParams: {
@@ -19,7 +17,6 @@ interface Props {
 
 export default async function Dashboard(props: Props) {
   const { searchParams } = props;
-  const authData = auth();
   const includeArchived = searchParams.showArchived === "true";
   const queryClient = new QueryClient();
 
@@ -34,10 +31,6 @@ export default async function Dashboard(props: Props) {
           throw error;
         }
       },
-    }),
-    queryClient.prefetchQuery({
-      queryKey: ["paddle-ids", authData.userId, authData.orgId || ""],
-      queryFn: async () => getPaddleIds(),
     }),
   ]);
 
