@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       switch (event.eventType) {
         case EventName.SubscriptionUpdated:
         case EventName.SubscriptionCreated: {
-          db.$transaction(async (tx) => {
+          await db.$transaction(async (tx) => {
             const user = event.data.customerId
               ? await tx.user.findFirst({
                   where: { paddleCustomerId: event.data.customerId },
