@@ -166,6 +166,7 @@ enum PaddleCollectionMode {
 model PaddleSubscription {
   id               String                   @id
   occured_at       DateTime
+  next_billed_at   DateTime?
   status           PaddleSubscriptionStatus
   customer_id      String
   collection_mode  PaddleCollectionMode

@@ -55,6 +55,7 @@ export function TryProButton() {
     !paddle ||
     !isOrganizationLoaded ||
     !isUserLoaded ||
+    !subscriptionData ||
     subscriptionData?.subscription.enabled
   ) {
     return null;
