@@ -17,19 +17,21 @@ datasource db {
 }
 
 model User {
-  id            String          @id
-  organizations Organization[]
-  crafts        Craft[]
-  CustomTheme   CustomTheme[]
-  UploadedImage UploadedImage[]
+  id             String          @id
+  organizations  Organization[]
+  crafts         Craft[]
+  CustomTheme    CustomTheme[]
+  UploadedImage  UploadedImage[]
+  StripeCustomer StripeCustomer?
 }
 
 model Organization {
-  id            String          @id
-  users         User[]
-  crafts        Craft[]
-  CustomTheme   CustomTheme[]
-  UploadedImage UploadedImage[]
+  id             String          @id
+  users          User[]
+  crafts         Craft[]
+  CustomTheme    CustomTheme[]
+  UploadedImage  UploadedImage[]
+  StripeCustomer StripeCustomer?
 }
 
 model Craft {
@@ -143,4 +145,54 @@ model GoogleSheetsAuthorization {
   expiry_date             BigInt
   scope                   String
   googleSheetsConnections GoogleSheetsConnection[]
+}
+
+enum StripePriceType {
+  recurring
+  one_time
+}
+
+enum StripePriceInterval {
+  month
+  year
+  week
+  day
+}
+
+model StripeCustomer {
+  id             String        @id @unique
+  createdAt      DateTime      @default(now())
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String?       @unique
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String?       @unique
+}
+
+model StripePrice {
+  id             String               @id
+  active         Boolean
+  created        DateTime
+  currency       String
+  type           StripePriceType
+  unit_amount    Int?
+  interval       StripePriceInterval?
+  interval_count Int?
+  metadata       Json
+
+  product   StripeProduct @relation(name: "Prices", fields: [productId], references: [id])
+  productId String
+}
+
+model StripeProduct {
+  id             String   @id
+  active         Boolean
+  name           String
+  description    String?
+  livemode       Boolean
+  created        DateTime
+  updated        DateTime
+  metadata       Json
+  defaultPriceId String?
+
+  prices StripePrice[] @relation(name: "Prices")
 }
