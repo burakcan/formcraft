@@ -1,9 +1,9 @@
 import { LoaderCircleIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
 import { cn } from "@/lib/utils";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
-import { useBlurDataUrl } from "@/hooks/useBlurDataURL";
 
 interface Props {
   imageObject: Exclude<ThemeImageType, null>;

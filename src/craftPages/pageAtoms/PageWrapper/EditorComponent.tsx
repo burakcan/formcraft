@@ -1,6 +1,6 @@
 import { useRef, type PropsWithChildren } from "react";
-import { cn } from "@/lib/utils";
 import { useHasScroll } from "@/hooks/useHasScroll";
+import { cn } from "@/lib/utils";
 
 interface Props {
   innerWrapperClassName?: string;

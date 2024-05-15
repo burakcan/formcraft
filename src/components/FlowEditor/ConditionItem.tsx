@@ -6,10 +6,10 @@ import {
   VariableIcon,
 } from "lucide-react";
 import { Position } from "reactflow";
-import { ConditionEditor } from "./ConditionEditor";
-import { SingleConnectionHandle } from "./Handles";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ConditionEditor } from "./ConditionEditor";
+import { SingleConnectionHandle } from "./Handles";
 
 interface Props {
   noHandle?: boolean;

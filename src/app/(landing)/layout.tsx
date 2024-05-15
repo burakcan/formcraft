@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Lalezar } from "next/font/google";
-import { cn } from "@/lib/utils";
 import { Footer } from "@/components/landing/Footer";
 import { Navbar } from "@/components/landing/Navbar";
+import { cn } from "@/lib/utils";
 
 const primary = Inter({
   subsets: ["latin"],

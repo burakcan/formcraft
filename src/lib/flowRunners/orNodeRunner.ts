@@ -1,8 +1,8 @@
 import type { Node } from "reactflow";
-import { checkCondition } from "./checkCondition";
-import { runNode } from "./runNode";
 import type { OrNodeData } from "@/components/FlowEditor/Nodes/OrNode/OrNode";
 import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
+import { checkCondition } from "./checkCondition";
+import { runNode } from "./runNode";
 
 export type OrNode = Node<OrNodeData, "and">;
 

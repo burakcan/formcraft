@@ -1,11 +1,11 @@
 "use client";
 
 import { CheckIcon } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { BaseContentEditor } from "../pageAtoms/BaseContent";
 import { CtaSectionEditor } from "../pageAtoms/CtaSection";
 import { PageWrapperEditor } from "../pageAtoms/PageWrapper";
 import type { LongText } from "./schema";
-import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   page: LongText;

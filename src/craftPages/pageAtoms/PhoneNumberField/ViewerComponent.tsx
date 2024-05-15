@@ -1,8 +1,8 @@
 import type { Path, UseFormReturn } from "react-hook-form";
-import { isMobile } from "@/lib/utils";
-import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { FormField } from "@/components/ui/form";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { isMobile } from "@/lib/utils";
+import { FieldValidationErrorViewer } from "../FieldValidationError";
 
 interface Props<T extends { value: string }> {
   form: UseFormReturn<T>;

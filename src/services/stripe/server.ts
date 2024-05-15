@@ -2,9 +2,9 @@ import "server-only";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import type { StripePrice, StripeProduct } from "@prisma/client";
 import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import Stripe from "stripe";
 import { ErrorType } from "@/lib/errors";
 import db from "../db";
-import Stripe from "stripe";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   typescript: true,

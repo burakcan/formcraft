@@ -2,6 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import FontPicker from "react-fontpicker-ts";
+import { useLoadPageResources } from "@/hooks/useLoadPageResources";
+import { usePageChangeReason } from "@/hooks/usePageChangeReason";
+import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 import { defaultTheme } from "@/lib/themes/defaultTheme";
 import { PageLayout } from "../CraftBuilder/PageRenderer/PageLayout";
 import { ThemeStyle } from "../CraftBuilder/PageRenderer/ThemeStyle";
@@ -9,9 +12,6 @@ import { FullPageLoading } from "../FullPageLoading";
 import { ResourcePreloader } from "./ResourcePreloader";
 import { craftPageDefinitions } from "@/craftPages";
 import { MadeWithFormCraftViewer } from "@/craftPages/pageAtoms/MadeWithFormcraft";
-import { useLoadPageResources } from "@/hooks/useLoadPageResources";
-import { usePageChangeReason } from "@/hooks/usePageChangeReason";
-import { useViewCraftStore } from "@/hooks/useViewCraftStore";
 
 export function CraftViewer() {
   const { reason: pageChangeReason } = usePageChangeReason();

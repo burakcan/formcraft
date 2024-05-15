@@ -4,8 +4,6 @@ import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
-import { PageLibrary } from "../PageLibrary";
-import { ContentItem } from "./ContentItem";
 import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
@@ -13,8 +11,10 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { craftPageDefinitions } from "@/craftPages";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { PageLibrary } from "../PageLibrary";
+import { ContentItem } from "./ContentItem";
+import { craftPageDefinitions } from "@/craftPages";
 
 export function ContentSidebar() {
   const [movingItem, setMovingItem] = useState<string | null>(null);

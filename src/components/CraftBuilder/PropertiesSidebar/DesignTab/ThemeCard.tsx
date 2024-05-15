@@ -6,9 +6,6 @@ import {
   WandIcon,
 } from "lucide-react";
 import FontPicker from "react-fontpicker-ts";
-import { cn } from "@/lib/utils";
-import { ThemeImage } from "../../PageRenderer/ThemeImage";
-import { ThemeStyle } from "../../PageRenderer/ThemeStyle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +20,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { ThemeImage } from "../../PageRenderer/ThemeImage";
+import { ThemeStyle } from "../../PageRenderer/ThemeStyle";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {

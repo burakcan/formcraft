@@ -3,8 +3,8 @@
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { CraftPreview } from "@/components/CraftPreview";
 import { Button } from "@/components/ui/button";
+import { CraftPreview } from "@/components/CraftPreview";
 
 export function PreviewButton() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);

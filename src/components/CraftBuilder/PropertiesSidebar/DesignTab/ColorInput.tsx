@@ -1,5 +1,5 @@
-import { HSLToHex, hexToHSL } from "@/lib/color";
 import { Label } from "@/components/ui/label";
+import { HSLToHex, hexToHSL } from "@/lib/color";
 
 interface Props {
   label: string;

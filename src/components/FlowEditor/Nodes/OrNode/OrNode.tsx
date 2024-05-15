@@ -8,11 +8,11 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "reactflow";
+import { Badge } from "@/components/ui/badge";
 import { ConditionEditor } from "../../ConditionEditor";
 import { ConditionItem } from "../../ConditionItem";
 import { SingleConnectionHandle } from "../../Handles";
 import { NodeRemoveButton } from "../../NodeRemoveButton";
-import { Badge } from "@/components/ui/badge";
 
 export interface OrNodeData {
   conditions: FormCraft.BranchingCondition[];

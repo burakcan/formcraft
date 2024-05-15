@@ -1,8 +1,8 @@
 import type { Node } from "reactflow";
-import { checkCondition } from "./checkCondition";
-import { runNode } from "./runNode";
 import type { AndNodeData } from "@/components/FlowEditor/Nodes/AndNode/AndNode";
 import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
+import { checkCondition } from "./checkCondition";
+import { runNode } from "./runNode";
 
 export type AndNode = Node<AndNodeData, "and">;
 

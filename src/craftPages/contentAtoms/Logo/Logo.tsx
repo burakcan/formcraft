@@ -2,9 +2,9 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import { InputGroup } from "../InputGroup";
 import { ImageInput } from "@/components/CraftBuilder/PropertiesSidebar/ImageInput";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { InputGroup } from "../InputGroup";
 
 interface Props<T> {
   page: T;

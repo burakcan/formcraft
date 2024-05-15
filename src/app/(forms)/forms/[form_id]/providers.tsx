@@ -4,12 +4,12 @@ import type { Craft, CraftSubmission, CraftVersion } from "@prisma/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
 import { useRef } from "react";
-import type { CraftTheme } from "@/craftPages/schemas/theming";
 import { PageChangeReasonProvider } from "@/hooks/usePageChangeReason";
 import {
   ViewCraftStoreContext,
   createViewCraftStore,
 } from "@/services/store/viewCraftStore";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   craft: Craft;

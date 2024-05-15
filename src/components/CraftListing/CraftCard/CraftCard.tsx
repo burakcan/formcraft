@@ -1,8 +1,8 @@
 import { truncate } from "lodash";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ActionsMenu } from "./ActionsMenu";
-import { Badge } from "@/components/ui/badge";
 
 interface Props {
   craft: FormCraft.CraftListingItem;

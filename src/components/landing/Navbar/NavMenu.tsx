@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { forwardRef } from "react";
-import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,6 +12,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const ListItem = forwardRef<
   React.ElementRef<"a">,

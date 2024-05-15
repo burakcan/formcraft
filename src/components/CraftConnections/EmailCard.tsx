@@ -7,6 +7,9 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCraftConnectionsMutation } from "@/hooks/useCraftConnectionsMutation";
+import { useCraftConnectionsQuery } from "@/hooks/useCraftConnectionsQuery";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -20,9 +23,6 @@ import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ConnectionCard } from "./ConnectionCard";
-import { useCraftConnectionsMutation } from "@/hooks/useCraftConnectionsMutation";
-import { useCraftConnectionsQuery } from "@/hooks/useCraftConnectionsQuery";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function EmailCard() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);

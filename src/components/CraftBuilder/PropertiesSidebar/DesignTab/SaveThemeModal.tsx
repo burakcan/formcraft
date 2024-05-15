@@ -1,6 +1,5 @@
 import { CheckIcon, LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { ThemeCard } from "./ThemeCard";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,8 +17,9 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { CraftTheme } from "@/craftPages/schemas/theming";
 import { useSaveCustomThemeMutation } from "@/hooks/useSaveCustomThemeMutation";
+import { ThemeCard } from "./ThemeCard";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   data: CraftTheme;

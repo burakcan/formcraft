@@ -1,8 +1,8 @@
 "use client";
 
 import { AlertCircleIcon } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 export function UnpublishedAlert() {
   const { hasUnpublishedChanges, archived } = useEditCraftStore((state) => ({

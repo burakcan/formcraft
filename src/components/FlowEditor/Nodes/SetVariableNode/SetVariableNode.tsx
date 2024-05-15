@@ -1,10 +1,10 @@
 import { VariableIcon } from "lucide-react";
 import type { NodeProps } from "reactflow";
 import { Handle, Position, useReactFlow } from "reactflow";
-import { SingleConnectionHandle } from "../../Handles";
-import { NodeRemoveButton } from "../../NodeRemoveButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SingleConnectionHandle } from "../../Handles";
+import { NodeRemoveButton } from "../../NodeRemoveButton";
 
 export interface SetVariableNodeData {
   variableName: string;

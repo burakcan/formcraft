@@ -4,8 +4,8 @@ import type Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ComponentProps, PropsWithChildren } from "react";
 import { createContext, useEffect, useState } from "react";
-import { BlockerModal } from "./BlockerModal";
 import { useEditCraftStoreTemporal } from "@/hooks/useEditCraftStore";
+import { BlockerModal } from "./BlockerModal";
 
 interface CraftNavigationBlockContextProps {
   dirty: boolean;

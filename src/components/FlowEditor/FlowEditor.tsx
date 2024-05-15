@@ -21,12 +21,12 @@ import ReactFlow, {
   MarkerType,
   ConnectionMode,
 } from "reactflow";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useFlowEditorAutoLayout } from "@/hooks/useFlowEditorAutoLayout";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { edgeTypes } from "./Edges";
 import { nodeTypes } from "./Nodes";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
-import { useFlowEditorAutoLayout } from "@/hooks/useFlowEditorAutoLayout";
 
 export function FlowEditor() {
   const wrapperRef = useRef<HTMLDivElement>(null);

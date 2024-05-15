@@ -3,12 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { Label } from "../ui/label";
-import { Switch } from "../ui/switch";
-import { EmptyState } from "./EmptyState";
 import { CraftCard } from "@/components/CraftListing/CraftCard";
 import { CreateCraftButton } from "@/components/CreateCraftButton";
 import { useCraftsListingQuery } from "@/hooks/useCraftsListingQuery";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import { EmptyState } from "./EmptyState";
 
 function ArchivedSwitch(props: {
   onCheckedChange: (checked: boolean) => void;

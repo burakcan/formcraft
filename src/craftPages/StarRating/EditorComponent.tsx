@@ -8,12 +8,12 @@ import {
   ThumbsUpIcon,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BaseContentEditor } from "../pageAtoms/BaseContent";
 import { CtaSectionEditor } from "../pageAtoms/CtaSection";
 import { PageWrapperEditor } from "../pageAtoms/PageWrapper";
 import type { StarRating } from "./schema";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   page: StarRating;

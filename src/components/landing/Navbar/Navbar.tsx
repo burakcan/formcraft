@@ -1,8 +1,8 @@
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
-import { NavMenu } from "./NavMenu";
-import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/Logo";
+import { NavMenu } from "./NavMenu";
 
 export function Navbar() {
   const authData = auth();

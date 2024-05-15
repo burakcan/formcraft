@@ -1,11 +1,11 @@
 import { CircleHelpIcon } from "lucide-react";
-import { InputGroup } from "../InputGroup";
-import { OptionalInputField } from "../OptionalInputField";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { InputGroup } from "../InputGroup";
+import { OptionalInputField } from "../OptionalInputField";
 
 interface Props<T> {
   page: T;
