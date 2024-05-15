@@ -1,14 +1,14 @@
 "use client";
 
 import { CheckIcon } from "lucide-react";
+import { FormField } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { isMobile } from "@/lib/utils";
 import { BaseContentViewer } from "../pageAtoms/BaseContent";
 import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
 import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import type { LongText } from "./schema";
-import { FormField } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   page: LongText;

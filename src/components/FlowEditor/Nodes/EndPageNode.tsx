@@ -1,8 +1,8 @@
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { cn } from "@/lib/utils";
 import { craftPageDefinitions } from "@/craftPages";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export interface EndPageNodeData {
   pageId: FormCraft.CraftEndPage["id"];

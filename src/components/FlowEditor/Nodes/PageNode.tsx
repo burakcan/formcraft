@@ -1,9 +1,9 @@
 import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { cn } from "@/lib/utils";
 import { SingleConnectionHandle } from "../Handles";
 import { craftPageDefinitions } from "@/craftPages";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export interface PageNodeData {
   pageId: FormCraft.CraftPage["id"];

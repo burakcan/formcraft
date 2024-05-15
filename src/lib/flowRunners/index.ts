@@ -1,6 +1,6 @@
 import { getOutgoers } from "reactflow";
-import { runNode } from "./runNode";
 import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
+import { runNode } from "./runNode";
 
 export function runFlow(
   input: FormCraft.CraftAnswer,

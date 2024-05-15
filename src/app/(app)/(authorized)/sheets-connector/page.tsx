@@ -2,9 +2,9 @@
 import { auth } from "@clerk/nextjs";
 import { google } from "googleapis";
 import { RedirectType, redirect } from "next/navigation";
-import { ErrorType } from "@/lib/errors";
 import db from "@/services/db";
 import { getCraft } from "@/services/db/craft";
+import { ErrorType } from "@/lib/errors";
 
 interface Props {
   searchParams: { code: string; state: string };

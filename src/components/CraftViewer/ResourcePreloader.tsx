@@ -1,6 +1,6 @@
 import FontPicker from "react-fontpicker-ts";
-import type { CraftTheme } from "@/craftPages/schemas/theming";
 import { useLoadPageResources } from "@/hooks/useLoadPageResources";
+import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   pages: FormCraft.CraftPage[];

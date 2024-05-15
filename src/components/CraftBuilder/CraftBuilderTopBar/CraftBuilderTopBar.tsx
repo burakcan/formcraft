@@ -1,5 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TopBar } from "@/components/AppChrome";
+import { BlockerLink } from "@/components/CraftNavigationBlock";
 import { Avatar } from "./Avatar";
 import { CraftName } from "./CraftName";
 import { CraftStatusBadge } from "./CraftStatusBadge";
@@ -7,9 +10,6 @@ import { PreviewButton } from "./PreviewButton";
 import { SaveAndPublishButton } from "./SaveAndPublishButton";
 import { SaveButton } from "./SaveButton";
 import { UndoRedo } from "./UndoRedo";
-import { TopBar } from "@/components/AppChrome";
-import { BlockerLink } from "@/components/CraftNavigationBlock";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Props {
   craft_id: string;

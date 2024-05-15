@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { genericApiError } from "@/lib/utils";
 import db from "@/services/db";
+import { genericApiError } from "@/lib/utils";
 
 export async function GET() {}
 

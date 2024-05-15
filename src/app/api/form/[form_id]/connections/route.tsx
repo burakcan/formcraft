@@ -2,11 +2,11 @@ import "server-only";
 import { auth } from "@clerk/nextjs";
 import type { EmailConnection, WebhookConnection } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
-import { ErrorType } from "@/lib/errors";
-import { genericApiError } from "@/lib/utils";
 import db from "@/services/db";
 import { getCraftConnections } from "@/services/db/craft";
 import { emailConnectionConfirmation } from "@/services/email/emailConnectionConfirmation";
+import { ErrorType } from "@/lib/errors";
+import { genericApiError } from "@/lib/utils";
 
 export async function GET(
   req: NextRequest,

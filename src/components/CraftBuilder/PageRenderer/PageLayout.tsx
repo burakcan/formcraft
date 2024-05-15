@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useBreakpoint } from "@/hooks/useTailwindBreakpoints";
 import { cn } from "@/lib/utils";
 import { BackgroundImage } from "./BackgroundImage";
 import { DecorationImage } from "./DecorationImage";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
-import { useBreakpoint } from "@/hooks/useTailwindBreakpoints";
 
 interface Props {
   disableTransitions?: boolean;

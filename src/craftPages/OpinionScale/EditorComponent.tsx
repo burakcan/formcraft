@@ -2,11 +2,11 @@
 
 import { CheckIcon } from "lucide-react";
 import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
 import { BaseContentEditor } from "../pageAtoms/BaseContent";
 import { CtaSectionEditor } from "../pageAtoms/CtaSection";
 import { PageWrapperEditor } from "../pageAtoms/PageWrapper";
 import type { OpinionScale } from "./schema";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   page: OpinionScale;

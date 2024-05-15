@@ -2,10 +2,6 @@
 
 import { DialogContent } from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
-import { findRootNode } from "@/lib/findRootNode";
-import { CraftViewer } from "../CraftViewer";
-import { Button } from "../ui/button";
-import { Dialog, DialogClose } from "../ui/dialog";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { PageChangeReasonProvider } from "@/hooks/usePageChangeReason";
 import { useThemes } from "@/hooks/useThemes";
@@ -13,6 +9,10 @@ import {
   ViewCraftStoreContext,
   createViewCraftStore,
 } from "@/services/store/viewCraftStore";
+import { findRootNode } from "@/lib/findRootNode";
+import { CraftViewer } from "../CraftViewer";
+import { Button } from "../ui/button";
+import { Dialog, DialogClose } from "../ui/dialog";
 
 interface Props {
   open: boolean;

@@ -1,13 +1,13 @@
 import { ImageIcon } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/ui/form";
+import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
+import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 import { cn } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { ChoiceLetter } from "./ChoiceLetter";
-import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
-import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
-import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 
 type ValueType = string[];
 

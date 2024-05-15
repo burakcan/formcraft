@@ -3,6 +3,9 @@
 import { LoaderCircle, Webhook } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCraftConnectionsMutation } from "@/hooks/useCraftConnectionsMutation";
+import { useCraftConnectionsQuery } from "@/hooks/useCraftConnectionsQuery";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -15,9 +18,6 @@ import {
 import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
 import { ConnectionCard } from "./ConnectionCard";
-import { useCraftConnectionsMutation } from "@/hooks/useCraftConnectionsMutation";
-import { useCraftConnectionsQuery } from "@/hooks/useCraftConnectionsQuery";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function WebhookCard() {
   const [showSecretModal, setShowSecretModal] = useState(false);

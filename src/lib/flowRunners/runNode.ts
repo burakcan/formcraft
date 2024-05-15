@@ -1,4 +1,5 @@
 import type { Node } from "reactflow";
+import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
 import type { AndNode } from "./andNodeRunner";
 import { andNodeRunner } from "./andNodeRunner";
 import type { BranchingNode } from "./branchingNodeRunner";
@@ -11,7 +12,6 @@ import type { PageNode } from "./pageNodeRunner";
 import { pageNodeRunner } from "./pageNodeRunner";
 import type { SetVariableNode } from "./setVariableNode";
 import { setVariableNodeRunner } from "./setVariableNode";
-import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
 
 export function runNode<T>(
   node: Node<T>,

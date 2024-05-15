@@ -1,7 +1,7 @@
 import { getOutgoers, type Node } from "reactflow";
-import { runNode } from "./runNode";
 import type { SetVariableNodeData } from "@/components/FlowEditor/Nodes/SetVariableNode";
 import type { ViewCraftStoreState } from "@/services/store/viewCraftStore";
+import { runNode } from "./runNode";
 
 export type SetVariableNode = Node<SetVariableNodeData, "setVariable">;
 

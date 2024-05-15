@@ -13,14 +13,14 @@ import { EditorContent } from "@tiptap/react";
 import { ImageIcon, PlusIcon, XIcon } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState, type PointerEvent } from "react";
-import { cn } from "@/lib/utils";
-import { ChoiceLetter } from "./ChoiceLetter";
+import { Button } from "@/components/ui/button";
 import { ImageLibrary } from "@/components/CraftBuilder/ImageLibrary/ImageLibrary";
 import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
-import { Button } from "@/components/ui/button";
-import type { ThemeImageType } from "@/craftPages/schemas/theming";
 import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 import { useChoiceOptionEditor } from "@/hooks/useChoiceOptionEditor";
+import { cn } from "@/lib/utils";
+import { ChoiceLetter } from "./ChoiceLetter";
+import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props<T> {
   page: T;

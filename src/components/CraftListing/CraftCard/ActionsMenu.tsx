@@ -7,8 +7,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { FaTrashRestore } from "react-icons/fa";
-import { ArchiveCraftModal } from "../../ArchiveCraftModal";
-import { RenameCraftModal } from "@/components/RenameCraftModal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { RenameCraftModal } from "@/components/RenameCraftModal";
 import { useUnarchiveCraftMutation } from "@/hooks/useUnarchiveCraftMutation";
+import { ArchiveCraftModal } from "../../ArchiveCraftModal";
 
 interface Props {
   craft: FormCraft.CraftListingItem;

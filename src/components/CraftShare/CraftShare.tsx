@@ -1,11 +1,11 @@
 "use client";
 
 import { LinkIcon } from "lucide-react";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UnpublishedAlert } from "../UnpublishedAlert";
 import { ShareCard } from "./ShareCard";
-import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 
 export function CraftShare() {
   const craftId = useEditCraftStore((state) => state.craft.id);

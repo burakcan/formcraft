@@ -2,10 +2,10 @@ import "server-only";
 import { auth } from "@clerk/nextjs/server";
 import type { CraftVersion } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
-import { ErrorType } from "@/lib/errors";
-import { genericApiError } from "@/lib/utils";
 import db from "@/services/db";
 import { getCraftAndEditingVersion } from "@/services/db/craft";
+import { ErrorType } from "@/lib/errors";
+import { genericApiError } from "@/lib/utils";
 
 export async function GET(
   req: NextRequest,

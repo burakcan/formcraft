@@ -3,9 +3,9 @@
 import { auth } from "@clerk/nextjs";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
+import db from "@/services/db";
 import { ErrorType } from "@/lib/errors";
 import { craftPageDefinitions } from "@/craftPages";
-import db from "@/services/db";
 
 export async function createCraft() {
   const authData = auth();

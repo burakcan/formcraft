@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import type Stripe from "stripe";
 import {
   deleteStripePrice,
   deleteStripeProduct,
@@ -6,7 +7,6 @@ import {
   upsertStripePrice,
   upsertStripeProduct,
 } from "@/services/stripe/server";
-import type Stripe from "stripe";
 
 const signingSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET || "";
 

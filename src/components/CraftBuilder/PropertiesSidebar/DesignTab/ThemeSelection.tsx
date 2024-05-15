@@ -1,16 +1,16 @@
 import { CheckCircle2, WandIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { builtinThemes } from "@/lib/themes";
-import { ConfirmApplyThemeToAll } from "./ConfirmApplyToAll";
-import { ConfirmChangeTheme } from "./ConfirmChangeTheme";
-import { ConfirmDeleteTheme } from "./ConfirmDeleteTheme";
-import { ThemeCard } from "./ThemeCard";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDeleteCustomThemeMutation } from "@/hooks/useDeleteCustomThemeMutation";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useThemes } from "@/hooks/useThemes";
+import { builtinThemes } from "@/lib/themes";
+import { ConfirmApplyThemeToAll } from "./ConfirmApplyToAll";
+import { ConfirmChangeTheme } from "./ConfirmChangeTheme";
+import { ConfirmDeleteTheme } from "./ConfirmDeleteTheme";
+import { ThemeCard } from "./ThemeCard";
 
 interface Props {
   onSelectTheme: (themeId: string) => void;

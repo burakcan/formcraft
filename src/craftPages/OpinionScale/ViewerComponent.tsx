@@ -2,15 +2,15 @@
 
 import { CheckIcon } from "lucide-react";
 import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/ui/form";
+import { useBreakpoint } from "@/hooks/useTailwindBreakpoints";
 import { cn } from "@/lib/utils";
 import { BaseContentViewer } from "../pageAtoms/BaseContent";
 import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
 import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import { type OpinionScale } from "./schema";
-import { Button } from "@/components/ui/button";
-import { FormField } from "@/components/ui/form";
-import { useBreakpoint } from "@/hooks/useTailwindBreakpoints";
 
 interface Props {
   page: OpinionScale;

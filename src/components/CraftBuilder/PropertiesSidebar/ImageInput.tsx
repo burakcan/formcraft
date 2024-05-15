@@ -1,7 +1,5 @@
 import { ReplaceAllIcon, ReplaceIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
-import { ImageLibrary } from "../ImageLibrary/ImageLibrary";
-import { ThemeImage } from "../PageRenderer/ThemeImage";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -9,6 +7,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ImageLibrary } from "../ImageLibrary/ImageLibrary";
+import { ThemeImage } from "../PageRenderer/ThemeImage";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 interface Props {

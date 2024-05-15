@@ -1,9 +1,9 @@
 "use client";
 
-import { ContentTab } from "./ContentTab";
-import { DesignTab } from "./DesignTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { ContentTab } from "./ContentTab";
+import { DesignTab } from "./DesignTab";
 
 export function PropertiesSidebar() {
   const { editingVersion, selectedPage, editPage } = useEditCraftStore((s) => ({

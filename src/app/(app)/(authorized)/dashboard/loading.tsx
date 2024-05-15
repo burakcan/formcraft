@@ -2,12 +2,12 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { LayoutWithTopbar } from "@/components/AppChrome";
-import { CreateCraftButton } from "@/components/CreateCraftButton";
-import { Navbar } from "@/components/Navbar";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
+import { LayoutWithTopbar } from "@/components/AppChrome";
+import { CreateCraftButton } from "@/components/CreateCraftButton";
+import { Navbar } from "@/components/Navbar";
 
 function ArchivedSwitch() {
   const showArchived = useSearchParams().get("showArchived") === "true";

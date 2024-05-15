@@ -1,11 +1,11 @@
 import { uniqBy } from "lodash";
 import { type NextRequest } from "next/server";
-import { genericApiError } from "@/lib/utils";
 import db from "@/services/db";
 import {
   getVersionsFromSubmissionsList,
   listSubmissions,
 } from "@/services/db/submission";
+import { genericApiError } from "@/lib/utils";
 
 export async function GET(
   req: NextRequest,
