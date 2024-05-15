@@ -17,21 +17,23 @@ datasource db {
 }
 
 model User {
-  id             String          @id
-  organizations  Organization[]
-  crafts         Craft[]
-  CustomTheme    CustomTheme[]
-  UploadedImage  UploadedImage[]
-  StripeCustomer StripeCustomer?
+  id                  String               @id
+  organizations       Organization[]
+  crafts              Craft[]
+  CustomTheme         CustomTheme[]
+  UploadedImage       UploadedImage[]
+  stripeCustomer      StripeCustomer?
+  stripeSubscriptions StripeSubscription[]
 }
 
 model Organization {
-  id             String          @id
-  users          User[]
-  crafts         Craft[]
-  CustomTheme    CustomTheme[]
-  UploadedImage  UploadedImage[]
-  StripeCustomer StripeCustomer?
+  id                  String               @id
+  users               User[]
+  crafts              Craft[]
+  CustomTheme         CustomTheme[]
+  UploadedImage       UploadedImage[]
+  stripeCustomer      StripeCustomer?
+  stripeSubscriptions StripeSubscription[]
 }
 
 model Craft {
@@ -159,13 +161,25 @@ enum StripePriceInterval {
   day
 }
 
+enum StripeSubscriptionStatus {
+  incomplete
+  incomplete_expired
+  trialing
+  active
+  past_due
+  canceled
+  unpaid
+  paused
+}
+
 model StripeCustomer {
-  id             String        @id @unique
-  createdAt      DateTime      @default(now())
-  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId         String?       @unique
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String?       @unique
+  id             String               @id @unique
+  createdAt      DateTime             @default(now())
+  user           User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String?              @unique
+  organization   Organization?        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String?              @unique
+  subscriptions  StripeSubscription[]
 }
 
 model StripePrice {
@@ -178,13 +192,16 @@ model StripePrice {
   interval       StripePriceInterval?
   interval_count Int?
   metadata       Json
+  lookup_key     String?
 
   product   StripeProduct @relation(name: "Prices", fields: [productId], references: [id])
   productId String
+
+  subscriptionItems StripeSubscriptionItem[]
 }
 
 model StripeProduct {
-  id             String   @id
+  id             String        @id
   active         Boolean
   name           String
   description    String?
@@ -193,6 +210,42 @@ model StripeProduct {
   updated        DateTime
   metadata       Json
   defaultPriceId String?
+  prices         StripePrice[] @relation(name: "Prices")
+}
 
-  prices StripePrice[] @relation(name: "Prices")
+model StripeSubscriptionItem {
+  id             String              @id
+  object         String
+  created        DateTime
+  discounts      String[]
+  metadata       Json
+  price          StripePrice         @relation(fields: [priceId], references: [id])
+  priceId        String
+  quantity       Int?
+  subscription   StripeSubscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  subscriptionId String?
+}
+
+model StripeSubscription {
+  id                     String                   @id
+  cancel_at_period_end   Boolean
+  currency               String
+  current_period_end     DateTime
+  current_period_start   DateTime
+  trial_end              DateTime?
+  trial_start            DateTime?
+  ended_at               DateTime?
+  cancel_at              DateTime?
+  canceled_at            DateTime?
+  customer               StripeCustomer           @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId             String
+  user                   User?                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                 String?
+  organization           Organization?            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId         String?
+  default_payment_method String?
+  description            String?
+  items                  StripeSubscriptionItem[]
+  metadata               Json
+  status                 StripeSubscriptionStatus
 }

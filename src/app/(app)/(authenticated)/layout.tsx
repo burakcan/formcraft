@@ -1,9 +1,11 @@
+import { auth } from "@clerk/nextjs/server";
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "FormCraft",
@@ -15,7 +17,12 @@ export default async function AuthorizedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authData = auth();
   const queryClient = new QueryClient();
+
+  if (!authData.userId) {
+    return redirect("/sign-in");
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

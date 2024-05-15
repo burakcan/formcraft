@@ -6,6 +6,7 @@ import {
   stripe,
   upsertStripePrice,
   upsertStripeProduct,
+  upsertStripeSubscription,
 } from "@/services/stripe/server";
 
 const signingSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET || "";
@@ -17,6 +18,13 @@ const relevantEvents = new Set([
   "price.created",
   "price.deleted",
   "price.updated",
+
+  "customer.subscription.created",
+  "customer.subscription.deleted",
+  "customer.subscription.paused",
+  "customer.subscription.resumed",
+  "customer.subscription.trial_will_end",
+  "customer.subscription.updated",
 ]);
 
 export async function POST(req: NextRequest) {
@@ -57,6 +65,16 @@ export async function POST(req: NextRequest) {
       case "price.deleted":
         await deleteStripePrice(event.data.object.id);
         break;
+
+      case "customer.subscription.created":
+      case "customer.subscription.deleted":
+      case "customer.subscription.paused":
+      case "customer.subscription.resumed":
+      case "customer.subscription.trial_will_end":
+      case "customer.subscription.updated":
+      case "customer.subscription.created": {
+        await upsertStripeSubscription(event.data.object);
+      }
 
       default:
         console.log("Unhandled event type: ", event.type);
