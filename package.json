@@ -15,8 +15,10 @@
     "prisma:migrate:deploy": "dotenv -e .env.local -- prisma migrate deploy",
     "prisma:migrate:reset": "dotenv -e .env.local -- prisma migrate reset --force",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "stripe:sync": "node ./scripts/sync_stripe.mjs",
     "postinstall": "pnpm prisma:generate",
-    "postbuild": "pnpm prisma:migrate:deploy"
+    "postbuild": "pnpm prisma:migrate:deploy && pnpm stripe:sync"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.12",
@@ -90,6 +92,7 @@
     "react-resizable-panels": "^2.0.18",
     "reactflow": "^11.11.1",
     "sonner": "^1.4.41",
+    "stripe": "^15.6.0",
     "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
