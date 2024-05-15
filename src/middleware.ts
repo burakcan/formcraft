@@ -5,6 +5,7 @@ const authMiddleware = createAuthMiddleware({
   publicRoutes: [
     "/",
     "/api/webhooks/clerk",
+    "/api/webhooks/stripe",
     "/forms/:form_id",
     "/api/submission/:submission_id",
   ],
