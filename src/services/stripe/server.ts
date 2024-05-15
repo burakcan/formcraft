@@ -206,13 +206,17 @@ export async function createCheckoutSession(
     throw new Error(ErrorType.Not_Found);
   }
 
+  const existingSubscription = await db.stripeSubscription.findFirst({
+    where: {
+      customerId: customer.id,
+    },
+  });
+
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customer.id,
     ui_mode: "hosted",
-    subscription_data: {
-      trial_period_days: 7,
-    },
+    subscription_data: existingSubscription ? {} : { trial_period_days: 7 },
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?success=true&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?canceled=true`,
@@ -221,7 +225,10 @@ export async function createCheckoutSession(
   return session;
 }
 
-export async function createCustomerPortalSession(owner: UserOrOrganization) {
+export async function createCustomerPortalSession(
+  owner: UserOrOrganization,
+  returnPath: string
+) {
   const customer = await getOrCreateCustomer(owner);
 
   if (!customer) {
@@ -230,7 +237,7 @@ export async function createCustomerPortalSession(owner: UserOrOrganization) {
 
   const session = await stripe.billingPortal.sessions.create({
     customer: customer.id,
-    return_url: `${process.env.NEXT_PUBLIC_URL}/settings/billing`,
+    return_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}`,
   });
 
   return session;
@@ -332,5 +339,23 @@ export async function getPriceByLookupKey(lookup_key: string) {
     where: {
       lookup_key,
     },
+  });
+}
+
+export async function getStripeSubscription(owner: UserOrOrganization) {
+  return await db.$transaction(async (tx) => {
+    const allSubscriptions = await tx.stripeSubscription.findMany({
+      where: { ...owner },
+    });
+
+    const activeOrTriallingSubscriptions = allSubscriptions.filter(
+      (s) => s.status === "active" || s.status === "trialing"
+    );
+
+    if (activeOrTriallingSubscriptions.length === 0) {
+      return allSubscriptions[0] || null;
+    }
+
+    return activeOrTriallingSubscriptions[0];
   });
 }

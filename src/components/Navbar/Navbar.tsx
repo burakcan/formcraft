@@ -5,14 +5,18 @@ import {
   OrganizationSwitcher,
   UserButton,
   UserProfile,
+  useAuth,
 } from "@clerk/nextjs";
 import { ReceiptTextIcon } from "lucide-react";
 import { TopBar } from "../AppChrome";
 import Billing from "../Billing/Billing";
 import { Logo } from "../Logo";
-import { TryProButton } from "./TryProButton";
+import { TryProButton } from "../TryProButton";
+import { Skeleton } from "../ui/skeleton";
 
 export function Navbar() {
+  const authData = useAuth();
+
   return (
     <TopBar className="items-center gap-4 px-4">
       <Logo />
@@ -33,20 +37,35 @@ export function Navbar() {
           url="/billing"
           labelIcon={<ReceiptTextIcon className="cl-navbarButtonIcon size-4" />}
         >
-          <Billing />
+          <Billing organization />
         </OrganizationProfile.Page>
       </OrganizationSwitcher>
+      {!authData.isLoaded && (
+        <div className="w-56 cl-rootBox border rounded-lg p-1 pr-0 flex items-center hover:bg-accent cl-organizationSwitcher-root">
+          <div className="cl-userPreview cl-userPreview__personalWorkspace flex gap-2 items-center">
+            <Skeleton className="w-8 h-8 rounded-md bg-gray-200" />
+            <Skeleton className="w-24 h-4 ml-2 rounded-md bg-gray-200" />
+          </div>
+        </div>
+      )}
       <div className="flex-1" />
-      <TryProButton />
-      <UserButton>
+      <TryProButton organization />
+      <UserButton
+        appearance={{
+          layout: { shimmer: true },
+        }}
+      >
         <UserProfile.Page
           label="Billing"
           url="/billing"
           labelIcon={<ReceiptTextIcon className="cl-navbarButtonIcon size-4" />}
         >
-          <Billing />
+          <Billing user />
         </UserProfile.Page>
       </UserButton>
+      {!authData.isLoaded && (
+        <Skeleton className="w-8 h-8 rounded-full bg-gray-200" />
+      )}
     </TopBar>
   );
 }
