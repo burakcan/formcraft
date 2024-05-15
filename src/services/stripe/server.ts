@@ -1,6 +1,11 @@
 import "server-only";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import type { StripePrice, StripeProduct } from "@prisma/client";
+import type {
+  StripePrice,
+  StripeProduct,
+  StripeSubscription,
+  StripeSubscriptionItem,
+} from "@prisma/client";
 import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import Stripe from "stripe";
 import { ErrorType } from "@/lib/errors";
@@ -12,10 +17,13 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 type UserOrOrganization =
   | {
-      userId: string;
+      id: string; // Stripe customer ID
     }
   | {
-      organizationId: string;
+      userId: string; // Clerk user ID
+    }
+  | {
+      organizationId: string; // Clerk organization ID
     };
 
 export async function getOrCreateCustomer(where: UserOrOrganization) {
@@ -29,6 +37,7 @@ export async function getOrCreateCustomer(where: UserOrOrganization) {
     }
 
     if ("id" in where) {
+      // there is a stripe customer with this id, but it's not in our database
       throw new Error(ErrorType.Not_Found);
     }
 
@@ -155,6 +164,7 @@ export async function upsertStripePrice(object: Stripe.Price, retryCount = 0) {
     interval_count: price.recurring?.interval_count ?? null,
     metadata: price.metadata,
     productId: price.product as string,
+    lookup_key: price.lookup_key,
   };
 
   try {
@@ -196,16 +206,13 @@ export async function createCheckoutSession(
   }
 
   const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    payment_method_types: ["card"],
+    mode: "subscription",
     customer: customer.id,
     ui_mode: "hosted",
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
-      },
-    ],
+    subscription_data: {
+      trial_period_days: 7,
+    },
+    line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?success=true&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?canceled=true`,
   });
@@ -228,7 +235,7 @@ export async function createCustomerPortalSession(owner: UserOrOrganization) {
   return session;
 }
 
-export async function getUserCharges(owner: UserOrOrganization) {
+export async function getStripeCharges(owner: UserOrOrganization) {
   const customer = await getOrCreateCustomer(owner);
 
   if (!customer) {
@@ -237,5 +244,92 @@ export async function getUserCharges(owner: UserOrOrganization) {
 
   return await stripe.charges.list({
     customer: customer.id,
+  });
+}
+
+export async function upsertStripeSubscription(
+  subscription: Stripe.Subscription
+) {
+  const dateOrNull = (date: number | null) =>
+    date ? new Date(date * 1000) : null;
+
+  const customerId =
+    typeof subscription.customer === "string"
+      ? subscription.customer
+      : subscription.customer.id;
+
+  const customer = await getOrCreateCustomer({ id: customerId });
+
+  if (!customer) {
+    // This subscription is created for a customer that doesn't exist in our database
+    // it could be a customer that was created directly in Stripe
+    // but it shouldn't happen
+    throw new Error(ErrorType.Not_Found);
+  }
+
+  const default_payment_method =
+    typeof subscription.default_payment_method === "string"
+      ? subscription.default_payment_method
+      : subscription.default_payment_method?.id;
+
+  const items: StripeSubscriptionItem[] = subscription.items.data.map(
+    (item) => ({
+      id: item.id,
+      object: item.object,
+      created: new Date(item.created * 1000),
+      discounts: item.discounts.map((discount) =>
+        typeof discount === "string" ? discount : discount.id
+      ),
+      metadata: item.metadata,
+      priceId: item.price.id,
+      quantity: item.quantity || null,
+      subscriptionId: subscription.id,
+    })
+  );
+
+  const data: StripeSubscription = {
+    id: subscription.id,
+    cancel_at_period_end: subscription.cancel_at_period_end,
+    currency: subscription.currency,
+    current_period_end: new Date(subscription.current_period_end * 1000),
+    current_period_start: new Date(subscription.current_period_start * 1000),
+    trial_end: dateOrNull(subscription.trial_end),
+    trial_start: dateOrNull(subscription.trial_start),
+    ended_at: dateOrNull(subscription.ended_at),
+    cancel_at: dateOrNull(subscription.cancel_at),
+    canceled_at: dateOrNull(subscription.canceled_at),
+    customerId: customerId,
+    default_payment_method: default_payment_method || null,
+    description: subscription.description || null,
+    metadata: subscription.metadata,
+    status: subscription.status,
+    userId: customer.userId || null,
+    organizationId: customer.organizationId || null,
+  };
+
+  await db.$transaction(async (tx) => {
+    await tx.stripeSubscription.upsert({
+      where: { id: subscription.id },
+      update: data,
+      create: data,
+    });
+
+    await Promise.all(
+      items.map((item) =>
+        tx.stripeSubscriptionItem.upsert({
+          where: { id: item.id },
+          update: item,
+          create: item,
+        })
+      )
+    );
+  });
+}
+
+export async function getPriceByLookupKey(lookup_key: string) {
+  return await db.stripePrice.findFirst({
+    where: {
+      lookup_key,
+    },
   });
 }

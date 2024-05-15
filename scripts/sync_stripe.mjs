@@ -66,7 +66,7 @@ async function syncPrices() {
       continue;
     }
 
-    const priceData = {
+    const data = {
       id: price.id,
       active: price.active,
       created: new Date(price.created * 1000),
@@ -77,12 +77,15 @@ async function syncPrices() {
       interval_count: price.recurring?.interval_count ?? null,
       metadata: price.metadata,
       productId: price.product.id,
-    }
+      lookup_key: price.lookup_key,
+    };
 
     await prisma.stripePrice.upsert({
-      where: { id: price.id },
-      update: priceData,
-      create: priceData,
+      where: {
+        id: price.id,
+      },
+      update: data,
+      create: data,
     });
   }
 
