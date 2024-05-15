@@ -21,7 +21,7 @@ model User {
   organizations       Organization[]
   crafts              Craft[]
   CustomTheme         CustomTheme[]
-  UploadedImage       UploadedImage[]
+  uploadedImages      UploadedImage[]
   stripeCustomer      StripeCustomer?
   stripeSubscriptions StripeSubscription[]
 }
@@ -31,7 +31,7 @@ model Organization {
   users               User[]
   crafts              Craft[]
   CustomTheme         CustomTheme[]
-  UploadedImage       UploadedImage[]
+  uploadedImages      UploadedImage[]
   stripeCustomer      StripeCustomer?
   stripeSubscriptions StripeSubscription[]
 }

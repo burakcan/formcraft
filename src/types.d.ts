@@ -88,6 +88,18 @@ declare global {
         value: FormCraft.CraftAnswer;
       }
     >;
+
+    type StripePriceType = "recurring" | "one_time";
+    type StripePriceInterval = "month" | "year" | "week" | "day";
+    type StripeSubscriptionStatus =
+      | "incomplete"
+      | "incomplete_expired"
+      | "trialing"
+      | "active"
+      | "past_due"
+      | "canceled"
+      | "unpaid"
+      | "paused";
   }
 
   namespace PrismaJson {

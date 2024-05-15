@@ -83,7 +83,7 @@ export function PricingSection() {
                   size="lg"
                   asChild
                 >
-                  <Link href="/auth/sign-up">Get started</Link>
+                  <Link href="/auth/sign-up">Free 7-day trial</Link>
                 </Button>
                 <div className="text-xs mt-2 text-transparent text-center">
                   -
@@ -133,7 +133,7 @@ export function PricingSection() {
                   size="lg"
                   asChild
                 >
-                  <Link href="/auth/sign-up">Get started</Link>
+                  <Link href="/auth/sign-up">Free 7-day trial</Link>
                 </Button>
                 <div className="text-xs mt-2 text-transparent text-center">
                   -
