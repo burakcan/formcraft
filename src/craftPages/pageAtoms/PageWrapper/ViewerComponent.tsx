@@ -75,6 +75,8 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 
   useEffect(() => {
     if (page.type === "end_screen" && mutation.isIdle) {
+      console.log("Submitting answers", answers);
+
       mutation.mutate({
         end_screen: {
           value: true,

@@ -19,46 +19,34 @@ export async function PUT(
     const json = (await req.json()) as FormCraft.CraftSubmissionData;
     const { submission_id } = ctx.params;
 
-    const result = await db.$transaction(async (tx) => {
-      const submission = await tx.craftSubmission.findUnique({
-        where: { id: submission_id },
-        select: { data: true },
-      });
-
-      if (!submission) {
-        console.log("Submission not found", submission_id);
-        throw new Error("Submission not found");
-      }
-
-      const updatedSubmission = await tx.craftSubmission.update({
-        where: { id: submission_id },
-        data: {
-          data: {
-            ...submission.data,
-            ...json,
-          },
-        },
-      });
-
-      if (submission.data["end_screen"]?.value) {
-        const craft = await tx.craft.findUnique({
-          where: { id: updatedSubmission.craftId },
-          select: { googleSheetsConnectionId: true },
-        });
-
-        if (craft?.googleSheetsConnectionId) {
-          await appendSingleAnswer(
-            updatedSubmission.craftId,
-            updatedSubmission.id,
-            tx
-          );
-        }
-      }
-
-      return updatedSubmission;
+    const submission = await db.craftSubmission.findUnique({
+      where: { id: submission_id },
+      select: { data: true },
     });
 
-    return NextResponse.json(result);
+    if (!submission) {
+      console.log("Submission not found", submission_id);
+      throw new Error("Submission not found");
+    }
+
+    const updatedSubmission = await db.craftSubmission.update({
+      where: { id: submission_id },
+      include: { craft: true },
+      data: {
+        data: {
+          ...submission.data,
+          ...json,
+        },
+      },
+    });
+
+    const craft = updatedSubmission.craft;
+
+    if (craft?.googleSheetsConnectionId && json["end_screen"]?.value) {
+      await appendSingleAnswer(updatedSubmission.craftId, updatedSubmission.id);
+    }
+
+    return NextResponse.json({ ok: true });
   } catch (e) {
     console.log("Error in submission/[submission_id]/route.tsx", e);
     return genericApiError(e);
