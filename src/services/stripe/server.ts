@@ -28,93 +28,89 @@ type UserOrOrganization =
     };
 
 export async function getOrCreateCustomer(where: UserOrOrganization) {
-  return db.$transaction(async (tx) => {
-    const existingCustomer = await tx.stripeCustomer.findFirst({
-      where,
-    });
+  const existingCustomer = await db.stripeCustomer.findFirst({
+    where,
+  });
 
-    if (existingCustomer) {
-      return existingCustomer;
+  if (existingCustomer) {
+    return existingCustomer;
+  }
+
+  if ("id" in where) {
+    // there is a stripe customer with this id, but it's not in our database
+    throw new Error(ErrorType.Not_Found);
+  }
+
+  const authData = auth();
+
+  if ("userId" in where) {
+    if (!authData || !authData.userId || authData.userId !== where.userId) {
+      throw new Error(ErrorType.Unauthorized);
     }
 
-    if ("id" in where) {
-      // there is a stripe customer with this id, but it's not in our database
+    const user = await db.user.findFirst({
+      where: { id: where.userId },
+    });
+
+    if (!user) {
       throw new Error(ErrorType.Not_Found);
     }
 
-    const authData = auth();
+    const clerkUser = await clerkClient.users.getUser(authData.userId);
 
-    if ("userId" in where) {
-      if (!authData || !authData.userId || authData.userId !== where.userId) {
-        throw new Error(ErrorType.Unauthorized);
-      }
+    const primaryEmail = clerkUser.emailAddresses.find(
+      (e) => e.id === clerkUser.primaryEmailAddressId
+    );
 
-      const user = await tx.user.findFirst({
-        where: { id: where.userId },
-      });
+    const stripeCustomer = await stripe.customers.create({
+      name: clerkUser.firstName + " " + clerkUser.lastName,
+      email: primaryEmail?.emailAddress || undefined,
+      metadata: {
+        userId: user.id,
+      },
+    });
 
-      if (!user) {
-        throw new Error(ErrorType.Not_Found);
-      }
-
-      const clerkUser = await clerkClient.users.getUser(authData.userId);
-
-      const primaryEmail = clerkUser.emailAddresses.find(
-        (e) => e.id === clerkUser.primaryEmailAddressId
-      );
-
-      const stripeCustomer = await stripe.customers.create({
-        name: clerkUser.firstName + " " + clerkUser.lastName,
-        email: primaryEmail?.emailAddress || undefined,
-        metadata: {
-          userId: user.id,
-        },
-      });
-
-      return tx.stripeCustomer.create({
-        data: {
-          id: stripeCustomer.id,
-          userId: where.userId,
-        },
-      });
-    } else if ("organizationId" in where) {
-      if (
-        !authData ||
-        !authData.orgId ||
-        authData.orgId !== where.organizationId
-      ) {
-        throw new Error(ErrorType.Unauthorized);
-      }
-
-      const organization = await tx.organization.findFirst({
-        where: { id: where.organizationId },
-      });
-
-      if (!organization) {
-        throw new Error(ErrorType.Not_Found);
-      }
-
-      const clerkOrganization = await clerkClient.organizations.getOrganization(
-        {
-          organizationId: authData.orgId,
-        }
-      );
-
-      const stripeCustomer = await stripe.customers.create({
-        name: clerkOrganization.name,
-        metadata: {
-          organizationId: organization.id,
-        },
-      });
-
-      return tx.stripeCustomer.create({
-        data: {
-          id: stripeCustomer.id,
-          organizationId: where.organizationId,
-        },
-      });
+    return db.stripeCustomer.create({
+      data: {
+        id: stripeCustomer.id,
+        userId: where.userId,
+      },
+    });
+  } else if ("organizationId" in where) {
+    if (
+      !authData ||
+      !authData.orgId ||
+      authData.orgId !== where.organizationId
+    ) {
+      throw new Error(ErrorType.Unauthorized);
     }
-  });
+
+    const organization = await db.organization.findFirst({
+      where: { id: where.organizationId },
+    });
+
+    if (!organization) {
+      throw new Error(ErrorType.Not_Found);
+    }
+
+    const clerkOrganization = await clerkClient.organizations.getOrganization({
+      organizationId: authData.orgId,
+    });
+
+    const stripeCustomer = await stripe.customers.create({
+      name: clerkOrganization.name,
+      metadata: {
+        organizationId: organization.id,
+      },
+    });
+
+    return db.stripeCustomer.create({
+      data: {
+        id: stripeCustomer.id,
+        organizationId: where.organizationId,
+      },
+    });
+  }
 }
 
 export async function upsertStripeProduct(object: Stripe.Product) {
@@ -315,22 +311,25 @@ export async function upsertStripeSubscription(
     organizationId: customer.organizationId || null,
   };
 
-  await db.$transaction(async (tx) => {
-    await tx.stripeSubscription.upsert({
-      where: { id: subscription.id },
-      update: data,
-      create: data,
-    });
-
-    await Promise.all(
-      items.map((item) =>
-        tx.stripeSubscriptionItem.upsert({
-          where: { id: item.id },
-          update: item,
-          create: item,
-        })
-      )
-    );
+  await db.stripeSubscription.upsert({
+    where: { id: subscription.id },
+    update: {
+      ...data,
+      items: {
+        updateMany: {
+          where: { subscriptionId: subscription.id },
+          data: items,
+        },
+      },
+    },
+    create: {
+      ...data,
+      items: {
+        createMany: {
+          data: items,
+        },
+      },
+    },
   });
 }
 

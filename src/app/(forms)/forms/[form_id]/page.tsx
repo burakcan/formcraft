@@ -17,20 +17,16 @@ interface Props {
 export default async function FormPage(props: Props) {
   const { form_id } = props.params;
 
-  const [craft, version, submission] = await db.$transaction(async (tx) => {
-    const craft = await getCraftWithLiveVersion(form_id, tx);
-    const version = craft?.craftVersions[0];
+  const craft = await getCraftWithLiveVersion(form_id);
+  const version = craft?.craftVersions[0];
 
-    if (!version || !craft) {
-      throw new Error("Form not found");
-    }
+  if (!version || !craft) {
+    throw new Error("Form not found");
+  }
 
-    const submission = await createSubmission(form_id, version.id, tx);
+  const submission = await createSubmission(form_id, version.id);
 
-    // const submission = null;
-
-    return [craft, version, submission];
-  });
+  // const submission = null;
 
   if (!version || !craft) {
     return <div>Form not found</div>;

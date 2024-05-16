@@ -1,6 +1,5 @@
 import { uniqBy } from "lodash";
 import { type NextRequest } from "next/server";
-import db from "@/services/db";
 import {
   getVersionsFromSubmissionsList,
   listSubmissions,
@@ -17,20 +16,15 @@ export async function GET(
     const { form_id } = ctx.params;
     const includePartial = req.nextUrl.searchParams.get("partial") === "true";
 
-    const [data, versions] = await db.$transaction(async (tx) => {
-      const data = await listSubmissions(
-        form_id,
-        1,
-        99999999,
-        "",
-        includePartial,
-        tx
-      );
+    const data = await listSubmissions(
+      form_id,
+      1,
+      undefined,
+      "",
+      includePartial
+    );
 
-      const versions = await getVersionsFromSubmissionsList(data.data, tx);
-
-      return [data, versions];
-    });
+    const versions = await getVersionsFromSubmissionsList(data.data);
 
     const allVersionPages = versions.reduce((acc, v) => {
       return [
