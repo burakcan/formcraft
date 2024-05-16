@@ -4,6 +4,7 @@ import type { CraftVersion } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
 import db from "@/services/db";
 import { getCraftAndEditingVersion } from "@/services/db/craft";
+import { syncNamedRanges } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
 import { genericApiError } from "@/lib/utils";
 
@@ -102,6 +103,10 @@ export async function PUT(
             unpublishedChanges: craft.craftVersions[0]?.publishedAt === null,
           };
         });
+
+      if (json.publish && updatedCraft.googleSheetsConnectionId) {
+        syncNamedRanges(updatedCraft.id);
+      }
 
       return [updatedCraft, updatedVersion];
     });
