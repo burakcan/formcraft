@@ -28,18 +28,16 @@ async function TableWrapper(props: Props) {
     partial = "false",
   } = props.searchParams;
 
-  const [data, versions] = await db.$transaction(async (tx) => {
-    const data = await listSubmissions(
-      props.params.form_id,
-      Math.abs(Number(page)) || 1,
-      Math.min(100, Math.max(0, Number(pageSize))),
-      search,
-      partial === "true",
-      tx
-    );
-    const versions = await getVersionsFromSubmissionsList(data.data, tx);
-    return [data, versions];
-  });
+  const data = await listSubmissions(
+    props.params.form_id,
+    Math.abs(Number(page)) || 1,
+    Math.min(100, Math.max(0, Number(pageSize))),
+    search,
+    partial === "true",
+    db
+  );
+
+  const versions = await getVersionsFromSubmissionsList(data.data, db);
 
   return <CraftResultsTable data={data} versions={versions} />;
 }
