@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import db from "@/services/db";
+import { appendSingleAnswer } from "@/services/sheetsConnector";
 import { genericApiError } from "@/lib/utils";
 
 export async function GET() {}
@@ -28,7 +29,7 @@ export async function PUT(
         throw new Error("Submission not found");
       }
 
-      return await tx.craftSubmission.update({
+      const updatedSubmission = await tx.craftSubmission.update({
         where: { id: submission_id },
         data: {
           data: {
@@ -37,6 +38,23 @@ export async function PUT(
           },
         },
       });
+
+      if (submission.data["end_screen"]?.value) {
+        const craft = await tx.craft.findUnique({
+          where: { id: updatedSubmission.craftId },
+          select: { googleSheetsConnectionId: true },
+        });
+
+        if (craft?.googleSheetsConnectionId) {
+          await appendSingleAnswer(
+            updatedSubmission.craftId,
+            updatedSubmission.id,
+            tx
+          );
+        }
+      }
+
+      return updatedSubmission;
     });
 
     return NextResponse.json(result);

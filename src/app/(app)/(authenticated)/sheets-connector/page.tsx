@@ -1,9 +1,14 @@
 "use server";
+
 import { auth } from "@clerk/nextjs";
 import { google } from "googleapis";
 import { RedirectType, redirect } from "next/navigation";
 import db from "@/services/db";
 import { getCraft } from "@/services/db/craft";
+import {
+  refreshTokenIfNeeded,
+  syncAllAnswers,
+} from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
 
 interface Props {
@@ -17,6 +22,13 @@ export default async function SheetsConnectorPage(props: Props) {
 
   if (!authData || userId === null) {
     throw new Error(ErrorType.Unauthorized);
+  }
+
+  if (!code) {
+    return redirect(
+      `/form/${craftId}/connect?sheetsConnected=false`,
+      RedirectType.replace
+    );
   }
 
   const oauth2Client = new google.auth.OAuth2(
@@ -69,6 +81,8 @@ export default async function SheetsConnectorPage(props: Props) {
     scope: sheetsAuthorization.scope || "",
   });
 
+  await refreshTokenIfNeeded(oauth2Client, sheetsAuthorization);
+
   const craft = await getCraft(craftId, userId, orgId);
 
   if (!craft) {
@@ -111,5 +125,10 @@ export default async function SheetsConnectorPage(props: Props) {
     },
   });
 
-  return redirect(`/form/${craftId}/connect`, RedirectType.replace);
+  await syncAllAnswers(craftId);
+
+  return redirect(
+    `/form/${craftId}/connect?sheetsConnected=true`,
+    RedirectType.replace
+  );
 }
