@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

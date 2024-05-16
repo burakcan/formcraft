@@ -1,21 +1,30 @@
-import { authMiddleware as createAuthMiddleware } from "@clerk/nextjs";
-import { type NextFetchEvent, type NextRequest } from "next/server";
+import {
+  clerkMiddleware as createClerkMiddleware,
+  createRouteMatcher,
+} from "@clerk/nextjs/server";
+import type { NextFetchEvent, NextRequest } from "next/server";
 
-const authMiddleware = createAuthMiddleware({
-  publicRoutes: [
-    "/",
-    "/api/webhooks/clerk",
-    "/api/webhooks/stripe",
-    "/forms/:form_id",
-    "/api/submission/:submission_id",
-  ],
-  debug: true,
+const isPublicRoute = createRouteMatcher([
+  "/sign-in",
+  "/sign-up",
+  "/",
+  "/api/webhooks/(.*)",
+  "/forms/(.*)",
+  "/api/submission/(.*)",
+]);
+
+const clerkMiddleware = createClerkMiddleware((auth, req) => {
+  if (!isPublicRoute(req)) {
+    auth().protect();
+  }
 });
 
 export default function middleware(req: NextRequest, event: NextFetchEvent) {
-  return authMiddleware(req, event);
+  return clerkMiddleware(req, event);
 }
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/"],
+  // The following matcher runs middleware on all routes
+  // except static assets.
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

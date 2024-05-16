@@ -24,9 +24,12 @@ export function Navbar() {
         afterCreateOrganizationUrl="/dashboard"
         afterSelectOrganizationUrl="/dashboard"
         appearance={{
+          layout: {
+            shimmer: false,
+          },
           elements: {
             rootBox:
-              "border rounded-lg p-1 pr-0 flex items-center hover:bg-accent",
+              "border rounded-lg py-1 px-0 flex items-center hover:bg-accent",
             organizationSwitcherTrigger: "hover:bg-transparent focus:ring-0",
           },
           variables: {},
@@ -41,9 +44,9 @@ export function Navbar() {
         </OrganizationProfile.Page>
       </OrganizationSwitcher>
       {!authData.isLoaded && (
-        <div className="w-56 cl-rootBox border rounded-lg p-1 pr-0 flex items-center hover:bg-accent cl-organizationSwitcher-root">
+        <div className=" w-[185.83px] cl-rootBox border rounded-lg py-2 px-2 flex items-center hover:bg-accent cl-organizationSwitcher-root">
           <div className="cl-userPreview cl-userPreview__personalWorkspace flex gap-2 items-center">
-            <Skeleton className="w-8 h-8 rounded-md bg-gray-200" />
+            <Skeleton className="w-5 h-5 rounded-md bg-gray-200" />
             <Skeleton className="w-24 h-4 ml-2 rounded-md bg-gray-200" />
           </div>
         </div>

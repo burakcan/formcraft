@@ -1,5 +1,5 @@
 import "server-only";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { nanoid } from "nanoid";
 import { ErrorType } from "@/lib/errors";
 import { builtinThemes } from "@/lib/themes";
