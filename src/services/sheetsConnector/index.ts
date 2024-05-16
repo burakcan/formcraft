@@ -1,7 +1,29 @@
-import type { GoogleSheetsAuthorization, PrismaClient } from "@prisma/client";
+import type {
+  CraftVersion,
+  GoogleSheetsAuthorization,
+  PrismaClient,
+} from "@prisma/client";
 import type { ITXClientDenyList } from "@prisma/client/runtime/library";
 import { google } from "googleapis";
 import db from "../db";
+
+function createSerialNum(secondDate: Date) {
+  var oneDay = 24 * 60 * 60 * 1000;
+  var firstDate = new Date(1899, 11, 30);
+  var secondDateMidnight = new Date(
+    secondDate.getFullYear(),
+    secondDate.getMonth(),
+    secondDate.getDate()
+  );
+  var diff = secondDate.getTime() - secondDateMidnight.getTime();
+  var left =
+    Math.round(
+      Math.abs((firstDate.getTime() - secondDate.getTime()) / oneDay)
+    ) - 1;
+  var right = diff / oneDay;
+  var result = left + right;
+  return result;
+}
 
 export async function refreshTokenIfNeeded(
   oauth2Client: InstanceType<typeof google.auth.OAuth2>,
@@ -173,24 +195,39 @@ export async function syncNamedRanges(
 export async function syncAllAnswers(craftId: string) {
   await syncNamedRanges(craftId);
 
-  const [answers, connection] = await db.$transaction(async (tx) => {
-    const craft = await tx.craft.findUnique({
-      where: { id: craftId },
-      include: { googleSheetsConnection: true },
-    });
+  const [answers, connection, versionsById] = await db.$transaction(
+    async (tx) => {
+      const craft = await tx.craft.findUnique({
+        where: { id: craftId },
+        include: { googleSheetsConnection: true },
+      });
 
-    const connection = craft?.googleSheetsConnection;
+      const connection = craft?.googleSheetsConnection;
 
-    if (!connection) {
-      throw new Error("Connection not found");
+      if (!connection) {
+        throw new Error("Connection not found");
+      }
+
+      const answers = await tx.craftSubmission.findMany({
+        where: { craftId, data: { not: {} } },
+      });
+
+      const versionIds = new Set(answers.map((a) => a.craftVersionId));
+
+      const versions = await tx.craftVersion.findMany({
+        where: {
+          id: { in: Array.from(versionIds) },
+        },
+      });
+
+      const versionsById = versions.reduce((acc, v) => {
+        acc[v.id] = v;
+        return acc;
+      }, {} as Record<string, CraftVersion>);
+
+      return [answers, connection, versionsById];
     }
-
-    const answers = await tx.craftSubmission.findMany({
-      where: { craftId, data: { not: {} } },
-    });
-
-    return [answers, connection];
-  });
+  );
 
   const oauth2Client = await getOAuth2Client(craftId);
   const sheets = google.sheets({ version: "v4", auth: oauth2Client });
@@ -220,12 +257,24 @@ export async function syncAllAnswers(craftId: string) {
       }
 
       if (name === "created_at") {
-        row[columnIndex] = answer.createdAt.toJSON();
+        // to
+        row[columnIndex] = createSerialNum(answer.createdAt).toString();
         return;
       }
 
-      row[columnIndex] =
+      const page = versionsById[answer.craftVersionId].data.pages.find(
+        (p) => p.id === name
+      );
+
+      let value =
         (answer.data[name]?.value && String(answer.data[name].value)) || "";
+
+      if (page?.type === "choices") {
+        const choice = page.options.find((o) => o.id === value);
+        value = choice?.label || "";
+      }
+
+      row[columnIndex] = value;
     });
     return row;
   });
@@ -270,6 +319,10 @@ export async function appendSingleAnswer(
     throw new Error("Answer not found");
   }
 
+  const version = await tx.craftVersion.findUnique({
+    where: { id: answer.craftVersionId },
+  });
+
   const oauth2Client = await getOAuth2Client(craftId);
   const sheets = google.sheets({ version: "v4", auth: oauth2Client });
   const sheet = await sheets.spreadsheets.get({
@@ -291,13 +344,22 @@ export async function appendSingleAnswer(
   Object.keys(namedRangeColumnMap).forEach((name) => {
     const columnIndex = namedRangeColumnMap[name];
     if (name === "created_at") {
-      row[columnIndex] = answer.createdAt.toJSON();
+      row[columnIndex] = createSerialNum(answer.createdAt).toString();
       return;
     }
 
-    // Ensure the row has enough columns
-    row[columnIndex] =
+    let value =
       (answer.data[name]?.value && String(answer.data[name].value)) || "";
+
+    const page = version?.data.pages.find((p) => p.id === name);
+
+    if (page?.type === "choices") {
+      const choice = page.options.find((o) => o.id === value);
+      value = choice?.label || "";
+    }
+
+    // Ensure the row has enough columns
+    row[columnIndex] = value;
   });
 
   // Append the row to the sheet
