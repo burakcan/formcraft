@@ -4,11 +4,8 @@ import type { ITXClientDenyList } from "@prisma/client/runtime/library";
 import { ErrorType } from "@/lib/errors";
 import db from ".";
 
-export async function getCraftWithLiveVersion(
-  formId: string,
-  tx?: Omit<PrismaClient, ITXClientDenyList>
-) {
-  return (tx || db).craft.findUnique({
+export async function getCraftWithLiveVersion(formId: string) {
+  return db.craft.findUnique({
     where: { id: formId },
     include: {
       craftVersions: {
@@ -35,8 +32,7 @@ export async function createSubmission(
 }
 
 export async function getVersionsFromSubmissionsList(
-  submissions: CraftSubmission[],
-  tx?: Omit<PrismaClient, ITXClientDenyList>
+  submissions: CraftSubmission[]
 ) {
   const authData = auth();
   const { userId, orgId } = authData;
@@ -47,7 +43,7 @@ export async function getVersionsFromSubmissionsList(
 
   const versionIds = submissions.map((s) => s.craftVersionId);
 
-  return (tx || db).craftVersion.findMany({
+  return db.craftVersion.findMany({
     where: {
       id: { in: versionIds },
       craft: {
@@ -59,13 +55,12 @@ export async function getVersionsFromSubmissionsList(
   });
 }
 
-export async function listSubmissions(
+export async function listSubmissions<PS extends number | undefined>(
   formId: string,
   page: number,
-  pageSize: number,
+  pageSize: PS,
   search?: string,
-  includePartial?: boolean,
-  tx?: Omit<PrismaClient, ITXClientDenyList>
+  includePartial?: boolean
 ) {
   const authData = auth();
   const { userId, orgId } = authData;
@@ -86,14 +81,14 @@ export async function listSubmissions(
     },
   };
 
-  const allCount = await (tx || db).craftSubmission.count({
+  const allCount = await db.craftSubmission.count({
     where,
   });
 
-  const pageData = await (tx || db).craftSubmission.findMany({
+  const pageData = await db.craftSubmission.findMany({
     where,
     orderBy: { createdAt: "desc" },
-    skip: (page - 1) * pageSize,
+    skip: pageSize ? (page - 1) * pageSize : undefined,
     take: pageSize,
   });
 

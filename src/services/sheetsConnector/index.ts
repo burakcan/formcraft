@@ -195,39 +195,33 @@ export async function syncNamedRanges(
 export async function syncAllAnswers(craftId: string) {
   await syncNamedRanges(craftId);
 
-  const [answers, connection, versionsById] = await db.$transaction(
-    async (tx) => {
-      const craft = await tx.craft.findUnique({
-        where: { id: craftId },
-        include: { googleSheetsConnection: true },
-      });
+  const craft = await db.craft.findUnique({
+    where: { id: craftId },
+    include: {
+      googleSheetsConnection: {
+        select: { sheetId: true },
+      },
+      craftSubmissions: {
+        where: { data: { not: {} } },
+        include: { craftVersion: true },
+      },
+    },
+  });
 
-      const connection = craft?.googleSheetsConnection;
+  const connection = craft?.googleSheetsConnection;
 
-      if (!connection) {
-        throw new Error("Connection not found");
-      }
+  if (!connection) {
+    throw new Error("Connection not found");
+  }
 
-      const answers = await tx.craftSubmission.findMany({
-        where: { craftId, data: { not: {} } },
-      });
+  const answers = craft.craftSubmissions;
+  const versionsById: Record<string, CraftVersion> = {};
 
-      const versionIds = new Set(answers.map((a) => a.craftVersionId));
-
-      const versions = await tx.craftVersion.findMany({
-        where: {
-          id: { in: Array.from(versionIds) },
-        },
-      });
-
-      const versionsById = versions.reduce((acc, v) => {
-        acc[v.id] = v;
-        return acc;
-      }, {} as Record<string, CraftVersion>);
-
-      return [answers, connection, versionsById];
+  for (const answer of answers) {
+    if (!versionsById[answer.craftVersionId]) {
+      versionsById[answer.craftVersionId] = answer.craftVersion;
     }
-  );
+  }
 
   const oauth2Client = await getOAuth2Client(craftId);
   const sheets = google.sheets({ version: "v4", auth: oauth2Client });

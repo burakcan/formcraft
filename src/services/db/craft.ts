@@ -62,10 +62,8 @@ export async function getCraftAndEditingVersion(craft_id: string) {
     throw new Error(ErrorType.Unauthorized);
   }
 
-  const [craft, editingVersion] = await db.$transaction([
-    getCraft(craft_id, userId, orgId),
-    getWorkingCraftVersion(craft_id, userId, orgId),
-  ]);
+  const craft = await getCraft(craft_id, userId, orgId);
+  const editingVersion = await getWorkingCraftVersion(craft_id, userId, orgId);
 
   if (!editingVersion || !craft) {
     throw new Error(ErrorType.Not_Found);

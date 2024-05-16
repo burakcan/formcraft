@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { LayoutWithTopbar } from "@/components/AppChrome";
 import { CraftBuilderTopBar } from "@/components/CraftBuilder";
 import { CraftResultsTable } from "@/components/CraftResults";
-import db from "@/services/db";
 import {
   getVersionsFromSubmissionsList,
   listSubmissions,
@@ -33,11 +32,10 @@ async function TableWrapper(props: Props) {
     Math.abs(Number(page)) || 1,
     Math.min(100, Math.max(0, Number(pageSize))),
     search,
-    partial === "true",
-    db
+    partial === "true"
   );
 
-  const versions = await getVersionsFromSubmissionsList(data.data, db);
+  const versions = await getVersionsFromSubmissionsList(data.data);
 
   return <CraftResultsTable data={data} versions={versions} />;
 }

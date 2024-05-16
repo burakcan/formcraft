@@ -104,18 +104,19 @@ export async function PUT(
           };
         });
 
-      if (json.publish && updatedCraft.googleSheetsConnectionId) {
-        syncNamedRanges(updatedCraft.id);
-      }
-
       return [updatedCraft, updatedVersion];
     });
+
+    if (json.publish && craft.googleSheetsConnectionId) {
+      await syncNamedRanges(craft.id);
+    }
 
     return NextResponse.json({
       craft,
       version,
     });
   } catch (error) {
+    console.log(error);
     return genericApiError(error);
   }
 }
