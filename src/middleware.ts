@@ -9,6 +9,7 @@ const authMiddleware = createAuthMiddleware({
     "/forms/:form_id",
     "/api/submission/:submission_id",
   ],
+  debug: true,
 });
 
 export default function middleware(req: NextRequest, event: NextFetchEvent) {
