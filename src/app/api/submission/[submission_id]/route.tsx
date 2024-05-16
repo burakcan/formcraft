@@ -26,6 +26,7 @@ export async function PUT(
       });
 
       if (!submission) {
+        console.log("Submission not found", submission_id);
         throw new Error("Submission not found");
       }
 
@@ -59,6 +60,7 @@ export async function PUT(
 
     return NextResponse.json(result);
   } catch (e) {
+    console.log("Error in submission/[submission_id]/route.tsx", e);
     return genericApiError(e);
   }
 }
