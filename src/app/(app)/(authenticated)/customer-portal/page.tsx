@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { RedirectType, redirect } from "next/navigation";
 import { createCustomerPortalSession } from "@/services/stripe/server";
 

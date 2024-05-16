@@ -1,5 +1,5 @@
 import "server-only";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import type { EmailConnection, WebhookConnection } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
 import db from "@/services/db";

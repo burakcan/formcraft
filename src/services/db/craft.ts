@@ -1,5 +1,5 @@
 import "server-only";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { ErrorType } from "@/lib/errors";
 import db from ".";
 

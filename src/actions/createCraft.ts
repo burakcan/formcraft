@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import db from "@/services/db";

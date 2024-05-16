@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { google } from "googleapis";
 import { NextResponse, type NextRequest } from "next/server";
 import { getCraft } from "@/services/db/craft";
