@@ -17,6 +17,11 @@ export function useCraftMutation() {
   const mutation = useMutation({
     mutationKey: ["craft", craft.id],
     mutationFn: async (publish: boolean) => {
+      setCraftQueryData(queryClient, craft.id, {
+        craft,
+        editingVersion,
+      });
+
       const response = await fetch(`/api/form/${craft.id}`, {
         method: "PUT",
         body: JSON.stringify({
@@ -33,15 +38,23 @@ export function useCraftMutation() {
       return response.json();
     },
     onSuccess: (response) => {
-      setTimeout(() => {
-        mutation.reset();
-      }, 3000);
-
       invalidateCraftsListingQuery(queryClient);
 
-      setCraftQueryData(queryClient, craft.id, {
-        craft: response.craft,
-        editingVersion: response.version,
+      setCraftQueryData(queryClient, craft.id, (prev) => {
+        return {
+          ...prev,
+          craft: {
+            ...prev.craft,
+            unpublishedChanges: response.craft.unpublishedChanges,
+            archivedAt: response.craft.archivedAt,
+            published: response.craft.published,
+          },
+          editingVersion: {
+            ...prev.editingVersion,
+            id: response.version.id,
+            publishedAt: response.version.publishedAt,
+          },
+        };
       });
     },
 

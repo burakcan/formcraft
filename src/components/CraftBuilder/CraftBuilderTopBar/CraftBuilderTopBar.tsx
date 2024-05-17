@@ -8,7 +8,6 @@ import { CraftName } from "./CraftName";
 import { CraftStatusBadge } from "./CraftStatusBadge";
 import { PreviewButton } from "./PreviewButton";
 import { SaveAndPublishButton } from "./SaveAndPublishButton";
-import { SaveButton } from "./SaveButton";
 import { UndoRedo } from "./UndoRedo";
 
 interface Props {
@@ -16,7 +15,6 @@ interface Props {
   activeTab: "create" | "flow" | "connect" | "share" | "results";
   hideUndoRedo?: boolean;
   hidePreview?: boolean;
-  hideSave?: boolean;
 }
 
 export function CraftBuilderTopBar(props: Props) {
@@ -25,7 +23,6 @@ export function CraftBuilderTopBar(props: Props) {
     activeTab,
     hideUndoRedo = false,
     hidePreview = false,
-    hideSave = false,
   } = props;
 
   return (
@@ -69,7 +66,6 @@ export function CraftBuilderTopBar(props: Props) {
       <div className="flex gap-2 pr-4 justify-end">
         {!hideUndoRedo && <UndoRedo />}
         {!hidePreview && <PreviewButton />}
-        {!hideSave && <SaveButton />}
         <SaveAndPublishButton />
       </div>
     </TopBar>

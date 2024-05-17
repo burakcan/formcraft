@@ -68,7 +68,6 @@ export async function PUT(
             id: ctx.params.form_id,
             organizationId: orgId || undefined,
             userId: !orgId ? userId : undefined,
-            updatedAt: json.craft.updatedAt,
           },
           data: {
             title: json.craft.title,
