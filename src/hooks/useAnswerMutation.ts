@@ -17,9 +17,9 @@ export function useAnswerMutation(submissionId?: string, pageId?: string) {
         throw new Error("Network response was not ok");
       }
     },
-    /* @ts-ignore-next-line */
+
     scope: {
-      id: submissionId,
+      id: submissionId || "preview",
     },
   });
 
