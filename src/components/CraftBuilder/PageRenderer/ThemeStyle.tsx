@@ -5,13 +5,15 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 interface Props {
   theme: CraftTheme;
   pageId?: string;
+  additionalSelectors?: string;
 }
 
 export function ThemeStyle(props: Props) {
-  const { theme, pageId } = props;
+  const { theme, pageId, additionalSelectors } = props;
 
   const styleContent = useMemo(
     () => `
+  ${additionalSelectors ? additionalSelectors + "," : ""}
   .craft-renderer${pageId ? `#${pageId}` : ""} {
     --craft-background: ${theme.backgroundColor};
     --craft-title: ${theme.titleColor};
@@ -32,7 +34,7 @@ export function ThemeStyle(props: Props) {
     --tw-prose-kbd: ${theme.descriptionColor};
     --tw-prose-kbd-shadows: ${HSLToRGB(theme.descriptionColor)};
   }`,
-    [theme, pageId]
+    [theme, pageId, additionalSelectors]
   );
 
   return (

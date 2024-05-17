@@ -44,7 +44,12 @@ export function CraftViewer() {
   return (
     <div
       className={`
+          craft-viewer-root
           fixed
+          text-craft
+          bg-craft-background
+          transition-colors
+          duration-300
           max-w-full
           max-h-full
           size-full
@@ -105,6 +110,7 @@ export function CraftViewer() {
             <ThemeStyle
               theme={theme}
               pageId={currentPage.id.replaceAll("-", "_")}
+              additionalSelectors=".craft-viewer-root"
             />
             {"document" in global && (
               <FontPicker
