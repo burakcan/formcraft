@@ -11,13 +11,13 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EditorContent } from "@tiptap/react";
 import { ImageIcon, PlusIcon, XIcon } from "lucide-react";
-import { nanoid } from "nanoid";
 import { useState, type PointerEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { ImageLibrary } from "@/components/CraftBuilder/ImageLibrary/ImageLibrary";
 import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
 import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 import { useChoiceOptionEditor } from "@/hooks/useChoiceOptionEditor";
+import { getOptionID } from "@/lib/getID";
 import { cn } from "@/lib/utils";
 import { ChoiceLetter } from "./ChoiceLetter";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
@@ -296,7 +296,7 @@ export function ChoiceOptionsEditor<
                 ...options,
                 {
                   label: `Option ${options.length + 1}`,
-                  id: nanoid(3),
+                  id: getOptionID(),
                   image: null,
                 },
               ],

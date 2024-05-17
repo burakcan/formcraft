@@ -1,5 +1,4 @@
 import { CheckIcon, LoaderCircle } from "lucide-react";
-import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useSaveCustomThemeMutation } from "@/hooks/useSaveCustomThemeMutation";
+import { getThemeID } from "@/lib/getID";
 import { ThemeCard } from "./ThemeCard";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
@@ -50,7 +50,7 @@ export function NewThemeModal(props: Props) {
     mutation.mutate(
       {
         ...data,
-        id: nanoid(5),
+        id: getThemeID(),
         name: values.themeName,
       },
       {

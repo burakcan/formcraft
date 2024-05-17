@@ -7,10 +7,6 @@ import type { ITXClientDenyList } from "@prisma/client/runtime/library";
 import { google } from "googleapis";
 import db from "../db";
 
-function createRangeName(pageId: string) {
-  return `page_${pageId}`;
-}
-
 function createSerialNum(secondDate: Date) {
   var oneDay = 24 * 60 * 60 * 1000;
   var firstDate = new Date(1899, 11, 30);
@@ -158,8 +154,7 @@ export async function syncNamedRanges(
   const existingNamedRanges = sheet.data.namedRanges || [];
 
   const missingNamedRanges = Array.from(allPageIds).filter(
-    (pageId) =>
-      !existingNamedRanges.some((nr) => nr.name === createRangeName(pageId))
+    (pageId) => !existingNamedRanges.some((nr) => nr.name === pageId)
   );
 
   if (missingNamedRanges.length === 0) {
@@ -172,7 +167,7 @@ export async function syncNamedRanges(
       requests: missingNamedRanges.map((pageId, index) => ({
         addNamedRange: {
           namedRange: {
-            name: createRangeName(pageId),
+            name: pageId,
             range: {
               sheetId: sheet.data.sheets![0].properties!.sheetId!,
               startRowIndex: 0,
@@ -189,7 +184,7 @@ export async function syncNamedRanges(
     spreadsheetId: connection.sheetId,
     requestBody: {
       data: missingNamedRanges.map((pageId) => ({
-        range: createRangeName(pageId),
+        range: pageId,
         values: [[rangeHeaders[pageId]]],
       })),
       valueInputOption: "USER_ENTERED",
@@ -270,7 +265,7 @@ export async function syncAllAnswers(craftId: string) {
       }
 
       const page = versionsById[answer.craftVersionId].data.pages.find(
-        (p) => createRangeName(p.id) === name
+        (p) => p.id === name
       );
 
       let value =

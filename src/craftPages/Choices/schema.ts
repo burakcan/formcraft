@@ -1,5 +1,5 @@
-import { nanoid } from "nanoid";
 import { z } from "zod";
+import { getOptionID } from "@/lib/getID";
 import { basePage } from "../schemas/basePage";
 import { themeImage } from "../schemas/theming";
 
@@ -21,7 +21,7 @@ export const choicesEditorSchema = basePage.extend({
         image: themeImage.nullable(),
       })
     )
-    .default([{ label: "Option 1", id: nanoid(3), image: null }]),
+    .default([{ label: "Option 1", id: getOptionID(), image: null }]),
 });
 
 export type Choices = z.infer<typeof choicesEditorSchema>;

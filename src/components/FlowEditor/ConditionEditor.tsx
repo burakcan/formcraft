@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getConditionID } from "@/lib/getID";
 
 interface Props {
   onConfirm: (condition: FormCraft.BranchingCondition) => void;
@@ -54,7 +54,7 @@ export function ConditionEditor(props: Props) {
   const { onConfirm, trigger, condition } = props;
   const form = useForm<FormCraft.BranchingCondition>({
     defaultValues: condition || {
-      id: nanoid(5),
+      id: getConditionID(),
       source: "input",
       condition: "eq",
       value: "",
@@ -73,7 +73,7 @@ export function ConditionEditor(props: Props) {
       onOpenChange={() => {
         form.reset(
           condition || {
-            id: nanoid(5),
+            id: getConditionID(),
             source: "input",
             condition: "eq",
             value: "",

@@ -2,7 +2,6 @@
 
 import { Reorder } from "framer-motion";
 import { PlusIcon } from "lucide-react";
-import { nanoid } from "nanoid";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { getPageID } from "@/lib/getID";
 import { PageLibrary } from "../PageLibrary";
 import { ContentItem } from "./ContentItem";
 import { craftPageDefinitions } from "@/craftPages";
@@ -42,7 +42,7 @@ export function ContentSidebar() {
   };
 
   const handleAddEnding = () => {
-    const id = nanoid(5);
+    const id = getPageID();
 
     addPage(
       craftPageDefinitions.end_screen.editorSchema.parse({

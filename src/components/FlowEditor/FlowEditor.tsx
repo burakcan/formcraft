@@ -2,7 +2,6 @@
 
 import "reactflow/dist/style.css";
 import { LayoutGridIcon } from "lucide-react";
-import { nanoid } from "nanoid";
 import { useCallback, useRef, useState } from "react";
 import type {
   Edge,
@@ -23,6 +22,7 @@ import ReactFlow, {
 } from "reactflow";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { useFlowEditorAutoLayout } from "@/hooks/useFlowEditorAutoLayout";
+import { getNodeID } from "@/lib/getID";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { edgeTypes } from "./Edges";
@@ -87,7 +87,7 @@ export function FlowEditor() {
       });
 
       const newNode = {
-        id: nanoid(5),
+        id: getNodeID(),
         type,
         position,
         data: {},
