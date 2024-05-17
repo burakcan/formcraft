@@ -1,13 +1,49 @@
 "use client";
 
+import { debounce } from "lodash";
 import { CheckIcon, LoaderCircle, SaveIcon } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useCraftMutation } from "@/hooks/useCraftMutation";
-import { useEditCraftStoreTemporal } from "@/hooks/useEditCraftStore";
+import { useCraftQuery } from "@/hooks/useCraftQuery";
+import {
+  useEditCraftStore,
+  useEditCraftStoreTemporal,
+} from "@/hooks/useEditCraftStore";
 
 export function SaveButton() {
-  const dirty = useEditCraftStoreTemporal((s) => s.pastStates.length > 0);
+  const futureStates = useEditCraftStoreTemporal((s) => s.futureStates);
+  const { craft, version } = useEditCraftStore((s) => ({
+    craft: s.craft,
+    version: s.editingVersion,
+  }));
+
   const mutation = useCraftMutation();
+  const query = useCraftQuery(craft.id);
+
+  const dirty =
+    query.data?.craft !== craft || query.data?.editingVersion !== version;
+
+  // auto save
+  useEffect(() => {
+    if (!dirty) {
+      return;
+    }
+
+    const save = debounce(() => {
+      if (mutation.status === "pending" || futureStates.length > 0) {
+        return;
+      }
+
+      mutation.mutate(false);
+    }, 500);
+
+    save();
+
+    return () => {
+      save.cancel();
+    };
+  }, [dirty, futureStates.length, mutation]);
 
   return (
     <Button

@@ -36,6 +36,8 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
       return;
     }
 
+    storeRef.current.temporal.getState().pause();
+
     storeRef.current.setState((state) => {
       return {
         ...serverStoreData,
@@ -45,7 +47,7 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
       };
     });
 
-    storeRef.current.temporal.getState().clear();
+    storeRef.current.temporal.getState().resume();
   }, [serverStoreData]);
 
   return (
