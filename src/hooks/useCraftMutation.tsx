@@ -44,6 +44,10 @@ export function useCraftMutation() {
         editingVersion: response.version,
       });
     },
+
+    scope: {
+      id: craft.id,
+    },
   });
 
   return useMemo(
