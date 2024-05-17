@@ -1,5 +1,4 @@
 import { ImagesIcon, PlusIcon } from "lucide-react";
-import { nanoid } from "nanoid";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { getPageID } from "@/lib/getID";
 import { cn } from "@/lib/utils";
 import { craftPageDefinitions } from "@/craftPages";
 
@@ -58,7 +58,7 @@ export function PageLibrary() {
     type: FormCraft.CraftPage["type"],
     defaults: Partial<FormCraft.CraftPage> = {}
   ) => {
-    const id = nanoid(5);
+    const id = getPageID();
 
     const common = {
       id,

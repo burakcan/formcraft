@@ -1,10 +1,10 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 import db from "@/services/db";
 import { ErrorType } from "@/lib/errors";
+import { getEdgeID, getPageID } from "@/lib/getID";
 import { craftPageDefinitions } from "@/craftPages";
 
 export async function createCraft() {
@@ -15,14 +15,14 @@ export async function createCraft() {
   }
 
   const welcomePage = craftPageDefinitions.statement.editorSchema.parse({
-    id: nanoid(5),
+    id: getPageID(),
     title: "Welcome to My Form",
     description: "This is a form created with FormCraft.",
     cta: "Let's get started!",
   });
 
   const endScreen = craftPageDefinitions.end_screen.editorSchema.parse({
-    id: nanoid(5),
+    id: getPageID(),
     title: "Thank you for completing the form!",
     description: "Your responses have been submitted.",
   });
@@ -55,7 +55,7 @@ export async function createCraft() {
               ],
               edges: [
                 {
-                  id: nanoid(5),
+                  id: getEdgeID(),
                   source: welcomePage.id,
                   sourceHandle: "output",
                   target: endScreen.id,
