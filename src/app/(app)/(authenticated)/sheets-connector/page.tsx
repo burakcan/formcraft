@@ -21,15 +21,19 @@ export default async function SheetsConnectorPage(props: Props) {
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
+    console.log("Unauthorized");
     throw new Error(ErrorType.Unauthorized);
   }
 
   if (!code) {
+    console.log("No code provided");
     return redirect(
       `/form/${craftId}/connect?sheetsConnected=false`,
       RedirectType.replace
     );
   }
+
+  console.log("Proceed to create oauth2Client", userId);
 
   const oauth2Client = new google.auth.OAuth2(
     process.env.SHEETS_CONNECTOR_CLIENT_ID,
@@ -37,22 +41,37 @@ export default async function SheetsConnectorPage(props: Props) {
     process.env.SHEETS_CONNECTOR_REDIRECT_URI
   );
 
+  console.log("Created oauth2client", userId);
+  console.log("Getting tokens", userId);
+
   const { tokens } = await oauth2Client.getToken(code);
 
+  console.log("Finished getting tokens", userId);
+
   if (!tokens || !tokens.access_token || !tokens.id_token) {
+    console.log("No tokens provided", userId);
     throw new Error(ErrorType.Unauthorized);
   }
+
+  console.log("Verifying id token", userId);
 
   const loginTicket = await oauth2Client.verifyIdToken({
     idToken: tokens.id_token,
     audience: process.env.SHEETS_CONNECTOR_CLIENT_ID,
   });
 
+  console.log("Finished verifying id token", userId);
+
   const googleUserId = loginTicket.getUserId();
 
+  console.log("Google user id", googleUserId);
+
   if (!googleUserId) {
+    console.log("No google user id", userId);
     throw new Error(ErrorType.Unauthorized);
   }
+
+  console.log("Finding sheets authorization", userId);
 
   let sheetsAuthorization = await db.googleSheetsAuthorization.findFirst({
     where: {
@@ -61,6 +80,7 @@ export default async function SheetsConnectorPage(props: Props) {
   });
 
   if (!sheetsAuthorization) {
+    console.log("Creating sheets authorization", userId);
     sheetsAuthorization = await db.googleSheetsAuthorization.create({
       data: {
         id_token: googleUserId,
@@ -73,6 +93,8 @@ export default async function SheetsConnectorPage(props: Props) {
     });
   }
 
+  console.log("Setting credentials", userId);
+
   oauth2Client.setCredentials({
     access_token: sheetsAuthorization.access_token,
     refresh_token: sheetsAuthorization.refresh_token || "",
@@ -81,18 +103,27 @@ export default async function SheetsConnectorPage(props: Props) {
     scope: sheetsAuthorization.scope || "",
   });
 
+  console.log("Refreshing token if needed", userId);
+
   await refreshTokenIfNeeded(oauth2Client, sheetsAuthorization);
+
+  console.log("Getting craft", userId);
 
   const craft = await getCraft(craftId, userId, orgId);
 
   if (!craft) {
+    console.log("Craft not found", userId);
     throw new Error(ErrorType.Not_Found);
   }
+
+  console.log("Creating sheet client", userId);
 
   const sheetsClient = google.sheets({
     version: "v4",
     auth: oauth2Client,
   });
+
+  console.log("Creating sheet", userId);
 
   const sheet = await sheetsClient.spreadsheets.create({
     requestBody: {
@@ -101,8 +132,11 @@ export default async function SheetsConnectorPage(props: Props) {
   });
 
   if (!sheet.data.spreadsheetId) {
+    console.log("No spreadsheet id", userId);
     throw new Error(ErrorType.Unauthorized);
   }
+
+  console.log("Updating craft", userId);
 
   await db.craft.update({
     where: {
@@ -125,7 +159,11 @@ export default async function SheetsConnectorPage(props: Props) {
     },
   });
 
+  console.log("Syncing all answers", userId);
+
   await syncAllAnswers(craftId);
+
+  console.log("Everything succeeded", userId);
 
   return redirect(
     `/form/${craftId}/connect?sheetsConnected=true`,

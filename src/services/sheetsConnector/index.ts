@@ -193,7 +193,10 @@ export async function syncNamedRanges(
 }
 
 export async function syncAllAnswers(craftId: string) {
+  console.log("Syncing all answers for craft", craftId);
   await syncNamedRanges(craftId);
+
+  console.log("Named ranges synced for craft", craftId);
 
   const craft = await db.craft.findUnique({
     where: { id: craftId },
@@ -208,11 +211,16 @@ export async function syncAllAnswers(craftId: string) {
     },
   });
 
+  console.log("Got craft", craftId);
+
   const connection = craft?.googleSheetsConnection;
 
   if (!connection) {
+    console.log("Connection not found", craftId);
     throw new Error("Connection not found");
   }
+
+  console.log("Got connection", craftId);
 
   const answers = craft.craftSubmissions;
   const versionsById: Record<string, CraftVersion> = {};
