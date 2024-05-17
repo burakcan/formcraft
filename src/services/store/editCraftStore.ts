@@ -56,10 +56,7 @@ export type EditCraftStoreActions = {
 
 export type EditCraftStore = EditCraftStoreState & EditCraftStoreActions;
 export type TemporalEditCraftStore = TemporalState<
-  Omit<
-    EditCraftStoreState,
-    "selectedPageId" | "defaultThemeForNewPages" | "defaultLogoForNewPages"
-  >
+  Partial<Omit<EditCraftStoreState, "selectedPageId">>
 >;
 
 export const createEditCraftStore = (initialData: EditCraftStoreState) => {
