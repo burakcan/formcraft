@@ -498,7 +498,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
         handleSet: (handleSet) =>
           debounce(handleSet, 500, { leading: true, trailing: false }),
         partialize: (state) => {
-          return omit(state, ["selectedPageId"]);
+          return omit(state, ["selectedPageId", "craft.updatedAt"]);
         },
       }
     )

@@ -10,6 +10,8 @@ export function SavingOverlay() {
     filters: { mutationKey: ["craft", craftId], status: "pending" },
   });
 
+  return null;
+
   return (
     <AnimatePresence>
       {Boolean(pendingMutation) && (

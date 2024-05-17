@@ -4,7 +4,8 @@ import type Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ComponentProps, PropsWithChildren } from "react";
 import { createContext, useEffect, useState } from "react";
-import { useEditCraftStoreTemporal } from "@/hooks/useEditCraftStore";
+import { useCraftQuery } from "@/hooks/useCraftQuery";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { BlockerModal } from "./BlockerModal";
 
 interface CraftNavigationBlockContextProps {
@@ -27,7 +28,15 @@ export function CraftNavigationBlockProvider(props: PropsWithChildren) {
   const [showModal, setShowModal] = useState(false);
   const [targetHref, setTargetHref] =
     useState<ComponentProps<typeof Link>["href"]>();
-  const dirty = useEditCraftStoreTemporal((s) => s.pastStates.length > 0);
+
+  const { craft, version } = useEditCraftStore((s) => ({
+    craft: s.craft,
+    version: s.editingVersion,
+  }));
+  const query = useCraftQuery(craft.id);
+
+  const dirty =
+    query.data?.craft !== craft || query.data?.editingVersion !== version;
 
   useEffect(() => {
     const dirtyCallback = (e: BeforeUnloadEvent) => {
