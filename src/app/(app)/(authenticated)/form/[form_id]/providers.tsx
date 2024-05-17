@@ -2,8 +2,9 @@
 
 import type { PropsWithChildren } from "react";
 import { useEffect, useMemo, useRef } from "react";
+import { AutoSave } from "@/components/CraftBuilder/AutoSave";
 import { CraftNavigationBlockProvider } from "@/components/CraftNavigationBlock";
-import { SavingOverlay } from "@/components/SavingOverlay";
+import { PublishingOverlay } from "@/components/PublishingOverlay";
 import { useCraftQuery } from "@/hooks/useCraftQuery";
 import {
   EditCraftStoreContext,
@@ -19,8 +20,6 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
       craft: queryData!.craft,
       editingVersion: queryData!.editingVersion,
       selectedPageId: queryData!.editingVersion?.data.pages[0].id,
-      defaultThemeForNewPages: undefined,
-      defaultLogoForNewPages: undefined,
     }),
     [queryData]
   );
@@ -53,7 +52,8 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
   return (
     <EditCraftStoreContext.Provider value={storeRef.current}>
       <CraftNavigationBlockProvider>
-        <SavingOverlay />
+        <PublishingOverlay />
+        <AutoSave />
         {props.children}
       </CraftNavigationBlockProvider>
     </EditCraftStoreContext.Provider>

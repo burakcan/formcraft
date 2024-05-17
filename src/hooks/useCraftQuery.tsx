@@ -28,10 +28,15 @@ export function invalidateCraftQuery(queryClient: QueryClient, id: string) {
 export function setCraftQueryData(
   queryClient: QueryClient,
   id: string,
-  data: {
-    craft: FormCraft.Craft;
-    editingVersion: CraftVersion;
-  }
+  data:
+    | {
+        craft: FormCraft.Craft;
+        editingVersion: CraftVersion;
+      }
+    | ((prev: { craft: FormCraft.Craft; editingVersion: CraftVersion }) => {
+        craft: FormCraft.Craft;
+        editingVersion: CraftVersion;
+      })
 ) {
   queryClient.setQueryData([craftQueryKey, id], data);
 }

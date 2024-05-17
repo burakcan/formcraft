@@ -3,18 +3,23 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { cn } from "@/lib/utils";
 
-export function SavingOverlay() {
+export function PublishingOverlay() {
   const { craftId } = useEditCraftStore((s) => ({ craftId: s.craft.id }));
 
-  const [pendingMutation] = useMutationState({
+  const mutations = useMutationState({
     filters: { mutationKey: ["craft", craftId], status: "pending" },
   });
 
-  return null;
+  // pendingMutation.variables is the variables that were passed to the mutation
+  // in this case it's the publish boolean
+
+  const isPublishing = mutations.some(
+    (mutation) => mutation.variables === true
+  );
 
   return (
     <AnimatePresence>
-      {Boolean(pendingMutation) && (
+      {isPublishing && (
         <motion.div
           className={cn("fixed inset-0 z-50")}
           initial={{ opacity: 0 }}
