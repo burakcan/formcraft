@@ -287,7 +287,7 @@ export async function syncAllAnswers(craftId: string) {
     requestBody: {
       data: [
         {
-          range: `Sheet1!A2`, // Assuming the data should start from the second row
+          range: `${sheet.data.sheets![0].properties?.title || "Sheet1"}!A2`, // Assuming the data should start from the second row
           majorDimension: "ROWS",
           values: rows,
         },
@@ -367,7 +367,8 @@ export async function appendSingleAnswer(
   // Append the row to the sheet
   await sheets.spreadsheets.values.append({
     spreadsheetId: connection.sheetId,
-    range: `Sheet1`, // Assuming we're appending to the first sheet
+    // range: `Sheet1`, // Assuming we're appending to the first sheet
+    range: sheet.data.sheets![0].properties?.title || "Sheet1",
     valueInputOption: "USER_ENTERED",
     requestBody: {
       values: [row],
