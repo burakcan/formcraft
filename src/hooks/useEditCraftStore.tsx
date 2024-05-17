@@ -10,27 +10,27 @@ import { EditCraftStoreContext } from "@/services/store/editCraftStore";
 export const useEditCraftStore = <T,>(
   selector: (store: EditCraftStore) => T
 ): T => {
-  const counterStoreContext = useContext(EditCraftStoreContext);
+  const editCraftStoreContext = useContext(EditCraftStoreContext);
 
-  if (!counterStoreContext) {
+  if (!editCraftStoreContext) {
     throw new Error(
       `useEditCraftStore must be use within CounterStoreProvider`
     );
   }
 
-  return useStore(counterStoreContext, useShallow(selector));
+  return useStore(editCraftStoreContext, useShallow(selector));
 };
 
 export const useEditCraftStoreTemporal = <T,>(
   selector: (store: TemporalEditCraftStore) => T
 ): T => {
-  const counterStoreContext = useContext(EditCraftStoreContext);
+  const editCraftStoreContext = useContext(EditCraftStoreContext);
 
-  if (!counterStoreContext) {
+  if (!editCraftStoreContext) {
     throw new Error(
       `useEditCraftStore must be use within CounterStoreProvider`
     );
   }
 
-  return useStore(counterStoreContext.temporal, selector);
+  return useStore(editCraftStoreContext.temporal, selector);
 };
