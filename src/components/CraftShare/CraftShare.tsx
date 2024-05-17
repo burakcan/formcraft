@@ -28,7 +28,7 @@ export function CraftShare() {
         >
           <div className="flex gap-2">
             <Input
-              value={`https://formcraft.io/form/${craftId}`}
+              value={`https://formcraft.io/forms/${craftId}`}
               readOnly
               className="w-full"
             />
