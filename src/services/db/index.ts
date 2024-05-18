@@ -2,6 +2,7 @@ import "server-only";
 import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
+  console.log("Creating new PrismaClient!");
   return new PrismaClient();
 };
 
