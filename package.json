@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "tunnel": "lt --port 3000 --subdomain formtunnel",
     "prisma:generate": "dotenv -e .env.local -- prisma generate",
@@ -18,7 +18,7 @@
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "stripe:sync": "node ./scripts/sync_stripe.mjs",
     "postinstall": "pnpm prisma:generate",
-    "postbuild": "pnpm prisma:migrate:deploy && pnpm stripe:sync"
+    "db:clean": "node ./scripts/clean_database.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.0.12",
@@ -59,6 +59,7 @@
     "@tiptap/pm": "^2.4.0",
     "@tiptap/react": "^2.4.0",
     "@tsparticles/confetti": "^3.4.0",
+    "amqplib": "^0.10.4",
     "aws-sdk": "^2.1622.0",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
@@ -106,6 +107,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
     "@tanstack/eslint-plugin-query": "^5.35.6",
+    "@types/amqplib": "^0.10.5",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",
     "@types/nodemailer": "^6.4.15",
