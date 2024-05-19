@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
       - name: Nixpacks Build and Push Action
         uses: WaxArsatia/github-action-nixpacks@v1.0.2
         with:
