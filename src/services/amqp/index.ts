@@ -15,7 +15,7 @@ const amqpConnectionSingleton = async (
 }> => {
   try {
     const connection = await amqp.connect({
-      hostname: "host.docker.internal:5672",
+      hostname: process.env.AMQP_HOSTNAME,
       username: "guest",
       password: "guest",
     });
