@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build-workers": "tsc --project ./workers",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -59,7 +60,6 @@
     "@tiptap/pm": "^2.4.0",
     "@tiptap/react": "^2.4.0",
     "@tsparticles/confetti": "^3.4.0",
-    "amqplib": "^0.10.4",
     "aws-sdk": "^2.1622.0",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
@@ -107,7 +107,6 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
     "@tanstack/eslint-plugin-query": "^5.35.6",
-    "@types/amqplib": "^0.10.5",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",
     "@types/nodemailer": "^6.4.15",
