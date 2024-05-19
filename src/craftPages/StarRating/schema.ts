@@ -23,5 +23,5 @@ export const getStarRatingViewerSchema = (page: StarRating) => {
     });
   }
 
-  return answerSchema;
+  return answerSchema.default(0);
 };
