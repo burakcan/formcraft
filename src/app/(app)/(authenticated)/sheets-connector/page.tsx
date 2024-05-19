@@ -161,7 +161,7 @@ export default async function SheetsConnectorPage(props: Props) {
 
   console.log("Syncing all answers", userId);
 
-  await syncAllAnswers(craftId);
+  syncAllAnswers(craftId);
 
   console.log("Everything succeeded", userId);
 

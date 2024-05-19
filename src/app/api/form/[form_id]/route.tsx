@@ -107,7 +107,7 @@ export async function PUT(
     });
 
     if (json.publish && craft.googleSheetsConnectionId) {
-      await syncNamedRanges(craft.id);
+      syncNamedRanges(craft.id);
     }
 
     return NextResponse.json({

@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "outDir": "./dist",
-    "lib": ["esnext"],
-    "plugins": []
-  },
-  "include": ["./**/*.ts"],
-  "exclude": ["node_modules"]
-}

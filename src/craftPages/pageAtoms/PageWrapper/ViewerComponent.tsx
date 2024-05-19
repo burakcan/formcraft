@@ -32,6 +32,7 @@ interface Props<T extends FormCraft.CraftPage> {
 export function PageWrapperViewer<T extends FormCraft.CraftPage>(
   props: Props<T>
 ) {
+  const endScreenSubmitted = useRef(false);
   const { page } = props;
   const ref = useRef<HTMLFormElement>(null);
   const { setReason: setPageChangeReson } = usePageChangeReason();
@@ -41,6 +42,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
     answers: state.answers,
   }));
   const mutation = useAnswerMutation(submissionId, page.id);
+  const mutate = mutation.mutate;
   const pageDefinition = craftPageDefinitions[page.type];
   const formDomId = `form_${page.id.replaceAll("-", "")}`;
 
@@ -74,18 +76,18 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
   });
 
   useEffect(() => {
-    if (page.type === "end_screen" && mutation.isIdle) {
-      console.log("Submitting answers", answers);
-
-      mutation.mutate({
+    if (page.type === "end_screen" && !endScreenSubmitted.current) {
+      mutate({
         end_screen: {
           value: true,
           meta: {},
         },
         ...answers,
       });
+
+      endScreenSubmitted.current = true;
     }
-  }, [page.type, answers, mutation]);
+  }, [page.type, answers, mutate]);
 
   const hasScroll = useHasScroll(ref, [page]);
 
@@ -106,7 +108,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
             props.innerWrapperClassName
           )}
         >
-          {page.type === "end_screen" && mutation.isPending && (
+          {page.type === "end_screen" && mutation.status === "pending" && (
             <div className="text-center mx-auto flex gap-4 items-center justify-center text-craft-title">
               <Loader2 className="size-8 animate-spin" />
               <div className="font-semibold text-sm">

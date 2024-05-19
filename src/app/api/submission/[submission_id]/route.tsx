@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  publishSubmissionToEmailQueue,
+  publishSubmissionToSheetsQueue,
+  publishSubmissionToWebhooksQueue,
+} from "@/services/amqp";
 import db from "@/services/db";
-import { appendSingleAnswer } from "@/services/sheetsConnector";
 import { genericApiError } from "@/lib/utils";
 
 export async function GET() {}
@@ -43,7 +47,15 @@ export async function PUT(
     const craft = updatedSubmission.craft;
 
     if (craft?.googleSheetsConnectionId && json["end_screen"]?.value) {
-      appendSingleAnswer(updatedSubmission.craftId, updatedSubmission.id);
+      publishSubmissionToSheetsQueue(submission_id);
+    }
+
+    if (craft?.webhookConnectionId && json["end_screen"]?.value) {
+      publishSubmissionToWebhooksQueue(submission_id);
+    }
+
+    if (craft?.emailConnectionId && json["end_screen"]?.value) {
+      publishSubmissionToEmailQueue(submission_id);
     }
 
     return NextResponse.json({ ok: true });
