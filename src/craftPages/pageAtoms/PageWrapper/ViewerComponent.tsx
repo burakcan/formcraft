@@ -64,6 +64,11 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 
   const handleSubmit = form.handleSubmit((data) => {
     setPageChangeReson("answer");
+
+    if (document.activeElement) {
+      (document.activeElement as HTMLElement).blur();
+    }
+
     onAnswer(page.id, data.value);
 
     mutation.mutate({
