@@ -26,7 +26,7 @@ export function AutoSave() {
 
     const save = debounce(() => {
       handleSave(false);
-    }, 1000);
+    }, 500);
 
     save();
 
