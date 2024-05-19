@@ -42,7 +42,6 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
     answers: state.answers,
   }));
   const mutation = useAnswerMutation(submissionId, page.id);
-  const mutate = mutation.mutate;
   const pageDefinition = craftPageDefinitions[page.type];
   const formDomId = `form_${page.id.replaceAll("-", "")}`;
 
@@ -77,17 +76,18 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 
   useEffect(() => {
     if (page.type === "end_screen" && !endScreenSubmitted.current) {
-      mutate({
-        end_screen: {
-          value: true,
-          meta: {},
-        },
-        ...answers,
+      requestAnimationFrame(() => {
+        mutation.mutate({
+          end_screen: {
+            value: true,
+            meta: {},
+          },
+        });
       });
 
       endScreenSubmitted.current = true;
     }
-  }, [page.type, answers, mutate]);
+  }, [page.type, mutation]);
 
   const hasScroll = useHasScroll(ref, [page]);
 

@@ -110,7 +110,7 @@ export function CraftViewer() {
             <ThemeStyle
               theme={theme}
               pageId={currentPage.id.replaceAll("-", "_")}
-              additionalSelectors=".craft-viewer-root"
+              // additionalSelectors=".craft-viewer-root"
             />
             {"document" in global && (
               <FontPicker
