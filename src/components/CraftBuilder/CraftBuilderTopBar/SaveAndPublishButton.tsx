@@ -37,7 +37,7 @@ export function SaveAndPublishButton() {
       onClick={() => ownMutation.mutate(true)}
       disabled={isPublished || isSaving || isPublishing || dirty}
     >
-      {isSaving || dirty
+      {isSaving
         ? "Saving"
         : isPublishing
         ? "Publishing"
