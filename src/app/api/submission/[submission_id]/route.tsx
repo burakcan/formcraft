@@ -43,7 +43,7 @@ export async function PUT(
     const craft = updatedSubmission.craft;
 
     if (craft?.googleSheetsConnectionId && json["end_screen"]?.value) {
-      await appendSingleAnswer(updatedSubmission.craftId, updatedSubmission.id);
+      appendSingleAnswer(updatedSubmission.craftId, updatedSubmission.id);
     }
 
     return NextResponse.json({ ok: true });
