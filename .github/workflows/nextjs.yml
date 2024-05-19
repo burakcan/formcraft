@@ -1,0 +1,19 @@
+name: Build Next.js App with nixpacks and create a container image
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Nixpacks Build and Push Action
+        uses: WaxArsatia/github-action-nixpacks@v1.0.2
+        with:
+          tags: "latest,stable"
+          platforms: arm64
+          pkgs: "nodejs,pnpm"
