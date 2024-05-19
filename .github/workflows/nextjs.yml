@@ -17,5 +17,4 @@ jobs:
         uses: WaxArsatia/github-action-nixpacks@v1.0.2
         with:
           tags: "latest,stable"
-          platforms: arm64
           pkgs: "nodejs,pnpm"
