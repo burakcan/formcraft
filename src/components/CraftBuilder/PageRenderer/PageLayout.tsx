@@ -84,7 +84,7 @@ export function PageLayout(props: Props) {
         )}
       </AnimatePresence>
       <div
-        className={cn("fixed z-40 overflow-hidden", {
+        className={cn("fixed z-40 overflow-hidden transform-gpu", {
           "transition-all duration-500": !disableTransitions,
           "top-1/4 sm:top-0 h-3/4 sm:h-full w-full sm:w-2/3": decorationImage,
           "top-0 left-0 w-full h-full": !decorationImage,

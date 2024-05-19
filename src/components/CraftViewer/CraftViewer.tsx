@@ -72,10 +72,11 @@ export function CraftViewer() {
       <PageLayout theme={theme} page={currentPage}>
         <AnimatePresence initial={false} custom={pageChangeReason}>
           <motion.div
+            layout
             key={currentPage.id}
             id={currentPage.id.replaceAll("-", "_")}
             custom={pageChangeReason}
-            className="fixed top-0 left-0 size-full craft-renderer will-change-transform"
+            className="fixed top-0 left-0 size-full craft-renderer will-change-transform transform-gpu"
             variants={{
               initial: (reason: typeof pageChangeReason) => {
                 return {
@@ -110,7 +111,7 @@ export function CraftViewer() {
             <ThemeStyle
               theme={theme}
               pageId={currentPage.id.replaceAll("-", "_")}
-              // additionalSelectors=".craft-viewer-root"
+              additionalSelectors=".craft-viewer-root"
             />
             {"document" in global && (
               <FontPicker
