@@ -14,8 +14,11 @@ export function useAnswerMutation(submissionId?: string, pageId?: string) {
       });
 
       if (!response.ok) {
+        console.log("Error submitting answer", response);
         throw new Error("Network response was not ok");
       }
+
+      return response.json();
     },
 
     scope: {
