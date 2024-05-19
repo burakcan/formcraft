@@ -15,7 +15,7 @@ const amqpConnectionSingleton = async (
 }> => {
   try {
     const connection = await amqp.connect({
-      hostname: "localhost",
+      hostname: "0.0.0.0",
       username: "guest",
       password: "guest",
     });
