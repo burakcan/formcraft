@@ -14,11 +14,7 @@ const amqpConnectionSingleton = async (
   channel: amqp.Channel;
 }> => {
   try {
-    const connection = await amqp.connect({
-      hostname: process.env.AMQP_HOSTNAME,
-      username: "guest",
-      password: "guest",
-    });
+    const connection = await amqp.connect(process.env.AMQP_URL || "");
 
     const channel = await connection.createChannel();
 
