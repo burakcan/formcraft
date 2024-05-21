@@ -1,5 +1,3 @@
-"use server";
-
 import { CheckCircle2Icon } from "lucide-react";
 import db from "@/services/db";
 

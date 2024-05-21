@@ -1,5 +1,3 @@
-"use server";
-
 import { MailIcon } from "lucide-react";
 
 export default async function Loading() {
