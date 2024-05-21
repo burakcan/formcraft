@@ -307,17 +307,22 @@ export async function upsertStripeSubscription(
     organizationId: customer.organizationId || null,
   };
 
+  const existingSubscriptionItems = await db.stripeSubscriptionItem.findMany({
+    where: { subscriptionId: subscription.id },
+  });
+
+  for (const item of existingSubscriptionItems) {
+    if (!items.find((i) => i.id === item.id)) {
+      await db.stripeSubscriptionItem.update({
+        where: { id: item.id },
+        data: item,
+      });
+    }
+  }
+
   await db.stripeSubscription.upsert({
     where: { id: subscription.id },
-    update: {
-      ...data,
-      items: {
-        updateMany: {
-          where: { subscriptionId: subscription.id },
-          data: items,
-        },
-      },
-    },
+    update: data,
     create: {
       ...data,
       items: {
