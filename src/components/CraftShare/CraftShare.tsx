@@ -1,14 +1,37 @@
 "use client";
 
-import { LinkIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, FrameIcon, LinkIcon } from "lucide-react";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UnpublishedAlert } from "../UnpublishedAlert";
 import { ShareCard } from "./ShareCard";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function CraftShare() {
   const craftId = useEditCraftStore((state) => state.craft.id);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState(false);
+
+  const link = `https://formcraft.io/forms/${craftId}`;
+  const embed = `<iframe src="https://formcraft.io/forms/${craftId}" width="100%" height="800px" frameborder="0"></iframe>`;
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(link);
+    setLinkCopied(true);
+    setTimeout(() => {
+      setLinkCopied(false);
+    }, 3000);
+  };
+
+  const handleCopyEmbed = () => {
+    navigator.clipboard.writeText(embed);
+    setEmbedCopied(true);
+    setTimeout(() => {
+      setEmbedCopied(false);
+    }, 3000);
+  };
 
   return (
     <div className="w-full p-4">
@@ -27,12 +50,43 @@ export function CraftShare() {
           iconClassName="text-blue-500"
         >
           <div className="flex gap-2">
-            <Input
-              value={`https://formcraft.io/forms/${craftId}`}
-              readOnly
-              className="w-full"
-            />
-            <Button>Copy Link</Button>
+            <Input value={link} readOnly className="w-full" />
+            <Button
+              size="icon"
+              className={cn("w-12", {
+                "bg-emerald-500": linkCopied,
+              })}
+              onClick={handleCopyLink}
+            >
+              {linkCopied ? (
+                <CheckIcon className="size-5" />
+              ) : (
+                <CopyIcon className="size-5" />
+              )}
+            </Button>
+          </div>
+        </ShareCard>
+        <ShareCard
+          title="Iframe Embed"
+          description="Embed your form on your website."
+          icon={FrameIcon}
+          iconClassName="text-rose-500"
+        >
+          <div className="flex gap-2">
+            <Input value={embed} readOnly className="w-full" />
+            <Button
+              size="icon"
+              className={cn("w-12", {
+                "bg-emerald-500": embedCopied,
+              })}
+              onClick={handleCopyEmbed}
+            >
+              {embedCopied ? (
+                <CheckIcon className="size-5" />
+              ) : (
+                <CopyIcon className="size-5" />
+              )}
+            </Button>
           </div>
         </ShareCard>
       </div>
