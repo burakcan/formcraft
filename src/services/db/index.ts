@@ -1,4 +1,3 @@
-import "server-only";
 import { PrismaClient } from "@prisma/client";
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 

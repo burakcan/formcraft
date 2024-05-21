@@ -7,6 +7,7 @@ import { getCraftAndEditingVersion } from "@/services/db/craft";
 import { syncNamedRanges } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
 import { genericApiError } from "@/lib/utils";
+import { publishSheetsSyncNamedRanges } from "@/services/amqp";
 
 export async function GET(
   req: NextRequest,
@@ -107,7 +108,7 @@ export async function PUT(
     });
 
     if (json.publish && craft.googleSheetsConnectionId) {
-      syncNamedRanges(craft.id);
+      await publishSheetsSyncNamedRanges(craft.id);
     }
 
     return NextResponse.json({
