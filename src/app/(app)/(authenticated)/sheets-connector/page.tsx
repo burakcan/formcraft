@@ -3,11 +3,11 @@
 import { auth } from "@clerk/nextjs/server";
 import { google } from "googleapis";
 import { RedirectType, redirect } from "next/navigation";
+import { publishSheetsSyncAll } from "@/services/amqp";
 import db from "@/services/db";
 import { getCraft } from "@/services/db/craft";
 import { refreshTokenIfNeeded } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
-import { publishSheetsSyncAll } from "@/services/amqp";
 
 interface Props {
   searchParams: { code: string; state: string };

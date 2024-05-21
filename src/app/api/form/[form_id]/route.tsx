@@ -2,12 +2,11 @@ import "server-only";
 import { auth } from "@clerk/nextjs/server";
 import type { CraftVersion } from "@prisma/client";
 import { NextResponse, type NextRequest } from "next/server";
+import { publishSheetsSyncNamedRanges } from "@/services/amqp";
 import db from "@/services/db";
 import { getCraftAndEditingVersion } from "@/services/db/craft";
-import { syncNamedRanges } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
 import { genericApiError } from "@/lib/utils";
-import { publishSheetsSyncNamedRanges } from "@/services/amqp";
 
 export async function GET(
   req: NextRequest,
