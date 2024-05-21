@@ -1,11 +1,12 @@
-import "server-only";
 import amqp from "amqplib";
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 export const queues = {
   "webhooks:submission:submit": "webhooks:submission:submit",
   "email:submission:submit": "email:submission:submit",
+  "sheets:syncAllSubmissions": "sheets:syncAllSubmissions",
   "sheets:submission:submit": "sheets:submission:submit",
+  "sheets:syncNamedRanges": "sheets:syncNamedRanges",
 };
 
 const amqpConnectionSingleton = async (
@@ -82,26 +83,10 @@ export async function publishSubmissionToSheetsQueue(submissionId: string) {
   await publishToQueue("sheets:submission:submit", submissionId);
 }
 
-(async function webhookConnectorConsumer() {
-  const { channel } = await amqpConnection;
+export async function publishSheetsSyncAll(craftId: string) {
+  await publishToQueue("sheets:syncAllSubmissions", craftId);
+}
 
-  if (!channel) {
-    console.error("AMQP channel not established");
-    return;
-  }
-
-  channel.consume(
-    queues["webhooks:submission:submit"],
-    (message) => {
-      if (!message) {
-        return;
-      }
-
-      const submissionId = message.content.toString();
-      console.log("Received submission", submissionId);
-    },
-    {
-      noAck: false,
-    }
-  );
-})();
+export async function publishSheetsSyncNamedRanges(craftId: string) {
+  await publishToQueue("sheets:syncNamedRanges", craftId);
+}

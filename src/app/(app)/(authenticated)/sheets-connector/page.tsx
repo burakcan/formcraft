@@ -5,11 +5,9 @@ import { google } from "googleapis";
 import { RedirectType, redirect } from "next/navigation";
 import db from "@/services/db";
 import { getCraft } from "@/services/db/craft";
-import {
-  refreshTokenIfNeeded,
-  syncAllAnswers,
-} from "@/services/sheetsConnector";
+import { refreshTokenIfNeeded } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
+import { publishSheetsSyncAll } from "@/services/amqp";
 
 interface Props {
   searchParams: { code: string; state: string };
@@ -103,27 +101,18 @@ export default async function SheetsConnectorPage(props: Props) {
     scope: sheetsAuthorization.scope || "",
   });
 
-  console.log("Refreshing token if needed", userId);
-
   await refreshTokenIfNeeded(oauth2Client, sheetsAuthorization);
-
-  console.log("Getting craft", userId);
 
   const craft = await getCraft(craftId, userId, orgId);
 
   if (!craft) {
-    console.log("Craft not found", userId);
     throw new Error(ErrorType.Not_Found);
   }
-
-  console.log("Creating sheet client", userId);
 
   const sheetsClient = google.sheets({
     version: "v4",
     auth: oauth2Client,
   });
-
-  console.log("Creating sheet", userId);
 
   const sheet = await sheetsClient.spreadsheets.create({
     requestBody: {
@@ -132,11 +121,8 @@ export default async function SheetsConnectorPage(props: Props) {
   });
 
   if (!sheet.data.spreadsheetId) {
-    console.log("No spreadsheet id", userId);
     throw new Error(ErrorType.Unauthorized);
   }
-
-  console.log("Updating craft", userId);
 
   await db.craft.update({
     where: {
@@ -159,11 +145,7 @@ export default async function SheetsConnectorPage(props: Props) {
     },
   });
 
-  console.log("Syncing all answers", userId);
-
-  syncAllAnswers(craftId);
-
-  console.log("Everything succeeded", userId);
+  await publishSheetsSyncAll(craftId);
 
   return redirect(
     `/form/${craftId}/connect?sheetsConnected=true`,

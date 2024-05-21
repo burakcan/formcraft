@@ -9,6 +9,9 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "tunnel": "lt --port 3000 --subdomain formtunnel",
+    "build:workers": "esbuild workers/*.ts --bundle --platform=node --target=node21 --outdir=workers/dist",
+    "start:worker:webhook-connector": "dotenv -e .env.local -- node workers/dist/webhook-connector-worker.js",
+    "start:worker:sheets-connector": "dotenv -e .env.local -- node workers/dist/sheets-connector-worker.js",
     "prisma:generate": "dotenv -e .env.local -- prisma generate",
     "prisma:migrate:create": "dotenv -e .env.local -- prisma migrate dev --create-only",
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
@@ -18,7 +21,7 @@
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "stripe:sync": "dotenv -e .env.local -- node ./scripts/sync_stripe.mjs",
     "postinstall": "pnpm prisma:generate",
-    "compose:up": "dotenv -e .env.local -- docker compose up",
+    "lavinmq": "docker run --rm -it -p 5672:5672 -p 15672:15672 -v /tmp/amqp:/var/lib/lavinmq cloudamqp/lavinmq",
     "db:clean": "node ./scripts/clean_database.mjs"
   },
   "dependencies": {
@@ -120,6 +123,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
+    "esbuild": "^0.21.3",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-plugin-sort": "^3.0.2",
