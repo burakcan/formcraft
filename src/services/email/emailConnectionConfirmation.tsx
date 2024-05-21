@@ -11,7 +11,7 @@ export const emailConnectionConfirmation = async (
     Hi there!
     You are receiving this email because you have requested to connect your email to "${craft.title}".
     Please click the link below to confirm your email connection:
-    ${process.env.NEXT_PUBLIC_SITE_URL}/email-connector?code=${code}&formId=${craft.id}
+    ${process.env.NEXT_PUBLIC_URL}/email-connector?code=${code}&formId=${craft.id}
     If you did not request this, please ignore this email.
     Thanks!
   `;
