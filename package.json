@@ -16,8 +16,9 @@
     "prisma:migrate:reset": "dotenv -e .env.local -- prisma migrate reset --force",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
-    "stripe:sync": "node ./scripts/sync_stripe.mjs",
+    "stripe:sync": "dotenv -e .env.local -- node ./scripts/sync_stripe.mjs",
     "postinstall": "pnpm prisma:generate",
+    "compose:up": "dotenv -e .env.local -- docker compose up",
     "db:clean": "node ./scripts/clean_database.mjs"
   },
   "dependencies": {

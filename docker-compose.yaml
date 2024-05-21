@@ -1,0 +1,59 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+      - CLERK_SECRET_KEY
+      - CLERK_SIGNING_SECRET
+      - NEXT_PUBLIC_CLERK_SIGN_IN_URL
+      - NEXT_PUBLIC_CLERK_SIGN_UP_URL
+      - NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
+      - NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
+      - NEXT_PUBLIC_CLERK_AFTER_SIGN_OUT_URL
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
+      - POSTGRES_URL_NON_POOLING
+      - POSTGRES_PRISMA_URL
+      - UNSPLASH_ACCESS_KEY
+      - UNSPLASH_SECRET_KEY
+      - NEXT_PUBLIC_URL
+      - CLOUDFLARE_ACCOUNT_ID
+      - NEXT_PUBLIC_CLOUDFLARE_ACCOUNT_HASH
+      - CLOUDFLARE_IMAGES_TOKEN
+      - SHEETS_CONNECTOR_CLIENT_ID
+      - SHEETS_CONNECTOR_CLIENT_SECRET
+      - SHEETS_CONNECTOR_REDIRECT_URI
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      - STRIPE_SECRET_KEY
+      - STRIPE_WEBHOOK_SIGNING_SECRET
+      - NODE_OPTIONS
+      
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 20s
+      retries: 10
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
