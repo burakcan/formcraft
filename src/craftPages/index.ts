@@ -9,6 +9,7 @@ import phone_number from "./PhoneNumber";
 import short_text from "./ShortText";
 import star_rating from "./StarRating";
 import statement from "./Statement";
+import stripe_payment from "./StripePayment";
 import website from "./Website";
 
 export const craftPageDefinitions = {
@@ -24,4 +25,5 @@ export const craftPageDefinitions = {
   choices,
   opinion_scale,
   star_rating,
+  stripe_payment,
 };

@@ -156,6 +156,10 @@ export function PageLibrary() {
               pageDefinition={craftPageDefinitions["star_rating"]}
               onClick={() => handleAddPage("star_rating")}
             />
+            <LibraryItem
+              pageDefinition={craftPageDefinitions["stripe_payment"]}
+              onClick={() => handleAddPage("stripe_payment")}
+            />
           </div>
         </SheetHeader>
       </SheetContent>
