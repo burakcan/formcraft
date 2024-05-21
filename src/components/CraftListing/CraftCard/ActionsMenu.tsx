@@ -1,5 +1,6 @@
 "use client";
 import {
+  CopyIcon,
   EllipsisVerticalIcon,
   Loader2Icon,
   TextCursorInput,
@@ -18,6 +19,7 @@ import {
 import { RenameCraftModal } from "@/components/RenameCraftModal";
 import { useUnarchiveCraftMutation } from "@/hooks/useUnarchiveCraftMutation";
 import { ArchiveCraftModal } from "../../ArchiveCraftModal";
+import { useDuplicateCraftMutation } from "@/hooks/useDuplicateCraftMutation";
 
 interface Props {
   craft: FormCraft.CraftListingItem;
@@ -29,6 +31,7 @@ export function ActionsMenu(props: Props) {
   const [showRenameModal, setShowRenameModal] = useState(false);
 
   const unarchiveMutation = useUnarchiveCraftMutation();
+  const duplicateMutation = useDuplicateCraftMutation();
 
   return (
     <>
@@ -75,6 +78,10 @@ export function ActionsMenu(props: Props) {
           <DropdownMenuItem onSelect={() => setShowRenameModal(true)}>
             <TextCursorInput className="mr-2 h-4 w-4" />
             <span>Rename</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => duplicateMutation.mutate(craft.id)}>
+            <CopyIcon className="mr-2 h-4 w-4" />
+            <span>Duplicate</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {!craft.archived ? (
