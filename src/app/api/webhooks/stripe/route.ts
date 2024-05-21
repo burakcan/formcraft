@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
         await deleteStripePrice(event.data.object.id);
         break;
 
-      case "customer.subscription.created":
       case "customer.subscription.deleted":
       case "customer.subscription.paused":
       case "customer.subscription.resumed":

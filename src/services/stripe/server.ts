@@ -4,7 +4,6 @@ import type {
   StripePrice,
   StripeProduct,
   StripeSubscription,
-  StripeSubscriptionItem,
 } from "@prisma/client";
 import type { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import Stripe from "stripe";
@@ -276,20 +275,17 @@ export async function upsertStripeSubscription(
       ? subscription.default_payment_method
       : subscription.default_payment_method?.id;
 
-  const items: StripeSubscriptionItem[] = subscription.items.data.map(
-    (item) => ({
-      id: item.id,
-      object: item.object,
-      created: new Date(item.created * 1000),
-      discounts: item.discounts.map((discount) =>
-        typeof discount === "string" ? discount : discount.id
-      ),
-      metadata: item.metadata,
-      priceId: item.price.id,
-      quantity: item.quantity || null,
-      subscriptionId: subscription.id,
-    })
-  );
+  const items = subscription.items.data.map((item) => ({
+    id: item.id,
+    object: item.object,
+    created: new Date(item.created * 1000),
+    discounts: item.discounts.map((discount) =>
+      typeof discount === "string" ? discount : discount.id
+    ),
+    metadata: item.metadata,
+    priceId: item.price.id,
+    quantity: item.quantity || null,
+  }));
 
   const data: StripeSubscription = {
     id: subscription.id,
