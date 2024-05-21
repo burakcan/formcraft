@@ -1,5 +1,6 @@
 import "server-only";
 import amqp from "amqplib";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 export const queues = {
   "webhooks:submission:submit": "webhooks:submission:submit",
@@ -13,6 +14,10 @@ const amqpConnectionSingleton = async (
   connection: amqp.Connection;
   channel: amqp.Channel;
 }> => {
+  if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
+    return Promise.reject();
+  }
+
   try {
     const connection = await amqp.connect(process.env.AMQP_URL || "");
 
