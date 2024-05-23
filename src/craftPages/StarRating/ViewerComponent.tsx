@@ -16,6 +16,7 @@ import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
 import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import { type StarRating } from "./schema";
+import { useKeyboardOptionSelection } from "@/hooks/useKeyboardOptionSelection";
 
 interface Props {
   page: StarRating;
@@ -38,6 +39,15 @@ export function StarRatingViewer(props: Props) {
   );
 
   const Icon = Icons[page.ratingIcon];
+
+  useKeyboardOptionSelection({
+    totalOptions: numStars,
+    onSelectOption: (optionIndex) => {
+      // Assuming the form hook is accessible and has a method to set values directly
+      form.setValue('value', optionIndex + 1);
+    },
+    optionType: 'star'
+  });
 
   return (
     <PageWrapperViewer page={page}>
