@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const useKeyboardOptionSelection = ({ totalOptions, onSelectOption, optionType = 'letter' }) => {
-  const [lastKey, setLastKey] = useState('');
+export const useKeyboardOptionSelection = ({ totalOptions, onSelectOption, optionType = 'letter' }) => {
+  const [sequence, setSequence] = useState('');
   const [lastKeyPressTime, setLastKeyPressTime] = useState(0);
   const keyPressThreshold = 500; // milliseconds
 
@@ -13,20 +13,20 @@ const useKeyboardOptionSelection = ({ totalOptions, onSelectOption, optionType =
       if (optionType === 'letter') {
         if (!/^[A-Z]$/.test(key)) return;
 
-        if (now - lastKeyPressTime < keyPressThreshold && /^[A-Z]$/.test(lastKey)) {
-          const optionIndex = (lastKey.charCodeAt(0) - 65) * 26 + (key.charCodeAt(0) - 65);
-          if (optionIndex < totalOptions) onSelectOption(optionIndex);
-        } else {
-          const optionIndex = key.charCodeAt(0) - 65;
-          if (optionIndex < totalOptions) onSelectOption(optionIndex);
+        const newSequence = now - lastKeyPressTime < keyPressThreshold ? sequence + key : key;
+        let optionIndex = 0;
+        for (let i = 0; i < newSequence.length; i++) {
+          optionIndex = optionIndex * 26 + (newSequence.charCodeAt(i) - 65);
         }
+        if (optionIndex < totalOptions) onSelectOption(optionIndex);
+
+        setSequence(newSequence);
       } else if (optionType === 'star') {
         if (!/^[0-9]$/.test(key)) return;
         const optionIndex = parseInt(key, 10) - 1;
         if (optionIndex >= 0 && optionIndex < totalOptions) onSelectOption(optionIndex);
       }
 
-      setLastKey(key);
       setLastKeyPressTime(now);
     };
 
@@ -35,17 +35,15 @@ const useKeyboardOptionSelection = ({ totalOptions, onSelectOption, optionType =
     return () => {
       window.removeEventListener('keypress', handleKeyPress);
     };
-  }, [lastKey, lastKeyPressTime, onSelectOption, totalOptions, optionType]);
+  }, [sequence, lastKeyPressTime, onSelectOption, totalOptions, optionType]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (Date.now() - lastKeyPressTime > keyPressThreshold && lastKey !== '') {
-        setLastKey('');
+      if (Date.now() - lastKeyPressTime > keyPressThreshold && sequence !== '') {
+        setSequence('');
       }
     }, keyPressThreshold);
 
     return () => clearInterval(interval);
-  }, [lastKeyPressTime, lastKey]);
+  }, [lastKeyPressTime, sequence]);
 };
-
-export default useKeyboardOptionSelection;

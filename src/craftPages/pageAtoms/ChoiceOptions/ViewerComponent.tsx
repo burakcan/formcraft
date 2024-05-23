@@ -8,7 +8,7 @@ import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
 import { cn } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { ChoiceLetter } from "./ChoiceLetter";
-import useKeyboardOptionSelection from "@/hooks/useKeyboardOptionSelection";
+import { useKeyboardOptionSelection } from "@/hooks/useKeyboardOptionSelection";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 type ValueType = string[];
