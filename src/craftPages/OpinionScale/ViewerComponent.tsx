@@ -11,6 +11,7 @@ import { CtaSectionViewer } from "../pageAtoms/CtaSection";
 import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
 import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import { type OpinionScale } from "./schema";
+import useKeyboardOptionSelection from "@/hooks/useKeyboardOptionSelection";
 
 interface Props {
   page: OpinionScale;
@@ -24,6 +25,15 @@ export function OpinionScaleViewer(props: Props) {
     () => Array.from({ length: max - min + 1 }, (_, i) => i + min),
     [min, max]
   );
+
+  useKeyboardOptionSelection({
+    totalOptions: items.length,
+    onSelectOption: (optionIndex) => {
+      // Assuming the form hook is accessible and has a method to set values directly
+      form.setValue('value', items[optionIndex]);
+    },
+    optionType: 'number'
+  });
 
   return (
     <PageWrapperViewer page={page}>
