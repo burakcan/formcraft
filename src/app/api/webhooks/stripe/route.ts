@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type Stripe from "stripe";
 import {
+  deleteStripeAccount,
+  updateStripeAccount,
+} from "@/services/stripe/connect";
+import {
   deleteStripePrice,
   deleteStripeProduct,
   stripe,
@@ -25,6 +29,10 @@ const relevantEvents = new Set([
   "customer.subscription.resumed",
   "customer.subscription.trial_will_end",
   "customer.subscription.updated",
+
+  "account.application.authorized",
+  "account.application.deauthorized",
+  "account.updated",
 ]);
 
 export async function POST(req: NextRequest) {
@@ -73,7 +81,16 @@ export async function POST(req: NextRequest) {
       case "customer.subscription.updated":
       case "customer.subscription.created": {
         await upsertStripeSubscription(event.data.object);
+        break;
       }
+
+      case "account.updated":
+        await updateStripeAccount(event.data.object);
+        break;
+
+      case "account.application.deauthorized":
+        deleteStripeAccount(event.data.object.id);
+        break;
 
       default:
         console.log("Unhandled event type: ", event.type);

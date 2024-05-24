@@ -1,5 +1,6 @@
 import type { Craft as DBCraft } from "@prisma/client";
 import type { ReactFlowJsonObject } from "reactflow";
+import type { Stripe } from "stripe";
 import type { z } from "zod";
 import type { craftPageDefinitions } from "./craftPages";
 import type { CraftTheme as _CraftTheme } from "@/craftPages/schemas/theming";
@@ -107,5 +108,6 @@ declare global {
     type CraftVersionData = FormCraft.CraftVersionData;
     type CraftTheme = _CraftTheme;
     type CraftSubmissionData = FormCraft.CraftSubmissionData;
+    type StripeAccountData = Stripe.Account;
   }
 }
