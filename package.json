@@ -24,7 +24,8 @@
     "stripe:sync": "dotenv -e .env.local -- node ./scripts/sync_stripe.mjs",
     "postinstall": "pnpm prisma:generate",
     "lavinmq": "docker run --rm -it -p 5672:5672 -p 15672:15672 -v /tmp/amqp:/var/lib/lavinmq cloudamqp/lavinmq",
-    "db:clean": "node ./scripts/clean_database.mjs"
+    "db:clean": "node ./scripts/clean_database.mjs",
+    "test": "jest"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.0.12",
@@ -84,7 +85,6 @@
     "hotkeys-js": "^3.13.7",
     "immer": "^10.1.1",
     "libphonenumber-js": "^1.11.1",
-    "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
     "nanoid": "^5.0.7",
     "next": "14.2.3",
@@ -131,6 +131,10 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-plugin-sort": "^3.0.2",
+    "jest": "^29.0.3",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.1",
+    "@testing-library/react": "^13.3.0",
     "localtunnel": "^2.0.2",
     "postcss": "^8.4.38",
     "prisma": "^5.14.0",
