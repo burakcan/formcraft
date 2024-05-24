@@ -3,10 +3,16 @@
 import { Elements, PaymentElement, useElements } from "@stripe/react-stripe-js";
 import type { Stripe } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { CheckCircle2Icon, CheckIcon, Loader2Icon } from "lucide-react";
+import {
+  CheckCircle2Icon,
+  CheckIcon,
+  CircleAlertIcon,
+  Loader2Icon,
+} from "lucide-react";
 import { nanoid } from "nanoid";
 import { useRef, useState } from "react";
 import { FaCcStripe } from "react-icons/fa";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form";
 import { useViewCraftStore } from "@/hooks/useViewCraftStore";
@@ -315,12 +321,32 @@ export function StripePaymentViewer(props: Props) {
     submissionId: state.submissionId,
     pageId: state.currentPageId,
   }));
-  const { data: sessionData } = useCheckoutSessionQuery(submissionId, pageId);
+  const { data: sessionData, error } = useCheckoutSessionQuery(
+    submissionId,
+    pageId
+  );
   const stripe = useStripe(submissionId ? sessionData?.account_id : "preview");
 
   const options = {
     clientSecret: sessionData?.client_secret,
   };
+
+  if (error) {
+    return (
+      <PageWrapperViewer innerWrapperClassName="max-w-sm" page={props.page}>
+        {() => (
+          <Alert variant="destructive" className="bg-background shadow-md">
+            <CircleAlertIcon className="size-5" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              An error occurred while trying to show the payment form. Please
+              try again later.
+            </AlertDescription>
+          </Alert>
+        )}
+      </PageWrapperViewer>
+    );
+  }
 
   if (!submissionId && stripe) {
     return (

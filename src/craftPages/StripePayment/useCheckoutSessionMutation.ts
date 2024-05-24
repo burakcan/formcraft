@@ -18,6 +18,7 @@ export function useCheckoutSessionQuery(
     refetchOnWindowFocus: false,
     enabled: !!submissionId && !!pageId,
     queryKey: ["checkout-session", submissionId, pageId],
+    retry: false,
     queryFn: async () => {
       if (!submissionId) {
         return;
@@ -26,6 +27,11 @@ export function useCheckoutSessionQuery(
       const res = await fetch(
         `/api/submission/${submissionId}/checkout-session?pageId=${pageId}`
       );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch checkout session");
+      }
+
       return res.json();
     },
   });

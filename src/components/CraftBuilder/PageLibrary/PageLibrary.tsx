@@ -1,5 +1,6 @@
 import { ImagesIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetClose,
@@ -96,71 +97,73 @@ export function PageLibrary() {
           <SheetDescription>
             Choose a content type to add to your form.
           </SheetDescription>
-          <div className="grid grid-cols-2 gap-2 mt-4">
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["statement"]}
-              onClick={() => handleAddPage("statement")}
-            />
-            <div />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["short_text"]}
-              onClick={() => handleAddPage("short_text")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["long_text"]}
-              onClick={() => handleAddPage("long_text")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["number_input"]}
-              onClick={() => handleAddPage("number_input")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["date_text"]}
-              onClick={() => handleAddPage("date_text")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["email"]}
-              onClick={() => handleAddPage("email")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["website"]}
-              onClick={() => handleAddPage("website")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["phone_number"]}
-              onClick={() => handleAddPage("phone_number")}
-            />
-            <div />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["choices"]}
-              onClick={() => handleAddPage("choices")}
-            />
-            <LibraryItem
-              pageDefinition={{
-                ...craftPageDefinitions["choices"],
-                name: "Image choices",
-                icon: ImagesIcon,
-                description: "Select an image from a list",
-              }}
-              onClick={() =>
-                handleAddPage("choices", {
-                  imageChoices: true,
-                })
-              }
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["opinion_scale"]}
-              onClick={() => handleAddPage("opinion_scale")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["star_rating"]}
-              onClick={() => handleAddPage("star_rating")}
-            />
-            <LibraryItem
-              pageDefinition={craftPageDefinitions["stripe_payment"]}
-              onClick={() => handleAddPage("stripe_payment")}
-            />
-          </div>
+          <ScrollArea>
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["statement"]}
+                onClick={() => handleAddPage("statement")}
+              />
+              <div />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["short_text"]}
+                onClick={() => handleAddPage("short_text")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["long_text"]}
+                onClick={() => handleAddPage("long_text")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["number_input"]}
+                onClick={() => handleAddPage("number_input")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["date_text"]}
+                onClick={() => handleAddPage("date_text")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["email"]}
+                onClick={() => handleAddPage("email")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["website"]}
+                onClick={() => handleAddPage("website")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["phone_number"]}
+                onClick={() => handleAddPage("phone_number")}
+              />
+              <div />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["choices"]}
+                onClick={() => handleAddPage("choices")}
+              />
+              <LibraryItem
+                pageDefinition={{
+                  ...craftPageDefinitions["choices"],
+                  name: "Image choices",
+                  icon: ImagesIcon,
+                  description: "Select an image from a list",
+                }}
+                onClick={() =>
+                  handleAddPage("choices", {
+                    imageChoices: true,
+                  })
+                }
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["opinion_scale"]}
+                onClick={() => handleAddPage("opinion_scale")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["star_rating"]}
+                onClick={() => handleAddPage("star_rating")}
+              />
+              <LibraryItem
+                pageDefinition={craftPageDefinitions["stripe_payment"]}
+                onClick={() => handleAddPage("stripe_payment")}
+              />
+            </div>
+          </ScrollArea>
         </SheetHeader>
       </SheetContent>
     </Sheet>
