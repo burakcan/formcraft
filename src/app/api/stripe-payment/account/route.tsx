@@ -14,6 +14,9 @@ export async function GET() {
       return new Response(null, { status: 401 });
     }
 
+    console.log("orgId", orgId);
+    console.log("userId", userId);
+
     const stripeAccount = await db.stripeAccount.findFirst({
       where: {
         organizationId: orgId || null,
