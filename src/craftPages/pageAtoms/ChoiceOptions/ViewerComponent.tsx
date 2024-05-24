@@ -1,14 +1,13 @@
-import { useEffect } from "react";
 import { ImageIcon } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form";
 import { ThemeImage } from "@/components/CraftBuilder/PageRenderer/ThemeImage";
 import type { PageWithOptions } from "@/hooks/useChoiceOptionEditor";
+import { useKeyboardOptionSelection } from "@/hooks/useKeyboardOptionSelection";
 import { cn } from "@/lib/utils";
 import { FieldValidationErrorViewer } from "../FieldValidationError";
 import { ChoiceLetter } from "./ChoiceLetter";
-import { useKeyboardOptionSelection } from "@/hooks/useKeyboardOptionSelection";
 import type { ThemeImageType } from "@/craftPages/schemas/theming";
 
 type ValueType = string[];
@@ -106,11 +105,14 @@ export function ChoiceOptionsViewer<
   const { page, form } = props;
   const { options, orientation } = page;
 
-  const handleSelectOption = (index) => {
+  const handleSelectOption = (index: number) => {
     const optionId = options[index].id;
     if (page.multiple) {
       if (form.getValues("value").includes(optionId)) {
-        form.setValue("value", form.getValues("value").filter(id => id !== optionId));
+        form.setValue(
+          "value",
+          form.getValues("value").filter((id) => id !== optionId)
+        );
       } else {
         form.setValue("value", [...form.getValues("value"), optionId]);
       }
