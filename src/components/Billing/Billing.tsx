@@ -41,10 +41,11 @@ export default function Billing(props: Props) {
   return (
     <div>
       <div className="flex flex-col gap-1">
-        <h1 className=" text-[2rem] leading-[1.5] font-semibold">Billing</h1>
-        <p className="text-black/65 text-[1rem] leading-[1.25]">
-          Manage your subscription and billing information
-        </p>
+        <h1 className=" text-[1.0625rem] leading-[1.41176] font-bold">
+          Billing
+        </h1>
+        <div className="mt-3 mb-2 border-t border-[rgba(0,0,0,0.07)]"></div>
+
         {user && authData.orgId && (
           <Alert className="mt-4">
             <TriangleAlert className="size-5" />
