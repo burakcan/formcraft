@@ -86,6 +86,12 @@ dependencies:
   '@radix-ui/react-tooltip':
     specifier: ^1.0.7
     version: 1.0.7(@types/react-dom@18.3.0)(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)
+  '@stripe/react-stripe-js':
+    specifier: ^2.7.1
+    version: 2.7.1(@stripe/stripe-js@3.4.1)(react-dom@18.3.1)(react@18.3.1)
+  '@stripe/stripe-js':
+    specifier: ^3.4.1
+    version: 3.4.1
   '@tanstack/react-query':
     specifier: ^5.36.2
     version: 5.37.1(react@18.3.1)
@@ -2328,6 +2334,24 @@ packages:
 
   /@stablelib/base64@1.0.1:
     resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
+    dev: false
+
+  /@stripe/react-stripe-js@2.7.1(@stripe/stripe-js@3.4.1)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-/i13alp27HaSBbMM6kW0jhy8KqdtOL1T/EcRjFjfhvt+CBtMEg8TD7y28W3oZG0+OBDdCyGGnXgNgrKPYQH40g==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1 || ^2.0.0 || ^3.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@stripe/stripe-js': 3.4.1
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@stripe/stripe-js@3.4.1:
+    resolution: {integrity: sha512-6vFTA7+MzoQyhZDn/D3wWZrUE8M8OSUFJE2Y3O1okfBWr4eCLvMeSoZuYN2xb1KJ3J0bBw96YfKxY75M/H0JZw==}
+    engines: {node: '>=12.16'}
     dev: false
 
   /@swc/counter@0.1.3:

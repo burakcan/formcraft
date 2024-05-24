@@ -66,7 +66,7 @@ export async function PUT(
         .update({
           where: {
             id: ctx.params.form_id,
-            organizationId: orgId || undefined,
+            organizationId: orgId || null,
             userId: !orgId ? userId : undefined,
           },
           data: {
@@ -139,7 +139,7 @@ export async function POST(
       },
       where: {
         id: ctx.params.form_id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
       data: {
@@ -172,7 +172,7 @@ export async function DELETE(
       },
       where: {
         id: ctx.params.form_id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
       data: {

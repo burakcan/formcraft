@@ -19,7 +19,7 @@ export async function POST(
     const existingForm = await db.craft.findFirst({
       where: {
         id: ctx.params.form_id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
       include: {

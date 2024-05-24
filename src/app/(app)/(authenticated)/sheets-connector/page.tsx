@@ -127,7 +127,7 @@ export default async function SheetsConnectorPage(props: Props) {
   await db.craft.update({
     where: {
       id: craftId,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       userId: !orgId ? userId : undefined,
     },
     data: {

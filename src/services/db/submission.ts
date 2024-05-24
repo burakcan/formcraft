@@ -47,7 +47,7 @@ export async function getVersionsFromSubmissionsList(
     where: {
       id: { in: versionIds },
       craft: {
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
     },
@@ -72,7 +72,7 @@ export async function listSubmissions<PS extends number | undefined>(
   const where = {
     craft: {
       id: formId,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       userId: !orgId ? userId : undefined,
     },
     data: {

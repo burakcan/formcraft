@@ -28,7 +28,7 @@ export async function POST(
       },
       where: {
         id: ctx.params.form_id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
       data: {

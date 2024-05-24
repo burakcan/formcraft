@@ -8,12 +8,6 @@ import { Label } from "@/components/ui/label";
 import { useStripeAccountQuery } from "@/hooks/useStripeAccountQuery";
 import { InputGroup } from "../contentAtoms/InputGroup";
 import { ConnectButton } from "./ConnectButton";
-// import type { StripePayment } from "./schema";
-
-// interface Props {
-//   page: StripePayment;
-//   onChange: (page: StripePayment) => void;
-// }
 
 export function StripeConnectField() {
   const {
@@ -24,7 +18,6 @@ export function StripeConnectField() {
   } = useStripeAccountQuery();
 
   const isIncomplete = stripeAccount && stripeAccount.charges_enabled === false;
-  console.log;
 
   return (
     <InputGroup>
