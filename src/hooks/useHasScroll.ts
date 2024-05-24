@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 
 export function useHasScroll(
-  ref: React.RefObject<HTMLElement>,
-  deps: any[] = []
+  refToMeasure: React.RefObject<HTMLElement>,
+  deps: any[] = [],
+  refToObserve: React.RefObject<HTMLElement> = refToMeasure
 ) {
   const [hasScroll, setHasScroll] = useState(false);
 
   useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      if (!ref.current) {
+    const handleResize = () => {
+      if (!refToMeasure.current) {
         return;
       }
 
       const hasScroll =
-        (ref.current?.scrollHeight || 0) > (ref.current?.clientHeight || 0);
+        (refToMeasure.current?.scrollHeight || 0) >
+        (refToMeasure.current?.clientHeight || 0);
 
       setHasScroll(hasScroll);
-    });
+    };
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const resizeObserver = new ResizeObserver(handleResize);
+
+    if (refToObserve.current) {
+      resizeObserver.observe(refToObserve.current);
     }
 
     return () => {
-      observer.disconnect();
+      resizeObserver.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

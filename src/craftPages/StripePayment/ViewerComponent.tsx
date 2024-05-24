@@ -1,6 +1,11 @@
 "use client";
 
-import { Elements, PaymentElement, useElements } from "@stripe/react-stripe-js";
+import {
+  AddressElement,
+  Elements,
+  PaymentElement,
+  useElements,
+} from "@stripe/react-stripe-js";
 import type { Stripe } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -144,6 +149,20 @@ export function _StripePaymentViewer(
                           </div>
                         ) : (
                           <>
+                            {page.collectAddress && (
+                              <AddressElement
+                                className="mb-1"
+                                options={{
+                                  mode: "billing",
+                                  display: {
+                                    name: "full",
+                                  },
+                                }}
+                                onChange={() => {
+                                  window.dispatchEvent(new Event("resize"));
+                                }}
+                              />
+                            )}
                             <PaymentElement options={{ layout: "tabs" }} />
                             <Button
                               className="w-full mt-4"
@@ -242,6 +261,17 @@ function StripePaymentPreview(
                           </div>
                         ) : (
                           <>
+                            {page.collectAddress && (
+                              <AddressElement
+                                className="mb-1"
+                                options={{
+                                  mode: "billing",
+                                  display: {
+                                    name: "full",
+                                  },
+                                }}
+                              />
+                            )}
                             <PaymentElement options={{ layout: "tabs" }} />
                             <Button
                               className="w-full mt-4"
