@@ -24,6 +24,7 @@ model User {
   uploadedImages      UploadedImage[]
   stripeCustomer      StripeCustomer?
   stripeSubscriptions StripeSubscription[]
+  stripeAccounts      StripeAccount[]
 }
 
 model Organization {
@@ -34,6 +35,7 @@ model Organization {
   uploadedImages      UploadedImage[]
   stripeCustomer      StripeCustomer?
   stripeSubscriptions StripeSubscription[]
+  stripeAccounts      StripeAccount[]
 }
 
 model Craft {
@@ -248,4 +250,16 @@ model StripeSubscription {
   items                  StripeSubscriptionItem[]
   metadata               Json
   status                 StripeSubscriptionStatus
+}
+
+model StripeAccount {
+  id             String        @id @unique
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String?
+
+  charges_enabled   Boolean @default(false)
+  transfers_enabled Boolean @default(false)
+  details_submitted Boolean @default(false)
 }
