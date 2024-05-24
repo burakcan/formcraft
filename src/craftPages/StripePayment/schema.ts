@@ -4,7 +4,7 @@ import { basePage } from "../schemas/basePage";
 export const stripePaymentEditorSchema = basePage.extend({
   type: z.literal("stripe_payment").default("stripe_payment"),
   cta: z.string().default("Confirm"),
-  required: z.boolean().default(false),
+  required: z.boolean().default(true),
   price: z.number().optional().nullable(),
   currency: z.string().default("usd"),
   // reserved for future use. Currently we use the account's stripe account only.

@@ -5,6 +5,7 @@ import type { Stripe } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckIcon } from "lucide-react";
 import { useRef } from "react";
+import { FaCcStripe } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { BaseContentEditor } from "../pageAtoms/BaseContent";
 import { CtaSectionEditor } from "../pageAtoms/CtaSection";
@@ -48,6 +49,12 @@ export function _StripePaymentEditor(
         <Button className="w-full mt-4" form="payment-form" type="button">
           Pay {priceFormatter.format(page.price ? page.price : 0)}
         </Button>
+        <div className="flex justify-center">
+          <div className="inline-flex gap-2 border border-indigo-500 mt-2 items-center px-1 text-xs rounded-md">
+            <span>Secured by</span>
+            <FaCcStripe className="size-8 text-indigo-500" />
+          </div>
+        </div>
       </div>
       <CtaSectionEditor page={page} onChange={onChange} icon={CheckIcon} />
     </PageWrapperEditor>
