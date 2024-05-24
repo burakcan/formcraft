@@ -1,6 +1,10 @@
 "use client";
 
-import { Elements, PaymentElement } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  AddressElement,
+} from "@stripe/react-stripe-js";
 import type { Stripe } from "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckIcon } from "lucide-react";
@@ -45,6 +49,17 @@ export function _StripePaymentEditor(
     <PageWrapperEditor innerWrapperClassName="max-w-sm">
       <BaseContentEditor page={page} onChange={onChange} />
       <div className="mx-auto p-8 bg-white rounded-md shadow-md">
+        {page.collectAddress && (
+          <AddressElement
+            className="mb-1"
+            options={{
+              mode: "billing",
+              display: {
+                name: "full",
+              },
+            }}
+          />
+        )}
         <PaymentElement options={{ layout: "tabs" }} />
         <Button className="w-full mt-4" form="payment-form" type="button">
           Pay {priceFormatter.format(page.price ? page.price : 0)}

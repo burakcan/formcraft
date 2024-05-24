@@ -21,6 +21,7 @@ export function StripePaymentContentSettings(props: Props) {
 
   return (
     <SettingsWrapper>
+      <StripeConnectField />
       <InputGroup>
         <SwitchField
           label="Required"
@@ -28,8 +29,15 @@ export function StripePaymentContentSettings(props: Props) {
           checked={page.required}
           onCheckedChange={(value) => onChange({ ...page, required: value })}
         />
+        <SwitchField
+          label="Collect Address"
+          name="collectAddress"
+          checked={page.collectAddress}
+          onCheckedChange={(value) =>
+            onChange({ ...page, collectAddress: value })
+          }
+        />
       </InputGroup>
-      <StripeConnectField />
       <InputGroup>
         <SelectField
           selectClassName="w-36"

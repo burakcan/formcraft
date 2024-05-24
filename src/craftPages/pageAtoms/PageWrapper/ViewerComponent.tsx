@@ -34,7 +34,8 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
 ) {
   const endScreenSubmitted = useRef(false);
   const { page } = props;
-  const ref = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const innerWrapperRef = useRef<HTMLDivElement>(null);
   const { setReason: setPageChangeReson } = usePageChangeReason();
   const { onAnswer, submissionId, answers } = useViewCraftStore((state) => ({
     onAnswer: state.onAnswer,
@@ -94,7 +95,7 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
     }
   }, [page.type, mutation]);
 
-  const hasScroll = useHasScroll(ref, [page]);
+  const hasScroll = useHasScroll(formRef, [page], innerWrapperRef);
 
   return (
     <Form {...form}>
@@ -105,9 +106,10 @@ export function PageWrapperViewer<T extends FormCraft.CraftPage>(
           "size-full flex flex-col items-center px-4 py-24 sm:p-16 break-before-all overflow-y-auto",
           { "justify-center": !hasScroll }
         )}
-        ref={ref}
+        ref={formRef}
       >
         <div
+          ref={innerWrapperRef}
           className={cn(
             "max-w-screen-md w-full mx-auto",
             props.innerWrapperClassName

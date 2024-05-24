@@ -7,6 +7,7 @@ export const stripePaymentEditorSchema = basePage.extend({
   required: z.boolean().default(true),
   price: z.number().optional().nullable(),
   currency: z.string().default("usd"),
+  collectAddress: z.boolean().default(false),
   // reserved for future use. Currently we use the account's stripe account only.
   stripeAccountId: z.string().default(""),
 });
