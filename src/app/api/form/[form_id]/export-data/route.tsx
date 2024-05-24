@@ -63,7 +63,7 @@ export async function GET(
         let val = row[col.id] || submission.data[col.id]?.value || "";
         val = Array.isArray(val) ? val.join(", ") : val;
 
-        row[col.header] = val;
+        row[col.header] = JSON.stringify(val);
       });
 
       return row;

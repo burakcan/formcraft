@@ -16,7 +16,7 @@ export async function GET() {
 
     const stripeAccount = await db.stripeAccount.findFirst({
       where: {
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
     });

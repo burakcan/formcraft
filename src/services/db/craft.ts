@@ -7,7 +7,7 @@ export function getCraft(id: string, userId: string, orgId?: string) {
   return db.craft.findFirst({
     where: {
       id: id,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       userId: !orgId ? userId : undefined,
     },
     include: {
@@ -44,7 +44,7 @@ export function getWorkingCraftVersion(
     where: {
       craft: {
         id: id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
     },
@@ -91,7 +91,7 @@ export async function getCraftConnections(craft_id: string) {
   const craftWithConnections = await db.craft.findFirst({
     where: {
       id: craft_id,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       userId: !orgId ? userId : undefined,
     },
     include: {
@@ -135,6 +135,8 @@ export async function getCraftsListing(
   const authData = auth();
   const { userId, orgId } = authData;
 
+  console.log("authData", authData);
+
   if (!authData || userId === null) {
     throw new Error(ErrorType.Unauthorized);
   }
@@ -142,7 +144,7 @@ export async function getCraftsListing(
   const crafts = await db.craft
     .findMany({
       where: {
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
         archivedAt: !includeArchived ? null : undefined,
       },

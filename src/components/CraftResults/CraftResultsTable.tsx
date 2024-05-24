@@ -12,6 +12,7 @@ import { uniqBy } from "lodash";
 import { DownloadIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -36,6 +37,7 @@ import {
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { getPaginationWithEllipsis } from "@/lib/getPaginationWithEllipsis";
 import { cn } from "@/lib/utils";
+import type { StripePaymentValue } from "@/craftPages/StripePayment/schema";
 
 interface Props {
   data: {
@@ -106,15 +108,27 @@ export function CraftResultsTable(props: Props) {
         return row.data[p.id]?.value;
       },
       cell: (ctx) => {
-        const value = ctx.getValue() as string | undefined;
+        const value = ctx.getValue();
+
+        let content: ReactNode;
+        let noContent = false;
+
+        switch (p.type) {
+          case "stripe_payment":
+            content = (value as StripePaymentValue)?.paid ? "Paid" : "Not paid";
+            noContent = !(value as StripePaymentValue)?.paid;
+            break;
+          default:
+            content = String(value) || "N/A";
+        }
 
         return (
           <div
             className={cn(" min-w-48", {
-              "text-gray-300 flex text-xs": !value,
+              "text-gray-300 flex text-xs": noContent || !value,
             })}
           >
-            {value || "N/A"}
+            {content}
           </div>
         );
       },

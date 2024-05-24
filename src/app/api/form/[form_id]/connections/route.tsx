@@ -44,7 +44,7 @@ export async function PUT(
     const craft = await db.craft.update({
       where: {
         id: ctx.params.form_id,
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
       include: {

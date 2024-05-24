@@ -16,7 +16,7 @@ export async function getCustomThemes() {
 
   const themes = await db.customTheme.findMany({
     where: {
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       userId: !orgId ? userId : undefined,
     },
   });
@@ -44,12 +44,12 @@ export async function saveCustomTheme(data: CraftTheme) {
     where: {
       id: id,
       userId: !orgId ? userId : undefined,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
     },
     create: {
       id: id,
       userId: userId,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
       data: {
         ...data,
         id,
@@ -80,7 +80,7 @@ export const deleteCustomTheme = async (themeId: string) => {
     where: {
       id: themeId,
       userId: !orgId ? userId : undefined,
-      organizationId: orgId || undefined,
+      organizationId: orgId || null,
     },
   });
 };

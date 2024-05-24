@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 
     let dbStripeAccount = await db.stripeAccount.findFirst({
       where: {
-        organizationId: orgId || undefined,
+        organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
     });
