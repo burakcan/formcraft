@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/nextjs";
 import { BadgeCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { useSubscriptionQuery } from "@/hooks/useSubscriptionQuery";
+import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
 type Props =
@@ -14,8 +15,13 @@ type Props =
       organization: true;
     };
 
-export function TryProButton(props: Props) {
-  const { organization } = props;
+export function TryProButton(
+  props: Props & {
+    className?: string;
+    returnPath?: string;
+  }
+) {
+  const { organization, className, returnPath = "/dashboard" } = props;
   const authData = useAuth();
   const { data: subscriptionData, isLoading } = useSubscriptionQuery(
     authData.userId!,
@@ -36,10 +42,13 @@ export function TryProButton(props: Props) {
 
   return (
     <Button
-      className="bg-yellow-300 text-black border border-black hover:bg-black hover:text-yellow-300"
+      className={cn(
+        "bg-yellow-300 text-black border border-black hover:bg-black hover:text-yellow-300",
+        className
+      )}
       asChild
     >
-      <Link prefetch={false} href={`/checkout?f=${forWhom}`}>
+      <Link prefetch={false} href={`/checkout?f=${forWhom}&r=${returnPath}`}>
         <BadgeCheckIcon className="size-4 mr-2" />
         {!subscriptionData ? "Try Pro for free" : "Buy Formcraft Pro"}
       </Link>

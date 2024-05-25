@@ -135,8 +135,6 @@ export async function getCraftsListing(
   const authData = auth();
   const { userId, orgId } = authData;
 
-  console.log("authData", authData);
-
   if (!authData || userId === null) {
     throw new Error(ErrorType.Unauthorized);
   }

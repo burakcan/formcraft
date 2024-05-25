@@ -61,7 +61,12 @@ export function _StripePaymentEditor(
           />
         )}
         <PaymentElement options={{ layout: "tabs" }} />
-        <Button className="w-full mt-4" form="payment-form" type="button">
+        <Button
+          className="w-full mt-4"
+          form="payment-form"
+          type="button"
+          suppressHydrationWarning
+        >
           Pay {priceFormatter.format(page.price ? page.price : 0)}
         </Button>
         <div className="flex justify-center">

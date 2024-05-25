@@ -14,7 +14,12 @@ export default async function CraftSharePage(props: Props) {
   return (
     <LayoutWithTopbar
       topBar={
-        <CraftBuilderTopBar hideUndoRedo craft_id={form_id} activeTab="share" />
+        <CraftBuilderTopBar
+          hideUndoRedo
+          hideAutoSave
+          craft_id={form_id}
+          activeTab="share"
+        />
       }
     >
       <CraftShare />

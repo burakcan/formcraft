@@ -45,7 +45,14 @@ export default async function CraftResultsPage(props: Props) {
 
   return (
     <LayoutWithTopbar
-      topBar={<CraftBuilderTopBar craft_id={form_id} activeTab="results" />}
+      topBar={
+        <CraftBuilderTopBar
+          hideUndoRedo
+          hideAutoSave
+          craft_id={form_id}
+          activeTab="results"
+        />
+      }
     >
       <Suspense fallback={<div>Loading table...</div>}>
         <TableWrapper {...props} />

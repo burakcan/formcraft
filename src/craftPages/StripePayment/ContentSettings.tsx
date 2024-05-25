@@ -1,5 +1,10 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TryProButton } from "@/components/TryProButton";
+import { useEditCraftStore } from "@/hooks/useEditCraftStore";
+import { useSubscriptionQuery } from "@/hooks/useSubscriptionQuery";
 import { InputField } from "../contentAtoms/InputField";
 import { InputGroup } from "../contentAtoms/InputGroup";
 import { Logo } from "../contentAtoms/Logo";
@@ -17,7 +22,17 @@ interface Props {
 }
 
 export function StripePaymentContentSettings(props: Props) {
+  const craftId = useEditCraftStore((state) => state.craft.id);
   const { page, onChange } = props;
+  const authData = useAuth();
+  const { data: subscriptionData } = useSubscriptionQuery(
+    authData.userId!,
+    authData.orgId || ""
+  );
+
+  const hasActiveSubscription =
+    subscriptionData?.status === "active" ||
+    subscriptionData?.status === "trialing";
 
   return (
     <SettingsWrapper>
@@ -30,7 +45,7 @@ export function StripePaymentContentSettings(props: Props) {
           onCheckedChange={(value) => onChange({ ...page, required: value })}
         />
         <SwitchField
-          label="Collect Address"
+          label="Collect billing address"
           name="collectAddress"
           checked={page.collectAddress}
           onCheckedChange={(value) =>
@@ -51,6 +66,9 @@ export function StripePaymentContentSettings(props: Props) {
           onChange={(value) => onChange({ ...page, currency: value })}
         />
         <InputField
+          wrapperClassName="flex items-center justify-between gap-2"
+          inputClassName="w-36"
+          label="Price"
           type="number"
           placeholder="Enter price"
           name="price"
@@ -63,6 +81,19 @@ export function StripePaymentContentSettings(props: Props) {
             })
           }
         />
+        {!hasActiveSubscription && (
+          <Alert>
+            <AlertDescription>
+              In the free plan, Formcraft takes a 1% fee on all transactions.
+              Switch to Pro to remove this fee.
+              <TryProButton
+                organization
+                className="w-full mt-2"
+                returnPath={`/form/${craftId}/edit?page=${page.id}`}
+              />
+            </AlertDescription>
+          </Alert>
+        )}
       </InputGroup>
       <VariableName page={page} onChange={onChange} />
       <Logo page={page} onChange={onChange} />

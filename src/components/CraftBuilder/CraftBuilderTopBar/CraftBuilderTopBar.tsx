@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TopBar } from "@/components/AppChrome";
 import { BlockerLink } from "@/components/CraftNavigationBlock";
+import { AutoSave } from "../AutoSave";
 import { Avatar } from "./Avatar";
 import { CraftName } from "./CraftName";
 import { CraftStatusBadge } from "./CraftStatusBadge";
@@ -15,6 +16,7 @@ interface Props {
   activeTab: "create" | "flow" | "connect" | "share" | "results";
   hideUndoRedo?: boolean;
   hidePreview?: boolean;
+  hideAutoSave?: boolean;
 }
 
 export function CraftBuilderTopBar(props: Props) {
@@ -23,6 +25,7 @@ export function CraftBuilderTopBar(props: Props) {
     activeTab,
     hideUndoRedo = false,
     hidePreview = false,
+    hideAutoSave = false,
   } = props;
 
   return (
@@ -62,6 +65,7 @@ export function CraftBuilderTopBar(props: Props) {
         </Tabs>
       </div>
       <div className="flex-1" />
+      {!hideAutoSave && <AutoSave />}
       <CraftStatusBadge />
       <div className="flex gap-2 pr-4 justify-end">
         {!hideUndoRedo && <UndoRedo />}

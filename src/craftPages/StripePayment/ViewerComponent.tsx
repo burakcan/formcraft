@@ -165,6 +165,7 @@ export function _StripePaymentViewer(
                             )}
                             <PaymentElement options={{ layout: "tabs" }} />
                             <Button
+                              suppressHydrationWarning
                               className="w-full mt-4"
                               form="payment-form"
                               type="submit"
@@ -274,6 +275,7 @@ function StripePaymentPreview(
                             )}
                             <PaymentElement options={{ layout: "tabs" }} />
                             <Button
+                              suppressHydrationWarning
                               className="w-full mt-4"
                               form="payment-form"
                               type="button"
@@ -294,6 +296,7 @@ function StripePaymentPreview(
                               (simulate success)
                             </Button>
                             <Button
+                              suppressHydrationWarning
                               className="w-full mt-4"
                               form="payment-form"
                               type="button"

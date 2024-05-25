@@ -1,6 +1,8 @@
 "use client";
 
-import { debounce } from "lodash";
+import { motion } from "framer-motion";
+import { debounce, isEqual } from "lodash";
+import { CheckCircle2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useCraftMutation } from "@/hooks/useCraftMutation";
 import { useCraftQuery } from "@/hooks/useCraftQuery";
@@ -17,7 +19,8 @@ export function AutoSave() {
   const query = useCraftQuery(craft.id);
 
   const dirty =
-    query.data?.craft !== craft || query.data?.editingVersion !== version;
+    !isEqual(query.data?.craft, craft) ||
+    !isEqual(query.data?.editingVersion, version);
 
   useEffect(() => {
     if (!dirty) {
@@ -26,7 +29,7 @@ export function AutoSave() {
 
     const save = debounce(() => {
       handleSave(false);
-    }, 500);
+    }, 2000);
 
     save();
 
@@ -35,5 +38,34 @@ export function AutoSave() {
     };
   }, [dirty, handleSave]);
 
-  return null;
+  const isPending = dirty || mutation.isPending;
+
+  return (
+    <>
+      {isPending ? (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2"
+          key="saving"
+        >
+          <div className="text-xs text-gray-400 flex items-center gap-1">
+            Saving...
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2"
+          key="saved"
+        >
+          <div className="text-xs text-gray-400 flex items-center gap-1">
+            Saved
+            <CheckCircle2Icon className="size-4 inline-block text-emerald-500" />
+          </div>
+        </motion.div>
+      )}
+    </>
+  );
 }

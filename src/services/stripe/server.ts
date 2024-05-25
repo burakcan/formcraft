@@ -207,14 +207,21 @@ export async function createCheckoutSession(
     },
   });
 
+  const success_url = new URL(`${process.env.NEXT_PUBLIC_URL}${returnPath}`);
+  const cancel_url = new URL(`${process.env.NEXT_PUBLIC_URL}${returnPath}`);
+
+  success_url.searchParams.append("success", "true");
+  success_url.searchParams.append("session_id", "{CHECKOUT_SESSION_ID}");
+  cancel_url.searchParams.append("canceled", "true");
+
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customer.id,
     ui_mode: "hosted",
     subscription_data: existingSubscription ? {} : { trial_period_days: 7 },
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}${returnPath}?canceled=true`,
+    success_url: success_url.toString(),
+    cancel_url: cancel_url.toString(),
   });
 
   return session;

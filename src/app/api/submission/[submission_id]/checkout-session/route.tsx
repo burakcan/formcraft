@@ -61,6 +61,12 @@ export async function GET(
           enabled: true,
           allow_redirects: "never",
         },
+        metadata: {
+          form_title: submission.craft.title,
+          form_id: submission.craft.id,
+          submission_id: submission.id,
+          page_id: page.id,
+        },
       },
       { stripeAccount: stripeAccounts[0].id }
     );
