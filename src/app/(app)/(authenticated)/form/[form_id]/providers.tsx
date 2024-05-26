@@ -16,16 +16,18 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
   const { form_id } = props;
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialPageId = searchParams.get("page");
+  const initialPageId = searchParams.get("page_id");
   const pathname = usePathname();
   const { data: queryData } = useCraftQuery(form_id);
 
   useEffect(() => {
-    // remove page param from url
+    // remove page param from url but keep the rest nextjs14
     if (initialPageId) {
-      router.replace(pathname);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("page_id");
+      router.replace(pathname + "?" + params.toString());
     }
-  }, [initialPageId, pathname, router]);
+  }, [initialPageId, pathname, router, searchParams]);
 
   const serverStoreData = useMemo(
     () => ({

@@ -89,7 +89,7 @@ export function StripePaymentContentSettings(props: Props) {
               <TryProButton
                 organization
                 className="w-full mt-2"
-                returnPath={`/form/${craftId}/edit?page=${page.id}`}
+                returnPath={`/form/${craftId}/edit?page_id=${page.id}`}
               />
             </AlertDescription>
           </Alert>
