@@ -69,7 +69,7 @@ export function CraftViewer() {
         themes={themes}
         enabled={!isRootNodeLoading}
       />
-      <PageLayout theme={theme} page={currentPage}>
+      <PageLayout disableImageLoading theme={theme} page={currentPage}>
         <AnimatePresence initial={false} custom={pageChangeReason}>
           <motion.div
             layout

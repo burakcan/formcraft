@@ -6,11 +6,12 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 interface Props {
   theme: CraftTheme;
   disableTransitions?: boolean;
+  noLoading?: boolean;
 }
 
 export function BackgroundImage(props: Props) {
   const { reason: pageChangeReason } = usePageChangeReason();
-  const { theme, disableTransitions } = props;
+  const { theme, disableTransitions, noLoading } = props;
   const { backgroundImage } = theme;
 
   const bgImageKey =
@@ -58,6 +59,7 @@ export function BackgroundImage(props: Props) {
         >
           <ThemeImage
             imageObject={backgroundImage}
+            noLoading={noLoading}
             attributionSide={
               theme.decorationImageLayout === "left-full" ? "right" : "left"
             }

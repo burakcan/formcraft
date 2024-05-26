@@ -9,13 +9,15 @@ import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 interface Props {
   disableTransitions?: boolean;
+  disableImageLoading?: boolean;
   theme: CraftTheme;
   children: ReactNode;
   page: FormCraft.CraftPage;
 }
 
 export function PageLayout(props: Props) {
-  const { children, theme, disableTransitions, page } = props;
+  const { children, theme, disableTransitions, page, disableImageLoading } =
+    props;
   const { logo } = page;
   const { decorationImage } = theme;
   const isDesktop = useBreakpoint("sm");
@@ -28,7 +30,11 @@ export function PageLayout(props: Props) {
         "text-right": theme.textAlign === "right",
       })}
     >
-      <BackgroundImage theme={theme} disableTransitions={disableTransitions} />
+      <BackgroundImage
+        noLoading={disableImageLoading}
+        theme={theme}
+        disableTransitions={disableTransitions}
+      />
       <AnimatePresence initial={false}>
         {decorationImage && (
           <motion.div
@@ -78,6 +84,7 @@ export function PageLayout(props: Props) {
             <DecorationImage
               disableTransitions={disableTransitions}
               theme={theme}
+              noLoading={disableImageLoading}
               layout="left-full"
             />
           </motion.div>

@@ -7,11 +7,12 @@ interface Props {
   disableTransitions?: boolean;
   theme: CraftTheme;
   layout: "left-full" | "right-full";
+  noLoading?: boolean;
 }
 
 export function DecorationImage(props: Props) {
   const { reason: pageChangeReason } = usePageChangeReason();
-  const { theme, layout, disableTransitions } = props;
+  const { theme, layout, disableTransitions, noLoading } = props;
   const { decorationImage } = theme;
 
   const decoImageKey =
@@ -59,6 +60,7 @@ export function DecorationImage(props: Props) {
         >
           {decorationImage && (
             <ThemeImage
+              noLoading={noLoading}
               imageObject={decorationImage}
               attributionSide={layout === "left-full" ? "left" : "right"}
             />
