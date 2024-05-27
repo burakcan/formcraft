@@ -16,6 +16,7 @@ export function Avatar() {
         style={{
           background: "rgba(0, 0, 0, 0.24)",
         }}
+        suppressHydrationWarning
       >
         {orgLoaded && userLoaded && (
           <Image

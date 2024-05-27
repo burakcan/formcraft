@@ -37,6 +37,7 @@ import {
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { getPaginationWithEllipsis } from "@/lib/getPaginationWithEllipsis";
 import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
 import type { StripePaymentValue } from "@/craftPages/StripePayment/schema";
 
 interface Props {
@@ -118,8 +119,25 @@ export function CraftResultsTable(props: Props) {
             content = (value as StripePaymentValue)?.paid ? "Paid" : "Not paid";
             noContent = !(value as StripePaymentValue)?.paid;
             break;
+          case "choices":
+            content = (
+              <>
+                {value
+                  ? (value as string[]).map((v, i) => (
+                      <Badge
+                        variant="outline"
+                        key={i}
+                        className="inline-block ml-1"
+                      >
+                        {p.options.find((o) => o.id === v)?.label || v}
+                      </Badge>
+                    ))
+                  : "N/A"}
+              </>
+            );
+            break;
           default:
-            content = String(value) || "N/A";
+            content = value ? String(value) : "N/A";
         }
 
         return (

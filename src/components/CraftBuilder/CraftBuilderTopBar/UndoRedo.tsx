@@ -24,6 +24,10 @@ export function UndoRedo() {
   useEffect(() => {
     hotkeys.setScope("craft-builder");
 
+    hotkeys.filter = () => {
+      return true;
+    };
+
     hotkeys("ctrl+z,cmd+z", "craft-builder", (event) => {
       event.preventDefault();
       event.stopImmediatePropagation();

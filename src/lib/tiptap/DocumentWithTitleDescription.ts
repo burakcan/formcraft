@@ -6,15 +6,6 @@ import { Title } from "./Title";
 
 export const DocumentWithTitleDescription = Document.extend({
   content: "title description",
-  addKeyboardShortcuts() {
-    return {
-      "Cmd+Z": (props) => {
-        console.log("Mod+Z", props);
-        return true;
-      },
-      "Mod+Shift+Z": () => true,
-    };
-  },
 });
 
 export const DocumentWithTitleDescriptionKit = [
@@ -28,7 +19,7 @@ export const DocumentWithTitleDescriptionKit = [
       }
 
       if (node.type.name === "description") {
-        return "Description...";
+        return "Description... Recall previous answers with @.";
       }
 
       return "Write something...";

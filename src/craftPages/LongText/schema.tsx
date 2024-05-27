@@ -34,3 +34,5 @@ export const getLongTextViewerSchema = (page: LongText) => {
 
   return answerSchema.default("");
 };
+
+export type LongTextValue = z.infer<ReturnType<typeof getLongTextViewerSchema>>;

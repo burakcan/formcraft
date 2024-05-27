@@ -49,3 +49,5 @@ export const getChoicesViewerSchema = (page: Choices) => {
 
   return answerSchema.default([]);
 };
+
+export type ChoicesValue = z.infer<ReturnType<typeof getChoicesViewerSchema>>;

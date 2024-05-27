@@ -29,3 +29,7 @@ export const getShortTextViewerSchema = (page: ShortText) => {
 
   return answerSchema.default("");
 };
+
+export type ShortTextValue = z.infer<
+  ReturnType<typeof getShortTextViewerSchema>
+>;

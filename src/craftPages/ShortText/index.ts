@@ -1,6 +1,7 @@
 import { TextCursorInput } from "lucide-react";
 import { ShortTextContentSettings } from "./ContentSettings";
 import { ShortTextEditor } from "./EditorComponent";
+import type { ShortText, ShortTextValue } from "./schema";
 import { getShortTextViewerSchema, shortTextEditorSchema } from "./schema";
 import { ShortTextViewer } from "./ViewerComponent";
 
@@ -16,6 +17,13 @@ const pageDefinition = {
 
   icon: TextCursorInput,
   iconClassName: "bg-amber-100",
+
+  recall: [
+    {
+      label: "value",
+      fn: (page: ShortText, value: ShortTextValue) => value,
+    },
+  ],
 };
 
 export default pageDefinition;
