@@ -1,5 +1,6 @@
 import type { NodeViewRendererProps } from "@tiptap/react";
 import { NodeViewWrapper } from "@tiptap/react";
+import { CircleAlert } from "lucide-react";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { cn } from "@/lib/utils";
 import { craftPageDefinitions } from "@/craftPages";
@@ -16,7 +17,17 @@ export function RecallToken(props: { pageId: string; label: string }) {
     ),
   }));
 
-  if (!page) return <NodeViewWrapper as="span">Not found</NodeViewWrapper>;
+  if (!page)
+    return (
+      <span
+        className={cn(
+          "inline-flex p-0.5 border text-xs rounded text-rose-800 border-rose-800 bg-rose-100 align-middle gap-0.5 max-w-48 select-none"
+        )}
+      >
+        <CircleAlert className="size-4 inline-block flex-none" />
+        Missing recall
+      </span>
+    );
 
   const pageDefinition = craftPageDefinitions[page.type];
 
@@ -25,7 +36,7 @@ export function RecallToken(props: { pageId: string; label: string }) {
   return (
     <span
       className={cn(
-        "inline-flex p-0.5 border text-xs rounded border-black align-middle gap-0.5 max-w-48 select-none selection:bg-slate-300",
+        "inline-flex p-0.5 border text-xs rounded border-black align-middle gap-0.5 max-w-48 select-none",
         pageDefinition.iconClassName
       )}
     >
