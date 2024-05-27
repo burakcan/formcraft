@@ -86,10 +86,11 @@ export function BaseContentViewer<T extends FormCraft.CraftPage>(
 
       type RecallingPage = (typeof recallHandler.fn)["arguments"][0];
       type RecallingValue = (typeof recallHandler.fn)["arguments"][1];
+      type RecallFn = (page: RecallingPage, value: RecallingValue) => string;
 
-      const recallResult = recallHandler.fn(
-        recallingPage as RecallingPage,
-        answers[recallingPage.id]?.value as RecallingValue
+      const recallResult = (recallHandler.fn as RecallFn)(
+        recallingPage,
+        answers[recallingPage.id]?.value
       );
 
       return recallResult;
