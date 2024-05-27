@@ -5,7 +5,7 @@ import type { Website, WebsiteValue } from "./schema";
 import { getWebsiteViewerSchema, websiteEditorSchema } from "./schema";
 import { WebsiteViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<Website, WebsiteValue> = {
   name: "Website",
   description: "Ask for a website URL",
 

@@ -1,14 +1,17 @@
 import { FaStripeS } from "react-icons/fa";
 import { StripePaymentContentSettings } from "./ContentSettings";
 import { StripePaymentEditor } from "./EditorComponent";
-import type { StripePayment } from "./schema";
+import type { StripePayment, StripePaymentValue } from "./schema";
 import {
   getStripePaymentViewerSchema,
   stripePaymentEditorSchema,
 } from "./schema";
 import { StripePaymentViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<
+  StripePayment,
+  StripePaymentValue
+> = {
   name: "Stripe payment",
   description: "Collect payments with Stripe",
 

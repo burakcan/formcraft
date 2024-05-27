@@ -1,4 +1,6 @@
 import type { Craft as DBCraft } from "@prisma/client";
+import type { LucideIcon } from "lucide-react";
+import type { IconType } from "react-icons";
 import type { ReactFlowJsonObject } from "reactflow";
 import type { Stripe } from "stripe";
 import type { z } from "zod";
@@ -6,6 +8,44 @@ import type { craftPageDefinitions } from "./craftPages";
 import type { CraftTheme as _CraftTheme } from "@/craftPages/schemas/theming";
 
 declare global {
+  namespace PageDefinition {
+    type EditorComponent<T> = React.ComponentType<{
+      page: T;
+      onChange: (pageId: string, page: T) => void;
+    }>;
+
+    type ViewerComponent<T> = React.ComponentType<{
+      page: T;
+    }>;
+
+    type SettingsComponent<T> = React.ComponentType<{
+      page: T;
+      onChange: (page: T) => void;
+    }>;
+
+    type EditorSchema<T> = z.ZodType<T, any, any>;
+
+    type ViewerSchema<AT> = z.ZodType<AT, any, any>;
+
+    type RecallFunction<T, AT> = {
+      label: string;
+      fn: (page: T, value: AT) => string | undefined;
+    };
+
+    interface Definition<T, AT> {
+      name: string;
+      description: string;
+      editorComponent: EditorComponent<T>;
+      editorSchema: EditorSchema<T>;
+      viewerComponent: ViewerComponent<T>;
+      getViewerSchema: (page: T) => ViewerSchema<AT>;
+      settingsComponent: SettingsComponent<T>;
+      icon: LucideIcon | IconType;
+      iconClassName: string;
+      recall: RecallFunction<T, AT>[];
+    }
+  }
+
   namespace FormCraft {
     type Craft = DBCraft & {
       archived: boolean;

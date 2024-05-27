@@ -5,7 +5,7 @@ import type { DateText, DateTextValue } from "./schema";
 import { getDateTextViewerSchema, dateTextEditorSchema } from "./schema";
 import { DateTextViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<DateText, DateTextValue> = {
   name: "Date",
   description: "A date input field",
 

@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import { StarIcon } from "lucide-react";
 import { StarRatingContentSettings } from "./ContentSettings";
 import { StarRatingEditor } from "./EditorComponent";
@@ -5,7 +6,7 @@ import type { StarRating, StarRatingValue } from "./schema";
 import { getStarRatingViewerSchema, starRatingEditorSchema } from "./schema";
 import { StarRatingViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<StarRating, StarRatingValue> = {
   name: "Rating",
   description: "Stars, hearts, thumbs, smileys",
 
@@ -21,7 +22,8 @@ const pageDefinition = {
   recall: [
     {
       label: "answer",
-      fn: (page: StarRating, value: StarRatingValue) => value,
+      fn: (page: StarRating, value: StarRatingValue) =>
+        isNil(value) ? undefined : String(value),
     },
   ],
 };

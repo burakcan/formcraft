@@ -5,7 +5,7 @@ import type { LongText, LongTextValue } from "./schema";
 import { getLongTextViewerSchema, longTextEditorSchema } from "./schema";
 import { LongTextViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<LongText, LongTextValue> = {
   name: "Long text",
   description: "Multi line text input",
 

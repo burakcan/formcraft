@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import { BarChartIcon } from "lucide-react";
 import { OpinionScaleContentSettings } from "./ContentSettings";
 import { OpinionScaleEditor } from "./EditorComponent";
@@ -8,7 +9,10 @@ import {
 } from "./schema";
 import { OpinionScaleViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<
+  OpinionScale,
+  OpinionScaleValue
+> = {
   name: "Opinion scale",
   description: "Collect opinions with a scale",
 
@@ -24,7 +28,8 @@ const pageDefinition = {
   recall: [
     {
       label: "answer",
-      fn: (page: OpinionScale, value: OpinionScaleValue) => value,
+      fn: (page: OpinionScale, value: OpinionScaleValue) =>
+        isNil(value) ? undefined : String(value),
     },
   ],
 };

@@ -1,10 +1,11 @@
 import { PartyPopperIcon } from "lucide-react";
 import { EndScreenContentSettings } from "./ContentSettings";
 import { EndScreenEditor } from "./EditorComponent";
+import type { EndScreen } from "./schema";
 import { endScreenEditorSchema, getEndScreenViewerSchema } from "./schema";
 import { EndScreenViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<EndScreen, null> = {
   name: "End Screen",
   description: "The final screen of the form",
 
@@ -16,6 +17,8 @@ const pageDefinition = {
 
   icon: PartyPopperIcon,
   iconClassName: "bg-stone-200",
+
+  recall: [],
 };
 
 export default pageDefinition;

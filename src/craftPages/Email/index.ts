@@ -5,7 +5,7 @@ import type { Email, EmailValue } from "./schema";
 import { getEmailViewerSchema, emailEditorSchema } from "./schema";
 import { EmailViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<Email, EmailValue> = {
   name: "Email address",
   description: "Ask for an email address",
 

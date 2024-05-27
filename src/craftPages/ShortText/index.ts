@@ -5,7 +5,7 @@ import type { ShortText, ShortTextValue } from "./schema";
 import { getShortTextViewerSchema, shortTextEditorSchema } from "./schema";
 import { ShortTextViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<ShortText, ShortTextValue> = {
   name: "Short text",
   description: "A single line of text",
 
@@ -21,7 +21,7 @@ const pageDefinition = {
   recall: [
     {
       label: "answer",
-      fn: (page: ShortText, value: ShortTextValue) => value,
+      fn: (page, value) => value,
     },
   ],
 };

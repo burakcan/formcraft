@@ -1,10 +1,11 @@
 import { Megaphone } from "lucide-react";
 import { StatementContentSettings } from "./ContentSettings";
 import { StatementEditor } from "./EditorComponent";
+import type { Statement } from "./schema";
 import { getStatementViewerSchema, statementEditorSchema } from "./schema";
 import { StatementViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<Statement, true> = {
   name: "Statement",
   description: "A statement or question",
 
@@ -16,6 +17,8 @@ const pageDefinition = {
 
   icon: Megaphone,
   iconClassName: "bg-rose-100",
+
+  recall: [],
 };
 
 export default pageDefinition;

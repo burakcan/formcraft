@@ -5,7 +5,7 @@ import type { Choices, ChoicesValue } from "./schema";
 import { getChoicesViewerSchema, choicesEditorSchema } from "./schema";
 import { ChoicesViewer } from "./ViewerComponent";
 
-const pageDefinition = {
+const pageDefinition: PageDefinition.Definition<Choices, ChoicesValue> = {
   name: "Choices",
   description: "Choose from a list of options",
 
