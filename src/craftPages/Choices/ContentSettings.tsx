@@ -3,7 +3,6 @@ import { Logo } from "../contentAtoms/Logo";
 import { OptionalInputField } from "../contentAtoms/OptionalInputField";
 import { SettingsWrapper } from "../contentAtoms/SettingsWrapper";
 import { SwitchField } from "../contentAtoms/SwitchField";
-import { VariableName } from "../contentAtoms/VariableName";
 import type { Choices } from "./schema";
 
 interface Props {
@@ -79,7 +78,7 @@ export function ChoicesContentSettings(props: Props) {
           onCheckedChange={(value) => onChange({ ...page, randomize: value })}
         />
       </InputGroup>
-      <VariableName page={page} onChange={onChange} />
+
       <Logo page={page} onChange={onChange} />
     </SettingsWrapper>
   );

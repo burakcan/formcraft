@@ -52,12 +52,18 @@ export const RecallList = forwardRef<HTMLDivElement, Props>(function RecallList(
 ) {
   const { query, editor, command } = props;
   const [selectedItem, setSelectedItem] = useState(0);
-  const { pages, selectedPageId } = useEditCraftStore((s) => ({
+  const { pages, selectedPageId, isEndScreen } = useEditCraftStore((s) => ({
     pages: s.editingVersion.data.pages,
     selectedPageId: s.selectedPageId,
+    isEndScreen: s.editingVersion.data.end_pages.some(
+      (p) => p.id === s.selectedPageId
+    ),
   }));
 
-  const selectedPageIndex = pages.findIndex((p) => p.id === selectedPageId);
+  const selectedPageIndex = isEndScreen
+    ? pages.length
+    : pages.findIndex((p) => p.id === selectedPageId);
+
   const recallablePages = pages
     .slice(0, selectedPageIndex)
     .filter((p) => "recall" in craftPageDefinitions[p.type])

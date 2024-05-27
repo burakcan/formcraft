@@ -1,6 +1,7 @@
 import { AtSignIcon } from "lucide-react";
 import { EmailContentSettings } from "./ContentSettings";
 import { EmailEditor } from "./EditorComponent";
+import type { Email, EmailValue } from "./schema";
 import { getEmailViewerSchema, emailEditorSchema } from "./schema";
 import { EmailViewer } from "./ViewerComponent";
 
@@ -16,6 +17,13 @@ const pageDefinition = {
 
   icon: AtSignIcon,
   iconClassName: "bg-blue-100",
+
+  recall: [
+    {
+      label: "value",
+      fn: (page: Email, value: EmailValue) => value,
+    },
+  ],
 };
 
 export default pageDefinition;

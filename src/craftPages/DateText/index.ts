@@ -1,6 +1,7 @@
 import { CalendarDaysIcon } from "lucide-react";
 import { DateTextContentSettings } from "./ContentSettings";
 import { DateTextEditor } from "./EditorComponent";
+import type { DateText, DateTextValue } from "./schema";
 import { getDateTextViewerSchema, dateTextEditorSchema } from "./schema";
 import { DateTextViewer } from "./ViewerComponent";
 
@@ -16,6 +17,14 @@ const pageDefinition = {
 
   icon: CalendarDaysIcon,
   iconClassName: "bg-amber-100",
+
+  recall: [
+    {
+      label: "value",
+      fn: (page: DateText, value: DateTextValue) =>
+        new Date(value).toLocaleDateString(),
+    },
+  ],
 };
 
 export default pageDefinition;

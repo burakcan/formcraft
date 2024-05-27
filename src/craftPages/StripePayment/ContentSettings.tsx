@@ -11,7 +11,6 @@ import { Logo } from "../contentAtoms/Logo";
 import { SelectField } from "../contentAtoms/SelectField";
 import { SettingsWrapper } from "../contentAtoms/SettingsWrapper";
 import { SwitchField } from "../contentAtoms/SwitchField";
-import { VariableName } from "../contentAtoms/VariableName";
 import { currencies } from "./currencies";
 import type { StripePayment } from "./schema";
 import { StripeConnectField } from "./StripeConnectField";
@@ -95,7 +94,7 @@ export function StripePaymentContentSettings(props: Props) {
           </Alert>
         )}
       </InputGroup>
-      <VariableName page={page} onChange={onChange} />
+
       <Logo page={page} onChange={onChange} />
     </SettingsWrapper>
   );

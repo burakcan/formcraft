@@ -30,3 +30,5 @@ export const getDateTextViewerSchema = (page: DateText) => {
 
   return answerSchema;
 };
+
+export type DateTextValue = z.infer<ReturnType<typeof getDateTextViewerSchema>>;

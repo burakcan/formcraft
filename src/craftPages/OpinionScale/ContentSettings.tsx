@@ -4,7 +4,6 @@ import { Logo } from "../contentAtoms/Logo";
 import { SelectField } from "../contentAtoms/SelectField";
 import { SettingsWrapper } from "../contentAtoms/SettingsWrapper";
 import { SwitchField } from "../contentAtoms/SwitchField";
-import { VariableName } from "../contentAtoms/VariableName";
 import type { OpinionScale } from "./schema";
 
 interface Props {
@@ -58,7 +57,7 @@ export function OpinionScaleContentSettings(props: Props) {
           onChange={(value) => onChange({ ...page, max: Number(value) })}
         />
       </InputGroup>
-      <VariableName page={page} onChange={onChange} />
+
       <Logo page={page} onChange={onChange} />
     </SettingsWrapper>
   );

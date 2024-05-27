@@ -25,3 +25,5 @@ export const getEmailViewerSchema = (page: Email) => {
 
   return answerSchema;
 };
+
+export type EmailValue = z.infer<ReturnType<typeof getEmailViewerSchema>>;

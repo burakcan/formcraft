@@ -3,7 +3,6 @@ import { Logo } from "../contentAtoms/Logo";
 import { OptionalInputField } from "../contentAtoms/OptionalInputField";
 import { SettingsWrapper } from "../contentAtoms/SettingsWrapper";
 import { SwitchField } from "../contentAtoms/SwitchField";
-import { VariableName } from "../contentAtoms/VariableName";
 import type { LongText } from "./schema";
 
 interface Props {
@@ -42,7 +41,7 @@ export function LongTextContentSettings(props: Props) {
           format={Number}
         />
       </InputGroup>
-      <VariableName page={page} onChange={onChange} />
+
       <Logo page={page} onChange={onChange} />
     </SettingsWrapper>
   );
