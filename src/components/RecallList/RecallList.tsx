@@ -71,11 +71,12 @@ export const RecallList = forwardRef<HTMLDivElement, Props>(function RecallList(
 
   const recallablePages = pages
     .slice(0, selectedPageIndex)
-    .filter((p) => "recall" in craftPageDefinitions[p.type])
     .filter(
-      (p) =>
-        p.title?.toLowerCase().includes(query.toLowerCase()) ||
-        p.description?.toLowerCase().includes(query.toLowerCase())
+      (p, i) =>
+        "recall" in craftPageDefinitions[p.type] &&
+        (Number(query) === i + 1 ||
+          p.title?.toLowerCase().includes(query.toLowerCase()) ||
+          p.description?.toLowerCase().includes(query.toLowerCase()))
     );
 
   const allRecalls = recallablePages
