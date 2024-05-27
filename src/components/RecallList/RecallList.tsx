@@ -15,16 +15,21 @@ export interface RecallItemProps {
   page: FormCraft.CraftPage;
   pageIndex: number;
   index: number;
+  onSelect: () => void;
 }
 
 function RecallItem(props: RecallItemProps) {
-  const { recall, page, index, pageIndex } = props;
+  const { recall, page, index, pageIndex, onSelect } = props;
   const pageDefinition = craftPageDefinitions[page.type];
   const Icon = pageDefinition.icon;
 
   return (
     <>
-      <CommandItem key={`${page.id}_${recall.label}`} value={String(index)}>
+      <CommandItem
+        key={`${page.id}_${recall.label}`}
+        value={String(index)}
+        onSelect={onSelect}
+      >
         <div className="flex items-center min-w-60 max-w-96">
           <div className={cn("mr-2 p-2 rounded", pageDefinition.iconClassName)}>
             <Icon className={cn("size-4", pageDefinition.iconClassName)} />
@@ -134,6 +139,9 @@ export const RecallList = forwardRef<HTMLDivElement, Props>(function RecallList(
       className="rounded border shadow-md"
       ref={ref}
       value={String(selectedItem)}
+      onValueChange={(value) => {
+        setSelectedItem(Number(value));
+      }}
     >
       {allRecalls.length === 0 && (
         <CommandEmpty className="p-4 text-sm text-muted-foreground">
@@ -150,6 +158,12 @@ export const RecallList = forwardRef<HTMLDivElement, Props>(function RecallList(
                 page={page}
                 recall={recall}
                 index={i}
+                onSelect={() => {
+                  command({
+                    label: recall.label,
+                    pageId: page.id,
+                  });
+                }}
               />
             ))}
           </CommandList>
