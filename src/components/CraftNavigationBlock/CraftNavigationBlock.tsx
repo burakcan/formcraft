@@ -1,5 +1,6 @@
 "use client";
 
+import { isEqual } from "lodash";
 import type Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ComponentProps, PropsWithChildren } from "react";
@@ -36,7 +37,8 @@ export function CraftNavigationBlockProvider(props: PropsWithChildren) {
   const query = useCraftQuery(craft.id);
 
   const dirty =
-    query.data?.craft !== craft || query.data?.editingVersion !== version;
+    !isEqual(query.data?.craft, craft) ||
+    !isEqual(query.data?.editingVersion, version);
 
   useEffect(() => {
     const dirtyCallback = (e: BeforeUnloadEvent) => {

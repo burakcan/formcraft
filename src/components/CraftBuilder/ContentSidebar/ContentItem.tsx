@@ -67,7 +67,7 @@ export function ContentItem(props: Props) {
           {isEnding && "e"}
           {index + 1}.
         </span>
-        <span>{page.title || page.description}</span>
+        <span>{page.title}</span>
       </div>
       {totalItems > 1 && (
         <div className="absolute right-1 top-0 h-full hidden items-center group-hover:flex group-data-[active=true]:flex">
