@@ -25,3 +25,7 @@ export const getOpinionScaleViewerSchema = (page: OpinionScale) => {
 
   return answerSchema;
 };
+
+export type OpinionScaleValue = z.infer<
+  ReturnType<typeof getOpinionScaleViewerSchema>
+>;

@@ -20,7 +20,7 @@ const pageDefinition = {
 
   recall: [
     {
-      label: "value",
+      label: "answer",
       fn: (page: Email, value: EmailValue) => value,
     },
   ],

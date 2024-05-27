@@ -36,3 +36,7 @@ export const getNumberInputViewerSchema = (page: NumberInput) => {
 
   return answerSchema;
 };
+
+export type NumberInputValue = z.infer<
+  ReturnType<typeof getNumberInputViewerSchema>
+>;

@@ -493,7 +493,7 @@ export const createEditCraftStore = (initialData: EditCraftStoreState) => {
         equality: isEqual,
         limit: 50,
         handleSet: (handleSet) =>
-          debounce(handleSet, 500, { leading: true, trailing: false }),
+          debounce(handleSet, 500, { leading: true, trailing: true }),
         partialize: (state) => {
           return omit(state, ["selectedPageId", "craft.updatedAt"]);
         },

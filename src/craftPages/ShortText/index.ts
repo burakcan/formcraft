@@ -20,7 +20,7 @@ const pageDefinition = {
 
   recall: [
     {
-      label: "value",
+      label: "answer",
       fn: (page: ShortText, value: ShortTextValue) => value,
     },
   ],

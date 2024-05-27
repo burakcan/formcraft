@@ -20,9 +20,24 @@ const pageDefinition = {
 
   recall: [
     {
-      label: "value",
-      fn: (page: DateText, value: DateTextValue) =>
-        new Date(value).toLocaleDateString(),
+      label: "answer",
+      fn: (page: DateText, value: DateTextValue) => {
+        const { dateFormat, separator } = page;
+
+        const date = new Date(value);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear().toString();
+
+        switch (dateFormat) {
+          case "DDMMYYYY":
+            return `${day}${separator}${month}${separator}${year}`;
+          case "MMDDYYYY":
+            return `${month}${separator}${day}${separator}${year}`;
+          case "YYYYMMDD":
+            return `${year}${separator}${month}${separator}${day}`;
+        }
+      },
     },
   ],
 };

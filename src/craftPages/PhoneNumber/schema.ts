@@ -37,3 +37,7 @@ export const getPhoneNumberViewerSchema = (page: PhoneNumber) => {
 
   return answerSchema;
 };
+
+export type PhoneNumberValue = z.infer<
+  ReturnType<typeof getPhoneNumberViewerSchema>
+>;

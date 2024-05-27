@@ -20,8 +20,11 @@ const pageDefinition = {
 
   recall: [
     {
-      label: "value",
-      fn: (page: Choices, value: ChoicesValue) => value,
+      label: "answer",
+      fn: (page: Choices, value: ChoicesValue) =>
+        value
+          .map((v) => page.options.find((o) => o.id === v)?.label)
+          .join(", "),
     },
   ],
 };

@@ -25,3 +25,5 @@ export const getWebsiteViewerSchema = (page: Website) => {
 
   return answerSchema;
 };
+
+export type WebsiteValue = z.infer<ReturnType<typeof getWebsiteViewerSchema>>;

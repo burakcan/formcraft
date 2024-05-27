@@ -1,6 +1,7 @@
 import { Link2Icon } from "lucide-react";
 import { WebsiteContentSettings } from "./ContentSettings";
 import { WebsiteEditor } from "./EditorComponent";
+import type { Website, WebsiteValue } from "./schema";
 import { getWebsiteViewerSchema, websiteEditorSchema } from "./schema";
 import { WebsiteViewer } from "./ViewerComponent";
 
@@ -16,6 +17,13 @@ const pageDefinition = {
 
   icon: Link2Icon,
   iconClassName: "bg-blue-100",
+
+  recall: [
+    {
+      label: "answer",
+      fn: (page: Website, value: WebsiteValue) => value,
+    },
+  ],
 };
 
 export default pageDefinition;

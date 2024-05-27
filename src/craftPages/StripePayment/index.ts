@@ -1,6 +1,7 @@
 import { FaStripeS } from "react-icons/fa";
 import { StripePaymentContentSettings } from "./ContentSettings";
 import { StripePaymentEditor } from "./EditorComponent";
+import type { StripePayment } from "./schema";
 import {
   getStripePaymentViewerSchema,
   stripePaymentEditorSchema,
@@ -19,6 +20,20 @@ const pageDefinition = {
 
   icon: FaStripeS,
   iconClassName: "bg-indigo-500 text-white",
+
+  recall: [
+    {
+      label: "price",
+      fn: (page: StripePayment) => {
+        const priceFormatter = new Intl.NumberFormat(undefined, {
+          style: "currency",
+          currency: page.currency,
+        });
+
+        return priceFormatter.format(page.price ? page.price : 0);
+      },
+    },
+  ],
 };
 
 export default pageDefinition;

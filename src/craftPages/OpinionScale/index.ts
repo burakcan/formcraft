@@ -1,6 +1,7 @@
 import { BarChartIcon } from "lucide-react";
 import { OpinionScaleContentSettings } from "./ContentSettings";
 import { OpinionScaleEditor } from "./EditorComponent";
+import type { OpinionScale, OpinionScaleValue } from "./schema";
 import {
   getOpinionScaleViewerSchema,
   opinionScaleEditorSchema,
@@ -19,6 +20,13 @@ const pageDefinition = {
 
   icon: BarChartIcon,
   iconClassName: "bg-orange-100",
+
+  recall: [
+    {
+      label: "answer",
+      fn: (page: OpinionScale, value: OpinionScaleValue) => value,
+    },
+  ],
 };
 
 export default pageDefinition;

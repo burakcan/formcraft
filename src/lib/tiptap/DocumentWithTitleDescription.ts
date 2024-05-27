@@ -6,6 +6,16 @@ import { Title } from "./Title";
 
 export const DocumentWithTitleDescription = Document.extend({
   content: "title description",
+  addKeyboardShortcuts() {
+    return {
+      "Mod-Z": () => {
+        return true;
+      },
+      "Mod-Shift-Z": () => {
+        return true;
+      },
+    };
+  },
 });
 
 export const DocumentWithTitleDescriptionKit = [

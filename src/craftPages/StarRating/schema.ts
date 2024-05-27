@@ -25,3 +25,7 @@ export const getStarRatingViewerSchema = (page: StarRating) => {
 
   return answerSchema.default(0);
 };
+
+export type StarRatingValue = z.infer<
+  ReturnType<typeof getStarRatingViewerSchema>
+>;
