@@ -32,6 +32,37 @@ declare global {
       fn: (page: T, value: AT) => string | undefined;
     };
 
+    type ComparisonDefinition<T, AT> =
+      | {
+          id: string;
+          type: "text";
+          label: string;
+          operator: (value: AT, comparison: string) => boolean;
+        }
+      | {
+          id: string;
+          type: "number";
+          label: string;
+          operator: (value: AT, comparison: number) => boolean;
+        }
+      | {
+          id: string;
+          type: "date";
+          label: string;
+          operator: (value: AT, comparison: string) => boolean;
+        }
+      | {
+          id: string;
+          type: "choice";
+          label: {
+            single: string;
+            multiple: string;
+          };
+          getIsMultiple: (page: T) => boolean;
+          getOptions: (page: T) => { id: string; label: string }[];
+          operator: (value: AT, comparison: string[]) => boolean;
+        };
+
     interface Definition<T, AT> {
       name: string;
       description: string;
@@ -43,7 +74,18 @@ declare global {
       icon: LucideIcon | IconType;
       iconClassName: string;
       recall: RecallFunction<T, AT>[];
+      comparisons: ComparisonDefinition<T, AT>[];
     }
+  }
+
+  namespace Condition {
+    type ConditionItem = {
+      id: string;
+      sourceId: string;
+      sourceType: "page" | "variable";
+      comparisonId: string;
+      comparisonValue: string | number | string[] | number[];
+    };
   }
 
   namespace FormCraft {

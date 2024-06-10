@@ -20,6 +20,8 @@ const pageDefinition: PageDefinition.Definition<PhoneNumber, PhoneNumberValue> =
     icon: PhoneIcon,
     iconClassName: "bg-blue-100",
 
+    comparisons: [],
+
     recall: [
       {
         label: "answer",

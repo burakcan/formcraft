@@ -18,6 +18,8 @@ const pageDefinition: PageDefinition.Definition<DateText, DateTextValue> = {
   icon: CalendarDaysIcon,
   iconClassName: "bg-amber-100",
 
+  comparisons: [],
+
   recall: [
     {
       label: "answer",

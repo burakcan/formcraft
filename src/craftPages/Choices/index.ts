@@ -27,6 +27,33 @@ const pageDefinition: PageDefinition.Definition<Choices, ChoicesValue> = {
           .join(", "),
     },
   ],
+
+  comparisons: [
+    {
+      id: "choices_eq",
+      type: "choice",
+      label: {
+        single: "is",
+        multiple: "includes",
+      },
+      getIsMultiple: (page) => page.multiple,
+      getOptions: (page) => page.options,
+      operator: (value, comparison) =>
+        comparison.every((c) => value.includes(c)),
+    },
+    {
+      id: "choices_ne",
+      type: "choice",
+      label: {
+        single: "is not",
+        multiple: "does not include",
+      },
+      getIsMultiple: (page) => page.multiple,
+      getOptions: (page) => page.options,
+      operator: (value, comparison) =>
+        comparison.every((c) => !value.includes(c)),
+    },
+  ],
 };
 
 export default pageDefinition;

@@ -8,7 +8,7 @@ import {
 import { Position } from "reactflow";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ConditionEditor } from "./ConditionEditor";
+import { ConditionEditor } from "./_ConditionEditor";
 import { SingleConnectionHandle } from "./Handles";
 
 interface Props {

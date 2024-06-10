@@ -24,6 +24,45 @@ const pageDefinition: PageDefinition.Definition<ShortText, ShortTextValue> = {
       fn: (page, value) => value,
     },
   ],
+
+  comparisons: [
+    {
+      id: "shorttext_eq",
+      type: "text",
+      label: "is",
+      operator: (value, b: string) => value === b,
+    },
+    {
+      id: "shorttext_ne",
+      type: "text",
+      label: "is not",
+      operator: (value, b: string) => value !== b,
+    },
+    {
+      id: "shorttext_contains",
+      type: "text",
+      label: "contains",
+      operator: (value, b: string) => value.includes(b),
+    },
+    {
+      id: "shorttext_not_contains",
+      type: "text",
+      label: "does not contain",
+      operator: (value, b: string) => !value.includes(b),
+    },
+    {
+      id: "shorttext_starts_with",
+      type: "text",
+      label: "starts with",
+      operator: (value, b: string) => value.startsWith(b),
+    },
+    {
+      id: "shorttext_ends_with",
+      type: "text",
+      label: "ends with",
+      operator: (value, b: string) => value.endsWith(b),
+    },
+  ],
 };
 
 export default pageDefinition;

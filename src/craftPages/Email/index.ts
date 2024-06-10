@@ -1,4 +1,5 @@
 import { AtSignIcon } from "lucide-react";
+import shortText from "../ShortText";
 import { EmailContentSettings } from "./ContentSettings";
 import { EmailEditor } from "./EditorComponent";
 import type { Email, EmailValue } from "./schema";
@@ -17,6 +18,12 @@ const pageDefinition: PageDefinition.Definition<Email, EmailValue> = {
 
   icon: AtSignIcon,
   iconClassName: "bg-blue-100",
+
+  comparisons:
+    shortText.comparisons as unknown as PageDefinition.ComparisonDefinition<
+      Email,
+      EmailValue
+    >[],
 
   recall: [
     {

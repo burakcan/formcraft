@@ -1,4 +1,5 @@
 import { BookOpen } from "lucide-react";
+import shortText from "../ShortText";
 import { LongTextContentSettings } from "./ContentSettings";
 import { LongTextEditor } from "./EditorComponent";
 import type { LongText, LongTextValue } from "./schema";
@@ -17,6 +18,12 @@ const pageDefinition: PageDefinition.Definition<LongText, LongTextValue> = {
 
   icon: BookOpen,
   iconClassName: "bg-amber-100",
+
+  comparisons:
+    shortText.comparisons as unknown as PageDefinition.ComparisonDefinition<
+      LongText,
+      LongTextValue
+    >[],
 
   recall: [
     {

@@ -9,8 +9,8 @@ import {
   useUpdateNodeInternals,
 } from "reactflow";
 import { Badge } from "@/components/ui/badge";
-import { ConditionEditor } from "../../ConditionEditor";
-import { ConditionItem } from "../../ConditionItem";
+import { ConditionEditor } from "../../_ConditionEditor";
+import { ConditionItem } from "../../_ConditionItem";
 import { SingleConnectionHandle } from "../../Handles";
 import { NodeRemoveButton } from "../../NodeRemoveButton";
 

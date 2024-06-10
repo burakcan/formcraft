@@ -7,8 +7,8 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "reactflow";
-import { ConditionEditor } from "../../ConditionEditor";
-import { ConditionItem } from "../../ConditionItem";
+import { ConditionEditor } from "../../_ConditionEditor";
+import { ConditionItem } from "../../_ConditionItem";
 import { NodeRemoveButton } from "../../NodeRemoveButton";
 
 export interface BranchingNodeData {

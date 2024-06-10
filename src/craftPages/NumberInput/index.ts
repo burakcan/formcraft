@@ -20,6 +20,45 @@ const pageDefinition: PageDefinition.Definition<NumberInput, NumberInputValue> =
     icon: HashIcon,
     iconClassName: "bg-amber-100",
 
+    comparisons: [
+      {
+        id: "num_eq",
+        type: "number",
+        label: "equals",
+        operator: (value, b: number) => value === b,
+      },
+      {
+        id: "num_ne",
+        type: "number",
+        label: "does not equal",
+        operator: (value, b: number) => value !== b,
+      },
+      {
+        id: "num_gt",
+        type: "number",
+        label: "is greater than",
+        operator: (value, b: number) => value > b,
+      },
+      {
+        id: "num_gte",
+        type: "number",
+        label: "is greater than or equal to",
+        operator: (value, b: number) => value >= b,
+      },
+      {
+        id: "num_lt",
+        type: "number",
+        label: "is less than",
+        operator: (value, b: number) => value < b,
+      },
+      {
+        id: "num_lte",
+        type: "number",
+        label: "is less than or equal to",
+        operator: (value, b: number) => value <= b,
+      },
+    ],
+
     recall: [
       {
         label: "answer",

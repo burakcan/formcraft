@@ -24,6 +24,25 @@ const pageDefinition: PageDefinition.Definition<
   icon: FaStripeS,
   iconClassName: "bg-indigo-500 text-white",
 
+  comparisons: [
+    {
+      id: "stripe_payment_paid",
+      type: "choice",
+      label: {
+        single: "is paid",
+        multiple: "",
+      },
+      getIsMultiple: () => false,
+      getOptions: () => [
+        { id: "true", label: "Paid" },
+        { id: "false", label: "Not paid" },
+      ],
+      operator: (value, comparison) => {
+        return value.paid === (comparison[0] === "true");
+      },
+    },
+  ],
+
   recall: [
     {
       label: "price",

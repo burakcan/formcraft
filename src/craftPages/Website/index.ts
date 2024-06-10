@@ -18,6 +18,8 @@ const pageDefinition: PageDefinition.Definition<Website, WebsiteValue> = {
   icon: Link2Icon,
   iconClassName: "bg-blue-100",
 
+  comparisons: [],
+
   recall: [
     {
       label: "answer",

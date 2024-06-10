@@ -19,6 +19,7 @@ const pageDefinition: PageDefinition.Definition<EndScreen, null> = {
   iconClassName: "bg-stone-200",
 
   recall: [],
+  comparisons: [],
 };
 
 export default pageDefinition;

@@ -1,12 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import {
-  AmpersandIcon,
-  GitBranchIcon,
-  SlashIcon,
-  VariableIcon,
-} from "lucide-react";
+import { AmpersandIcon, GitBranchIcon, SlashIcon } from "lucide-react";
 
 const LibraryItem = (props: {
   onDragStart: (
@@ -16,8 +11,9 @@ const LibraryItem = (props: {
   nodeType: string;
   Icon: LucideIcon;
   title: string;
+  description: string;
 }) => {
-  const { onDragStart, nodeType, Icon, title } = props;
+  const { onDragStart, nodeType, Icon, title, description } = props;
   return (
     <div
       className="bg-background border rounded-md p-2 flex gap-2 items-center"
@@ -37,6 +33,7 @@ const LibraryItem = (props: {
         <div className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
           <span>{title}</span>
         </div>
+        <div className="text-xs leading-2 text-gray-500">{description}</div>
       </div>
     </div>
   );
@@ -55,30 +52,26 @@ export function NodeLibrary() {
     <div className="p-4 flex flex-col gap-2">
       <LibraryItem
         onDragStart={onDragStart}
-        nodeType="branching"
+        nodeType="branchingV2"
         Icon={GitBranchIcon}
         title="Branching"
+        description="Check multiple conditions"
       />
 
       <LibraryItem
         onDragStart={onDragStart}
-        nodeType="and"
+        nodeType="andV2"
         Icon={AmpersandIcon}
         title="AND"
+        description="Check if conditions are met"
       />
 
       <LibraryItem
         onDragStart={onDragStart}
-        nodeType="or"
+        nodeType="orV2"
         Icon={SlashIcon}
         title="OR"
-      />
-
-      <LibraryItem
-        onDragStart={onDragStart}
-        nodeType="setVariable"
-        Icon={VariableIcon}
-        title="Set Variable"
+        description="Check if any condition is met"
       />
     </div>
   );

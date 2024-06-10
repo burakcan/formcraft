@@ -18,6 +18,7 @@ const pageDefinition: PageDefinition.Definition<Statement, true> = {
   icon: Megaphone,
   iconClassName: "bg-rose-100",
 
+  comparisons: [],
   recall: [],
 };
 
