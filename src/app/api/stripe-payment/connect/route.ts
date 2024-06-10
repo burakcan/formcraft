@@ -8,7 +8,7 @@ export const revalidate = 0;
 export async function GET(req: NextRequest) {
   try {
     const params = req.nextUrl.searchParams;
-    const returnUrl = params.get("r") || "/dashboard";
+    const returnUrl = params.get("r") || "/stripe-connected";
     const authData = auth();
     const { orgId, userId } = authData;
 
