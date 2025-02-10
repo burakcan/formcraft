@@ -1,4 +1,5 @@
 import { ImageIcon } from "lucide-react";
+import { useState, useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form";
@@ -100,10 +101,16 @@ export function ChoiceOptionsViewer<
     orientation: "vertical" | "horizontal";
     multiple: boolean;
     imageChoices: boolean;
+    randomize?: boolean;
   }
 >(props: Props<T>) {
   const { page, form } = props;
-  const { options, orientation } = page;
+  const { orientation } = page;
+
+  const options = useMemo(() => {
+    if (!page.randomize) return page.options;
+    return [...page.options].sort(() => Math.random() - 0.5);
+  }, [page.options, page.randomize]);
 
   const handleSelectOption = (index: number) => {
     const optionId = options[index].id;

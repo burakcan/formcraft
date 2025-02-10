@@ -151,6 +151,10 @@ export function PageLibrary() {
                 }
               />
               <LibraryItem
+                pageDefinition={craftPageDefinitions["dropdown"]}
+                onClick={() => handleAddPage("dropdown")}
+              />
+              <LibraryItem
                 pageDefinition={craftPageDefinitions["opinion_scale"]}
                 onClick={() => handleAddPage("opinion_scale")}
               />
