@@ -49,20 +49,20 @@ function useStripe(accountId: string | undefined) {
   return stripeRef.current;
 }
 
-export function _StripePaymentViewer(
+export function UnderscoreStripePaymentViewer(
   props: Props & {
     stripe: Promise<Stripe | null>;
     sessionData:
-      | {
-          client_secret: string;
-          account_id: string;
-          intent: {
-            id: string;
-            amount: number;
-            currency: string;
-          };
-        }
-      | undefined;
+    | {
+      client_secret: string;
+      account_id: string;
+      intent: {
+        id: string;
+        amount: number;
+        currency: string;
+      };
+    }
+    | undefined;
   }
 ) {
   const { page, stripe: stripePromise, sessionData } = props;
@@ -421,7 +421,7 @@ export function StripePaymentViewer(props: Props) {
 
   return (
     <Elements stripe={stripe} options={options}>
-      <_StripePaymentViewer
+      <UnderscoreStripePaymentViewer
         {...props}
         stripe={stripe}
         sessionData={sessionData}

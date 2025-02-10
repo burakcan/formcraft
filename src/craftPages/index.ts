@@ -1,5 +1,6 @@
 import choices from "./Choices";
 import date_text from "./DateText";
+import dropdown from "./Dropdown";
 import email from "./Email";
 import end_screen from "./EndScreen";
 import long_text from "./LongText";
@@ -23,6 +24,7 @@ export const craftPageDefinitions = {
   date_text,
   phone_number,
   choices,
+  dropdown,
   opinion_scale,
   star_rating,
   stripe_payment,
