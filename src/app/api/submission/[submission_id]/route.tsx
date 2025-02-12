@@ -14,14 +14,14 @@ export async function POST() {}
 export async function PUT(
   req: NextRequest,
   ctx: {
-    params: {
+    params: Promise<{
       submission_id: string;
-    };
+    }>;
   }
 ) {
   try {
     const json = (await req.json()) as FormCraft.CraftSubmissionData;
-    const { submission_id } = ctx.params;
+    const { submission_id } = (await ctx.params);
 
     const submission = await db.craftSubmission.findUnique({
       where: { id: submission_id },

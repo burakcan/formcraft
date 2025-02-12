@@ -7,14 +7,14 @@ import { genericApiError } from "@/lib/utils";
 export async function GET(
   req: NextRequest,
   ctx: {
-    params: {
+    params: Promise<{
       submission_id: string;
-    };
+    }>;
   }
 ) {
   try {
     const pageId = req.nextUrl.searchParams.get("pageId");
-    const { submission_id } = ctx.params;
+    const { submission_id } = (await ctx.params);
 
     const submission = await db.craftSubmission.findUnique({
       where: { id: submission_id },

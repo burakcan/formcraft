@@ -3,10 +3,10 @@ import { NextResponse, type NextRequest } from "next/server";
 export const GET = async (
   req: NextRequest,
   ctx: {
-    params: { path: string[] };
+    params: Promise<{ path: string[] }>;
   }
 ) => {
-  const { path } = ctx.params;
+  const { path } = (await ctx.params);
 
   const url = `https://api.unsplash.com/${path.join("/")}${
     req.nextUrl.search

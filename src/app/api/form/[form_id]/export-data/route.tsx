@@ -9,11 +9,11 @@ import { genericApiError } from "@/lib/utils";
 export async function GET(
   req: NextRequest,
   ctx: {
-    params: { form_id: string };
+    params: Promise<{ form_id: string }>;
   }
 ) {
   try {
-    const { form_id } = ctx.params;
+    const { form_id } = (await ctx.params);
     const includePartial = req.nextUrl.searchParams.get("partial") === "true";
 
     const data = await listSubmissions(

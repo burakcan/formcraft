@@ -10,11 +10,11 @@ import { refreshTokenIfNeeded } from "@/services/sheetsConnector";
 import { ErrorType } from "@/lib/errors";
 
 interface Props {
-  searchParams: { code: string; state: string };
+  searchParams: Promise<{ code: string; state: string }>;
 }
 
 export default async function SheetsConnectorPage(props: Props) {
-  const { code, state: craftId } = props.searchParams;
+  const { code, state: craftId } = (await props.searchParams);
   const authData = auth();
   const { userId, orgId } = authData;
 

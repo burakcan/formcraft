@@ -11,10 +11,10 @@ import { getCustomThemes } from "@/services/db/customTheme";
 import { Providers } from "./providers";
 
 export default async function Layout(
-  props: PropsWithChildren<{ params: { form_id: string } }>
+  props: PropsWithChildren<{ params: Promise<{ form_id: string }> }>
 ) {
   const { children, params } = props;
-  const { form_id } = params;
+  const { form_id } = await params;
 
   const queryClient = new QueryClient();
 
@@ -46,7 +46,7 @@ export default async function Layout(
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Providers form_id={props.params.form_id}>{children}</Providers>
+      <Providers form_id={(await props.params).form_id}>{children}</Providers>
     </HydrationBoundary>
   );
 }

@@ -8,15 +8,15 @@ import {
 } from "@/services/db/submission";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     search?: string;
     partial?: string;
-  };
+  }>;
 }
 
 async function TableWrapper(props: Props) {
@@ -25,10 +25,11 @@ async function TableWrapper(props: Props) {
     pageSize = 10,
     search = "",
     partial = "false",
-  } = props.searchParams;
+  } = await props.searchParams;
+  const { form_id } = await props.params;
 
   const data = await listSubmissions(
-    props.params.form_id,
+    form_id,
     Math.abs(Number(page)) || 1,
     Math.min(100, Math.max(0, Number(pageSize))),
     search,
@@ -41,7 +42,7 @@ async function TableWrapper(props: Props) {
 }
 
 export default async function CraftResultsPage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = await props.params;
 
   return (
     <LayoutWithTopbar
@@ -55,7 +56,9 @@ export default async function CraftResultsPage(props: Props) {
       }
     >
       <Suspense fallback={<div>Loading table...</div>}>
-        <TableWrapper {...props} />
+        <TableWrapper /* @next-codemod-error 'props' is used with spread syntax (...). Any asynchronous properties of 'props' must be awaited when accessed. */
+          {...props}
+        />
       </Suspense>
     </LayoutWithTopbar>
   );

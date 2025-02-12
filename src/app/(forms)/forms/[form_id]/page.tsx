@@ -9,13 +9,13 @@ import { builtinThemes } from "@/lib/themes";
 import { Providers } from "./providers";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
+  }>;
 }
 
 export default async function FormPage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = (await props.params);
 
   const craft = await getCraftWithLiveVersion(form_id);
   const version = craft?.craftVersions[0];

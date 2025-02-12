@@ -7,7 +7,7 @@ import { genericApiError } from "@/lib/utils";
 
 export async function GET(
   req: NextRequest,
-  ctx: { params: { form_id: string } }
+  ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
     const oauth2Client = new google.auth.OAuth2(
@@ -18,7 +18,7 @@ export async function GET(
 
     const authData = auth();
     const { userId, orgId } = authData;
-    const { form_id } = ctx.params;
+    const { form_id } = (await ctx.params);
 
     if (!authData || userId === null) {
       throw new Error(ErrorType.Unauthorized);

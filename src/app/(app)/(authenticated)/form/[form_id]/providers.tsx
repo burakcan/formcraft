@@ -39,7 +39,7 @@ export function Providers(props: PropsWithChildren<{ form_id: string }>) {
     [queryData, initialPageId]
   );
 
-  const storeRef = useRef<ReturnType<typeof createEditCraftStore>>();
+  const storeRef = useRef<ReturnType<typeof createEditCraftStore>>(undefined);
 
   if (!storeRef.current) {
     storeRef.current = createEditCraftStore(serverStoreData);

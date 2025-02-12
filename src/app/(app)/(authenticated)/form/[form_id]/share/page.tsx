@@ -3,13 +3,13 @@ import { CraftBuilderTopBar } from "@/components/CraftBuilder";
 import { CraftShare } from "@/components/CraftShare";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
+  }>;
 }
 
 export default async function CraftSharePage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = (await props.params);
 
   return (
     <LayoutWithTopbar

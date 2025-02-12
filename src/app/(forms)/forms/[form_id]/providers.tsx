@@ -52,7 +52,7 @@ export function Providers(props: PropsWithChildren<Props>) {
   const { craft, version, submissionId, themes, rootNodeId, rootPageId } =
     props;
 
-  const storeRef = useRef<ReturnType<typeof createViewCraftStore>>();
+  const storeRef = useRef<ReturnType<typeof createViewCraftStore>>(undefined);
 
   const queryClient = getQueryClient();
 

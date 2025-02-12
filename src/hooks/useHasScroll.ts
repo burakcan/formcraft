@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 export function useHasScroll(
-  refToMeasure: React.RefObject<HTMLElement>,
+  refToMeasure: React.RefObject<HTMLElement | null>,
   deps: any[] = [],
-  refToObserve: React.RefObject<HTMLElement> = refToMeasure
+  refToObserve: React.RefObject<HTMLElement | null> = refToMeasure
 ) {
   const [hasScroll, setHasScroll] = useState(false);
 

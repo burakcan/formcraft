@@ -6,16 +6,16 @@ import {
 } from "@/services/stripe/server";
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     f: "u" | "o"; // user or organization
     i?: "m" | "y"; // monthly or yearly
     r?: string; // return path
-  };
+  }>;
 }
 
 export default async function CheckoutRedirect(props: Props) {
   const authData = auth();
-  const { searchParams } = props;
+  const searchParams = await props.searchParams;
   const returnPath = searchParams?.r || "/dashboard";
   const interval = searchParams.i || "m";
 

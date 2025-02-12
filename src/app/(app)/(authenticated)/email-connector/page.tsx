@@ -2,11 +2,11 @@ import { CheckCircle2Icon } from "lucide-react";
 import db from "@/services/db";
 
 interface Props {
-  searchParams: { code: string; formId: string };
+  searchParams: Promise<{ code: string; formId: string }>;
 }
 
 export default async function EmailConnectorPage(props: Props) {
-  const { code, formId: craftId } = props.searchParams;
+  const { code, formId: craftId } = (await props.searchParams);
 
   const connection = await db.emailConnection.findFirst({
     where: {

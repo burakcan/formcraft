@@ -10,14 +10,14 @@ import { craftsListingQueryKey } from "@/hooks/useCraftsListingQuery";
 import { getCraftsListing } from "@/services/db/craft";
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     showArchived?: string;
-  };
+  }>;
 }
 
 export default async function Dashboard(props: Props) {
-  const { searchParams } = props;
-  const includeArchived = searchParams.showArchived === "true";
+  const { showArchived } = await props.searchParams;
+  const includeArchived = showArchived === "true";
   const queryClient = new QueryClient();
 
   await Promise.all([

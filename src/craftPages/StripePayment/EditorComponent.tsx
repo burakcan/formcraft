@@ -22,7 +22,7 @@ interface Props {
 }
 
 function useStripe() {
-  const stripeRef = useRef<Promise<Stripe | null>>();
+  const stripeRef = useRef<Promise<Stripe | null>>(undefined);
 
   if (!stripeRef.current) {
     stripeRef.current = loadStripe(

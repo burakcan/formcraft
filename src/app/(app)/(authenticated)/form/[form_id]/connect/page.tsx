@@ -10,13 +10,13 @@ import { craftConnectionsQueryKey } from "@/hooks/useCraftConnectionsQuery";
 import { getCraftConnections } from "@/services/db/craft";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
+  }>;
 }
 
 export default async function CraftConnectPage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = (await props.params);
   const queryClient = new QueryClient();
 
   await Promise.all([

@@ -6,7 +6,7 @@ import { genericApiError } from "@/lib/utils";
 
 export async function POST(
   req: NextRequest,
-  ctx: { params: { form_id: string } }
+  ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
     const authData = auth();
@@ -18,7 +18,7 @@ export async function POST(
 
     const existingForm = await db.craft.findFirst({
       where: {
-        id: ctx.params.form_id,
+        id: (await ctx.params).form_id,
         organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },

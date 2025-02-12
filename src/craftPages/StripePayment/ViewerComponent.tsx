@@ -33,7 +33,7 @@ interface Props {
 }
 
 function useStripe(accountId: string | undefined) {
-  const stripeRef = useRef<Promise<Stripe | null>>();
+  const stripeRef = useRef<Promise<Stripe | null>>(undefined);
 
   if (!stripeRef.current && accountId && accountId !== "preview") {
     stripeRef.current = loadStripe(

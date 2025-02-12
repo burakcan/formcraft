@@ -2,7 +2,7 @@ import {
   useCallback,
   useMemo,
   type InputHTMLAttributes,
-  type LegacyRef,
+  type Ref,
 } from "react";
 import type { Path, UseFormReturn } from "react-hook-form";
 import { IMask, useIMask } from "react-imask";
@@ -120,43 +120,41 @@ export function DateInputViewer<T extends { value: InputValue }>(
   );
 
   return (
-    <div className="w-full pt-2 relative">
+    (<div className="w-full pt-2 relative">
       <FormField
         control={form.control}
         name={name}
         render={({ fieldState }) => {
-          return (
-            <>
-              <Input
-                ref={ref as LegacyRef<HTMLInputElement> | undefined}
-                autoFocus={autofocus}
-                placeholder={placeholder}
-                className={cn(
-                  "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers font-mono caret-black text-transparent"
-                )}
-              />
-              <div className=" border border-transparent px-3 py-2 pointer-events-none absolute top-3 left-0 w-full h-13 text-xl text-transparent font-mono">
-                {value.split("").map((char, index) => (
-                  <span
-                    key={index}
-                    className={cn(
-                      "text-foreground",
-                      Number.isNaN(Number(char)) && "text-muted-foreground/50"
-                    )}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </div>
-              {fieldState.error && (
-                <FieldValidationErrorViewer>
-                  {fieldState.error.message}
-                </FieldValidationErrorViewer>
+          return (<>
+            <Input
+              ref={ref as Ref<HTMLInputElement> | undefined}
+              autoFocus={autofocus}
+              placeholder={placeholder}
+              className={cn(
+                "text-xl h-14 border-b-4 border-craft-answers focus-visible:ring-craft-answers font-mono caret-black text-transparent"
               )}
-            </>
-          );
+            />
+            <div className=" border border-transparent px-3 py-2 pointer-events-none absolute top-3 left-0 w-full h-13 text-xl text-transparent font-mono">
+              {value.split("").map((char, index) => (
+                <span
+                  key={index}
+                  className={cn(
+                    "text-foreground",
+                    Number.isNaN(Number(char)) && "text-muted-foreground/50"
+                  )}
+                >
+                  {char}
+                </span>
+              ))}
+            </div>
+            {fieldState.error && (
+              <FieldValidationErrorViewer>
+                {fieldState.error.message}
+              </FieldValidationErrorViewer>
+            )}
+          </>);
         }}
       />
-    </div>
+    </div>)
   );
 }

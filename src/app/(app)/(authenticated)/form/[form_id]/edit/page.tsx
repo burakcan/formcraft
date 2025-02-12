@@ -7,13 +7,13 @@ import {
 } from "@/components/CraftBuilder";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
+  }>;
 }
 
 export default async function EditCraftPage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = (await props.params);
 
   return (
     <LayoutWithSidebar

@@ -3,15 +3,15 @@ import { RedirectType, redirect } from "next/navigation";
 import { createCustomerPortalSession } from "@/services/stripe/server";
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     f: "u" | "o"; // user or organization
     r?: string; // return path
-  };
+  }>;
 }
 
 export default async function CheckoutRedirect(props: Props) {
   const authData = auth();
-  const { searchParams } = props;
+  const searchParams = await props.searchParams;
   const returnPath = searchParams?.r || "/dashboard";
 
   let owner: { userId: string } | { organizationId: string } | undefined;

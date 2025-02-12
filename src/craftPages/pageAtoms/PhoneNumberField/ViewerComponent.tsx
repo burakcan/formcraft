@@ -22,7 +22,6 @@ export function PhoneNumberFieldViewer<T extends { value: string }>(
         name={name}
         render={({ field, fieldState }) => (
           <>
-            {/* @ts-expect-error */}
             <PhoneInput {...field} international autoFocus={autofocus} />
             {fieldState.error && (
               <FieldValidationErrorViewer>

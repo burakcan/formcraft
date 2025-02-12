@@ -21,39 +21,39 @@ const proxyRequest = async (req: NextRequest, path: string[]) => {
 export const GET = async (
   req: NextRequest,
   ctx: {
-    params: { path: string[] };
+    params: Promise<{ path: string[] }>;
   }
 ) => {
-  const { path } = ctx.params;
+  const { path } = (await ctx.params);
   return proxyRequest(req, path);
 };
 
 export const POST = async (
   req: NextRequest,
   ctx: {
-    params: { path: string[] };
+    params: Promise<{ path: string[] }>;
   }
 ) => {
-  const { path } = ctx.params;
+  const { path } = (await ctx.params);
   return proxyRequest(req, path);
 };
 
 export const PUT = async (
   req: NextRequest,
   ctx: {
-    params: { path: string[] };
+    params: Promise<{ path: string[] }>;
   }
 ) => {
-  const { path } = ctx.params;
+  const { path } = (await ctx.params);
   return proxyRequest(req, path);
 };
 
 export const DELETE = async (
   req: NextRequest,
   ctx: {
-    params: { path: string[] };
+    params: Promise<{ path: string[] }>;
   }
 ) => {
-  const { path } = ctx.params;
+  const { path } = (await ctx.params);
   return proxyRequest(req, path);
 };

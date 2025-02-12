@@ -11,12 +11,12 @@ import { genericApiError } from "@/lib/utils";
 export async function GET(
   req: NextRequest,
   ctx: {
-    params: { form_id: string };
+    params: Promise<{ form_id: string }>;
   }
 ) {
   try {
     return NextResponse.json(
-      await getCraftAndEditingVersion(ctx.params.form_id)
+      await getCraftAndEditingVersion((await ctx.params).form_id)
     );
   } catch (error) {
     return genericApiError(error);
@@ -26,7 +26,7 @@ export async function GET(
 export async function PUT(
   req: NextRequest,
   ctx: {
-    params: { form_id: string };
+    params: Promise<{ form_id: string }>;
   }
 ) {
   try {
@@ -65,7 +65,7 @@ export async function PUT(
       const updatedCraft = await tx.craft
         .update({
           where: {
-            id: ctx.params.form_id,
+            id: (await ctx.params).form_id,
             organizationId: orgId || null,
             userId: !orgId ? userId : undefined,
           },
@@ -122,7 +122,7 @@ export async function PUT(
 
 export async function POST(
   req: NextRequest,
-  ctx: { params: { form_id: string } }
+  ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
     const authData = auth();
@@ -138,7 +138,7 @@ export async function POST(
         archivedAt: true,
       },
       where: {
-        id: ctx.params.form_id,
+        id: (await ctx.params).form_id,
         organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },
@@ -155,7 +155,7 @@ export async function POST(
 
 export async function DELETE(
   req: NextRequest,
-  ctx: { params: { form_id: string } }
+  ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
     const authData = auth();
@@ -171,7 +171,7 @@ export async function DELETE(
         archivedAt: true,
       },
       where: {
-        id: ctx.params.form_id,
+        id: (await ctx.params).form_id,
         organizationId: orgId || null,
         userId: !orgId ? userId : undefined,
       },

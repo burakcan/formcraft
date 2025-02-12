@@ -4,13 +4,13 @@ import { FlowEditor } from "@/components/FlowEditor";
 import { NodeLibrary } from "@/components/FlowEditor/NodeLibrary";
 
 interface Props {
-  params: {
+  params: Promise<{
     form_id: string;
-  };
+  }>;
 }
 
 export default async function EditCraftFlowPage(props: Props) {
-  const { form_id } = props.params;
+  const { form_id } = (await props.params);
 
   return (
     <LayoutWithSidebar
