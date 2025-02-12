@@ -1,6 +1,7 @@
 "use client";
 
 import { DialogContent } from "@radix-ui/react-dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { XIcon } from "lucide-react";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { PageChangeReasonProvider } from "@/hooks/usePageChangeReason";
@@ -12,7 +13,13 @@ import {
 import { findRootNode } from "@/lib/findRootNode";
 import { CraftViewer } from "../CraftViewer";
 import { Button } from "../ui/button";
-import { Dialog, DialogClose } from "../ui/dialog";
+import {
+  Dialog,
+  DialogDescription,
+  DialogClose,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 interface Props {
   open: boolean;
@@ -54,6 +61,14 @@ export function CraftPreview(props: Props) {
       <DialogContent asChild>
         {open && store && (
           <div className="fixed top-0 left-0 inset-0 bg-primary/50 z-30">
+            <VisuallyHidden>
+              <DialogHeader>
+                <DialogTitle>Preview</DialogTitle>
+                <DialogDescription>
+                  Your answers will not be saved
+                </DialogDescription>
+              </DialogHeader>
+            </VisuallyHidden>
             <div className="absolute inset-4 bg-background rounded overflow-hidden shadow-lg grid grid-rows-[theme(spacing.8)_auto]">
               <div className="h-8 border-b bg-accent flex items-center justify-between">
                 <span className="text-xs px-2">
