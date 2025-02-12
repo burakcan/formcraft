@@ -34,7 +34,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.4.0",
     "@kodingdotninja/use-tailwind-breakpoint": "^1.0.0",
-    "@prisma/client": "^5.14.0",
+    "@prisma/client": "^6.3.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
@@ -98,7 +98,7 @@
     "react-day-picker": "^9.5.1",
     "react-dom": "19.0.0",
     "react-filepond": "^7.1.2",
-    "react-fontpicker-ts": "^0.4.0",
+    "react-fontpicker-ts": "^1.1.0",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.2.1",
     "react-imask": "^7.6.0",
@@ -112,7 +112,6 @@
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
     "unsplash-js": "^7.0.19",
-    "uuid": "^9.0.1",
     "zod": "^3.23.8",
     "zundo": "^2.1.0",
     "zustand": "^4.5.2"
@@ -121,33 +120,39 @@
     "@tailwindcss/typography": "^0.5.13",
     "@tanstack/eslint-plugin-query": "^5.35.6",
     "@types/lodash": "^4.17.4",
-    "@types/node": "^20.12.12",
+    "@types/node": "^22.13.1",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "autoprefixer": "^10.4.19",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
-    "esbuild": "^0.21.3",
+    "esbuild": "^0.25.0",
     "eslint": "^9.20.1",
     "eslint-config-next": "15.1.7",
     "eslint-plugin-sort": "^4.0.0",
     "localtunnel": "^2.0.2",
     "postcss": "^8.4.38",
-    "prisma": "^5.14.0",
+    "prisma": "^6.3.1",
     "prisma-json-types-generator": "^3.0.4",
     "tailwindcss": "^3.4.3",
     "tsx": "^4.10.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "uuid": "^11.0.5"
   },
   "pnpm": {
     "overrides": {
       "@types/react": "19.0.8",
       "@types/react-dom": "19.0.3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
+    ]
   }
 }
