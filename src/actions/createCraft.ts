@@ -8,7 +8,7 @@ import { getEdgeID, getPageID } from "@/lib/getID";
 import { craftPageDefinitions } from "@/craftPages";
 
 export async function createCraft() {
-  const authData = auth();
+  const authData = await auth();
 
   if (!authData || authData.userId === null) {
     throw new Error(ErrorType.Unauthorized);

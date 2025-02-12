@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { getOptionID } from "@/lib/getID";
 import { basePage } from "../schemas/basePage";
 import { themeImage } from "../schemas/theming";
-import { getOptionID } from "@/lib/getID";
 
 export const dropdownEditorSchema = basePage.extend({
   type: z.literal("dropdown").default("dropdown"),

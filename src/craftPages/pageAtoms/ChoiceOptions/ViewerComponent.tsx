@@ -1,5 +1,5 @@
 import { ImageIcon } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form";

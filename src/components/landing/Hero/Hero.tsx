@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function Hero() {
-  const authData = auth();
+export async function Hero() {
+  const authData = await auth();
 
   return (
     <div className="container pt-8 pb-16">

@@ -3,8 +3,8 @@ import { CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export function PricingSection() {
-  const authData = auth();
+export async function PricingSection() {
+  const authData = await auth();
   return (
     <>
       <div

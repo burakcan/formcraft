@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
 import { NavMenu } from "./NavMenu";
 
-export function Navbar() {
-  const authData = auth();
+export async function Navbar() {
+  const authData = await auth();
 
   return (
     <div className="w-full p-4 sticky top-0 z-30">

@@ -34,7 +34,7 @@ export async function createSubmission(
 export async function getVersionsFromSubmissionsList(
   submissions: CraftSubmission[]
 ) {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
@@ -62,7 +62,7 @@ export async function listSubmissions<PS extends number | undefined>(
   search?: string,
   includePartial?: boolean
 ) {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {

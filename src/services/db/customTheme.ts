@@ -7,7 +7,7 @@ import db from ".";
 import type { CraftTheme } from "@/craftPages/schemas/theming";
 
 export async function getCustomThemes() {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
@@ -27,7 +27,7 @@ export async function getCustomThemes() {
 }
 
 export async function saveCustomTheme(data: CraftTheme) {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
@@ -69,7 +69,7 @@ export async function saveCustomTheme(data: CraftTheme) {
 }
 
 export const deleteCustomTheme = async (themeId: string) => {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {

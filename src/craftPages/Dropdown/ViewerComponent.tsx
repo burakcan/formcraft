@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import { CheckIcon } from "lucide-react";
-import { FormField } from "@/components/ui/form";
-import { BaseContentViewer } from "../pageAtoms/BaseContent";
-import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
-import { CtaSectionViewer } from "../pageAtoms/CtaSection";
-import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
+import { ChevronsUpDown, CheckIcon as CheckIconLucide, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import type { UseFormReturn } from "react-hook-form";
 import {
   Command,
   CommandEmpty,
@@ -14,15 +11,18 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
+import { FormField } from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { ChevronsUpDown, CheckIcon as CheckIconLucide, X } from "lucide-react";
+import { BaseContentViewer } from "../pageAtoms/BaseContent";
+import { CtaSectionViewer } from "../pageAtoms/CtaSection";
+import { FieldValidationErrorViewer } from "../pageAtoms/FieldValidationError";
+import { PageWrapperViewer } from "../pageAtoms/PageWrapper";
 import type { Dropdown } from "./schema";
-import type { UseFormReturn } from "react-hook-form";
 
 type ValueType = string[];
 
@@ -63,6 +63,7 @@ function SearchableDropdown({
       <PopoverTrigger asChild>
         <div
           role="combobox"
+          aria-controls={open ? "command-listbox" : undefined}
           aria-expanded={open}
           className={cn(
             "flex h-10 w-full items-center justify-between rounded-md border border-craft-answers/30 bg-craft-answers/10 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground hover:bg-craft-answers/20 focus:outline-none focus:ring-2 focus:ring-craft-answers focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",

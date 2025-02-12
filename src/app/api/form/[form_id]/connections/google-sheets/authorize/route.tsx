@@ -16,7 +16,7 @@ export async function GET(
       process.env.SHEETS_CONNECTOR_REDIRECT_URI
     );
 
-    const authData = auth();
+    const authData = await auth();
     const { userId, orgId } = authData;
     const { form_id } = (await ctx.params);
 

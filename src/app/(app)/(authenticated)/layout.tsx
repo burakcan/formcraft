@@ -20,7 +20,7 @@ export default async function AuthorizedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const authData = auth();
+  const authData = await auth();
   const queryClient = new QueryClient();
 
   if (!authData || !authData.userId) {

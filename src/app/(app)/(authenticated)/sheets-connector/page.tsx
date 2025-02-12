@@ -15,7 +15,7 @@ interface Props {
 
 export default async function SheetsConnectorPage(props: Props) {
   const { code, state: craftId } = (await props.searchParams);
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {

@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default async function CheckoutRedirect(props: Props) {
-  const authData = auth();
+  const authData = await auth();
   const searchParams = await props.searchParams;
   const returnPath = searchParams?.r || "/dashboard";
 

@@ -30,7 +30,7 @@ export async function PUT(
   }
 ) {
   try {
-    const authData = auth();
+    const authData = await auth();
     const { userId, orgId } = authData;
 
     if (!authData || userId === null) {
@@ -125,7 +125,7 @@ export async function POST(
   ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
-    const authData = auth();
+    const authData = await auth();
     const { userId, orgId } = authData;
 
     if (!authData || userId === null) {
@@ -158,7 +158,7 @@ export async function DELETE(
   ctx: { params: Promise<{ form_id: string }> }
 ) {
   try {
-    const authData = auth();
+    const authData = await auth();
     const { userId, orgId } = authData;
 
     if (!authData || userId === null) {

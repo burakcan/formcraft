@@ -13,9 +13,9 @@ const isPublicRoute = createRouteMatcher([
   "/api/submission/(.*)",
 ]);
 
-const clerkMiddleware = createClerkMiddleware((auth, req) => {
+const clerkMiddleware = createClerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
-    auth().protect();
+    await auth.protect();
   }
 });
 

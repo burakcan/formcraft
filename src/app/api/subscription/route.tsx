@@ -7,7 +7,7 @@ import { genericApiError } from "@/lib/utils";
 export async function GET(req: NextRequest) {
   try {
     const organization = req.nextUrl.searchParams.get("f") === "o";
-    const authData = auth();
+    const authData = await auth();
 
     const result = await getStripeSubscription(
       authData.orgId && organization

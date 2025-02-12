@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   try {
     const params = req.nextUrl.searchParams;
     const returnUrl = params.get("r") || "/stripe-connected";
-    const authData = auth();
+    const authData = await auth();
     const { orgId, userId } = authData;
 
     if (!authData || !userId) {

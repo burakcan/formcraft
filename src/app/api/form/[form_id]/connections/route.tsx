@@ -28,7 +28,7 @@ export async function PUT(
   }
 ) {
   try {
-    const authData = auth();
+    const authData = await auth();
     const { userId, orgId } = authData;
 
     if (!authData || userId === null) {

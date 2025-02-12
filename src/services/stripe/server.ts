@@ -1,5 +1,5 @@
 import "server-only";
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { auth, createClerkClient } from "@clerk/nextjs/server";
 import type {
   StripePrice,
   StripeProduct,
@@ -40,7 +40,10 @@ export async function getOrCreateCustomer(where: UserOrOrganization) {
     throw new Error(ErrorType.Not_Found);
   }
 
-  const authData = auth();
+  const authData = await auth();
+  const clerkClient = createClerkClient({
+    secretKey: process.env.CLERK_SECRET_KEY,
+  });
 
   if ("userId" in where) {
     if (!authData || !authData.userId || authData.userId !== where.userId) {

@@ -7,7 +7,7 @@ import { genericApiError } from "@/lib/utils";
 export const revalidate = 0;
 export async function GET() {
   try {
-    const authData = auth();
+    const authData = await auth();
     const { orgId, userId } = authData;
 
     if (!authData || !userId) {

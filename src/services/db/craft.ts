@@ -55,7 +55,7 @@ export function getWorkingCraftVersion(
 }
 
 export async function getCraftAndEditingVersion(craft_id: string) {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
@@ -81,7 +81,7 @@ export async function getCraftAndEditingVersion(craft_id: string) {
 }
 
 export async function getCraftConnections(craft_id: string) {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
@@ -132,7 +132,7 @@ export async function getCraftsListing(
 ): Promise<{
   data: FormCraft.CraftListingItem[];
 }> {
-  const authData = auth();
+  const authData = await auth();
   const { userId, orgId } = authData;
 
   if (!authData || userId === null) {
