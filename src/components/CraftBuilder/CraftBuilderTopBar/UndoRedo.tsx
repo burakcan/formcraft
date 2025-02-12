@@ -10,16 +10,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useEditCraftStoreTemporal } from "@/hooks/useEditCraftStore";
+import { useShallow } from "zustand/react/shallow";
 
 export function UndoRedo() {
-  const { undo, redo, canUndo, canRedo } = useEditCraftStoreTemporal((s) => {
-    return {
-      undo: s.undo,
-      redo: s.redo,
-      canUndo: s.pastStates.length > 0,
-      canRedo: s.futureStates.length > 0,
-    };
-  });
+  const { undo, redo, canUndo, canRedo } = useEditCraftStoreTemporal(
+    useShallow((s) => {
+      return {
+        undo: s.undo,
+        redo: s.redo,
+        canUndo: s.pastStates.length > 0,
+        canRedo: s.futureStates.length > 0,
+      };
+    })
+  );
 
   useEffect(() => {
     hotkeys.setScope("craft-builder");

@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 import { useViewCraftStoreTemporal } from "@/hooks/useViewCraftStore";
+import { useShallow } from "zustand/react/shallow";
 
 interface Props {
   form?: string;
@@ -14,10 +15,12 @@ interface Props {
 export function PageNavigationViewer(props: Props) {
   const { form } = props;
   const { setReason: setPageChangeReson } = usePageChangeReason();
-  const { undo, canPrev } = useViewCraftStoreTemporal((s) => ({
-    undo: s.undo,
-    canPrev: s.pastStates.length > 0,
-  }));
+  const { undo, canPrev } = useViewCraftStoreTemporal(
+    useShallow((s) => ({
+      undo: s.undo,
+      canPrev: s.pastStates.length > 0,
+    }))
+  );
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
