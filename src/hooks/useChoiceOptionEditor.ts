@@ -18,6 +18,7 @@ export function useChoiceOptionEditor<T extends PageWithOptions>(
   onChange: (pageId: string, page: T) => void
 ) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       Document.extend({
         content: "text*",

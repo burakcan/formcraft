@@ -24,6 +24,7 @@ export function useBaseContentEditor<T extends FormCraft.CraftPage>(
   onChange: (pageId: string, page: T) => void
 ) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [...DocumentWithTitleDescriptionKit, recallExtension],
     content: `
       <h1>${page.title}</h1>

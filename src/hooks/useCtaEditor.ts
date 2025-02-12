@@ -8,6 +8,7 @@ export function useCtaEditor<T extends FormCraft.CraftPage & { cta?: string }>(
   onChange: (pageId: string, page: T) => void
 ) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       Document.extend({
         content: "text*",
