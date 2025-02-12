@@ -1,5 +1,5 @@
 import { useMutationState } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useEditCraftStore } from "@/hooks/useEditCraftStore";
 import { cn } from "@/lib/utils";
 

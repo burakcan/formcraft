@@ -1,6 +1,6 @@
 "use client";
 
-import { Reorder } from "framer-motion";
+import { Reorder } from "motion/react";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";

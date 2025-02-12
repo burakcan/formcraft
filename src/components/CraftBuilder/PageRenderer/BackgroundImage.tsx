@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { usePageChangeReason } from "@/hooks/usePageChangeReason";
 import { ThemeImage } from "./ThemeImage";
 import type { CraftTheme } from "@/craftPages/schemas/theming";

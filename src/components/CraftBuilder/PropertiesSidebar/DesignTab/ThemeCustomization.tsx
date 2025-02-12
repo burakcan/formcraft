@@ -1,7 +1,7 @@
 // eslint-disable-next-line sort/imports
 import "react-fontpicker-ts/dist/index.css";
 import "./fontpicker.css";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import {
   AlignCenterIcon,
   AlignLeftIcon,

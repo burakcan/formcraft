@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import FontPicker from "react-fontpicker-ts";
 import { useLoadPageResources } from "@/hooks/useLoadPageResources";
 import { usePageChangeReason } from "@/hooks/usePageChangeReason";

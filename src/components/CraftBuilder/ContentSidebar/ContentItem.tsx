@@ -1,4 +1,4 @@
-import { Reorder } from "framer-motion";
+import { Reorder } from "motion/react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
